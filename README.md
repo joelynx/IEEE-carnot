@@ -39,14 +39,14 @@ Bulky files are not in git. They are zip archives attached to the GitHub Release
 
 3. **Response cache.** Download the response-cache archive, `carnot_response_cache.zip`, from the Release assets and unzip it at the repository root. It places the database at `cache/llm_cache.sqlite3`. (If `ARTIFACTS.md` lists the archive in pieces, join them first as described there.) The other archives unzip the same way and are not needed for the replay.
 
-4. **Replay.** Run the commands recorded in `paper/REPLAY_CHECK.md`, from the repository root:
+4. **Replay.** Run the commands recorded in `paper/REPLAY_CHECK.md`, from the repository root, with `--cache-only` added: with it a missing cached response stops the run, and without it the run would call the model on your own subscription.
 
 ```
-python -m carnot.run --config configs/r3.json --split test928 --run-id replaycheck_r3_test928
-python -m carnot.run --config configs/r4.json --split test928 --run-id replaycheck_r4_test928
+python -m carnot.run --config configs/r3.json --split test928 --run-id replaycheck_r3_test928 --cache-only
+python -m carnot.run --config configs/r4.json --split test928 --run-id replaycheck_r4_test928 --cache-only
 ```
 
-`paper/REPLAY_CHECK.md` gives the SHA-256 that each regenerated `submission.zip` had in the original check, next to the SHA-256 of the uploaded file.
+`paper/REPLAY_CHECK.md` gives the SHA-256 that each regenerated `submission.zip` had in the original check, next to the SHA-256 of the uploaded file. The replay calls no model, but it still needs the Claude Code CLI at the recorded version and a claude.ai login, for the reasons given in the next section.
 
 ### What the replay needs, as documented in this repository
 

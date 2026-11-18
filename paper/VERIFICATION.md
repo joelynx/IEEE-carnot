@@ -483,7 +483,7 @@ Removed from the paper and kept in the supplement: the lettered adoption-rule li
 ### 8.5 Checks after the edit
 
 - **Numbers.** `number_diff.py` against the archived submitted sources: 19 numeric tokens added (−1/300; 1,036; 1,616; 120; 168; 17,241; 23; the set 3, 4, 5, 7; 470; 518.02; 548; 6,637; 61; 618; 69,277; 70; 76.05; 804; 867,455), each traced in 8.3. The tokens removed belong to the passages moved to the supplement or to the old usage row.
-- **Build.** `pdflatex` → `bibtex` → `pdflatex` ×2: `main.pdf` has 10 pages, with 0 undefined references or citations and 0 `Overfull \hbox`. The last page is about half used. The supplement compiles to 3 pages with the same checks.
+- **Build.** `pdflatex` → `bibtex` → `pdflatex` ×2: `main.pdf` has 10 pages, with 0 undefined references or citations and 0 `Overfull \hbox`. (Corrected in section 9: an earlier wording here said the last page was about half used, which described an intermediate build; in the final build of this revision the last page was nearly full.) The supplement compiles to 3 pages with the same checks.
 - **Encoding.** All sources are LF-only with no control characters. `verify/flatten.py` now writes bytes, because text mode gave the standalone copy CRLF line endings on Windows.
 - **Fonts.** `pdffonts main.pdf`: all 13 fonts embedded.
 - **Organiser guidance** (`git fetch`, read-only; `origin/main` at `cee57ae`, not pulled; live site read on 18 November 2026): the ten-page limit including references, the IEEE two-column template and CyberChair SC03 are unchanged for the camera-ready version. `public/references/finreason2026-overview.bib`, `finreason2026-task1-overview.bib` and `finchain.bib` are unchanged since `983537c`, so the three required entries are current. Test answers remain private.
@@ -508,7 +508,7 @@ Removed from the paper and kept in the supplement: the lettered adoption-rule li
 
 Defaults kept, as told to the author: the planning notes stay out of the release; full submission receipt ids and per-call session ids stay in; the working documents in `paper/` stay in. `paper/README.md` gained a section describing the folder's state on 18 November 2026.
 
-### 8.8 Final deliverable
+### 8.8 Deliverable of this revision (superseded by section 9.6)
 
 - `working_notes/carnot_finreason2026_task1_working_notes.pdf` (a copy of `main.pdf`): SHA-256 `7a6d19e8dbda8ed55ba063c5ad7d0a4e0a56e7b96a251c7d9e3b253c6d0cdd20`, 267,449 bytes, 10 pages, US letter, all 13 fonts embedded, title and author set in the metadata, 0 undefined references or citations, 0 `Overfull \hbox`.
 - `working_notes/carnot_working_notes_standalone.tex` was regenerated with `verify/flatten.py` and compiles to the same 10 pages.
@@ -516,3 +516,101 @@ Defaults kept, as told to the author: the planning notes stay out of the release
 - `python -I paper/build_facts.py --check`: "facts.json up to date".
 - The author uploads the PDF through CyberChair SC03 and pushes the repository; neither was done here.
 - Still for the author to confirm: the Acknowledgment's wording for the model that drafted this revision ("Claude Fable 5, model `claude-fable-5-2`"), and the scope note of the licence.
+
+## 9. Second camera-ready revision of 18 November 2026: outside assessment and arithmetic replay
+
+### 9.1 What prompted it, and the author's decisions
+
+After the first camera-ready build (section 8; published as commit `44ab0b3` with release `v1.0`) two documents were added to `working_notes/`: `REVIEW_REVISION_ASSESSMENT_20261118.md`, an assessment of how that build answers the reviews, with the check script `verify/revision_assessment.py`, and `EXPERIMENT_RECOMMENDATIONS_20261118.md`, which proposes three experiments. Neither was written in the sessions that produced the paper. Every finding was checked against the files before anything was changed (9.2).
+
+Decisions of the author on 18 November 2026:
+
+- The second proposed experiment, a floating-point replay of stored programs, is run on the original machine before the project moves to another one. It makes no model call.
+- Its pre-registration was approved "as written" after the author read its summary and before any stored program was executed.
+- The text corrections are made together with the result.
+
+The first proposed experiment (11,600 fresh samples in a two-by-two design) and the third (an independently checked challenge panel) were not run. The drafting model advised against the first, because every configuration measured so far has 0 to 2 wrong finals in 580 on familiar templates, and for leaving the third as future work; the author did not ask for either.
+
+### 9.2 Findings of the assessment, how each was checked, and what was done
+
+| Finding | Check | Action |
+|---|---|---|
+| The paper says the code and cache are public, but the repository held only `.gitattributes` and no release | Out of date. The assessment was written before the push. The GitHub API on 18 November 2026 showed `main` at `44ab0b3`, release `v1.0` with three archives, and asset digests equal to `ARTIFACTS.md`; a fresh clone passed `sha256sum -c MANIFEST.sha256` (1,468 of 1,468) | None |
+| The README's replay commands lack `--cache-only` | Correct. `carnot/llm_client.py` raises `CacheMissError` only when `cache_only` is set; otherwise a miss calls the model | `release/make_release.py` appends `--cache-only` to the commands it copies from `paper/REPLAY_CHECK.md` and adds a sentence that the replay still needs the recorded CLI version and a claude.ai login |
+| "618 exact gold fields cannot be matched by any double-precision value … a floating-point pipeline would forfeit them" claims more than the count shows | Correct. `verify/revision_assessment.py`, re-run: 548 fraction strings, 70 decimals whose nearest double does not print back, none of the 70 exactly representable, and for 2 of the 70 the nearest double printed at the gold's number of decimal places gives the gold string | The paragraph is replaced by the measured replay (9.3). The count moved to the supplement with wording that claims representation only |
+| "Exactness matters only at rounding ties" is too narrow | Correct as a matter of principle. In the replay every lost half-up final is in fact an exact tie (9.3), which the paper now reports as an observation | Reworded |
+| The paper did not get shorter | Correct. `verify/revision_assessment.py` on the first camera-ready build: 7,636 source tokens against 7,135 submitted. Section 8.5 said the last page was about half used, which was wrong for the final build | Section 8.5 corrected. `RESPONSE_TO_REVIEWS_20261118.md` now says the paper as a whole is not shorter. Cuts in this revision: 9.4 |
+| The paper gives the five-week gap between the two runs of the examples comparison but not that the served model may have changed | Correct; the pre-registration of the zero-shot run says it, the paper did not | One clause added in Section VI |
+
+The assessment's length figures for the PDF text (8,553 and 9,200) differ from what its script prints on this machine (8,470 and 9,100, with `pdftotext` from Git for Windows); the conclusion is the same.
+
+### 9.3 The arithmetic replay: sources
+
+AR = `experiments/arith_replay_20261118/` (`preregistration.json`, `run_arith_replay.py`, `sandbox_binary64/`, `run.log`, `results/`). Order of events, all on 18 November 2026 (UTC): design drafted 15:18; approved by the author; exact reproduction step run 17:44 to 17:46 (every program reproduced; the evidence written before sealing is `results/overview_exact_only.json` and `exact_replay_before_sealing` in the pre-registration, because the full run rewrote `results/exact_reproduction.json`); files sealed by hash at 17:46:30 (`status: frozen_before_binary64_execution`); full run from 17:46:35. Before the approval only toy programs had been executed (`--selftest`). The approval itself has no independent timestamp: it is recorded in the pre-registration's `approval` field and in the session, and the text of the pre-registration at the time of approval was not hashed. `analyse_replay.py` was written after the results and is labelled as such.
+
+**An error found by an independent check, and its correction.** Before the paper was finalised, a separate read-only check compared every number of this revision with the result files. It confirmed the tables and counts and found one false statement: the pre-registration, the supplement and the first draft of the paper's sentence treated the tuning-noex run as holding *different* programs for the 580 tuning-eval questions. It does not. That run took its responses for those questions from the response cache (`summary.json`: 1,734 fresh and 580 cached calls; same cache keys and program text, `verify/arith_replay_checks.py`, item 1). There are 2,314 distinct programs, and 2,894 is the number of executions per arm. The correction: amendment A1 in AR `preregistration.json` (appended by `amend_preregistration.py`; the original wording stays), the supplement lists the 1,734 other programs separately, and the paper's sentence now reports those 1,734 only. No design choice, sealed file or result changed.
+
+| Claim or number | Source |
+|---|---|
+| Pre-registered; no model call; programs of the first R0 run on tuning-eval (580) and of the R0 run on tuning-noex (2,314) | AR `preregistration.json` (`inputs`, `approval`, `frozen_at`, `sealed_files_sha256`); the runner reads `runs/20261011T184257Z_r0_tuning-eval_S/cases.jsonl` and `runs/20261012T155533Z_r0_tuning-noex_S/cases.jsonl` and refuses a record that is not one sample with one attempt |
+| Executed exactly, the programs reproduce every stored field | AR `results/exact_reproduction.json`: `reproduced_all` true, 580 of 580 and 2,314 of 2,314 (rendered fields, issues and prediction rows equal); `results/<split>/comparison_exact_replay.json`: differences 0. The 2,314 programs carry 6,443 fields, the 580 among them 1,616 (`verify/arith_replay_checks.py`, item 1) |
+| The binary64 arm uses the same isolation; the frozen sandbox files are unchanged | AR `run_arith_replay.py` (`check_files`, `make_box`): hashes of `carnot/sandbox/*.py` and `carnot/formatter.py` checked at start; the twin `worker.py` and `policy.py` are byte-identical copies; only the folder the four sandbox files are copied from differs |
+| The formatter refuses a float in an exact field | `carnot/formatter.py`, `render`: "inexact value for an exact field" |
+| Three rules fixed in advance; the third writes a reconstructed fraction when the value is not a short decimal | AR `preregistration.json` (`renderings_of_a_float_in_an_exact_field`); `render_binary64` in the runner (12 significant digits; `Fraction.limit_denominator()` with its default bound of 10^6) |
+| Table V, last block: 4, 178, 0.994286, 0.839775; 3, 127, 0.995952, 0.888280; 3, 64, 0.995952, 0.948571 | AR `results/tuning-eval/binary64_repr`, `binary64_15g`, `binary64_rational` (`summary.json`: `wrong_finals`, `missed_slots`, `score.scores`), scored by the organisers' `score_submission` through `carnot.harness` |
+| Every rule loses three half-up finals, each an exact tie; 22.815 computed as 22.814999999999998 and rendered 22.81 | AR `results/tuning-eval/field_transitions_*.json` ("final \| half-up": lost 3); `results/posthoc_analysis.json` (exact value 4563/200, gold 22.82; all 3 are ties) |
+| The first rule also loses an exact final, written as 100.00000000000001 | Same files ("final \| exact, gold a decimal": lost 1 under `repr`; gold `100`) |
+| All 93 fraction slots lost unless fractions are reconstructed, which recovers 64 | `field_transitions_*.json` ("slot \| exact, gold a fraction": lost 93, 93, and kept 64 / lost 29) |
+| 29 to 80 of the 872 exact decimal slots that the exact run matches | `field_transitions_*.json` ("slot \| exact, gold a decimal": lost 80, 29, 30; 872 = kept + lost; 5 more are wrong in the exact run as well) |
+| The tuning-noex run holds these 580 programs and 1,734 others; among the others every rule loses 10 half-up finals, all exact ties | `verify/arith_replay_checks.py`, items 1 and 2 (1,590 half-up finals matched exactly, 10 lost under each rule); AR `posthoc_analysis.json`: 13 lost half-up finals in the whole run, all 13 exact ties, 3 of them in the 580 |
+| Supplement, Table III, block of the 1,734 other programs | `verify/arith_replay_checks.py`, item 2. The block of the 580 and the block of all 2,314 are AR `field_transitions_*.json`; the three blocks add up |
+| On the novel route every numeric field is rounded half-up | Section 2 and 8.3: 264 half-up and 84 enum finals, 456 of 456 slots half-up |
+| Abstract: "replaying one run's programs in double precision lost three or four" | The three rows of Table V |
+| Supplement, Table II: scores, differences and intervals of both runs | AR `results/<split>/<arm>/summary.json` and `comparison_<arm>.json` (`carnot.compare.compare`, cases within templates, 10,000 replicates, seed `carnot-compare-v1`) |
+| Supplement, Table III and "What explains the losses" | AR `field_transitions_*.json`, `posthoc_analysis.json`, and `verify/arith_replay_checks.py`, item 3 (set differences between the rules: rule 3 loses every decimal slot that rule 2 loses, and 1 and 8 more; rule 1 loses every decimal slot that rule 2 loses, and 51 and 255 more; the one fraction slot for which the reconstruction returns another fraction). `posthoc_analysis.json` assigns each lost slot to the first matching reason, so its label "a fraction was written for a finite decimal" reads 1 and 9 where the set difference is 1 and 8, and its "denominator above 10^6" (6 and 18) counts only slots whose computed double is the nearest one |
+| No execution failed in binary64; no field was unrenderable or dropped by the validator | AR `results/overview.json`: `execution_failures` {}, `unrendered_fields` {}, `fields_dropped_by_gate` 0 in all six arms |
+| Supplement, Section IV: loss interval [0.0054155, 0.0054185]; weights 1/360, 1/480, 1/600, 1/840; 1, 4, 5 and 2 domains; the single solution | `verify/derived_strata.py`, items 1 and 2 (as in 8.3) |
+| Supplement, "Representation of the gold values": 548; 70; 2 of the 70; 618 slots in 61 templates | `verify/derived_strata.py`, item 3; `verify/revision_assessment.py` (`mismatches_recovered_by_fixed_decimal_rendering`: 2) |
+
+Limits stated in the paper and the supplement: the programs were written for an exact pipeline; three float implementations are not every possible one; both runs hold familiar templates only, and the second run contains the programs of the first, so they are not two independent samples. The paired intervals of the replay exclude 0, but the paper still calls no difference significant.
+
+Sections 8.2 and 8.3 describe the first camera-ready build. Where they say that the post-submission section has four paragraphs, that exact arithmetic is covered by a bound from the gold, or that the record list is Section IV of the supplement, this section supersedes them: three paragraphs, a measured replay, and Section VI.
+
+### 9.4 Other text changes
+
+- Section V-F, "Size": the weight expression and the solution moved to the supplement (Section IV there). Removed from the paper: 120, the set 3, 4, 5, 7.
+- Section X: the paragraph on the replaced FAC criterion is one sentence; the authoring model and the mechanism classes are no longer named there (the model is named in Section IX). Removed: −0.001, 1.03 %.
+- Sections II-B, III-B, VII-A, VII-D and VIII: the slot-count breakdown, the names of the six worked examples, six template names and three example values were dropped. Removed: 690; 1,180; 710; 1.0609; −400. They remain in the run records and in the version submitted for review (`working_notes/archive/submitted_20261102/main.tex`), and partly in sections 2 to 4 above.
+- Section VI: first sentence ("four components"), the examples paragraph (served-model clause), the arithmetic paragraph (9.3). Removed: 618, 548, 70, 61.
+- Abstract: one clause on the replay; 250 words by whitespace count.
+- Section IX: disclosure (6) names the replay; the availability paragraph lists what the supplement now holds. Section XI: the sentence on causal attribution.
+- `tables/components.tex`: last block and caption.
+- Supplement: Sections IV and V and two tables are new; 4 pages.
+
+`number_diff.py` against the published first camera-ready sources: 14 tokens added (0.839775; 0.888280; 0.948571; 0.994286; 0.995952; 1,734; 100.00000000000001; 127; 178; 22.81; 22.814999999999998; 22.815; 29; 872), each traced in 9.3, and 13 removed (listed above).
+
+Length, with `verify/revision_assessment.py`'s measure: source 7,612 whitespace-separated tokens (first camera-ready build 7,636; submitted 7,135); extracted PDF text 9,125 words (9,100; 8,470). The paper is about as long as the first camera-ready build and longer than the reviewed version.
+
+### 9.5 Checks after the edit
+
+- **Build.** `pdflatex` → `bibtex` → `pdflatex` ×2: 10 pages, 0 undefined references or citations, 0 `Overfull \hbox`, 0 LaTeX warnings; all 13 fonts embedded; title and author in the metadata. The last page is full in the left column and about three quarters full in the right. The supplement: 4 pages, same checks.
+- **Encoding.** `main.tex`, `tables/components.tex` and `supplement/supplement.tex` are LF-only and pure ASCII.
+- `python -I paper/build_facts.py --check`: "facts.json up to date". No model call was made in this revision, so the usage table and the count of cached calls are unchanged.
+- `python -m carnot.continuation_state_v1 verify`: exit 0 (frozen files and ledgers intact).
+- **An edit that was undone.** While the move to another machine was prepared, a setting for the WSL distribution name was added to `carnot/sandbox/executor.py` and removed again the same day, when it turned out that the file's hash is recorded in the continuation's baseline manifest and in 13 run records. The file is byte-identical to the released one (SHA-256 `7d15a38c…`), and the replay's runner checks that hash at start.
+
+### 9.6 Final deliverable
+
+- `working_notes/carnot_finreason2026_task1_working_notes.pdf` (a copy of `main.pdf`): SHA-256 `5b771934ec5fc5b706da432053f9b565e3e39115f3cff5d060032201286cf78e`, 266,640 bytes, 10 pages, US letter.
+- `working_notes/carnot_working_notes_standalone.tex`: regenerated with `verify/flatten.py`.
+- `working_notes/supplement/supplement.pdf`: 4 pages.
+- The author uploads the PDF through CyberChair SC03 and pushes the repository; neither was done here.
+- Still for the author to confirm, as in 8.8: the Acknowledgment's wording for the model that drafted the camera-ready revisions, and the scope note of the licence. The two documents named in 9.1, with `verify/revision_assessment.py` and `verify/revision_assessment_page10.png` (a picture of the last page of the first camera-ready build), are in `paper/working_notes/` and go into the public release under the default of 8.7 unless the author excludes them (`release/exclude.txt`).
+
+### 9.7 Release rebuild
+
+- `release/make_release.py` changed in two places: the README's replay commands (9.2), and a list `WHOLE_IN_TREE` that keeps `experiments/arith_replay_20261118/` whole in the git tree (7.5 MB, 55 files), so that the three archives already attached to release `v1.0` stay as they are.
+- After the rebuild the three archives have the SHA-256 values of release `v1.0` (`1aa6fb41…`, `af27d880…`, `df255815…`) and `ARTIFACTS.md` is byte-identical to the published one. No archive has to be uploaded again.
+- `release/verify_release.py release_staging`: all four checks passed (69,277 rows in the cache snapshot; every zip passes its self-test; no forbidden path; `MANIFEST.sha256` matches the tree).
+- `release/audit.py`: the same eleven decision items as in the first audit and no new kind of finding. The first rebuild carried one blocker, the tool's own warning that three files under `experiments/` had been written in the fifteen minutes before the build (the amendment and the README of the replay); the tree was therefore built again after that interval. The report is `release/AUDIT_REPORT.md`, which is not part of the released tree.
+- What the paper says about the repository (the supplement, the replay records, the README's commands) is true of the rebuilt tree and becomes true of the public repository when the author pushes it. Until then the public repository is the first camera-ready build, commit `44ab0b3`.

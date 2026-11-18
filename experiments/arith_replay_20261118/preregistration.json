@@ -1,0 +1,124 @@
+{
+ "version": "arith-replay-v1",
+ "drafted_at": "2026-11-18T15:18:28Z",
+ "status": "frozen_before_binary64_execution",
+ "approval": "The user approved this design 'as written' on 18 Nov 2026, after reading its summary and before any stored program was executed. Only toy programs had been run (run_arith_replay.py --selftest).",
+ "purpose": "Camera-ready revision. Reviewer 1 asked for an ablation that separates exact execution from the other components. The paper so far gives only a bound derived from the gold values, and an outside assessment of 18 Nov 2026 showed that the bound was worded too strongly. This replay measures what binary64 arithmetic changes for the programs the system actually wrote.",
+ "authorization": "On 18 Nov 2026 the user chose 'Here, before the move': the floating-point replay of stored programs runs on the original machine, with no model call, and its pre-registration is shown to the user for approval before any stored program is executed in binary64. Not authorized: any model run, lockbox, development leaderboard, Test, uploads.",
+ "question": "For the programs of two stored R0 runs, what changes in the official scores and in individual fields when the same programs are executed in IEEE 754 binary64 instead of exact arithmetic, and how much of the change depends on how a float is written into an exact field?",
+ "inputs": {
+  "tuning-eval": {
+   "run": "runs/20261011T184257Z_r0_tuning-eval_S",
+   "cases": 580,
+   "cases_jsonl_sha256": "587cf475954965c09853ccb6075748eb0d122c4fdf74d7d92e1c9ccdf435ce23",
+   "stored_scores": {
+    "seen_fac": "1",
+    "seen_checkpoint": "0.9956746031746032"
+   },
+   "role": "primary; the first row of Table V of the paper"
+  },
+  "tuning-noex": {
+   "run": "runs/20261012T155533Z_r0_tuning-noex_S",
+   "cases": 2314,
+   "cases_jsonl_sha256": "f79c652f5a3e222e0f6b1e889f26cf86c563b8e34e1126e9c35a6f3313920c3b",
+   "stored_scores": {
+    "seen_fac": "0.9991666666666667",
+    "seen_checkpoint": "0.9971924603174603"
+   },
+   "role": "secondary; the largest labelled run outside the lockbox"
+  },
+  "programs": "One sample and one attempt per question in both runs (the runner refuses anything else), so each question has exactly one stored program.",
+  "overlap": "The 580 tuning-eval questions are among the 2,314 tuning-noex questions; the two runs hold different programs for them. The runs are reported separately and never pooled.",
+  "known_from_program_text_before_registration": "A text scan of the 2,894 programs (no execution, no scoring) found Q(...) and plain operators throughout, round_half_up in 5 programs, sqrt in 6, math.floor in 1, and no use of Fraction, Decimal, imports, float(), int(), round() or string formatting."
+ },
+ "arms": {
+  "exact_replay": "Each stored program is executed again with the frozen sandbox (carnot/sandbox, WSL, unshare -rmn) and rendered by the pipeline's own loop (Solver._render_all, formatter.build_row). It must reproduce the stored rendered fields, issues and prediction row of every question.",
+  "binary64_execution": {
+   "sandbox": "The same WSL command, isolation and limits. Only the folder from which the four sandbox files are copied differs: experiments/arith_replay_20261118/sandbox_binary64. worker.py and policy.py there are byte-identical copies of the frozen files.",
+   "semantics": "policy.py still rewrites operators to _bin and float literals to Q(\"literal\"). In the twin finq.py, Q(x) is float(x), integer literals stay int, + - * // % follow Python, / is true division, ** is int**int for non-negative integer exponents and math.pow otherwise. This equals running the program text in plain Python with Q = float.",
+   "helpers": "round_half_up and round() round the shortest round-trip decimal of the float half-up (ties away from zero) and return a float. sqrt, exp, ln, log, erf, PI, E come from the math module; sum is the built-in. Fraction(...) and Decimal(...) return floats (no stored program uses them).",
+   "no_retry": "A program that fails or yields an unrenderable field in binary64 is not repaired; the field counts as absent. The live pipeline would have asked the model again."
+  },
+  "renderings_of_a_float_in_an_exact_field": {
+   "why": "The frozen formatter refuses a float in an exact field by design, so a float pipeline needs its own rule. Three rules are fixed in advance; all other fields (half-up, enum, integers) go through the frozen formatter unchanged, which rounds Decimal(repr(x)) half-up.",
+   "repr": "The shortest decimal that round-trips to the same double (Python repr), written as a plain decimal.",
+   "15g": "The value at 15 significant digits (format(x, '.15g')), trailing zeros removed.",
+   "rational": "If the 15-digit decimal has at most 12 significant digits it is used. Otherwise Fraction(x).limit_denominator() (Python's default bound, 10**6) is used if it converts back to the same double; if not, the 15-digit decimal. The result is written by the frozen fraction_to_exact_text (finite decimal when the denominator is 2^a*5^b, else n/d).",
+   "non_finite": "inf and nan are dropped in every rule."
+  }
+ },
+ "unchanged": [
+  "the program text of every question",
+  "the AST policy, the worker, the WSL isolation and the 5 s limit",
+  "the formatter for half-up, enum and integer values, and the validator gate (build_row)",
+  "the official scorer (finreason_task1.scoring.score_submission through carnot.harness)"
+ ],
+ "procedure": [
+  "1. Verify the hashes of the frozen sandbox files and the formatter, and that the twin worker.py and policy.py are identical copies.",
+  "2. Exact replay of all 2,894 programs. This step executes nothing in binary64 and may run before the files below are sealed.",
+  "3. Seal run_arith_replay.py and the twin finq.py and runner.py by SHA-256 in this file and set the status to frozen_before_binary64_execution. The runner refuses the binary64 step otherwise.",
+  "4. Binary64 execution of the same programs; the three renderings are applied to the same executed values.",
+  "5. Score every arm on each run with the official scorer; paired difference to the stored run with carnot.compare (cases within templates, 10,000 replicates, seed carnot-compare-v1)."
+ ],
+ "stop_rule": "If the exact replay does not reproduce every stored field of both runs, the runner stops before any binary64 execution, the mismatch is reported, and no binary64 result is produced until the cause is understood and recorded here as an amendment.",
+ "reported_regardless_of_outcome": [
+  "for each run and each rendering: official FAC and checkpoint, wrong finals, missed slots, paired difference to the stored run with its 95% bootstrap interval",
+  "binary64 execution failures by stage, unrenderable fields, fields dropped by the validator gate",
+  "field-level changes against the stored run (kept, lost, gained, still wrong), split by final or slot and by kind: enum, half-up, exact with a fraction as gold, exact with a decimal as gold",
+  "the number of programs and fields reproduced by the exact replay"
+ ],
+ "paper_use": "The paragraph on exact arithmetic in Section VI is rewritten around the measured counts of the primary run, with the secondary run as a check, whatever they are. The gold-based count is kept only with the corrected wording. No system, decision or submission depends on the result; R4 remains the system of record.",
+ "interpretation_limits_declared_in_advance": [
+  "The programs were written under a prompt that promises exact values and harness-side rounding. A model prompted for a float pipeline might write different programs.",
+  "Three specified float implementations are measured, not every possible one. round_half_up and the rational rule are deliberately favourable to the float arm.",
+  "Both runs hold familiar templates only; nothing is learned about hidden templates.",
+  "Half-up fields are rounded again by the scorer, so float error matters there only when it crosses a rounding boundary.",
+  "tuning-eval is contained in tuning-noex, so the two runs are not independent samples of questions."
+ ],
+ "frozen_files_sha256": {
+  "carnot/sandbox/executor.py": "7d15a38cb62a5c2a7660d9417fd1cc13291ab921f5b5e0187370e5121e449026",
+  "carnot/sandbox/worker.py": "e57fbe679799d01841c27181c6fcc504c2d863eb4f0e163763b261bca19ff9e4",
+  "carnot/sandbox/policy.py": "50222c16a657e28e1cdde3de4d1010bc1988a93848a40467e62647c28d28cb90",
+  "carnot/sandbox/runner.py": "2d50d90e2724259c0948697380c9364a833642fa281764c04f1125998520ed2f",
+  "carnot/sandbox/finq.py": "85ff980722722bdc975872eb0000efaf77dcfadf0f7ad16528b2d5157bf12c64",
+  "carnot/formatter.py": "06156aa7d004d01d46debc7d19f6324d035e6f7f2b345a96833145e9188703d0"
+ },
+ "sealed_files_sha256": {
+  "sandbox_binary64/finq.py": "cf4cfc3455b36b08826e44b3c3d4971050d2fed9ddf1ce4c5520e42c525d71d1",
+  "sandbox_binary64/runner.py": "078693d61d74df80da8c2706da5c3f8fb2d82cb57c0b357f37b4c142324e99ec",
+  "run_arith_replay.py": "98eed940fa3a579a0dc27272f274d40527f722afd7151fe34eba3345c38cacb2"
+ },
+ "amendments": [
+  {
+   "at": "2026-11-18T18:21:30.382733+00:00",
+   "id": "A1",
+   "kind": "correction of a factual statement about the inputs, found after the run",
+   "wrong_statement": "inputs.overlap: 'the two runs hold different programs for them'; inputs.known_from_program_text_before_registration and procedure step 2 count 2,894 programs.",
+   "correction": "The tuning-noex run took its responses for the 580 tuning-eval questions from the response cache (its summary records 1,734 fresh and 580 cached calls), so the 580 programs of the tuning-eval run are among its 2,314 programs, with the same cache keys and the same text. There are 2,314 distinct programs; 2,894 is the number of executions per arm.",
+   "effect": "None on the design, the sealed files or any result file. The two runs are not two samples: the second contains the first. The reporting therefore adds counts for the 1,734 programs that are only in the tuning-noex run (paper/working_notes/verify/arith_replay_checks.py), and no text treats the tuning-noex figures as independent of the tuning-eval figures.",
+   "found_by": "an independent read-only check of the paper's numbers against the result files, before the paper was finalised"
+  }
+ ],
+ "git_commit": "983537c23fbb28c4fb67fb958ffcaf49f9f7c69e",
+ "frozen_at": "2026-11-18T17:46:30.020653+00:00",
+ "exact_replay_before_sealing": {
+  "tuning-eval": {
+   "programs": 580,
+   "reproduced": 580,
+   "sandbox": {
+    "ready": true,
+    "python": "3.14.4",
+    "backend": "wsl"
+   }
+  },
+  "tuning-noex": {
+   "programs": 2314,
+   "reproduced": 2314,
+   "sandbox": {
+    "ready": true,
+    "python": "3.14.4",
+    "backend": "wsl"
+   }
+  }
+ }
+}

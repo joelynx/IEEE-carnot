@@ -1,7 +1,9 @@
 % Supplementary material for the Working Notes of team carnot, FinReason Cup 2026 Task 1.
 % It preserves, unabridged, three parts of the paper as submitted for review on 2 November 2026
-% (archive/submitted_20261102/main.tex), which the camera-ready paper condenses.
-% Every number is traced in paper/VERIFICATION.md (sections 2, 5 and 6); nothing here is new.
+% (archive/submitted_20261102/main.tex), which the camera-ready paper condenses, and adds two
+% accounts that the camera-ready paper only summarises: the derivation of the split of wrong
+% finals and the arithmetic replay. Every number is traced in paper/VERIFICATION.md
+% (sections 2, 5, 6, 8 and 9).
 \documentclass[conference]{IEEEtran}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -22,7 +24,7 @@ Abu Dhabi, United Arab Emirates}}
 \maketitle
 
 \begin{abstract}
-The camera-ready Working Notes condense the evaluation methodology, the account of the synthetic hidden-like set and the post-submission investigations. This document keeps the three accounts in full, as they stood in the version submitted for review, so that no protocol detail is lost. System names (R0 to R4), splits and modes are defined in the paper. Section~\ref{sec:records} lists where each record is kept in the repository, \url{https://github.com/joelynx/IEEE-carnot}.
+The camera-ready Working Notes condense the evaluation methodology, the account of the synthetic hidden-like set and the post-submission investigations. This document keeps the three accounts in full, as they stood in the version submitted for review, so that no protocol detail is lost. It also gives two accounts that the paper only summarises: how the published scores divide the wrong final answers between the strata (Section~\ref{sec:split}) and the full results of the arithmetic replay (Section~\ref{sec:replay}). System names (R0 to R4), splits and modes are defined in the paper. Section~\ref{sec:records} lists where each record is kept in the repository, \url{https://github.com/joelynx/IEEE-carnot}.
 \end{abstract}
 
 \section{Evaluation Methodology}\label{sec:method}
@@ -79,6 +81,90 @@ We therefore replaced it prospectively with a count-based rule whose estimand is
 
 \paragraph*{Limits of the synthetic panels} As with the original synthetic set, this generation and validation process did not produce a set that discriminates between systems. The candidates' gains came mostly from the ambiguous bond wording, where ``correct'' means agreeing with an author's reading; R4's one family error was instead a misapplied stated conversion. Admitting a family only when a neutral blind solver agrees with its reference also biases the panels towards problems our models can solve, so they say little about what makes hidden templates hard.
 
+\section{How the Published Scores Divide the Wrong Finals}\label{sec:split}
+The paper states that R4 missed 3 seen-stratum and 8 hidden-stratum final answers. The organisers publish a combined FAC of 0.985304, a hidden FAC of 0.976025 and 917 of 928 correct finals, with each score rounded to six places. Combined FAC is the mean of the two strata, so the seen-stratum FAC lies between 0.9945815 and 0.9945845, and the seen-stratum loss between 0.0054155 and 0.0054185.
+
+Every one of the 580 seen-route test questions matches exactly one train template, and every released template is matched by exactly two of them. With two questions per template, the scorer's hierarchy gives a seen-stratum question the weight $1/(120\,T)$, where $T$ is the number of topics in its domain: $1/360$, $1/480$, $1/600$ or $1/840$ for the domains with 3, 4, 5 and 7 topics (1, 4, 5 and 2 of the 12 domains). The weights probed from the scorer on the 580 tuning-eval questions, which also hold two questions per template, equal this expression for all 580.
+
+Among all multisets of at most eleven such weights, only one sums to a value in the interval: $1/480+1/600+1/600\approx0.0054167$. Three seen-stratum finals were therefore wrong, two in five-topic domains and one in a four-topic domain, and the other eight wrong finals belong to the hidden stratum. The step rests on the assumption, stated in the paper, that the 580 seen-route questions are the seen stratum. The script \path{paper/working_notes/verify/derived_strata.py} recomputes it.
+
+\section{Arithmetic Replay}\label{sec:replay}
+\begin{table*}[t]
+\caption{Arithmetic replay: the stored programs of two R0 runs executed again exactly and in binary64. The tuning-noex run holds the 580 programs of the first run and 1,734 others, so its rows are not independent of the rows above them. Differences are to the stored run, with paired 95\,\% bootstrap intervals (cases within templates, 10,000 replicates).}
+\label{tab:replay}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrrll@{}}
+\toprule
+Execution; a float in an exact field written as & Wrong & Missed & FAC & Checkpoint & $\Delta$ FAC & $\Delta$ checkpoint \\
+ & finals & slots & & & & \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{First R0 run on tuning-eval (580 questions, 1,036 slots)}} \\
+\quad exact (stored; reproduced by the replay) & 0 & 5 & 1.000000 & 0.995675 & & \\
+\quad binary64: shortest round-trip decimal & 4 & 178 & 0.994286 & 0.839775 & $-0.005714$ $[-0.009048,-0.002381]$ & $-0.155899$ $[-0.168499,-0.143208]$ \\
+\quad binary64: 15 significant digits & 3 & 127 & 0.995952 & 0.888280 & $-0.004048$ $[-0.005714,-0.002381]$ & $-0.107394$ $[-0.117133,-0.097616]$ \\
+\quad binary64: 15 digits or fraction & 3 & 64 & 0.995952 & 0.948571 & $-0.004048$ $[-0.005714,-0.002381]$ & $-0.047103$ $[-0.054464,-0.039616]$ \\
+\multicolumn{7}{@{}l}{\emph{R0 run on tuning-noex (2,314 questions, 4,129 slots)}} \\
+\quad exact (stored; reproduced by the replay) & 2 & 14 & 0.999167 & 0.997192 & & \\
+\quad binary64: shortest round-trip decimal & 16 & 743 & 0.993363 & 0.835818 & $-0.005804$ $[-0.008899,-0.003080]$ & $-0.161375$ $[-0.169985,-0.152623]$ \\
+\quad binary64: 15 significant digits & 15 & 488 & 0.993780 & 0.893741 & $-0.005387$ $[-0.008318,-0.002783]$ & $-0.103452$ $[-0.110125,-0.097036]$ \\
+\quad binary64: 15 digits or fraction & 15 & 242 & 0.993780 & 0.951744 & $-0.005387$ $[-0.008318,-0.002783]$ & $-0.045449$ $[-0.050283,-0.040637]$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+\begin{table}[t]
+\caption{Fields that the exact run matches and the binary64 replay loses, by kind of field and rendering rule (1: shortest round-trip decimal; 2: 15 significant digits; 3: 15 digits or reconstructed fraction). No field was gained.}
+\label{tab:replayfields}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Kind of field & Matched & \multicolumn{3}{c}{Lost under rule} \\
+ & exactly & 1 & 2 & 3 \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{The 580 programs of the tuning-eval run}} \\
+\quad half-up finals & 532 & 3 & 3 & 3 \\
+\quad exact finals & 8 & 1 & 0 & 0 \\
+\quad enum finals & 40 & 0 & 0 & 0 \\
+\quad exact slots, gold a fraction & 93 & 93 & 93 & 29 \\
+\quad exact slots, gold a decimal & 872 & 80 & 29 & 30 \\
+\quad half-up slots & 30 & 0 & 0 & 0 \\
+\quad enum slots & 36 & 0 & 0 & 0 \\
+\multicolumn{5}{@{}l}{\emph{The 1,734 other programs of the tuning-noex run}} \\
+\quad half-up finals & 1,590 & 10 & 10 & 10 \\
+\quad exact finals & 24 & 0 & 0 & 0 \\
+\quad enum finals & 118 & 0 & 0 & 0 \\
+\quad exact slots, gold a fraction & 290 & 290 & 290 & 100 \\
+\quad exact slots, gold a decimal & 2,602 & 266 & 62 & 69 \\
+\quad half-up slots & 84 & 0 & 0 & 0 \\
+\quad enum slots & 108 & 0 & 0 & 0 \\
+\multicolumn{5}{@{}l}{\emph{All 2,314 programs of the tuning-noex run}} \\
+\quad half-up finals & 2,122 & 13 & 13 & 13 \\
+\quad exact finals & 32 & 1 & 0 & 0 \\
+\quad enum finals & 158 & 0 & 0 & 0 \\
+\quad exact slots, gold a fraction & 383 & 383 & 383 & 129 \\
+\quad exact slots, gold a decimal & 3,474 & 346 & 91 & 99 \\
+\quad half-up slots & 114 & 0 & 0 & 0 \\
+\quad enum slots & 144 & 0 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\paragraph*{Design} The replay was pre-registered, and its runner and arithmetic module were sealed by hash before any stored program was executed in binary64. It makes no model call. The inputs are the stored programs of two R0 runs, one program per question: the first run on tuning-eval (580 questions) and the run on tuning-noex (2,314 questions). The second run took its responses for the 580 tuning-eval questions from the response cache, so it holds the same 580 programs and 1,734 others, 2,314 distinct programs in all. The pre-registration described the shared questions as having different programs; that was wrong, an amendment in the record corrects it, and Table~\ref{tab:replayfields} therefore lists the 1,734 other programs separately. Each program is first executed again in the unchanged exact sandbox; this reproduced the stored rendered fields and prediction rows of every program (all 6,443 fields), which was the condition for continuing.
+
+The binary64 arm executes the same program text in the same isolated sandbox with a twin of the arithmetic module. The constructor \id{Q} returns a float, integer literals stay integers, division is true division, and roots, logarithms and exponentials come from Python's \id{math} module. Half-up rounding inside a program rounds the float's shortest round-trip decimal, which avoids binary tie artefacts. A program that failed in binary64 would not have been repaired; none failed, and no field was unrenderable or rejected by the validator.
+
+Half-up, enum and integer values go through the unchanged formatter, which rounds the float's shortest round-trip decimal. The formatter refuses a float in an exact field, so three rules were fixed in advance: (1) the shortest decimal that round-trips to the same double; (2) the value at 15 significant digits; (3) the 15-digit decimal if it has at most 12 significant digits, otherwise the fraction given by Python's \id{limit\_denominator()} with its default bound of $10^6$ if that fraction converts back to the same double, otherwise the 15-digit decimal.
+
+\paragraph*{Results} Table~\ref{tab:replay} gives the official scores and Table~\ref{tab:replayfields} the fields lost. Under every rule the replay loses 3 half-up finals among the 580 programs and 10 among the 1,734 others. Rule 1 also loses one exact final, among the 580 (the value 100 is written as 100.00000000000001). No enum and no half-up slot changes.
+
+\paragraph*{What explains the losses} This paragraph was written after the results and is descriptive. Where two numbers are given, the first refers to the 580 programs and the second to all 2,314, which include them. Every lost half-up final, 3 of 3 and 13 of 13, is an exact tie at the last published place: the exact value is, for example, $4563/200=22.815$, the double is 22.814999999999998, and it rounds to 22.81 where the gold is 22.82. Exact slots whose gold is a fraction cannot be matched by a decimal, so rules 1 and 2 lose all of them. Rule 3 recovers 64 of 93 and 254 of 383. Of the fraction slots it loses, 23 and 110 are computed doubles that are not the nearest double to the fraction; of the rest, 6 and 18 have a denominator above $10^6$, and for one the reconstruction returns a different fraction that converts to the same double. Of the exact decimal slots lost under rule 2, 18 of 29 and 48 of 91 have a gold with more than 15 significant digits; in the others, 11 and 43, the computed double is not the nearest double to the gold. Rule 3 loses every decimal slot that rule 2 loses and 1 and 8 more, for which it writes a fraction where the gold is a finite decimal (557471.09278125 is computed as 557471.0927812499 and written as a fraction). Rule 1 also loses every decimal slot that rule 2 loses, and 51 and 255 more, in which the shortest round-trip decimal keeps digits of arithmetic error that 15 digits round away.
+
+\paragraph*{Limits} The programs were written under a prompt that promises exact values and rounding by the harness; a model prompted for a floating-point pipeline might write different programs, for example by rounding intermediate values itself. Three float implementations were measured, not every possible one. Both runs hold familiar templates only, and the second contains the programs of the first, so they are not two independent samples.
+
+\paragraph*{Representation of the gold values} Independently of any program, 548 of the 5,379 exact gold fields of train and development are non-terminating fractions, which no decimal string equals. Another 70 are decimals that do not survive conversion to the nearest double and Python's shortest round-trip rendering; for 2 of these 70 the nearest double printed at the gold's own number of decimal places gives the gold again. All 618 are slots, in 61 of the 290 templates. This census concerns representation and measures no score.
+
 \section{Where the Records Are}\label{sec:records}
 Paths are relative to the repository root.
 \begin{itemize}
@@ -86,7 +172,7 @@ Paths are relative to the repository root.
 \item Pre-registrations, results, disclosures and incidents of R1 to R4 and of the convention, hint and synthetic-set candidates: \path{experiments/preregistration.jsonl}.
 \item Paired comparisons with their intervals: \path{experiments/comparisons.jsonl}. Lockbox accesses: \path{experiments/lockbox_access.jsonl}. One record per run: \path{experiments/log.jsonl}.
 \item Post-submission pilot: \path{experiments/improvement_20261020/}. Continuation: \path{experiments/improvement_continuation_20261021/}. Revised safeguard: \path{experiments/safeguard_s2_20261022/}.
-\item Zero-shot ablation of the camera-ready paper: \path{experiments/ablation_zeroshot_20261118/}.
+\item Zero-shot ablation of the camera-ready paper: \path{experiments/ablation_zeroshot_20261118/}. Arithmetic replay: \path{experiments/arith_replay_20261118/}.
 \item Submission registry and receipts: \path{submissions/registry.jsonl}. Replay check of the R3 and R4 test submissions: \path{paper/REPLAY_CHECK.md}.
 \item The source of every number in the paper and in this document: \path{paper/VERIFICATION.md}, with the read-only check scripts in \path{paper/working_notes/verify/}.
 \end{itemize}

@@ -18,7 +18,7 @@ State at 12 October 2026, when this folder was prepared: the final, latest accep
 
 ## State at 18 November 2026: the paper as accepted
 
-The table above describes the folder as it was handed to the writing step. The paper has since been written, submitted, accepted and revised for the camera-ready version. `VERIFICATION.md` traces every number in it and records each revision in order (sections 5 to 8).
+The table above describes the folder as it was handed to the writing step. The paper has since been written, submitted, accepted and revised for the camera-ready version. `VERIFICATION.md` traces every number in it and records each revision in order (sections 5 to 9).
 
 | File | What it is |
 |---|---|
@@ -26,9 +26,10 @@ The table above describes the folder as it was handed to the writing step. The p
 | `working_notes/main.tex`, `tables/`, `figures/`, `references.bib` | Sources of the camera-ready paper |
 | `working_notes/carnot_finreason2026_task1_working_notes.pdf` | The camera-ready paper |
 | `working_notes/carnot_working_notes_standalone.tex` | The same sources in one file |
-| `working_notes/supplement/supplement.pdf` | Supplementary material: the evaluation protocol, the synthetic set and the post-submission study in full |
+| `working_notes/supplement/supplement.pdf` | Supplementary material: the evaluation protocol, the synthetic set and the post-submission study in full, the derivation of the split of wrong finals, and the full results of the arithmetic replay |
 | `working_notes/archive/submitted_20261102/` | The version submitted for review, unchanged |
 | `working_notes/verify/` | Read-only scripts that recompute the figures cited in `VERIFICATION.md` |
 | `working_notes/RESPONSE_TO_REVIEWS_20261118.md` | What the camera-ready revision changed for each review point |
+| `working_notes/REVIEW_REVISION_ASSESSMENT_20261118.md`, `working_notes/EXPERIMENT_RECOMMENDATIONS_20261118.md` | An outside assessment of the first camera-ready build and the experiments it proposed. `VERIFICATION.md`, section 9, records how each point was checked and what was done |
 
 The official test results are in `working_notes/verify/official_test_results_20261028.json`, as published by the organisers.

@@ -1,7 +1,8 @@
-% T-G: component analysis on tuning-eval (camera-ready revision). Sources in paper/VERIFICATION.md section 8:
-% stored runs via verify/component_analysis.py; zero-shot run in experiments/ablation_zeroshot_20261118/.
+% T-G: component analysis on tuning-eval (camera-ready revision). Sources in paper/VERIFICATION.md sections 8 and 9:
+% stored runs via verify/component_analysis.py; zero-shot run in experiments/ablation_zeroshot_20261118/;
+% binary64 block from experiments/arith_replay_20261118/results/tuning-eval/.
 \begin{table}[t]
-\caption{Component analysis on tuning-eval (580 questions, 1,036 slots; S-mode; Sonnet). The run without examples was made on 18 November 2026; all other rows are stored runs, with each sample of R1 forced also scored alone.}
+\caption{Component analysis on tuning-eval (580 questions, 1,036 slots; S-mode; Sonnet). The run without examples was made on 18 November 2026. The last block executes the programs of the first run again in binary64 arithmetic, without a model call. All other rows are stored runs, with each sample of R1 forced also scored alone.}
 \label{tab:components}
 \centering
 \scriptsize
@@ -22,6 +23,10 @@ Configuration & Wrong & Missed & FAC & Checkpoint \\
 \quad sample 3 alone & 0 & 5 & 1.000000 & 0.995675 \\
 \quad sample 4 alone & 1 & 4 & 0.998333 & 0.996508 \\
 \quad vote of the five samples & 0 & 4 & 1.000000 & 0.996508 \\
+\multicolumn{5}{@{}l}{\emph{Programs of the first run in binary64; a float in an exact field written as}} \\
+\quad shortest round-trip decimal & 4 & 178 & 0.994286 & 0.839775 \\
+\quad 15 significant digits & 3 & 127 & 0.995952 & 0.888280 \\
+\quad 15 digits or reconstructed fraction & 3 & 64 & 0.995952 & 0.948571 \\
 \bottomrule
 \end{tabular}
 \end{table}
