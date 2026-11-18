@@ -1,0 +1,122 @@
+{
+ "name": "envelope_budget_capped_rollover_three_months",
+ "domain_id": "personal_finance",
+ "topic_id": "budgeting",
+ "difficulty": "intermediate",
+ "params": {
+  "ALLOC": {
+   "kind": "int",
+   "min": 400,
+   "max": 1200,
+   "step": 50
+  },
+  "CAP": {
+   "kind": "int",
+   "min": 0,
+   "max": 300,
+   "step": 25
+  },
+  "SAVE0": {
+   "kind": "int",
+   "min": 0,
+   "max": 2000,
+   "step": 100
+  },
+  "S1": {
+   "kind": "int",
+   "min": 200,
+   "max": 1500,
+   "step": 10
+  },
+  "S2": {
+   "kind": "int",
+   "min": 200,
+   "max": 1500,
+   "step": 10
+  },
+  "S3": {
+   "kind": "int",
+   "min": 200,
+   "max": 1500,
+   "step": 10
+  }
+ },
+ "question_template": "A household keeps one grocery envelope. At the start of each month {ALLOC} USD is added; month 1 starts with no carryover. The available envelope is the allocation plus the carryover from the prior month. At month end, unspent money rolls into the next envelope up to a cap of {CAP} USD; any unspent amount above the cap is transferred to savings. If spending exceeds the available envelope, the shortfall is withdrawn from savings and the next carryover is zero. Savings start at {SAVE0} USD, earn no interest and may go negative. Spending is {S1} USD in month 1, {S2} USD in month 2 and {S3} USD in month 3; the cap rule also applies after month 3. Report the carryover into month 2, total transfers into savings over three months, the carryover left after month 3, and the savings balance after month 3.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "carry_into_month2",
+   "description": "Envelope carryover from month 1 into month 2 after applying the cap",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "total_transfers_to_savings",
+   "description": "Sum of above-cap unspent amounts transferred into savings over three months",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "final_carryover",
+   "description": "Capped envelope carryover remaining after month 3",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    alloc = P[\"ALLOC\"]\n    cap = P[\"CAP\"]\n    savings = P[\"SAVE0\"]\n    spends = [P[\"S1\"], P[\"S2\"], P[\"S3\"]]\n    if cap < 0 or alloc <= 0:\n        raise ValueError(\"cap must be non-negative and allocation positive\")\n    carry = 0\n    transfers = 0\n    carry_into_month2 = None\n    for i, s in enumerate(spends):\n        available = alloc + carry\n        unspent = available - s\n        if unspent >= 0:\n            carry = min(unspent, cap)\n            excess = unspent - carry\n            transfers += excess\n            savings += excess\n        else:\n            savings += unspent\n            carry = 0\n        if i == 0:\n            carry_into_month2 = carry\n    return {\n        \"final\": savings,\n        \"carry_into_month2\": carry_into_month2,\n        \"total_transfers_to_savings\": transfers,\n        \"final_carryover\": carry\n    }",
+ "coverage_params": [
+  {
+   "ALLOC": 800,
+   "CAP": 100,
+   "SAVE0": 500,
+   "S1": 500,
+   "S2": 700,
+   "S3": 950
+  },
+  {
+   "ALLOC": 1000,
+   "CAP": 0,
+   "SAVE0": 300,
+   "S1": 850,
+   "S2": 1200,
+   "S3": 900
+  },
+  {
+   "ALLOC": 600,
+   "CAP": 200,
+   "SAVE0": 0,
+   "S1": 1200,
+   "S2": 400,
+   "S3": 300
+  },
+  {
+   "ALLOC": 600,
+   "CAP": 150,
+   "SAVE0": 1000,
+   "S1": 450,
+   "S2": 750,
+   "S3": 500
+  }
+ ]
+}

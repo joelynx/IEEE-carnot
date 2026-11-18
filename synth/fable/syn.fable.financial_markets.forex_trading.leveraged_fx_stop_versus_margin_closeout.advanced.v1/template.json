@@ -1,0 +1,105 @@
+{
+ "name": "leveraged_fx_stop_versus_margin_closeout",
+ "domain_id": "financial_markets",
+ "topic_id": "forex_trading",
+ "difficulty": "advanced",
+ "params": {
+  "UNITS": {
+   "kind": "int",
+   "min": 50000,
+   "max": 300000,
+   "step": 10000
+  },
+  "SPOT": {
+   "kind": "decimal",
+   "min": "1.0500",
+   "max": "1.3500",
+   "step": "0.0050"
+  },
+  "LEV": {
+   "kind": "choice",
+   "values": [
+    10,
+    20,
+    30,
+    50
+   ]
+  },
+  "EQUITY": {
+   "kind": "int",
+   "min": 3000,
+   "max": 15000,
+   "step": 500
+  },
+  "CLOSEOUT": {
+   "kind": "choice",
+   "values": [
+    50,
+    80,
+    100
+   ]
+  },
+  "STOP_PIPS": {
+   "kind": "int",
+   "min": 50,
+   "max": 400,
+   "step": 10
+  }
+ },
+ "question_template": "A trader opens a long position of {UNITS} base-currency units at a spot quote of USD {SPOT} per unit with {LEV}:1 leverage, funded by an account holding USD {EQUITY}. Required margin is fixed at the entry notional divided by the leverage. Account equity equals the deposit plus the unrealised P/L of the position; one pip is a quote change of USD 0.0001 per unit. The broker closes the whole position automatically when equity falls to {CLOSEOUT} percent of required margin, with no slippage. The trader also places a stop-loss {STOP_PIPS} pips below the entry quote. The quote then declines steadily. Determine which exit fires first (if both would fire at the same quote, the stop-loss fires) and compute the signed realised P/L in USD at that exit; a loss is negative. Use exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "required_margin_trace",
+   "description": "USD margin required at entry.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "closeout_quote_trace",
+   "description": "USD quote per unit triggering automatic close-out.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_per_count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "closeout_pips_trace",
+   "description": "Adverse pips from entry to close-out.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "exit_trigger_trace",
+   "description": "Which exit fires first.",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "stop_loss",
+     "margin_closeout"
+    ]
+   }
+  }
+ ],
+ "program": "def solve():\n    N = P[\"UNITS\"]\n    S0 = P[\"SPOT\"]\n    L = P[\"LEV\"]\n    E = P[\"EQUITY\"]\n    c = P[\"CLOSEOUT\"]\n    k = P[\"STOP_PIPS\"]\n    pip = Q(\"0.0001\")\n    req = N * S0 / L\n    if E <= req:\n        raise ValueError(\"deposit does not cover required margin\")\n    equity_at_close = req * c / 100\n    loss_to_close = E - equity_at_close\n    if loss_to_close <= 0:\n        raise ValueError(\"close-out would trigger immediately\")\n    s_close = S0 - loss_to_close / N\n    if s_close <= 0:\n        raise ValueError(\"close-out quote not positive\")\n    pip_value = N * pip\n    pips_close = loss_to_close / pip_value\n    if k <= pips_close:\n        trigger = \"stop_loss\"\n        pl = -k * pip_value\n    else:\n        trigger = \"margin_closeout\"\n        pl = -loss_to_close\n    return {\n        \"final\": pl,\n        \"required_margin_trace\": req,\n        \"closeout_quote_trace\": s_close,\n        \"closeout_pips_trace\": pips_close,\n        \"exit_trigger_trace\": trigger,\n    }\n"
+}

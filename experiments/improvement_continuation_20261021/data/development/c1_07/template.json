@@ -1,0 +1,158 @@
+{
+ "name": "units_of_production_depletion_reestimate_and_development_cost",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "depreciation_and_amortization",
+ "difficulty": "advanced",
+ "params": {
+  "COST": {
+   "kind": "int",
+   "min": 600000,
+   "max": 2000000,
+   "step": 50000
+  },
+  "RESID": {
+   "kind": "int",
+   "min": 0,
+   "max": 200000,
+   "step": 25000
+  },
+  "N0": {
+   "kind": "int",
+   "min": 300000,
+   "max": 1000000,
+   "step": 50000
+  },
+  "E12": {
+   "kind": "int",
+   "min": 50000,
+   "max": 200000,
+   "step": 10000
+  },
+  "NREM": {
+   "kind": "int",
+   "min": 150000,
+   "max": 800000,
+   "step": 50000
+  },
+  "E3": {
+   "kind": "int",
+   "min": 50000,
+   "max": 200000,
+   "step": 10000
+  },
+  "DEV": {
+   "kind": "int",
+   "min": 0,
+   "max": 400000,
+   "step": 50000
+  },
+  "E4": {
+   "kind": "int",
+   "min": 100000,
+   "max": 400000,
+   "step": 10000
+  }
+ },
+ "question_template": "A mine is bought at the start of Year 1 for {COST} USD; land residual value {RESID} USD is recoverable after extraction. Initial ore estimate: {N0} units. Rate per unit = carrying amount minus residual value, divided by estimated remaining units when set; yearly depletion = units extracted times the rate in force. Extraction is {E12} units in each of Years 1 and 2. At the start of Year 3 (before extraction) remaining ore is re-estimated at {NREM} units, replacing the earlier one; a new rate is set prospectively from the carrying amount then, with no restatement of prior years. Year 3 extraction is {E3} units. After Year 3 depletion, a one-time development cost of {DEV} USD is capitalized at end of Year 3 (no residual, not recurring). At the start of Year 4 the rate is reset from the carrying amount then and remaining units of {NREM} minus Year 3 extraction. Year 4 extraction is {E4} units; if it exceeds remaining estimated units, depletion is charged only on the remaining units. Carrying amount = total capitalized cost minus accumulated depletion since acquisition. Find the Year 3 rate per unit, Year 3 depletion, end-of-Year-4 accumulated depletion and carrying amount, and Year 4 depletion.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "year3_rate_per_unit",
+   "description": "Depletion rate per unit set at start of Year 3 after reserve re-estimate",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_per_count",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "year3_depletion",
+   "description": "Depletion expense recorded for Year 3",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "accumulated_depletion_end_year4",
+   "description": "Accumulated depletion at end of Year 4 covering all four years",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "carrying_amount_end_year4",
+   "description": "Carrying amount at end of Year 4 after development cost and depletion",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    C = Q(P[\"COST\"])\n    R = Q(P[\"RESID\"])\n    N0 = Q(P[\"N0\"])\n    E12 = Q(P[\"E12\"])\n    NREM = Q(P[\"NREM\"])\n    E3 = Q(P[\"E3\"])\n    D = Q(P[\"DEV\"])\n    E4 = Q(P[\"E4\"])\n    if 2 * E12 >= N0:\n        raise ValueError(\"Years 1-2 extraction exhausts original reserve estimate\")\n    if E3 >= NREM:\n        raise ValueError(\"Year 3 extraction exhausts revised reserve estimate\")\n    rate0 = (C - R) / N0\n    dep12 = rate0 * 2 * E12\n    cv2 = C - dep12\n    rate3 = (cv2 - R) / NREM\n    dep3 = rate3 * E3\n    cv3 = cv2 - dep3 + D\n    rem4 = NREM - E3\n    rate4 = (cv3 - R) / rem4\n    units4 = E4 if E4 < rem4 else rem4\n    dep4 = rate4 * units4\n    acc4 = dep12 + dep3 + dep4\n    cv4 = C + D - acc4\n    return {\n        \"final\": dep4,\n        \"year3_rate_per_unit\": rate3,\n        \"year3_depletion\": dep3,\n        \"accumulated_depletion_end_year4\": acc4,\n        \"carrying_amount_end_year4\": cv4,\n    }\n",
+ "coverage_params": [
+  {
+   "COST": 1200000,
+   "RESID": 100000,
+   "N0": 600000,
+   "E12": 100000,
+   "NREM": 500000,
+   "E3": 100000,
+   "DEV": 150000,
+   "E4": 150000
+  },
+  {
+   "COST": 1500000,
+   "RESID": 0,
+   "N0": 800000,
+   "E12": 120000,
+   "NREM": 300000,
+   "E3": 120000,
+   "DEV": 0,
+   "E4": 250000
+  },
+  {
+   "COST": 900000,
+   "RESID": 50000,
+   "N0": 500000,
+   "E12": 90000,
+   "NREM": 250000,
+   "E3": 50000,
+   "DEV": 300000,
+   "E4": 200000
+  },
+  {
+   "COST": 1000000,
+   "RESID": 75000,
+   "N0": 400000,
+   "E12": 200000,
+   "NREM": 400000,
+   "E3": 150000,
+   "DEV": 100000,
+   "E4": 100000
+  }
+ ]
+}

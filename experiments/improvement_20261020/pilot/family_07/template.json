@@ -1,0 +1,102 @@
+{
+  "name": "capped_dta_deduction_minimum_equity_injection",
+  "domain_id": "finance_regulation",
+  "topic_id": "basel",
+  "difficulty": "advanced",
+  "params": {
+    "GROSS_EQUITY": {
+      "kind": "int",
+      "min": 60,
+      "max": 160,
+      "step": 5
+    },
+    "INTANGIBLES": {
+      "kind": "int",
+      "min": 5,
+      "max": 30,
+      "step": 1
+    },
+    "DTA": {
+      "kind": "int",
+      "min": 5,
+      "max": 40,
+      "step": 1
+    },
+    "CAP_PCT": {
+      "kind": "decimal",
+      "min": "5",
+      "max": "15",
+      "step": "1"
+    },
+    "RWA": {
+      "kind": "int",
+      "min": 900,
+      "max": 1800,
+      "step": 50
+    },
+    "EXPOSURE": {
+      "kind": "int",
+      "min": 2000,
+      "max": 4000,
+      "step": 100
+    },
+    "RWA_MIN_PCT": {
+      "kind": "decimal",
+      "min": "7.0",
+      "max": "10.0",
+      "step": "0.5"
+    },
+    "LEV_MIN_PCT": {
+      "kind": "decimal",
+      "min": "3.00",
+      "max": "5.00",
+      "step": "0.25"
+    }
+  },
+  "question_template": "Apply only this fictional scenario-local capital policy. A bank has gross common equity of {GROSS_EQUITY} USD million, intangible assets of {INTANGIBLES} USD million and deferred tax assets of {DTA} USD million. Intangibles are deducted in full. Deferred tax assets are deducted only to the extent they exceed {CAP_PCT} percent of gross common equity net of intangibles; this deduction is never negative. Net common equity is gross common equity minus both deductions. Current risk-weighted assets are {RWA} USD million and the leverage exposure measure is {EXPOSURE} USD million. Net common equity must be at least {RWA_MIN_PCT} percent of risk-weighted assets and at least {LEV_MIN_PCT} percent of the exposure measure, both inclusive. The bank may inject new common equity X of at least zero: X adds to gross common equity (so the deferred tax threshold is recomputed on the enlarged equity), adds 20 percent of X to risk-weighted assets, and adds X in full to the exposure measure. Find the smallest X in USD million that satisfies both constraints simultaneously. Along the way report net common equity before injection, the deferred tax deduction before injection, and the binding constraint: rwa, leverage, or none when no injection is needed (if both constraints require the same positive X, report rwa).",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 4
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "initial_net_equity_usd_million",
+      "description": "Net common equity before any injection after both deductions.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "initial_dta_deduction_usd_million",
+      "description": "Deferred tax deduction before any injection.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "binding_constraint",
+      "description": "Which constraint determines the minimum injection.",
+      "result_spec": {
+        "type": "enum",
+        "allowed_values": [
+          "rwa",
+          "leverage",
+          "none"
+        ]
+      }
+    }
+  ],
+  "program": "from fractions import Fraction\n\ndef solve():\n    G = Fraction(P[\"GROSS_EQUITY\"])\n    I = Fraction(P[\"INTANGIBLES\"])\n    D = Fraction(P[\"DTA\"])\n    c = Fraction(P[\"CAP_PCT\"]) / 100\n    rwa0 = Fraction(P[\"RWA\"])\n    exp0 = Fraction(P[\"EXPOSURE\"])\n    r = Fraction(P[\"RWA_MIN_PCT\"]) / 100\n    l = Fraction(P[\"LEV_MIN_PCT\"]) / 100\n    w = Fraction(20, 100)\n\n    net0 = G - I\n    ded0 = max(Fraction(0), D - c * net0)\n    cet1_0 = net0 - ded0\n\n    # CET1(X) = min(net0 + X, (1+c)(net0 + X) - D); both pieces increasing in X.\n    # Constraint CET1(X) >= k*(base + s*X) holds iff X >= max(root_A, root_B).\n    def required(k, base, s):\n        xa = (k * base + D - (1 + c) * net0) / ((1 + c) - k * s)\n        xb = (k * base - net0) / (1 - k * s)\n        return max(xa, xb)\n\n    x_rwa = required(r, rwa0, w)\n    x_lev = required(l, exp0, Fraction(1))\n    x_min = max(Fraction(0), x_rwa, x_lev)\n\n    if x_min == 0:\n        binding = \"none\"\n    elif x_rwa >= x_lev:\n        binding = \"rwa\"\n    else:\n        binding = \"leverage\"\n\n    return {\n        \"final\": x_min,\n        \"initial_net_equity_usd_million\": cet1_0,\n        \"initial_dta_deduction_usd_million\": ded0,\n        \"binding_constraint\": binding,\n    }\n"
+}

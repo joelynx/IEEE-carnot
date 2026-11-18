@@ -1,0 +1,77 @@
+{
+  "at": "2026-10-21T07:22:15.356294+00:00",
+  "panel": "development_pilot_not_confirmation",
+  "rationale": "Initial pilot exposed repeated-change interpretation errors, missing correct candidates and correct candidates lost by field plurality. Test the planned bounded diversity/selection ablation.",
+  "roles": [
+    {
+      "role": "direct",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "instruction": ""
+    },
+    {
+      "role": "output_interpretation",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "instruction": "Before calculating, use short code comments to bind each required output to its definition in the question. Resolve signs, scales, timing and whether a change is applied once or repeatedly from the stated wording. Do not introduce an unstated convention. Then compute every output in one complete program."
+    },
+    {
+      "role": "alternative_derivation",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "instruction": "Derive the solution independently using explicit intermediate states or cash flows. Where applicable, cross-check it with a separate algebraic relation or conservation equation whose assumptions follow from the question. Return one complete program with all required outputs."
+    },
+    {
+      "role": "independent_stronger",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "instruction": ""
+    },
+    {
+      "role": "quantity_audit",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "instruction": "Audit the quantity definitions before solving. Distinguish amounts from rates, signed changes from magnitudes, and one-time changes from recurring changes. Track the state at each requested time and use only scenario rules actually stated. Return a complete independently derived program, with brief comments explaining the output definitions."
+    }
+  ],
+  "families": [
+    "family_00",
+    "family_01",
+    "family_02",
+    "family_03",
+    "family_04",
+    "family_05",
+    "family_06",
+    "family_07",
+    "family_08",
+    "family_09",
+    "family_10",
+    "family_11",
+    "family_12",
+    "family_13",
+    "family_14",
+    "family_15",
+    "family_16",
+    "family_17",
+    "family_18",
+    "family_19",
+    "family_20",
+    "family_21",
+    "family_22",
+    "family_23"
+  ],
+  "data": "Same 96 development questions; no confirmation or Test data",
+  "selection": [
+    "existing_field_plurality",
+    "final_first_complete_with_existing_fallback"
+  ],
+  "max_retries": 2,
+  "samples_per_question": 5,
+  "verifier": "not_included",
+  "prospective_policy": "unchanged; this pilot cannot authorize promotion",
+  "hashes": {
+    "carnot/improvement_diversity.py": "8d43d6eb488a4174b0b4ff0c0f448b30748152066f5c7817d03e8cfd334d1204",
+    "carnot/prompts/r5_diversity_roles.json": "442172d81336d9e88e5ab2d43ffa212b67547a60f6039410aa4d3be2669a7a27",
+    "experiments/improvement_20261020/pilot_report.json": "8d39f234188688e2b604b893d965f6274a92321077b99cf0bdad494cbe2f44e4"
+  }
+}

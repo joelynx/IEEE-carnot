@@ -1,0 +1,1718 @@
+[
+  {
+    "case_id": "t1_syn064d7238387246fafc40",
+    "fac": 1,
+    "matched_slots": 4,
+    "total_slots": 4,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn064d7238387246fafc40",
+        "final_answer": {
+          "value": "-3873.13"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "126500/9"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "709478021875/68024448"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "482129725/1119744"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "5540171875/30233088"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "-3873.13": 5
+        },
+        "pv_staged_capex": {
+          "126500/9": 5
+        },
+        "pv_operating_inflows": {
+          "709478021875/68024448": 5
+        },
+        "pv_wc_adjustments": {
+          "482129725/1119744": 5
+        },
+        "pv_wc_release": {
+          "5540171875/30233088": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "-3873.13",
+            "pv_staged_capex": "126500/9",
+            "pv_operating_inflows": "709478021875/68024448",
+            "pv_wc_adjustments": "482129725/1119744",
+            "pv_wc_release": "5540171875/30233088"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5ce628cf40451c9b270bd62e76b18f065f73b93823c8375468aa5c633cf5d798",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3146,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 643,
+                "output_tokens_details": {
+                  "thinking_tokens": 267
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3146,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 643,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3146,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3146
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0190995,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5220,
+                "session_id": "f65c9a5a-a82d-4c9b-b8c9-206c8c56f250",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(\"-0.075\")\n    infl = [Q(3500) * (1 + g) ** t for t in range(4)]\n    pv_capex = Q(8500) + Q(6000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(4))\n    bal = [Q(\"0.15\") * x for x in infl]\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(4):\n        adj = bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = bal[t]\n    pv_rel = Q(\"0.6\") * bal[3] / (1 + r) ** 4\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 366
+              },
+              "rendered": {
+                "final": "-3873.13",
+                "pv_staged_capex": "126500/9",
+                "pv_operating_inflows": "709478021875/68024448",
+                "pv_wc_adjustments": "482129725/1119744",
+                "pv_wc_release": "5540171875/30233088"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "-3873.13",
+            "pv_staged_capex": "126500/9",
+            "pv_operating_inflows": "709478021875/68024448",
+            "pv_wc_adjustments": "482129725/1119744",
+            "pv_wc_release": "5540171875/30233088"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "f98fde377c117475fb6918dba7ba3778a38fdf7dffc0105113889c94b6317be5",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3961,
+                "output_tokens": 592,
+                "output_tokens_details": {
+                  "thinking_tokens": 216
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 592,
+                    "cache_read_input_tokens": 3961,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0063200999999999995,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4584,
+                "session_id": "88930fba-35d6-4fb9-9f86-719278277166",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(\"-0.075\")\n    infl = [Q(3500) * (1 + g) ** t for t in range(4)]\n    wc = [Q(\"0.15\") * x for x in infl]\n    pv_capex = Q(8500) + Q(6000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(4))\n    pv_wc = Q(0)\n    prev = Q(0)\n    for t in range(4):\n        adj = wc[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = wc[t]\n    pv_rel = Q(\"0.6\") * wc[3] / (1 + r) ** 4\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 259
+              },
+              "rendered": {
+                "final": "-3873.13",
+                "pv_staged_capex": "126500/9",
+                "pv_operating_inflows": "709478021875/68024448",
+                "pv_wc_adjustments": "482129725/1119744",
+                "pv_wc_release": "5540171875/30233088"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "-3873.13",
+            "pv_staged_capex": "126500/9",
+            "pv_operating_inflows": "709478021875/68024448",
+            "pv_wc_adjustments": "482129725/1119744",
+            "pv_wc_release": "5540171875/30233088"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "4afa18d6311af3427d897529d96d286ec7758321b0719516ca0395b1ca1c4da9",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3961,
+                "output_tokens": 604,
+                "output_tokens_details": {
+                  "thinking_tokens": 210
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 604,
+                    "cache_read_input_tokens": 3961,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0064401,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4486,
+                "session_id": "3866aa1d-b954-4ea0-9797-095a7defb0bc",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(\"-0.075\")\n    inflows = [Q(3500) * (1 + g) ** t for t in range(4)]  # years 1..4\n    pv_capex = Q(8500) + Q(6000) / (1 + r)\n    pv_in = sum(inflows[t] / (1 + r) ** (t + 1) for t in range(4))\n    wc = [Q(\"0.15\") * x for x in inflows]  # balance set at times 0..3\n    pv_wc = Q(0)\n    prev = Q(0)\n    for t in range(4):\n        adj = wc[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = wc[t]\n    pv_rel = Q(\"0.6\") * wc[3] / (1 + r) ** 4\n    npv = -pv_capex + pv_in - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_in,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 217
+              },
+              "rendered": {
+                "final": "-3873.13",
+                "pv_staged_capex": "126500/9",
+                "pv_operating_inflows": "709478021875/68024448",
+                "pv_wc_adjustments": "482129725/1119744",
+                "pv_wc_release": "5540171875/30233088"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "-3873.13",
+            "pv_staged_capex": "126500/9",
+            "pv_operating_inflows": "709478021875/68024448",
+            "pv_wc_adjustments": "482129725/1119744",
+            "pv_wc_release": "5540171875/30233088"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "070eadfe8e932fa1fae266b2eae75066792173715c57ee9b692bc7bc981e3925",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3961,
+                "output_tokens": 591,
+                "output_tokens_details": {
+                  "thinking_tokens": 219
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 591,
+                    "cache_read_input_tokens": 3961,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0063101,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4370,
+                "session_id": "3abd6578-1dcf-427a-9f81-f6898e8f762c",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(\"-0.075\")\n    infl = [Q(3500) * (1 + g) ** t for t in range(4)]\n    W = [Q(\"0.15\") * x for x in infl]\n    pv_capex = Q(8500) + Q(6000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(4))\n    pv_wc = Q(0)\n    prev = Q(0)\n    for t in range(4):\n        adj = W[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = W[t]\n    pv_rel = Q(\"0.6\") * W[3] / (1 + r) ** 4\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 178
+              },
+              "rendered": {
+                "final": "-3873.13",
+                "pv_staged_capex": "126500/9",
+                "pv_operating_inflows": "709478021875/68024448",
+                "pv_wc_adjustments": "482129725/1119744",
+                "pv_wc_release": "5540171875/30233088"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "-3873.13",
+            "pv_staged_capex": "126500/9",
+            "pv_operating_inflows": "709478021875/68024448",
+            "pv_wc_adjustments": "482129725/1119744",
+            "pv_wc_release": "5540171875/30233088"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "278b935ed54d5191c275dbbf25646bb0bf4c7b9956c3dd4484fc378caa7d61bd",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3961,
+                "output_tokens": 608,
+                "output_tokens_details": {
+                  "thinking_tokens": 248
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 608,
+                    "cache_read_input_tokens": 3961,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0064801,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4893,
+                "session_id": "a6bfea33-ae7a-4e1d-b6e2-d12ad97b185d",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    inflows = [Q(3500) * Q(\"0.925\") ** t for t in range(4)]\n    wc = [Q(\"0.15\") * x for x in inflows]\n    pv_capex = Q(8500) + Q(6000) / (1 + r)\n    pv_in = sum(inflows[t] / (1 + r) ** (t + 1) for t in range(4))\n    pv_wc = Q(0)\n    prev = Q(0)\n    for t in range(4):\n        pv_wc += (wc[t] - prev) / (1 + r) ** t\n        prev = wc[t]\n    pv_rel = Q(\"0.6\") * wc[3] / (1 + r) ** 4\n    npv = -pv_capex + pv_in - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_in,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 140
+              },
+              "rendered": {
+                "final": "-3873.13",
+                "pv_staged_capex": "126500/9",
+                "pv_operating_inflows": "709478021875/68024448",
+                "pv_wc_adjustments": "482129725/1119744",
+                "pv_wc_release": "5540171875/30233088"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn883ba8b2f8cbf61fb80e",
+    "fac": 1,
+    "matched_slots": 4,
+    "total_slots": 4,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn883ba8b2f8cbf61fb80e",
+        "final_answer": {
+          "value": "1140.04"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "458000/43"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "952740000/79507"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "1304775/1849"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "40848300/79507"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1140.04": 5
+        },
+        "pv_staged_capex": {
+          "458000/43": 5
+        },
+        "pv_operating_inflows": {
+          "952740000/79507": 5
+        },
+        "pv_wc_adjustments": {
+          "1304775/1849": 5
+        },
+        "pv_wc_release": {
+          "40848300/79507": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1140.04",
+            "pv_staged_capex": "458000/43",
+            "pv_operating_inflows": "952740000/79507",
+            "pv_wc_adjustments": "1304775/1849",
+            "pv_wc_release": "40848300/79507"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "f255eee28b9dd3ab62a34475b14f036a7f97ddb4f9824107be7d432df25582db",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3148,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 637,
+                "output_tokens_details": {
+                  "thinking_tokens": 283
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3148,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 637,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3148,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3148
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.019047500000000002,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5738,
+                "session_id": "b8111988-5f9e-44c3-ae65-4c109143e734",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.075\")\n    g = Q(\"0.025\")\n    cap = Q(6000) + Q(5000) / (1 + r)\n    infl = [Q(4500) * (1 + g) ** i for i in range(3)]\n    pv_in = sum(infl[i] / (1 + r) ** (i + 1) for i in range(3))\n    bal = [Q(\"0.15\") * x for x in infl]\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(3):\n        adj = bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = bal[t]\n    rel = Q(\"0.9\") * bal[2] / (1 + r) ** 3\n    npv = -cap + pv_in - pv_wc + rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": cap,\n        \"pv_operating_inflows\": pv_in,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 157
+              },
+              "rendered": {
+                "final": "1140.04",
+                "pv_staged_capex": "458000/43",
+                "pv_operating_inflows": "952740000/79507",
+                "pv_wc_adjustments": "1304775/1849",
+                "pv_wc_release": "40848300/79507"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1140.04",
+            "pv_staged_capex": "458000/43",
+            "pv_operating_inflows": "952740000/79507",
+            "pv_wc_adjustments": "1304775/1849",
+            "pv_wc_release": "40848300/79507"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b389376b76b0f873b2d099d7243271c03e900d0ea9b771d1b3c4d744c9a7ca00",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3963,
+                "output_tokens": 618,
+                "output_tokens_details": {
+                  "thinking_tokens": 237
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 618,
+                    "cache_read_input_tokens": 3963,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.006580299999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4723,
+                "session_id": "bdb0bb06-58ab-4390-ad3b-6fa9e763020d",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.075\")\n    g = Q(\"0.025\")\n    infl = [Q(4500) * (1 + g) ** t for t in range(3)]  # years 1..3\n    df = lambda t: 1 / (1 + r) ** t\n    pv_capex = 6000 + 5000 * df(1)\n    pv_inf = sum(infl[t - 1] * df(t) for t in (1, 2, 3))\n    bal = [Q(\"0.15\") * x for x in infl]  # balance set at times 0,1,2\n    adj = [bal[0], bal[1] - bal[0], bal[2] - bal[1]]\n    pv_wc = sum(adj[t] * df(t) for t in range(3))\n    rel = Q(\"0.9\") * bal[2] * df(3)\n    npv = -pv_capex + pv_inf - pv_wc + rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 133
+              },
+              "rendered": {
+                "final": "1140.04",
+                "pv_staged_capex": "458000/43",
+                "pv_operating_inflows": "952740000/79507",
+                "pv_wc_adjustments": "1304775/1849",
+                "pv_wc_release": "40848300/79507"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1140.04",
+            "pv_staged_capex": "458000/43",
+            "pv_operating_inflows": "952740000/79507",
+            "pv_wc_adjustments": "1304775/1849",
+            "pv_wc_release": "40848300/79507"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "2a625131011cb01b91e25729e7ee7d9cf863c2f16219223bbaa43786edb17fb5",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3963,
+                "output_tokens": 624,
+                "output_tokens_details": {
+                  "thinking_tokens": 275
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 624,
+                    "cache_read_input_tokens": 3963,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0066403,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5902,
+                "session_id": "d10f3efa-e996-41a9-9bb8-37a1987faa57",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.075\")\n    g = Q(\"0.025\")\n    capex = Q(6000) + Q(5000) / (1 + r)\n    infl = [Q(4500) * (1 + g) ** t for t in range(3)]\n    pv_in = sum(infl[t] / (1 + r) ** (t + 1) for t in range(3))\n    wc = [Q(\"0.15\") * x for x in infl]\n    pv_wc = Q(0)\n    prev = Q(0)\n    for t in range(3):\n        pv_wc += (wc[t] - prev) / (1 + r) ** t\n        prev = wc[t]\n    rel = Q(\"0.9\") * wc[2] / (1 + r) ** 3\n    npv = -capex + pv_in - pv_wc + rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": capex,\n        \"pv_operating_inflows\": pv_in,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 115
+              },
+              "rendered": {
+                "final": "1140.04",
+                "pv_staged_capex": "458000/43",
+                "pv_operating_inflows": "952740000/79507",
+                "pv_wc_adjustments": "1304775/1849",
+                "pv_wc_release": "40848300/79507"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1140.04",
+            "pv_staged_capex": "458000/43",
+            "pv_operating_inflows": "952740000/79507",
+            "pv_wc_adjustments": "1304775/1849",
+            "pv_wc_release": "40848300/79507"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b67f7a30aa15d65094b12b14bf7bcab8e0c9a0d7473c5b12a9ab97b7a369a17e",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3963,
+                "output_tokens": 641,
+                "output_tokens_details": {
+                  "thinking_tokens": 283
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 641,
+                    "cache_read_input_tokens": 3963,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0068103,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4867,
+                "session_id": "c6002290-d16b-415a-a808-7389ff6976e0",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.075\")\n    g = Q(\"0.025\")\n    I = [Q(4500) * (1 + g) ** t for t in range(3)]\n    d = lambda t: (1 + r) ** t\n    pv_capex = 6000 + 5000 / d(1)\n    pv_inf = sum(I[t] / d(t + 1) for t in range(3))\n    wc = [Q(\"0.15\") * x for x in I]\n    adj = [wc[0], wc[1] - wc[0], wc[2] - wc[1]]\n    pv_adj = sum(adj[t] / d(t) for t in range(3))\n    pv_rel = Q(\"0.9\") * wc[2] / d(3)\n    npv = -pv_capex + pv_inf - pv_adj + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_adj,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 204
+              },
+              "rendered": {
+                "final": "1140.04",
+                "pv_staged_capex": "458000/43",
+                "pv_operating_inflows": "952740000/79507",
+                "pv_wc_adjustments": "1304775/1849",
+                "pv_wc_release": "40848300/79507"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1140.04",
+            "pv_staged_capex": "458000/43",
+            "pv_operating_inflows": "952740000/79507",
+            "pv_wc_adjustments": "1304775/1849",
+            "pv_wc_release": "40848300/79507"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b93f0167d2261062217a29799b452d5d0630c6beff63bec8115d74573c697972",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3963,
+                "output_tokens": 600,
+                "output_tokens_details": {
+                  "thinking_tokens": 229
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 600,
+                    "cache_read_input_tokens": 3963,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.006400299999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4457,
+                "session_id": "779fd6cd-e483-4290-ae6c-90ea7ab1b9d4",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.075\")\n    g = Q(\"0.025\")\n    cf = [Q(4500) * (1 + g) ** t for t in range(3)]\n    W = [Q(\"0.15\") * c for c in cf]\n    pv_capex = Q(6000) + Q(5000) / (1 + r)\n    pv_inf = sum(cf[t] / (1 + r) ** (t + 1) for t in range(3))\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(3):\n        adj = W[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = W[t]\n    pv_rel = Q(\"0.9\") * W[2] / (1 + r) ** 3\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 236
+              },
+              "rendered": {
+                "final": "1140.04",
+                "pv_staged_capex": "458000/43",
+                "pv_operating_inflows": "952740000/79507",
+                "pv_wc_adjustments": "1304775/1849",
+                "pv_wc_release": "40848300/79507"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn4c4813af4cae9a13f0ce",
+    "fac": 1,
+    "matched_slots": 4,
+    "total_slots": 4,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn4c4813af4cae9a13f0ce",
+        "final_answer": {
+          "value": "1214.76"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "262000/27"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "25362500/2187"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "1125"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "1953125/4374"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1214.76": 5
+        },
+        "pv_staged_capex": {
+          "262000/27": 5
+        },
+        "pv_operating_inflows": {
+          "25362500/2187": 5
+        },
+        "pv_wc_adjustments": {
+          "1125": 5
+        },
+        "pv_wc_release": {
+          "1953125/4374": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1214.76",
+            "pv_staged_capex": "262000/27",
+            "pv_operating_inflows": "25362500/2187",
+            "pv_wc_adjustments": "1125",
+            "pv_wc_release": "1953125/4374"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "acc25bd4aca4545eaca080b9c92e467e96b1637dee0ce3d3362b40cf08b5c2d8",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3144,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 595,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3144,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 595,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3144,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3144
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0186115,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4690,
+                "session_id": "095d0a39-ad46-47a0-9f33-26a8724f1afe",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(0)\n    infl = [Q(4500) * (1 + g) ** t for t in range(3)]\n    wc_bal = [Q(\"0.25\") * x for x in infl]\n    pv_capex = Q(6000) + Q(4000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(3))\n    pv_wc = Q(0)\n    prev = Q(0)\n    for t in range(3):\n        adj = wc_bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = wc_bal[t]\n    pv_rel = Q(\"0.5\") * wc_bal[2] / (1 + r) ** 3\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 185
+              },
+              "rendered": {
+                "final": "1214.76",
+                "pv_staged_capex": "262000/27",
+                "pv_operating_inflows": "25362500/2187",
+                "pv_wc_adjustments": "1125",
+                "pv_wc_release": "1953125/4374"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1214.76",
+            "pv_staged_capex": "262000/27",
+            "pv_operating_inflows": "25362500/2187",
+            "pv_wc_adjustments": "1125",
+            "pv_wc_release": "1953125/4374"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "c7f72e226c55e4abec67506d770d790d7f85cccca1231f9b347668324c80d66b",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 568,
+                "output_tokens_details": {
+                  "thinking_tokens": 183
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 568,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0060799,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4423,
+                "session_id": "b6e0c70f-eb8c-4845-b35e-2a11cc6db7a2",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(0)\n    n = 3\n    inflows = [Q(4500) * (1 + g) ** t for t in range(n)]\n    pv_capex = Q(6000) + Q(4000) / (1 + r)\n    pv_in = sum(inflows[t] / (1 + r) ** (t + 1) for t in range(n))\n    bal = [Q(\"0.25\") * inflows[t] for t in range(n)]\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(n):\n        adj = bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = bal[t]\n    pv_rel = Q(\"0.5\") * bal[-1] / (1 + r) ** n\n    npv = -pv_capex + pv_in - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_in,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 240
+              },
+              "rendered": {
+                "final": "1214.76",
+                "pv_staged_capex": "262000/27",
+                "pv_operating_inflows": "25362500/2187",
+                "pv_wc_adjustments": "1125",
+                "pv_wc_release": "1953125/4374"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1214.76",
+            "pv_staged_capex": "262000/27",
+            "pv_operating_inflows": "25362500/2187",
+            "pv_wc_adjustments": "1125",
+            "pv_wc_release": "1953125/4374"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "3368c3bad39c347f2f576fc4fe3b2f6aa724d1e3470cad870e1f6d20cbfb3f45",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 604,
+                "output_tokens_details": {
+                  "thinking_tokens": 199
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 604,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0064399,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4715,
+                "session_id": "26b52458-49c1-4134-8db0-dca266aee90f",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(0)\n    n = 3\n    infl = [Q(4500) * (1 + g) ** t for t in range(n)]  # year 1..3 inflows\n    pv_capex = Q(6000) + Q(4000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(n))\n    bal = [Q(\"0.25\") * infl[t] for t in range(n)]  # set at times 0,1,2\n    pv_wc = Q(0)\n    prev = Q(0)\n    for t in range(n):\n        adj = bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = bal[t]\n    pv_rel = Q(\"0.5\") * bal[-1] / (1 + r) ** n\n    final = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": final,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 175
+              },
+              "rendered": {
+                "final": "1214.76",
+                "pv_staged_capex": "262000/27",
+                "pv_operating_inflows": "25362500/2187",
+                "pv_wc_adjustments": "1125",
+                "pv_wc_release": "1953125/4374"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1214.76",
+            "pv_staged_capex": "262000/27",
+            "pv_operating_inflows": "25362500/2187",
+            "pv_wc_adjustments": "1125",
+            "pv_wc_release": "1953125/4374"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "0852920ccb171ac4e512402e34e5b6ca120842b64430307a1068190175cf049a",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 617,
+                "output_tokens_details": {
+                  "thinking_tokens": 222
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 617,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0065699,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4793,
+                "session_id": "a79106fc-2e4d-46ee-9681-1a4e4a1b2a1f",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(0)\n    pct = Q(\"0.25\")\n    n = 3\n    inflows = [Q(4500) * (1 + g) ** t for t in range(n)]\n    pv_capex = Q(6000) + Q(4000) / (1 + r)\n    pv_inf = sum(inflows[t] / (1 + r) ** (t + 1) for t in range(n))\n    bal = [pct * inflows[t] for t in range(n)]\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(n):\n        adj = bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = bal[t]\n    pv_rel = Q(\"0.5\") * bal[-1] / (1 + r) ** n\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 169
+              },
+              "rendered": {
+                "final": "1214.76",
+                "pv_staged_capex": "262000/27",
+                "pv_operating_inflows": "25362500/2187",
+                "pv_wc_adjustments": "1125",
+                "pv_wc_release": "1953125/4374"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1214.76",
+            "pv_staged_capex": "262000/27",
+            "pv_operating_inflows": "25362500/2187",
+            "pv_wc_adjustments": "1125",
+            "pv_wc_release": "1953125/4374"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "60e4ab61e1480ad6698ae98226d125d3a386218cf922ab1922b4888501beaf8a",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 601,
+                "output_tokens_details": {
+                  "thinking_tokens": 233
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 601,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0064099,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4668,
+                "session_id": "4ae9fdf5-c225-4973-a2db-c5a8670cecfb",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(0)\n    infl = [Q(4500) * (1 + g) ** t for t in range(3)]\n    pv_capex = Q(6000) + Q(4000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(3))\n    bal_prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(3):\n        bal = Q(\"0.25\") * infl[t]\n        pv_wc += (bal - bal_prev) / (1 + r) ** t\n        bal_prev = bal\n    pv_rel = Q(\"0.5\") * bal_prev / (1 + r) ** 3\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 309
+              },
+              "rendered": {
+                "final": "1214.76",
+                "pv_staged_capex": "262000/27",
+                "pv_operating_inflows": "25362500/2187",
+                "pv_wc_adjustments": "1125",
+                "pv_wc_release": "1953125/4374"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn02714c764f8d76ffe4a4",
+    "fac": 1,
+    "matched_slots": 4,
+    "total_slots": 4,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn02714c764f8d76ffe4a4",
+        "final_answer": {
+          "value": "3614.42"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "53750/7"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "32953125/2744"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "1250"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "5859375/10976"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "3614.42": 5
+        },
+        "pv_staged_capex": {
+          "53750/7": 5
+        },
+        "pv_operating_inflows": {
+          "32953125/2744": 5
+        },
+        "pv_wc_adjustments": {
+          "1250": 5
+        },
+        "pv_wc_release": {
+          "5859375/10976": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "3614.42",
+            "pv_staged_capex": "53750/7",
+            "pv_operating_inflows": "32953125/2744",
+            "pv_wc_adjustments": "1250",
+            "pv_wc_release": "5859375/10976"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "735462b36a1be71eeb898b52a53a3d2c2d6f4c47664bb07ba48473c9993f2b48",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3144,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 555,
+                "output_tokens_details": {
+                  "thinking_tokens": 176
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3144,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 555,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3144,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3144
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0182115,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4580,
+                "session_id": "0b612fc5-a9c5-4711-be33-41606308ebcf",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.12\")\n    g = Q(0)\n    infl = [Q(5000) * (1 + g) ** t for t in range(3)]\n    pv_capex = Q(5000) + Q(3000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(3))\n    bal = [Q(\"0.25\") * infl[t] for t in range(3)]\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(3):\n        adj = bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = bal[t]\n    pv_rel = Q(\"0.6\") * bal[2] / (1 + r) ** 3\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 202
+              },
+              "rendered": {
+                "final": "3614.42",
+                "pv_staged_capex": "53750/7",
+                "pv_operating_inflows": "32953125/2744",
+                "pv_wc_adjustments": "1250",
+                "pv_wc_release": "5859375/10976"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3614.42",
+            "pv_staged_capex": "53750/7",
+            "pv_operating_inflows": "32953125/2744",
+            "pv_wc_adjustments": "1250",
+            "pv_wc_release": "5859375/10976"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5c181d5e19f45f40bf9c33aae07c3ca77ae09c621c8f5de425534fbd80f59aed",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 565,
+                "output_tokens_details": {
+                  "thinking_tokens": 184
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 565,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0060498999999999995,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4888,
+                "session_id": "c0515420-3d06-455b-979b-4014368cf06d",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.12\")\n    g = Q(0)\n    inflows = [Q(5000) * (1 + g) ** t for t in range(3)]\n    pv_capex = Q(5000) + Q(3000) / (1 + r)\n    pv_in = sum(inflows[t] / (1 + r) ** (t + 1) for t in range(3))\n    bal_prev = Q(0)\n    pv_wc = Q(0)\n    bals = []\n    for t in range(3):\n        b = Q(\"0.25\") * inflows[t]\n        bals.append(b)\n        pv_wc += (b - bal_prev) / (1 + r) ** t\n        bal_prev = b\n    pv_rel = Q(\"0.6\") * bals[-1] / (1 + r) ** 3\n    npv = -pv_capex + pv_in - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_in,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 216
+              },
+              "rendered": {
+                "final": "3614.42",
+                "pv_staged_capex": "53750/7",
+                "pv_operating_inflows": "32953125/2744",
+                "pv_wc_adjustments": "1250",
+                "pv_wc_release": "5859375/10976"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3614.42",
+            "pv_staged_capex": "53750/7",
+            "pv_operating_inflows": "32953125/2744",
+            "pv_wc_adjustments": "1250",
+            "pv_wc_release": "5859375/10976"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "0f5439e1cc619b5617409e8aabe9735605cd9a57e4c8ca840bc21a5213f3a2f9",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 591,
+                "output_tokens_details": {
+                  "thinking_tokens": 218
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 591,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0063099,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4859,
+                "session_id": "ac4b9e77-7204-4326-b652-8f922f5bb1cb",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.12\")\n    g = Q(0)\n    infl = [Q(5000) * (1 + g) ** i for i in range(3)]\n    pv_capex = Q(5000) + Q(3000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(3))\n    wc = [Q(\"0.25\") * x for x in infl]\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(3):\n        adj = wc[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = wc[t]\n    pv_rel = Q(\"0.6\") * wc[2] / (1 + r) ** 3\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 145
+              },
+              "rendered": {
+                "final": "3614.42",
+                "pv_staged_capex": "53750/7",
+                "pv_operating_inflows": "32953125/2744",
+                "pv_wc_adjustments": "1250",
+                "pv_wc_release": "5859375/10976"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3614.42",
+            "pv_staged_capex": "53750/7",
+            "pv_operating_inflows": "32953125/2744",
+            "pv_wc_adjustments": "1250",
+            "pv_wc_release": "5859375/10976"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "ae5ccf70d0e126d1aae85fa2c986a0d24e0e7191a0d518ce1bcaea9938700972",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 609,
+                "output_tokens_details": {
+                  "thinking_tokens": 233
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 609,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0064899,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4387,
+                "session_id": "0517a8b1-edd0-42a5-bf91-4bd9e2e972bb",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.12\")\n    g = Q(0)\n    infl = [Q(5000) * (1 + g) ** t for t in range(3)]\n    pv_capex = Q(5000) + Q(3000) / (1 + r)\n    pv_in = sum(infl[t] / (1 + r) ** (t + 1) for t in range(3))\n    bal = [Q(\"0.25\") * infl[t] for t in range(3)]\n    prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(3):\n        adj = bal[t] - prev\n        pv_wc += adj / (1 + r) ** t\n        prev = bal[t]\n    pv_rel = Q(\"0.6\") * bal[2] / (1 + r) ** 3\n    npv = -pv_capex + pv_in - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_in,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 252
+              },
+              "rendered": {
+                "final": "3614.42",
+                "pv_staged_capex": "53750/7",
+                "pv_operating_inflows": "32953125/2744",
+                "pv_wc_adjustments": "1250",
+                "pv_wc_release": "5859375/10976"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3614.42",
+            "pv_staged_capex": "53750/7",
+            "pv_operating_inflows": "32953125/2744",
+            "pv_wc_adjustments": "1250",
+            "pv_wc_release": "5859375/10976"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "570b5a5ff3bab4ec7451ac2e9e11666f27f6843c56986718775925496821add7",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3959,
+                "output_tokens": 578,
+                "output_tokens_details": {
+                  "thinking_tokens": 198
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 578,
+                    "cache_read_input_tokens": 3959,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0061798999999999995,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4332,
+                "session_id": "b74bb51f-9307-4dca-b9d7-865974e1ac09",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.12\")\n    g = Q(0)\n    n = 3\n    infl = [Q(5000) * (1 + g) ** t for t in range(n)]  # year 1..3\n    pv_capex = Q(5000) + Q(3000) / (1 + r)\n    pv_inf = sum(infl[t] / (1 + r) ** (t + 1) for t in range(n))\n    bal_prev = Q(0)\n    pv_wc = Q(0)\n    for t in range(n):\n        bal = Q(\"0.25\") * infl[t]\n        pv_wc += (bal - bal_prev) / (1 + r) ** t\n        bal_prev = bal\n    pv_rel = Q(\"0.6\") * bal_prev / (1 + r) ** n\n    npv = -pv_capex + pv_inf - pv_wc + pv_rel\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inf,\n        \"pv_wc_adjustments\": pv_wc,\n        \"pv_wc_release\": pv_rel,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 206
+              },
+              "rendered": {
+                "final": "3614.42",
+                "pv_staged_capex": "53750/7",
+                "pv_operating_inflows": "32953125/2744",
+                "pv_wc_adjustments": "1250",
+                "pv_wc_release": "5859375/10976"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

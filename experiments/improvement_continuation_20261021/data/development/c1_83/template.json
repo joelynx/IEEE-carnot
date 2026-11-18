@@ -1,0 +1,133 @@
+{
+ "name": "desk_gross_loss_limit_utilization_with_cap_and_buffer",
+ "domain_id": "risk_management",
+ "topic_id": "risk_appetite",
+ "difficulty": "intermediate",
+ "params": {
+  "P1": {
+   "kind": "int",
+   "min": -900000,
+   "max": 600000,
+   "step": 10000
+  },
+  "P2": {
+   "kind": "int",
+   "min": -900000,
+   "max": 600000,
+   "step": 10000
+  },
+  "P3": {
+   "kind": "int",
+   "min": -900000,
+   "max": 600000,
+   "step": 10000
+  },
+  "P4": {
+   "kind": "int",
+   "min": -900000,
+   "max": 600000,
+   "step": 10000
+  },
+  "K": {
+   "kind": "int",
+   "min": 300000,
+   "max": 800000,
+   "step": 50000
+  },
+  "D": {
+   "kind": "int",
+   "min": 0,
+   "max": 400000,
+   "step": 50000
+  },
+  "L": {
+   "kind": "int",
+   "min": 800000,
+   "max": 2400000,
+   "step": 100000
+  }
+ },
+ "question_template": "A firm's daily loss limit is L={L} USD across four desks. Realized P&L today (losses negative): Desk 1 {P1} USD, Desk 2 {P2} USD, Desk 3 {P3} USD, Desk 4 {P4} USD. Rules: gains never offset losses on other desks for limit purposes; only desks with strictly negative P&L contribute. Gross loss is the sum of loss magnitudes of losing desks. Countable loss: cap each losing desk's magnitude at K={K} USD, sum the capped amounts, deduct the firm-wide buffer D={D} USD once, then floor at zero. Utilization is countable loss divided by L in percent, not capped at 100. Report the signed net P&L, gross loss, countable loss and utilization.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "net_pnl",
+   "description": "Signed net P&L summed across all four desks, gains included",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "gross_loss",
+   "description": "Sum of loss magnitudes of losing desks only, before cap and buffer",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "countable_loss",
+   "description": "Per-desk capped losses summed, buffer deducted once, floored at zero",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    pnls = [P[\"P1\"], P[\"P2\"], P[\"P3\"], P[\"P4\"]]\n    K = P[\"K\"]\n    D = P[\"D\"]\n    L = P[\"L\"]\n    if L <= 0 or K <= 0 or D < 0:\n        raise ValueError(\"limit and cap must be positive, buffer non-negative\")\n    net_pnl = sum(pnls)\n    loss_mags = [-x for x in pnls if x < 0]\n    gross_loss = sum(loss_mags)\n    capped_sum = sum(min(m, K) for m in loss_mags)\n    countable = capped_sum - D\n    if countable < 0:\n        countable = 0\n    utilization = Fraction(countable * 100, L)\n    return {\n        \"final\": utilization,\n        \"net_pnl\": net_pnl,\n        \"gross_loss\": gross_loss,\n        \"countable_loss\": countable,\n    }",
+ "coverage_params": [
+  {
+   "P1": -900000,
+   "P2": 400000,
+   "P3": -200000,
+   "P4": 150000,
+   "K": 500000,
+   "D": 100000,
+   "L": 1200000
+  },
+  {
+   "P1": 300000,
+   "P2": 100000,
+   "P3": 250000,
+   "P4": 50000,
+   "K": 500000,
+   "D": 100000,
+   "L": 1000000
+  },
+  {
+   "P1": -150000,
+   "P2": -100000,
+   "P3": 600000,
+   "P4": -50000,
+   "K": 400000,
+   "D": 400000,
+   "L": 900000
+  },
+  {
+   "P1": -500000,
+   "P2": -500000,
+   "P3": -200000,
+   "P4": -100000,
+   "K": 500000,
+   "D": 0,
+   "L": 800000
+  }
+ ]
+}

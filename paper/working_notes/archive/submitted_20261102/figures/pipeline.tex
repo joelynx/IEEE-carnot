@@ -1,0 +1,27 @@
+% Pipeline figure (DOSSIER §3.1). Pure TikZ; no external file.
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  font=\scriptsize,
+  box/.style={draw, rounded corners=1.5pt, align=center, inner sep=2pt, minimum height=6mm, text width=14mm},
+  arr/.style={-{Stealth[length=1.6mm]}},
+  node distance=2.4mm
+]
+\node[box] (q) {question $+$\\output table};
+\node[box, right=of q] (m) {model writes\\\texttt{solve()}};
+\node[box, right=of m] (s) {exact\\sandbox};
+\node[box, right=of s] (f) {spec-driven\\formatter};
+\node[box, right=of f] (g) {validator\\gate};
+\draw[arr] (q) -- (m);
+\draw[arr] (m) -- (s);
+\draw[arr] (s) -- (f);
+\draw[arr] (f) -- (g);
+\draw[arr] (f.south) -- ++(0,-3.2mm) -| node[pos=0.25, below] {retry with the error text ($\le 2$ per sample)} (m.south);
+\node[box, text width=40mm, below=8mm of s] (v) {$N$ samples $\to$ per-field plurality vote on rendered strings};
+\node[box, text width=40mm, below=2.4mm of v] (r) {routing: seen route $N{=}1$, effort low; novel route $N{=}5$, effort medium};
+\draw[arr] (r) -- (v);
+\draw[arr] (v.east) -| ($(g.south)+(0,-1.5mm)$) -- (g.south);
+\end{tikzpicture}
+\caption{The pipeline for one question; Section~\ref{sec:system} gives the details. A field that is still invalid after the retries is omitted.}
+\label{fig:pipeline}
+\end{figure}

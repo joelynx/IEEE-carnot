@@ -1,0 +1,1760 @@
+{
+  "config": "r4",
+  "config_sha256": "86dd678177c8357e6d5f06a5226ecc58e427eae497f7fe65c9fe23cfc120a01d",
+  "system_sha256": "02fa773273f0247d44636c412bef4ffb3ebf0a28c5d44b3c04fd1dc0a27f866d",
+  "llm": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-sonnet-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-sonnet-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  },
+  "scores": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 16,
+    "total_slots": 16
+  },
+  "cases": [
+    {
+      "case_id": "t1_sync38494f9017e86a0d99a",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_sync38494f9017e86a0d99a",
+          "final_answer": {
+            "value": "-59.8515"
+          },
+          "steps": [
+            {
+              "slot_id": "impairment_loss",
+              "value": "65650/3"
+            },
+            {
+              "slot_id": "carrying_pre_reversal",
+              "value": "16087.5"
+            },
+            {
+              "slot_id": "reversal_ceiling",
+              "value": "32500"
+            },
+            {
+              "slot_id": "reversal_recognized",
+              "value": "16412.5"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "-59.8515": 5
+          },
+          "impairment_loss": {
+            "65650/3": 5
+          },
+          "carrying_pre_reversal": {
+            "16087.5": 5
+          },
+          "reversal_ceiling": {
+            "32500": 5
+          },
+          "reversal_recognized": {
+            "16412.5": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "-59.8515",
+              "impairment_loss": "65650/3",
+              "carrying_pre_reversal": "16087.5",
+              "reversal_ceiling": "32500",
+              "reversal_recognized": "16412.5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "494100e86757467953792f323c4a0aa5511279f1e9908286f78469a5208cda2d",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3979,
+                  "cache_read_input_tokens": 0,
+                  "output_tokens": 725,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3979,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 725,
+                      "cache_read_input_tokens": 0,
+                      "cache_creation_input_tokens": 3979,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3979
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.02317,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5142,
+                  "session_id": "6c0a487b-ff99-41e1-ba85-d4ef13dca480",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(65000)\n    dep = cost / 6\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.33\")\n    impairment = max(carry2 - rec2, Q(0))\n    carry2_after = carry2 - impairment\n    dep_new = carry2_after / 4\n    carry3 = carry2_after - dep_new\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.52\")\n    target = min(rec3, ceiling)\n    reversal = max(target - carry3, Q(0))\n    carry_final = carry3 + reversal\n    assets = Q(220000) + carry_final\n    ratio = Q(290000) / assets * 100\n    headroom = Q(55) - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carry3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": reversal,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 230
+                },
+                "rendered": {
+                  "final": "-59.8515",
+                  "impairment_loss": "65650/3",
+                  "carrying_pre_reversal": "16087.5",
+                  "reversal_ceiling": "32500",
+                  "reversal_recognized": "16412.5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-59.8515",
+              "impairment_loss": "65650/3",
+              "carrying_pre_reversal": "16087.5",
+              "reversal_ceiling": "32500",
+              "reversal_recognized": "16412.5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "b9fc946373783e25168eddefd018e6d7fa8c5b84ff077977be2c631ff409089f",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 676,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 676,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007161899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5304,
+                  "session_id": "47d5405f-e539-4659-8567-fbb6427ca261",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(65000)\n    dep = cost / 6\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.33\")\n    imp = max(carry2 - rec2, Q(0))\n    carry2a = carry2 - imp\n    dep3 = carry2a / 4\n    carry3 = carry2a - dep3\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.52\")\n    rev = max(min(rec3, ceiling) - carry3, Q(0))\n    carry_after = carry3 + rev\n    assets = Q(220000) + carry_after\n    ratio = Q(290000) / assets * 100\n    headroom = 55 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": imp,\n        \"carrying_pre_reversal\": carry3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 230
+                },
+                "rendered": {
+                  "final": "-59.8515",
+                  "impairment_loss": "65650/3",
+                  "carrying_pre_reversal": "16087.5",
+                  "reversal_ceiling": "32500",
+                  "reversal_recognized": "16412.5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-59.8515",
+              "impairment_loss": "65650/3",
+              "carrying_pre_reversal": "16087.5",
+              "reversal_ceiling": "32500",
+              "reversal_recognized": "16412.5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f21503986ec059e86b580aa78a5125feae6450716f0c44cee60f25391b1ab736",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 752,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 752,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007921899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5341,
+                  "session_id": "c62d1777-10b0-4c44-aa52-b696a405d5d9",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(65000)\n    dep = cost / 6\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.33\")\n    impairment = max(carry2 - rec2, Q(0))\n    carry2_after = carry2 - impairment\n    dep2 = carry2_after / 4\n    carry3_pre = carry2_after - dep2\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.52\")\n    target = min(rec3, ceiling)\n    reversal = max(target - carry3_pre, Q(0))\n    carry3 = carry3_pre + reversal\n    assets = carry3 + 220000\n    ratio = Q(290000) / assets * 100\n    headroom = 55 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carry3_pre,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": reversal,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 154
+                },
+                "rendered": {
+                  "final": "-59.8515",
+                  "impairment_loss": "65650/3",
+                  "carrying_pre_reversal": "16087.5",
+                  "reversal_ceiling": "32500",
+                  "reversal_recognized": "16412.5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-59.8515",
+              "impairment_loss": "65650/3",
+              "carrying_pre_reversal": "16087.5",
+              "reversal_ceiling": "32500",
+              "reversal_recognized": "16412.5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "ce0731710ff70c2ca5082a4e0cd4cb7b7dfa7a8401db7261d99946f997c8d3d2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 656,
+                  "output_tokens_details": {
+                    "thinking_tokens": 294
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 656,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.006961899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4976,
+                  "session_id": "95a67e65-4247-484d-af87-3ad4cf6fb1c9",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(65000)\n    life = 6\n    dep = cost / life\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.33\")\n    impairment = max(carry2 - rec2, Q(0))\n    carry2_after = carry2 - impairment\n    dep_new = carry2_after / (life - 2)\n    carry3_pre = carry2_after - dep_new\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.52\")\n    target = min(rec3, ceiling)\n    reversal = max(target - carry3_pre, Q(0))\n    carry3 = carry3_pre + reversal\n    assets = Q(220000) + carry3\n    ratio = Q(290000) / assets * 100\n    headroom = 55 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carry3_pre,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": reversal,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 221
+                },
+                "rendered": {
+                  "final": "-59.8515",
+                  "impairment_loss": "65650/3",
+                  "carrying_pre_reversal": "16087.5",
+                  "reversal_ceiling": "32500",
+                  "reversal_recognized": "16412.5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-59.8515",
+              "impairment_loss": "65650/3",
+              "carrying_pre_reversal": "16087.5",
+              "reversal_ceiling": "32500",
+              "reversal_recognized": "16412.5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "13c09f6564e2efbe106e41d4dbee3602840e4973b34eb84be6441e7c5c6f9267",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 587,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 587,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.006271899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4868,
+                  "session_id": "c7d7636e-2cee-4c21-abdc-b2090f7127c2",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(65000)\n    dep = cost / 6\n    c2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.33\")\n    imp = c2 - rec2\n    dep3 = rec2 / 4\n    pre = rec2 - dep3\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.52\")\n    rev = max(min(rec3, ceiling) - pre, Q(0))\n    carrying = pre + rev\n    assets = Q(220000) + carrying\n    ratio = Q(290000) / assets * 100\n    head = Q(55) - ratio\n    return {\n        \"final\": head,\n        \"impairment_loss\": imp,\n        \"carrying_pre_reversal\": pre,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 142
+                },
+                "rendered": {
+                  "final": "-59.8515",
+                  "impairment_loss": "65650/3",
+                  "carrying_pre_reversal": "16087.5",
+                  "reversal_ceiling": "32500",
+                  "reversal_recognized": "16412.5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn6458d727cd8798d2170d",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn6458d727cd8798d2170d",
+          "final_answer": {
+            "value": "30.3514"
+          },
+          "steps": [
+            {
+              "slot_id": "impairment_loss",
+              "value": "29700"
+            },
+            {
+              "slot_id": "carrying_pre_reversal",
+              "value": "51012.5"
+            },
+            {
+              "slot_id": "reversal_ceiling",
+              "value": "77000"
+            },
+            {
+              "slot_id": "reversal_recognized",
+              "value": "0"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "30.3514": 5
+          },
+          "impairment_loss": {
+            "29700": 5
+          },
+          "carrying_pre_reversal": {
+            "51012.5": 5
+          },
+          "reversal_ceiling": {
+            "77000": 5
+          },
+          "reversal_recognized": {
+            "0": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "30.3514",
+              "impairment_loss": "29700",
+              "carrying_pre_reversal": "51012.5",
+              "reversal_ceiling": "77000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "c58aa9ece9db34469a93029fb33908b118419b3dcf4de07ee53ef4df7adea421",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3164,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 601,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3164,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 601,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3164,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3164
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0187515,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4593,
+                  "session_id": "fb33acf1-f1b0-4bbc-8f4e-ff04747d240d",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 10\n    c2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.53\")\n    imp = c2 - rec2\n    dep2 = rec2 / 8\n    c3 = rec2 - dep2\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.41\")\n    rev = max(min(rec3, ceiling) - c3, Q(0))\n    carrying = c3 + rev\n    assets = Q(320000) + carrying\n    ratio = Q(110000) / assets * 100\n    head = 60 - ratio\n    return {\n        \"final\": head,\n        \"impairment_loss\": imp,\n        \"carrying_pre_reversal\": c3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 180
+                },
+                "rendered": {
+                  "final": "30.3514",
+                  "impairment_loss": "29700",
+                  "carrying_pre_reversal": "51012.5",
+                  "reversal_ceiling": "77000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "30.3514",
+              "impairment_loss": "29700",
+              "carrying_pre_reversal": "51012.5",
+              "reversal_ceiling": "77000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "eba09bdd0852ddb77290e958f6ff47610d211288e57b5c065ab5659ad5438153",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 609,
+                  "output_tokens_details": {
+                    "thinking_tokens": 248
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 609,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.006491899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6348,
+                  "session_id": "97c1b5ce-7582-4faa-b753-001125cee385",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 10\n    carrying2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.53\")\n    impairment = max(carrying2 - rec2, Q(0))\n    carrying2_after = carrying2 - impairment\n    dep_after = carrying2_after / 8\n    carrying3 = carrying2_after - dep_after\n    rec3 = cost * Q(\"0.41\")\n    ceiling = cost - 3 * dep\n    reversal = max(min(rec3, ceiling) - carrying3, Q(0))\n    carrying_final = carrying3 + reversal\n    total_assets = Q(320000) + carrying_final\n    ratio = Q(110000) / total_assets\n    headroom = (Q(\"0.60\") - ratio) * 100\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carrying3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": reversal,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 164
+                },
+                "rendered": {
+                  "final": "30.3514",
+                  "impairment_loss": "29700",
+                  "carrying_pre_reversal": "51012.5",
+                  "reversal_ceiling": "77000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "30.3514",
+              "impairment_loss": "29700",
+              "carrying_pre_reversal": "51012.5",
+              "reversal_ceiling": "77000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "806c6829297fb63882a7a30495a138b461bde9b3992baf8c8d520b423f47436b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 713,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 713,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007531899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4903,
+                  "session_id": "706e904d-9807-407a-a7b5-f9456890915d",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 10\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.53\")\n    impairment = max(carry2 - rec2, Q(0))\n    carry2_after = carry2 - impairment\n    dep2 = carry2_after / 8\n    carry3_pre = carry2_after - dep2\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.41\")\n    reversal = max(min(rec3, ceiling) - carry3_pre, Q(0))\n    carry3 = carry3_pre + reversal\n    assets = Q(320000) + carry3\n    ratio = Q(110000) / assets\n    headroom = Q(60) - ratio * 100\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carry3_pre,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": reversal,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 178
+                },
+                "rendered": {
+                  "final": "30.3514",
+                  "impairment_loss": "29700",
+                  "carrying_pre_reversal": "51012.5",
+                  "reversal_ceiling": "77000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "30.3514",
+              "impairment_loss": "29700",
+              "carrying_pre_reversal": "51012.5",
+              "reversal_ceiling": "77000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "034fb87f7f3177d889adbbfde26073f7792223b4904ff481522e7d140ead480c",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 642,
+                  "output_tokens_details": {
+                    "thinking_tokens": 301
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 642,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0068219,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5816,
+                  "session_id": "fc3b7ff7-2d8d-45dd-9744-716c148d74a9",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 10\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.53\")\n    loss = max(carry2 - rec2, Q(0))\n    carry2_after = carry2 - loss\n    dep3 = carry2_after / 8\n    carry3 = carry2_after - dep3\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.41\")\n    rev = rec3 - carry3\n    rev = max(Q(0), min(rev, ceiling - carry3))\n    carrying = carry3 + rev\n    assets = Q(320000) + carrying\n    ratio = Q(110000) / assets * 100\n    headroom = 60 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": loss,\n        \"carrying_pre_reversal\": carry3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 237
+                },
+                "rendered": {
+                  "final": "30.3514",
+                  "impairment_loss": "29700",
+                  "carrying_pre_reversal": "51012.5",
+                  "reversal_ceiling": "77000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "30.3514",
+              "impairment_loss": "29700",
+              "carrying_pre_reversal": "51012.5",
+              "reversal_ceiling": "77000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "de0051079405306d50a87e59ac5b4ca4902d51a73866ab8e502f44a4a5508afc",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 638,
+                  "output_tokens_details": {
+                    "thinking_tokens": 304
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 638,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0067818999999999996,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 7513,
+                  "session_id": "92352dda-8d8c-4b61-8f37-9ca3cdab4951",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 10\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.53\")\n    impairment = max(carry2 - rec2, Q(0))\n    carry2_after = carry2 - impairment\n    dep_new = carry2_after / 8\n    carry3 = carry2_after - dep_new\n    rec3 = cost * Q(\"0.41\")\n    ceiling = cost - 3 * dep\n    rev = max(min(rec3, ceiling) - carry3, Q(0))\n    carrying = carry3 + rev\n    assets = Q(320000) + carrying\n    ratio = Q(110000) / assets * 100\n    headroom = 60 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carry3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 199
+                },
+                "rendered": {
+                  "final": "30.3514",
+                  "impairment_loss": "29700",
+                  "carrying_pre_reversal": "51012.5",
+                  "reversal_ceiling": "77000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synd213d4411c36aa3c4f04",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synd213d4411c36aa3c4f04",
+          "final_answer": {
+            "value": "-41.5406"
+          },
+          "steps": [
+            {
+              "slot_id": "impairment_loss",
+              "value": "15200"
+            },
+            {
+              "slot_id": "carrying_pre_reversal",
+              "value": "48600"
+            },
+            {
+              "slot_id": "reversal_ceiling",
+              "value": "60000"
+            },
+            {
+              "slot_id": "reversal_recognized",
+              "value": "0"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "-41.5406": 5
+          },
+          "impairment_loss": {
+            "15200": 5
+          },
+          "carrying_pre_reversal": {
+            "48600": 5
+          },
+          "reversal_ceiling": {
+            "60000": 5
+          },
+          "reversal_recognized": {
+            "0": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "-41.5406",
+              "impairment_loss": "15200",
+              "carrying_pre_reversal": "48600",
+              "reversal_ceiling": "60000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f70b1934dbccd2c10ec5a6a903a5bfcbc23fd5a26549d9699e12a31d0747bef2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3164,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 546,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3164,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 546,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3164,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3164
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.018201500000000002,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4413,
+                  "session_id": "07c745c8-8417-4c0f-a439-674510dbb011",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(120000)\n    dep = cost / 6\n    c2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.54\")\n    loss = max(c2 - rec2, Q(0))\n    c2n = c2 - loss\n    dep2 = c2n / 4\n    c3 = c2n - dep2\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.38\")\n    rev = max(min(rec3, ceiling) - c3, Q(0))\n    carrying = c3 + rev\n    assets = Q(200000) + carrying\n    ratio = Q(240000) / assets * 100\n    head = 55 - ratio\n    return {\n        \"final\": head,\n        \"impairment_loss\": loss,\n        \"carrying_pre_reversal\": c3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 180
+                },
+                "rendered": {
+                  "final": "-41.5406",
+                  "impairment_loss": "15200",
+                  "carrying_pre_reversal": "48600",
+                  "reversal_ceiling": "60000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-41.5406",
+              "impairment_loss": "15200",
+              "carrying_pre_reversal": "48600",
+              "reversal_ceiling": "60000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "3163c2b5025a7e8f9eb339784164dc4ca5c128eae583c6ad6406bee93100130b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 591,
+                  "output_tokens_details": {
+                    "thinking_tokens": 253
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 591,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0063119,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5332,
+                  "session_id": "1c8c771c-ab47-4aff-bd4e-f6e8f307053b",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(120000)\n    dep = cost / 6\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.54\")\n    impairment = max(carry2 - rec2, Q(0))\n    carry2_after = carry2 - impairment\n    dep2 = carry2_after / 4\n    carry3 = carry2_after - dep2\n    rec3 = cost * Q(\"0.38\")\n    ceiling = cost - 3 * dep\n    reversal = max(min(rec3, ceiling) - carry3, Q(0))\n    carrying = carry3 + reversal\n    assets = Q(200000) + carrying\n    ratio = Q(240000) / assets * 100\n    headroom = Q(55) - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carry3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": reversal,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 217
+                },
+                "rendered": {
+                  "final": "-41.5406",
+                  "impairment_loss": "15200",
+                  "carrying_pre_reversal": "48600",
+                  "reversal_ceiling": "60000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-41.5406",
+              "impairment_loss": "15200",
+              "carrying_pre_reversal": "48600",
+              "reversal_ceiling": "60000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "5861b2f511f463c4aa790f68b1bc5139cedae4d131caae3101cafd27d87b5ac3",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 705,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 705,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007451899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5118,
+                  "session_id": "c8e29f50-d1c3-49d1-b850-2137022c2fb4",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(120000)\n    dep = cost / 6\n    carry2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.54\")\n    loss = max(carry2 - rec2, Q(0))\n    carry2a = carry2 - loss\n    dep_after = carry2a / 4\n    carry3 = carry2a - dep_after\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.38\")\n    rev = max(min(rec3, ceiling) - carry3, Q(0))\n    carry_final = carry3 + rev\n    assets = Q(200000) + carry_final\n    ratio = Q(240000) / assets * 100\n    headroom = Q(55) - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": loss,\n        \"carrying_pre_reversal\": carry3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 144
+                },
+                "rendered": {
+                  "final": "-41.5406",
+                  "impairment_loss": "15200",
+                  "carrying_pre_reversal": "48600",
+                  "reversal_ceiling": "60000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-41.5406",
+              "impairment_loss": "15200",
+              "carrying_pre_reversal": "48600",
+              "reversal_ceiling": "60000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d92d7e30f9e850dbaa5969db6941a55a26fd818ad17c6c40c965be192f1b748d",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 578,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 578,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.006181899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5815,
+                  "session_id": "3caee870-73f1-46b2-871d-afa6a4130e62",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(120000)\n    dep = cost / 6\n    carry2_pre = cost - 2 * dep\n    rec2 = cost * Q(\"0.54\")\n    impairment = carry2_pre - rec2\n    carry2 = rec2\n    dep_after = carry2 / 4\n    carry3 = carry2 - dep_after\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.38\")\n    rev = max(min(rec3, ceiling) - carry3, Q(0))\n    carrying = carry3 + rev\n    assets = Q(200000) + carrying\n    ratio = Q(240000) / assets * 100\n    headroom = Q(55) - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment,\n        \"carrying_pre_reversal\": carry3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 333
+                },
+                "rendered": {
+                  "final": "-41.5406",
+                  "impairment_loss": "15200",
+                  "carrying_pre_reversal": "48600",
+                  "reversal_ceiling": "60000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-41.5406",
+              "impairment_loss": "15200",
+              "carrying_pre_reversal": "48600",
+              "reversal_ceiling": "60000",
+              "reversal_recognized": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "abebe201182349342cc0a19c6e53ac70837356e6fb0349419a2cd2fc59b01073",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 558,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 558,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.005981899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 8598,
+                  "session_id": "6eab5b60-fca6-4867-972c-b8a3bf4ad9e1",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(120000)\n    dep = cost / 6\n    carr2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.54\")\n    loss = max(carr2 - rec2, Q(0))\n    carr2a = carr2 - loss\n    dep2 = carr2a / 4\n    carr3 = carr2a - dep2\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.38\")\n    rev = max(min(rec3, ceiling) - carr3, Q(0))\n    carr_final = carr3 + rev\n    assets = Q(200000) + carr_final\n    ratio = Q(240000) / assets * 100\n    headroom = 55 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": loss,\n        \"carrying_pre_reversal\": carr3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 177
+                },
+                "rendered": {
+                  "final": "-41.5406",
+                  "impairment_loss": "15200",
+                  "carrying_pre_reversal": "48600",
+                  "reversal_ceiling": "60000",
+                  "reversal_recognized": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synefcf592fa553a1426dbb",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synefcf592fa553a1426dbb",
+          "final_answer": {
+            "value": "14.0973"
+          },
+          "steps": [
+            {
+              "slot_id": "impairment_loss",
+              "value": "23100"
+            },
+            {
+              "slot_id": "carrying_pre_reversal",
+              "value": "28600"
+            },
+            {
+              "slot_id": "reversal_ceiling",
+              "value": "44000"
+            },
+            {
+              "slot_id": "reversal_recognized",
+              "value": "5500"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "14.0973": 5
+          },
+          "impairment_loss": {
+            "23100": 5
+          },
+          "carrying_pre_reversal": {
+            "28600": 5
+          },
+          "reversal_ceiling": {
+            "44000": 5
+          },
+          "reversal_recognized": {
+            "5500": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "14.0973",
+              "impairment_loss": "23100",
+              "carrying_pre_reversal": "28600",
+              "reversal_ceiling": "44000",
+              "reversal_recognized": "5500"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "657a877e63b0a1fcc1998aff0ebd79fab8f311fc0ff84a20a2eb3197bce5893a",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3164,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 569,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3164,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 569,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3164,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3164
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0184315,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4660,
+                  "session_id": "d30f89ac-5115-4524-94cf-5eb28fda532d",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 5\n    carr2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.39\")\n    imp = carr2 - rec2\n    dep2 = rec2 / 3\n    carr3 = rec2 - dep2\n    rec3 = cost * Q(\"0.31\")\n    ceiling = cost - 3 * dep\n    target = min(rec3, ceiling)\n    rev = max(target - carr3, Q(0))\n    carrying_after = carr3 + rev\n    assets = Q(270000) + carrying_after\n    ratio = Q(170000) / assets\n    headroom = Q(70) - ratio * 100\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": imp,\n        \"carrying_pre_reversal\": carr3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 235
+                },
+                "rendered": {
+                  "final": "14.0973",
+                  "impairment_loss": "23100",
+                  "carrying_pre_reversal": "28600",
+                  "reversal_ceiling": "44000",
+                  "reversal_recognized": "5500"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "14.0973",
+              "impairment_loss": "23100",
+              "carrying_pre_reversal": "28600",
+              "reversal_ceiling": "44000",
+              "reversal_recognized": "5500"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d225c98ba62181e1d70648ac02fd731150157998516de347ac2b3db66402ae3b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 683,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 683,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0072318999999999994,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4829,
+                  "session_id": "7c61ae11-7270-4675-96ac-3117717715d9",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 5\n    carrying2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.39\")\n    loss = max(carrying2 - rec2, Q(0))\n    carrying2_after = carrying2 - loss\n    dep_new = carrying2_after / 3\n    carrying3 = carrying2_after - dep_new\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.31\")\n    rev = max(min(rec3, ceiling) - carrying3, Q(0))\n    carrying_final = carrying3 + rev\n    assets = Q(270000) + carrying_final\n    ratio = Q(170000) / assets * 100\n    headroom = 70 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": loss,\n        \"carrying_pre_reversal\": carrying3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 152
+                },
+                "rendered": {
+                  "final": "14.0973",
+                  "impairment_loss": "23100",
+                  "carrying_pre_reversal": "28600",
+                  "reversal_ceiling": "44000",
+                  "reversal_recognized": "5500"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "14.0973",
+              "impairment_loss": "23100",
+              "carrying_pre_reversal": "28600",
+              "reversal_ceiling": "44000",
+              "reversal_recognized": "5500"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "e16c2f3a75e22e1adc78b71cecba4f71a063b1e583c1c8d0561e25aba5a2f6b6",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 691,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 691,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007311899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5531,
+                  "session_id": "d6517f97-5d7f-4400-81d0-85a0669d4dde",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 5\n    carr2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.39\")\n    imp = max(carr2 - rec2, Q(0))\n    carr2a = carr2 - imp\n    dep2 = carr2a / 3\n    carr3 = carr2a - dep2\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.31\")\n    rev = max(min(rec3, ceiling) - carr3, Q(0))\n    carr_final = carr3 + rev\n    assets = Q(270000) + carr_final\n    ratio = Q(170000) / assets\n    headroom = Q(70) - ratio * 100\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": imp,\n        \"carrying_pre_reversal\": carr3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 158
+                },
+                "rendered": {
+                  "final": "14.0973",
+                  "impairment_loss": "23100",
+                  "carrying_pre_reversal": "28600",
+                  "reversal_ceiling": "44000",
+                  "reversal_recognized": "5500"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "14.0973",
+              "impairment_loss": "23100",
+              "carrying_pre_reversal": "28600",
+              "reversal_ceiling": "44000",
+              "reversal_recognized": "5500"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "64c71e39b463d809b79a3e850a75a837e4ce7d16341d860c734c3e0179f6f276",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 598,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 598,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.006381899999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 8377,
+                  "session_id": "127158ab-775a-460b-8099-c884cb70e0b4",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 5\n    c2 = cost - 2 * dep\n    rec2 = cost * Q(\"0.39\")\n    imp = c2 - rec2 if c2 > rec2 else Q(0)\n    c2a = c2 - imp\n    c3 = c2a - c2a / 3\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.31\")\n    cap_level = min(rec3, ceiling)\n    rev = max(cap_level - c3, Q(0))\n    carrying = c3 + rev\n    assets = Q(270000) + carrying\n    ratio = Q(170000) / assets * 100\n    headroom = Q(70) - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": imp,\n        \"carrying_pre_reversal\": c3,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 138
+                },
+                "rendered": {
+                  "final": "14.0973",
+                  "impairment_loss": "23100",
+                  "carrying_pre_reversal": "28600",
+                  "reversal_ceiling": "44000",
+                  "reversal_recognized": "5500"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "14.0973",
+              "impairment_loss": "23100",
+              "carrying_pre_reversal": "28600",
+              "reversal_ceiling": "44000",
+              "reversal_recognized": "5500"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f018c5d32c9982eb66e89c5f5fa0d2f88ca7b6eac12ab84071709293a6298ec2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 3979,
+                  "output_tokens": 586,
+                  "output_tokens_details": {
+                    "thinking_tokens": 215
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 586,
+                      "cache_read_input_tokens": 3979,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0062619,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5452,
+                  "session_id": "43489eb6-c0f8-4785-a2d9-ae6b182b0b61",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cost = Q(110000)\n    dep = cost / 5\n    carry2_pre = cost - 2 * dep\n    rec2 = cost * Q(\"0.39\")\n    imp = carry2_pre - rec2 if carry2_pre > rec2 else Q(0)\n    carry2 = carry2_pre - imp\n    dep3 = carry2 / 3\n    carry3_pre = carry2 - dep3\n    ceiling = cost - 3 * dep\n    rec3 = cost * Q(\"0.31\")\n    target = min(rec3, ceiling)\n    rev = target - carry3_pre\n    if rev < 0:\n        rev = Q(0)\n    carry3 = carry3_pre + rev\n    assets = Q(270000) + carry3\n    ratio = Q(170000) / assets * 100\n    headroom = 70 - ratio\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": imp,\n        \"carrying_pre_reversal\": carry3_pre,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": rev,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 264
+                },
+                "rendered": {
+                  "final": "14.0973",
+                  "impairment_loss": "23100",
+                  "carrying_pre_reversal": "28600",
+                  "reversal_ceiling": "44000",
+                  "reversal_recognized": "5500"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "adf87cfec1782dc595dadade1b89da8003f61d638792105ade7514b384ce3d71"
+}

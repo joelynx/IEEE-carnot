@@ -1,0 +1,38 @@
+{
+ "scope": "every selected error on tuning-eval forced-novel S (H identical); all are checkpoint-only; no final-answer error in any recipe",
+ "reviewed_by": "agent, manual reading of question, gold and sample votes",
+ "errors": [
+  {
+   "cases": [
+    "t1_coev42cc2m5einmt5okie",
+    "t1_ov6vsz6mnmsl7mkbafqai"
+   ],
+   "template": "fp.investment_analysis.ci.interest_from_known_total.intermediate.v1",
+   "field": "growth_multiplier_trace",
+   "class": "annual_vs_cumulative",
+   "rationale": "Slot text says \"Exact annual compound multiplier\"; gold is the cumulative factor (1+r)^n (1.295029, 1.21550625). Samples split between the per-year factor and the cumulative one in R4c and D5 pools. Wording is open to the per-year reading; this template already showed the same instability historically (R4 adoption notes: multiplier 1 fixed / 1 broken).",
+   "outcomes": {
+    "R4c": "wrong both",
+    "P": "right both",
+    "D/J/JB/X1/X1C": "coev wrong, ov6v right",
+    "V": "wrong both; on ov6v V overrode a correct J row citing the per-year wording (harmful slot override)"
+   }
+  },
+  {
+   "cases": [
+    "t1_dze57qquqcc7cqr2xpua6",
+    "t1_rwz5ybiy42flbtv3uwjbe"
+   ],
+   "template": "fp.risk_management.sensitivity_analysis.portfolio_single_factor.basic.v1",
+   "field": "factor_ratio_trace",
+   "class": "sign",
+   "rationale": "Gold is the signed rate change c/100; R4c and P were unanimous on c/100 multiplied by the sensitivity s (opposite sign when s=-1). Only the five-role pool held the correct value, as a 2-of-5 minority; field plurality (D, J, JB, X1, X1C) kept the wrong value.",
+   "outcomes": {
+    "R4c": "wrong both",
+    "P": "wrong both",
+    "D/J/JB/X1/X1C": "wrong both",
+    "V": "right both (correct minority selected with executed evidence)"
+   }
+  }
+ ]
+}

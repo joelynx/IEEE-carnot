@@ -1,0 +1,539 @@
+{
+ "family": "c1_31",
+ "draws_sha256": "1e7307ef7512f9d4e5a6485a5a20ebcce2346380df3f846f0da0d90c5de9a25d",
+ "checks": [
+  {
+   "case_id": "t1_synaba633df08b32eb3ab01",
+   "verdicts": {
+    "final": true,
+    "net_recovery": true,
+    "insurer_payment": true,
+    "retained_loss": true,
+    "benchmark_payment": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synaba633df08b32eb3ab01",
+     "final_answer": {
+      "value": "-64500"
+     },
+     "steps": [
+      {
+       "slot_id": "net_recovery",
+       "value": "142500"
+      },
+      {
+       "slot_id": "insurer_payment",
+       "value": "199500"
+      },
+      {
+       "slot_id": "retained_loss",
+       "value": "308000"
+      },
+      {
+       "slot_id": "benchmark_payment",
+       "value": "277500"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-64500": 1
+     },
+     "net_recovery": {
+      "142500": 1
+     },
+     "insurer_payment": {
+      "199500": 1
+     },
+     "retained_loss": {
+      "308000": 1
+     },
+     "benchmark_payment": {
+      "277500": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-64500",
+       "net_recovery": "142500",
+       "insurer_payment": "199500",
+       "retained_loss": "308000",
+       "benchmark_payment": "277500"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "e748a0a2631848cbea0b3013ebf7073feea3b6d8d407437883e10739497c5312",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1329,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 324,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1329,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 324,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1329,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1329
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.042981000000000005,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4007,
+         "session_id": "5f2d1707-acfc-4a4f-a6db-21879b498ac3",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    gross_loss = 650000\n    gross_rec = 150000\n    fee = gross_rec * Q(\"0.05\")\n    net_rec = gross_rec - fee\n    deductible = 175000\n    tier1 = 400000\n    sublimit = 400000\n\n    def pay(loss):\n        rem = max(loss - deductible, 0)\n        p = Q(\"0.6\") * min(rem, tier1) + Q(\"0.5\") * max(rem - tier1, 0)\n        return min(p, sublimit)\n\n    insured = gross_loss - net_rec\n    payment = pay(insured)\n    retained = insured - payment\n    bench_pay = pay(gross_loss)\n    bench_retained = gross_loss - bench_pay\n    return {\n        \"final\": retained - bench_retained,\n        \"net_recovery\": net_rec,\n        \"insurer_payment\": payment,\n        \"retained_loss\": retained,\n        \"benchmark_payment\": bench_pay,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 76
+        },
+        "rendered": {
+         "final": "-64500",
+         "net_recovery": "142500",
+         "insurer_payment": "199500",
+         "retained_loss": "308000",
+         "benchmark_payment": "277500"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn000ddac8fec5ebcf91ba",
+   "verdicts": {
+    "final": true,
+    "net_recovery": true,
+    "insurer_payment": true,
+    "retained_loss": true,
+    "benchmark_payment": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn000ddac8fec5ebcf91ba",
+     "final_answer": {
+      "value": "-157500"
+     },
+     "steps": [
+      {
+       "slot_id": "net_recovery",
+       "value": "262500"
+      },
+      {
+       "slot_id": "insurer_payment",
+       "value": "395000"
+      },
+      {
+       "slot_id": "retained_loss",
+       "value": "242500"
+      },
+      {
+       "slot_id": "benchmark_payment",
+       "value": "500000"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-157500": 1
+     },
+     "net_recovery": {
+      "262500": 1
+     },
+     "insurer_payment": {
+      "395000": 1
+     },
+     "retained_loss": {
+      "242500": 1
+     },
+     "benchmark_payment": {
+      "500000": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-157500",
+       "net_recovery": "262500",
+       "insurer_payment": "395000",
+       "retained_loss": "242500",
+       "benchmark_payment": "500000"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "70f526c50fa55a3af96dae8830afd8da84cc66a1a5159fc8b75f5d3726294c51",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1329,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 335,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1329,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 335,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1329,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1329
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.043531,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4144,
+         "session_id": "a8f390e0-b78f-406d-8b80-fc4a63fb84a3",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    gross_loss = 900000\n    gross_rec = 350000\n    fee = gross_rec * Q(\"0.25\")\n    net_rec = gross_rec - fee\n    insured = gross_loss - net_rec\n\n    def pay(loss):\n        rem = max(loss - 100000, 0)\n        tier1 = min(rem, 300000)\n        excess = max(rem - 300000, 0)\n        p = tier1 * 1 + excess * Q(\"0.40\")\n        return min(p, 850000)\n\n    insurer_payment = pay(insured)\n    retained = insured - insurer_payment\n    benchmark_payment = pay(gross_loss)\n    benchmark_retained = gross_loss - benchmark_payment\n    final = retained - benchmark_retained\n    return {\n        \"final\": final,\n        \"net_recovery\": net_rec,\n        \"insurer_payment\": insurer_payment,\n        \"retained_loss\": retained,\n        \"benchmark_payment\": benchmark_payment,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 151
+        },
+        "rendered": {
+         "final": "-157500",
+         "net_recovery": "262500",
+         "insurer_payment": "395000",
+         "retained_loss": "242500",
+         "benchmark_payment": "500000"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn8214c5aeb34c4d788ed4",
+   "verdicts": {
+    "final": true,
+    "net_recovery": true,
+    "insurer_payment": true,
+    "retained_loss": true,
+    "benchmark_payment": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn8214c5aeb34c4d788ed4",
+     "final_answer": {
+      "value": "0"
+     },
+     "steps": [
+      {
+       "slot_id": "net_recovery",
+       "value": "0"
+      },
+      {
+       "slot_id": "insurer_payment",
+       "value": "400000"
+      },
+      {
+       "slot_id": "retained_loss",
+       "value": "1550000"
+      },
+      {
+       "slot_id": "benchmark_payment",
+       "value": "400000"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "0": 1
+     },
+     "net_recovery": {
+      "0": 1
+     },
+     "insurer_payment": {
+      "400000": 1
+     },
+     "retained_loss": {
+      "1550000": 1
+     },
+     "benchmark_payment": {
+      "400000": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "0",
+       "net_recovery": "0",
+       "insurer_payment": "400000",
+       "retained_loss": "1550000",
+       "benchmark_payment": "400000"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "739ac351b954c5d7b18f30c36f61bb02a78c02ed2512b62c33d9ed4f0cbc5239",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1329,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 397,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1329,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 397,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1329,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1329
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046631000000000006,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4386,
+         "session_id": "7811b46a-37a1-4e92-8d1f-3248b6e44d3a",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    gross_loss = Q(1950000)\n    gross_rec = Q(0)\n    fee = gross_rec * Q(\"0.15\")\n    net_rec = gross_rec - fee\n    deductible = Q(125000)\n    tier1 = Q(600000)\n    r1 = Q(\"0.80\")\n    r2 = Q(\"0.80\")\n    sublimit = Q(400000)\n\n    def payment(loss):\n        rem = max(loss - deductible, Q(0))\n        first = min(rem, tier1)\n        excess = max(rem - tier1, Q(0))\n        pay = r1 * first + r2 * excess\n        return min(pay, sublimit)\n\n    insured = gross_loss - net_rec\n    ins_pay = payment(insured)\n    retained = gross_loss - net_rec - ins_pay\n    bench_pay = payment(gross_loss)\n    bench_retained = gross_loss - bench_pay\n    final = retained - bench_retained\n    return {\n        \"final\": final,\n        \"net_recovery\": net_rec,\n        \"insurer_payment\": ins_pay,\n        \"retained_loss\": retained,\n        \"benchmark_payment\": bench_pay,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 368
+        },
+        "rendered": {
+         "final": "0",
+         "net_recovery": "0",
+         "insurer_payment": "400000",
+         "retained_loss": "1550000",
+         "benchmark_payment": "400000"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn27b9cf0b0221d6fe8557",
+   "verdicts": {
+    "final": true,
+    "net_recovery": true,
+    "insurer_payment": true,
+    "retained_loss": true,
+    "benchmark_payment": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn27b9cf0b0221d6fe8557",
+     "final_answer": {
+      "value": "0"
+     },
+     "steps": [
+      {
+       "slot_id": "net_recovery",
+       "value": "0"
+      },
+      {
+       "slot_id": "insurer_payment",
+       "value": "400000"
+      },
+      {
+       "slot_id": "retained_loss",
+       "value": "950000"
+      },
+      {
+       "slot_id": "benchmark_payment",
+       "value": "400000"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "0": 1
+     },
+     "net_recovery": {
+      "0": 1
+     },
+     "insurer_payment": {
+      "400000": 1
+     },
+     "retained_loss": {
+      "950000": 1
+     },
+     "benchmark_payment": {
+      "400000": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "0",
+       "net_recovery": "0",
+       "insurer_payment": "400000",
+       "retained_loss": "950000",
+       "benchmark_payment": "400000"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "d4146ee1d95585839831600c5299ff92a75c6f243e42c158635d1faab7ace146",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1329,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 347,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1329,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 347,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1329,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1329
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.044131000000000004,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4368,
+         "session_id": "994aa377-d175-4e48-a016-46bbd69f76a3",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    gross_loss = Q(1350000)\n    gross_rec = Q(0)\n    fee = gross_rec * Q(\"0.25\")\n    net_rec = gross_rec - fee\n    insured_loss = gross_loss - net_rec\n\n    def pay(loss):\n        rem = max(loss - Q(125000), Q(0))\n        first = min(rem, Q(400000))\n        excess = max(rem - Q(400000), Q(0))\n        p = Q(\"0.9\") * first + Q(\"0.9\") * excess\n        return min(p, Q(400000))\n\n    ins_pay = pay(insured_loss)\n    retained = gross_loss - net_rec - ins_pay\n    bench_pay = pay(gross_loss)\n    bench_retained = gross_loss - bench_pay\n    return {\n        \"final\": retained - bench_retained,\n        \"net_recovery\": net_rec,\n        \"insurer_payment\": ins_pay,\n        \"retained_loss\": retained,\n        \"benchmark_payment\": bench_pay,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 202
+        },
+        "rendered": {
+         "final": "0",
+         "net_recovery": "0",
+         "insurer_payment": "400000",
+         "retained_loss": "950000",
+         "benchmark_payment": "400000"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

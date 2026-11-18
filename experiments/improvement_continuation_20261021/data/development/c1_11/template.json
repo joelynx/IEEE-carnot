@@ -1,0 +1,138 @@
+{
+ "name": "mm_tax_shield_amortizing_then_permanent_debt_recap",
+ "domain_id": "corporate_finance",
+ "topic_id": "capital_structure",
+ "difficulty": "intermediate",
+ "params": {
+  "VU": {
+   "kind": "int",
+   "min": 400,
+   "max": 1200,
+   "step": 10
+  },
+  "B": {
+   "kind": "int",
+   "min": 100,
+   "max": 400,
+   "step": 10
+  },
+  "A": {
+   "kind": "int",
+   "min": 0,
+   "max": 60,
+   "step": 5
+  },
+  "K": {
+   "kind": "int",
+   "min": 1,
+   "max": 4,
+   "step": 1
+  },
+  "RD": {
+   "kind": "decimal",
+   "min": "4.0",
+   "max": "9.0",
+   "step": "0.5"
+  },
+  "T": {
+   "kind": "int",
+   "min": 20,
+   "max": 35,
+   "step": 1
+  }
+ },
+ "question_template": "Use exact arithmetic. An all-equity firm has unlevered value {VU} USD million. At the start of year 1 it issues {B} USD million of debt at par and spends all proceeds repurchasing shares. Interest at {RD} percent per year accrues on the balance at the beginning of each year, is paid at year end and is fully deductible at a {T} percent corporate tax rate. A principal repayment of {A} USD million is paid from operating cash at the end of each of years 1 through {K}; the balance left after the year-{K} repayment is held permanently (inputs leaving a non-positive balance are invalid). Discount each annual shield at the debt rate; once permanent, the shield value equals the tax rate times that balance as of that date. Debt market value equals {B} USD million. Report equity value immediately after the repurchase.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "remaining_permanent_balance",
+   "description": "Debt balance held permanently after the last scheduled repayment",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "amortizing_shield_pv",
+   "description": "Present value of interest tax shields during the scheduled repayment years only",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "tax_shield_value",
+   "description": "Total present value of the debt tax shield at the issue date",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "levered_firm_value",
+   "description": "Levered firm value at the issue date including the tax shield",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "from fractions import Fraction\n\ndef solve():\n    VU = Fraction(P[\"VU\"])\n    B = Fraction(P[\"B\"])\n    A = Fraction(P[\"A\"])\n    K = int(P[\"K\"])\n    rd = Fraction(P[\"RD\"]) / 100\n    T = Fraction(P[\"T\"]) / 100\n    rem = B - K * A\n    if rem <= 0:\n        raise ValueError(\"remaining permanent balance must be positive\")\n    bal = B\n    pv_amort = Fraction(0)\n    for t in range(1, K + 1):\n        shield = T * rd * bal\n        pv_amort += shield / (1 + rd) ** t\n        bal -= A\n    perm_pv = T * rem / (1 + rd) ** K\n    ts = pv_amort + perm_pv\n    VL = VU + ts\n    E = VL - B\n    return {\n        \"final\": E,\n        \"remaining_permanent_balance\": rem,\n        \"amortizing_shield_pv\": pv_amort,\n        \"tax_shield_value\": ts,\n        \"levered_firm_value\": VL,\n    }\n",
+ "coverage_params": [
+  {
+   "VU": 800,
+   "B": 250,
+   "A": 30,
+   "K": 3,
+   "RD": "6.0",
+   "T": 25
+  },
+  {
+   "VU": 600,
+   "B": 200,
+   "A": 0,
+   "K": 2,
+   "RD": "5.0",
+   "T": 30
+  },
+  {
+   "VU": 900,
+   "B": 240,
+   "A": 60,
+   "K": 4,
+   "RD": "7.5",
+   "T": 21
+  },
+  {
+   "VU": 1200,
+   "B": 100,
+   "A": 60,
+   "K": 1,
+   "RD": "9.0",
+   "T": 35
+  }
+ ]
+}

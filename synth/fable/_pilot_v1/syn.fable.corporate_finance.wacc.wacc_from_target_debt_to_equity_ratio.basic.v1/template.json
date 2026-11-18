@@ -1,0 +1,66 @@
+{
+ "name": "wacc_from_target_debt_to_equity_ratio",
+ "domain_id": "corporate_finance",
+ "topic_id": "wacc",
+ "difficulty": "basic",
+ "params": {
+  "DE": {
+   "kind": "decimal",
+   "min": "0.20",
+   "max": "1.50",
+   "step": "0.05"
+  },
+  "KE": {
+   "kind": "decimal",
+   "min": "7.00",
+   "max": "13.00",
+   "step": "0.05"
+  },
+  "KD": {
+   "kind": "decimal",
+   "min": "3.00",
+   "max": "8.00",
+   "step": "0.05"
+  },
+  "T": {
+   "kind": "int",
+   "min": 15,
+   "max": 35,
+   "step": 1
+  }
+ },
+ "question_template": "A company finances itself at a target market-value debt-to-equity ratio D/E of {DE} (market value of interest-bearing debt divided by market value of common equity; no other capital sources). Its annual nominal cost of equity ke is {KE} percent, its annual nominal pretax cost of debt kd is {KD} percent, and its corporate tax rate T is {T} percent. The cost of equity exceeds the pretax cost of debt. Derive the capital weights from the ratio alone: wD=(D/E)/(1+D/E) and wE=1-wD. The annual interest tax shield on the debt cost is kd*T/100 percentage points, and WACC=wE*ke+wD*(kd-kd*T/100). Apply the tax shield only to debt. Use exact arithmetic and do not round any intermediate value.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "debt_weight_from_target_ratio",
+   "description": "Exact debt capital weight wD=(D/E)/(1+D/E) implied by the target debt-to-equity ratio, as a plain ratio between 0 and 1.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "debt_cost_tax_shield_percent",
+   "description": "Exact annual reduction in the debt cost from the interest tax shield, kd*T/100, in percentage points (positive number).",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    de = P[\"DE\"]\n    ke = P[\"KE\"]\n    kd = P[\"KD\"]\n    t = P[\"T\"]\n    if ke <= kd:\n        raise ValueError(\"cost of equity must exceed pretax cost of debt\")\n    wd = de / (1 + de)\n    we = 1 - wd\n    shield = kd * t / 100\n    wacc = we * ke + wd * (kd - shield)\n    return {\n        \"final\": wacc,\n        \"debt_weight_from_target_ratio\": wd,\n        \"debt_cost_tax_shield_percent\": shield,\n    }\n"
+}

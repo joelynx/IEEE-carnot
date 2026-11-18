@@ -1,0 +1,499 @@
+{
+ "family": "c1_79",
+ "draws_sha256": "6e6501787ea7da89cb989328ecb3eff260522c29fe34589cb4660854da9f08e0",
+ "checks": [
+  {
+   "case_id": "t1_syn52d1d8381dd56cf17b2a",
+   "verdicts": {
+    "final": true,
+    "fund_cum_return_pct": true,
+    "twice_index_cum_pct": true,
+    "floor_event_days": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn52d1d8381dd56cf17b2a",
+     "final_answer": {
+      "value": "5.388613302844"
+     },
+     "steps": [
+      {
+       "slot_id": "fund_cum_return_pct",
+       "value": "5.683536802844"
+      },
+      {
+       "slot_id": "twice_index_cum_pct",
+       "value": "0.2949235"
+      },
+      {
+       "slot_id": "floor_event_days",
+       "value": "1"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "5.388613302844": 1
+     },
+     "fund_cum_return_pct": {
+      "5.683536802844": 1
+     },
+     "twice_index_cum_pct": {
+      "0.2949235": 1
+     },
+     "floor_event_days": {
+      "1": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "5.388613302844",
+       "fund_cum_return_pct": "5.683536802844",
+       "twice_index_cum_pct": "0.2949235",
+       "floor_event_days": "1"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "b64d4006c4ac0cfe75ad0dd749419b8be5f9551eec86aec5d7bb4c16c67d73c4",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1262,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 356,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1262,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 356,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1262,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1262
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.043241,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4834,
+         "session_id": "979593e1-579f-4c47-9f89-a06f750e9eb7",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    rets = [Q(\"-1.5\"), Q(6), Q(\"1.5\"), Q(\"-5.5\")]\n    floor = Q(\"-5.5\")\n    fee = Q(\"0.02\")  # 2 bp in percentage points\n    fund = Q(1)\n    index = Q(1)\n    events = 0\n    for r in rets:\n        gross = 2 * r\n        net = gross - fee\n        if net < floor:\n            net = floor\n            events += 1\n        fund *= (1 + net / 100)\n        index *= (1 + r / 100)\n    fund_cum = (fund - 1) * 100\n    twice_index = 2 * (index - 1) * 100\n    diff = fund_cum - twice_index\n    return {\n        \"final\": diff,\n        \"fund_cum_return_pct\": fund_cum,\n        \"twice_index_cum_pct\": twice_index,\n        \"floor_event_days\": events,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 219
+        },
+        "rendered": {
+         "final": "5.388613302844",
+         "fund_cum_return_pct": "5.683536802844",
+         "twice_index_cum_pct": "0.2949235",
+         "floor_event_days": "1"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn888537b8f7c877fdcb16",
+   "verdicts": {
+    "final": true,
+    "fund_cum_return_pct": true,
+    "twice_index_cum_pct": true,
+    "floor_event_days": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn888537b8f7c877fdcb16",
+     "final_answer": {
+      "value": "-0.1342955459"
+     },
+     "steps": [
+      {
+       "slot_id": "fund_cum_return_pct",
+       "value": "-13.9129195459"
+      },
+      {
+       "slot_id": "twice_index_cum_pct",
+       "value": "-13.778624"
+      },
+      {
+       "slot_id": "floor_event_days",
+       "value": "0"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-0.1342955459": 1
+     },
+     "fund_cum_return_pct": {
+      "-13.9129195459": 1
+     },
+     "twice_index_cum_pct": {
+      "-13.778624": 1
+     },
+     "floor_event_days": {
+      "0": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-0.1342955459",
+       "fund_cum_return_pct": "-13.9129195459",
+       "twice_index_cum_pct": "-13.778624",
+       "floor_event_days": "0"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "d6b3a952341485e2a0331c411fb21affbcd29fe8908688b86b5228976957b430",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1256,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 355,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1256,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 355,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1256,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1256
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.043071,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4726,
+         "session_id": "6f458c65-28ec-4ffd-bc3f-db1ecec970d8",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    idx = [Q(-3), Q(1), Q(-4), Q(-1)]\n    floor = Q(\"-9.5\")\n    fee = Q(\"0.1\")\n    fund = Q(1)\n    index = Q(1)\n    floor_events = 0\n    for r in idx:\n        gross = 2 * r\n        if gross < floor:\n            gross = floor\n            floor_events += 1\n        net = gross - fee\n        fund *= 1 + net / 100\n        index *= 1 + r / 100\n    fund_cum = (fund - 1) * 100\n    twice_idx = 2 * (index - 1) * 100\n    diff = fund_cum - twice_idx\n    return {\n        \"final\": diff,\n        \"fund_cum_return_pct\": fund_cum,\n        \"twice_index_cum_pct\": twice_idx,\n        \"floor_event_days\": floor_events,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 392
+        },
+        "rendered": {
+         "final": "-0.1342955459",
+         "fund_cum_return_pct": "-13.9129195459",
+         "twice_index_cum_pct": "-13.778624",
+         "floor_event_days": "0"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syne4efb5284767b049568a",
+   "verdicts": {
+    "final": true,
+    "fund_cum_return_pct": true,
+    "twice_index_cum_pct": true,
+    "floor_event_days": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syne4efb5284767b049568a",
+     "final_answer": {
+      "value": "-0.38856990562304"
+     },
+     "steps": [
+      {
+       "slot_id": "fund_cum_return_pct",
+       "value": "-3.46736990562304"
+      },
+      {
+       "slot_id": "twice_index_cum_pct",
+       "value": "-3.0788"
+      },
+      {
+       "slot_id": "floor_event_days",
+       "value": "0"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-0.38856990562304": 1
+     },
+     "fund_cum_return_pct": {
+      "-3.46736990562304": 1
+     },
+     "twice_index_cum_pct": {
+      "-3.0788": 1
+     },
+     "floor_event_days": {
+      "0": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-0.38856990562304",
+       "fund_cum_return_pct": "-3.46736990562304",
+       "twice_index_cum_pct": "-3.0788",
+       "floor_event_days": "0"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "83c925c6ec02914be606b49e9e4b8f7e3f0562ba8f84d694d2c86b48bc52a636",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1258,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 317,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1258,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 317,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1258,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1258
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.041211,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3863,
+         "session_id": "2705d1f3-50c3-4a2d-891f-a419be334165",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    rets = [Q(\"-1.5\"), Q(0), Q(-2), Q(2)]\n    floor = Q(\"-11.5\")\n    fee = Q(\"0.08\")\n    fund = Q(1)\n    idx = Q(1)\n    events = 0\n    for r in rets:\n        gross = 2 * r\n        if gross < floor:\n            gross = floor\n            events += 1\n        net = gross - fee\n        fund *= 1 + net / 100\n        idx *= 1 + r / 100\n    fund_cum = (fund - 1) * 100\n    twice_idx = 2 * (idx - 1) * 100\n    diff = fund_cum - twice_idx\n    return {\n        \"final\": diff,\n        \"fund_cum_return_pct\": fund_cum,\n        \"twice_index_cum_pct\": twice_idx,\n        \"floor_event_days\": events,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 215
+        },
+        "rendered": {
+         "final": "-0.38856990562304",
+         "fund_cum_return_pct": "-3.46736990562304",
+         "twice_index_cum_pct": "-3.0788",
+         "floor_event_days": "0"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn55987394cc805e9a7dea",
+   "verdicts": {
+    "final": true,
+    "fund_cum_return_pct": true,
+    "twice_index_cum_pct": true,
+    "floor_event_days": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn55987394cc805e9a7dea",
+     "final_answer": {
+      "value": "0.1318"
+     },
+     "steps": [
+      {
+       "slot_id": "fund_cum_return_pct",
+       "value": "9.2624"
+      },
+      {
+       "slot_id": "twice_index_cum_pct",
+       "value": "9.1306"
+      },
+      {
+       "slot_id": "floor_event_days",
+       "value": "0"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "0.1318": 1
+     },
+     "fund_cum_return_pct": {
+      "9.2624": 1
+     },
+     "twice_index_cum_pct": {
+      "9.1306": 1
+     },
+     "floor_event_days": {
+      "0": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "0.1318",
+       "fund_cum_return_pct": "9.2624",
+       "twice_index_cum_pct": "9.1306",
+       "floor_event_days": "0"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f504a48e736c800c06d00d82bb374d14946df4b4daf09ae9216e0d19f0698a12",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1258,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 348,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1258,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 348,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1258,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1258
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.042761,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4065,
+         "session_id": "62d7abd8-6516-4d2c-9ac2-f2063cb21a5c",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    rets = [Q(2), Q(0), Q(\"1.5\"), Q(1)]\n    lev = Q(2)\n    floor = Q(\"-7.5\")\n    fee_bp = Q(0)\n    fee = fee_bp / 10000 * 100  # percent of starting value\n    fund = Q(1)\n    index = Q(1)\n    events = 0\n    for r in rets:\n        gross = lev * r\n        # fee_after_floor\n        if gross < floor:\n            net = floor\n            events += 1\n        else:\n            net = gross\n        net = net - fee\n        fund = fund * (1 + net / 100)\n        index = index * (1 + r / 100)\n    fund_cum = (fund - 1) * 100\n    twice_idx = 2 * (index - 1) * 100\n    diff = fund_cum - twice_idx\n    return {\n        \"final\": diff,\n        \"fund_cum_return_pct\": fund_cum,\n        \"twice_index_cum_pct\": twice_idx,\n        \"floor_event_days\": events,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 185
+        },
+        "rendered": {
+         "final": "0.1318",
+         "fund_cum_return_pct": "9.2624",
+         "twice_index_cum_pct": "9.1306",
+         "floor_event_days": "0"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

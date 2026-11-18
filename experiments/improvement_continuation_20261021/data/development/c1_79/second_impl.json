@@ -1,0 +1,219 @@
+{
+ "family": "c1_79",
+ "template_sha256": "3e08d447f3e1460a947b81762328c8aa9c1f576b6d4ed51715bd70a6073d0b1f",
+ "draws_sha256": "6e6501787ea7da89cb989328ecb3eff260522c29fe34589cb4660854da9f08e0",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "069c561f07a837221b45320f860158cee45d0932a891ff10bcd82432b7411851",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1715,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 681,
+    "output_tokens_details": {
+     "thinking_tokens": 224
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1715,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 681,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1715,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1715
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.06852049999999998
+  }
+ ],
+ "program": "def solve():\n    rs = [Fraction(P[\"R1\"]), Fraction(P[\"R2\"]), Fraction(P[\"R3\"]), Fraction(P[\"R4\"])]\n    floor = Fraction(P[\"FLOOR_PCT\"])\n    fee = Fraction(P[\"FEE_BP\"]) / 100  # percentage points\n    order = P[\"FEE_ORDER\"]\n\n    fund = Fraction(1)\n    index = Fraction(1)\n    events = 0\n    for r in rs:\n        gross = 2 * r\n        if order == \"fee_after_floor\":\n            x = gross\n            if x < floor:\n                x = floor\n                events += 1\n            net = x - fee\n        elif order == \"fee_before_floor\":\n            x = gross - fee\n            if x < floor:\n                x = floor\n                events += 1\n            net = x\n        else:\n            raise ValueError(\"unknown fee order\")\n        fund = fund * (1 + net / 100)\n        index = index * (1 + r / 100)\n\n    fund_cum = (fund - 1) * 100\n    twice_idx = 2 * (index - 1) * 100\n    diff = fund_cum - twice_idx\n    return {\n        \"final\": diff,\n        \"fund_cum_return_pct\": fund_cum,\n        \"twice_index_cum_pct\": twice_idx,\n        \"floor_event_days\": Fraction(events),\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FLOOR_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FEE_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FEE_ORDER",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FLOOR_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE_ORDER",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

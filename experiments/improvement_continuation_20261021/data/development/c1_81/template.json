@@ -1,0 +1,122 @@
+{
+ "name": "probability_weighted_project_value_incremental_vs_base",
+ "domain_id": "risk_management",
+ "topic_id": "scenario_planning",
+ "difficulty": "intermediate",
+ "params": {
+  "B": {
+   "kind": "decimal",
+   "min": "20.0",
+   "max": "200.0",
+   "step": "0.5"
+  },
+  "U": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 5
+  },
+  "D": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 5
+  },
+  "C": {
+   "kind": "decimal",
+   "min": "0.0",
+   "max": "10.0",
+   "step": "0.5"
+  },
+  "PU": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 5
+  },
+  "PD": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 5
+  }
+ },
+ "question_template": "A project has three scenarios. Base-case value: {B} USD million. Upside value: base raised by {U} percent. Downside value: base lowered by {D} percent, then less a one-time remediation charge of {C} USD million incurred only in the downside scenario. Probabilities in percent: upside {PU}, downside {PD}, base case the remainder so they sum to 100; the base probability must be strictly positive or the valuation is invalid. Compute the probability-weighted expected value, the base-case probability, and the downside loss versus base as a positive magnitude (base value minus downside value). Report as the final answer the incremental expected value versus base, i.e. expected value minus base value, keeping its sign, in USD million.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "base_probability",
+   "description": "Base-case probability in percent after assigning the remainder",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "expected_value",
+   "description": "Probability-weighted expected project value across the three scenarios",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "downside_loss",
+   "description": "Base value minus downside value, reported as positive magnitude",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    B = Q(P[\"B\"])\n    U = Q(P[\"U\"])\n    D = Q(P[\"D\"])\n    C = Q(P[\"C\"])\n    PU = Q(P[\"PU\"])\n    PD = Q(P[\"PD\"])\n    PB = 100 - PU - PD\n    if PB <= 0:\n        raise ValueError(\"base-case probability must be strictly positive\")\n    v_up = B * (1 + U / 100)\n    v_down = B * (1 - D / 100) - C\n    ev = (PB * B + PU * v_up + PD * v_down) / 100\n    incremental = ev - B\n    loss = B - v_down\n    return {\"final\": incremental, \"base_probability\": PB, \"expected_value\": ev, \"downside_loss\": loss}",
+ "coverage_params": [
+  {
+   "B": "100.0",
+   "U": 30,
+   "D": 20,
+   "C": "2.0",
+   "PU": 30,
+   "PD": 20
+  },
+  {
+   "B": "50.0",
+   "U": 10,
+   "D": 40,
+   "C": "5.0",
+   "PU": 20,
+   "PD": 35
+  },
+  {
+   "B": "100.0",
+   "U": 20,
+   "D": 15,
+   "C": "5.0",
+   "PU": 25,
+   "PD": 25
+  },
+  {
+   "B": "80.0",
+   "U": 25,
+   "D": 25,
+   "C": "1.0",
+   "PU": 60,
+   "PD": 40
+  }
+ ]
+}

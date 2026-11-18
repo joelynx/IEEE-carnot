@@ -1,0 +1,260 @@
+{
+ "family": "c1_57",
+ "template_sha256": "9c6e52799852b654453bbf8a1603b2d239a3df6a1e60c22487539faf28b3775a",
+ "draws_sha256": "b0ac797c1fd69ab6156920642c0ec434d6d2ce0694573e2bd757fa62fe4b2082",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "00c05610c45d494626fb3e1f6210eec402740dd12a10d4ba543311b559849395",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1677,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1065,
+    "output_tokens_details": {
+     "thinking_tokens": 437
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1677,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1065,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1677,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1677
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0869605
+  },
+  {
+   "attempt": 1,
+   "cache_key": "688b7d451fdb5fe5e0f1d38b84b227559c779bac0d8b515f6b4cbbe0dfba7345",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2453,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 970,
+    "output_tokens_details": {
+     "thinking_tokens": 248
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 2453,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 970,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 2453,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 2453
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0977305
+  }
+ ],
+ "program": "def solve():\n    I0 = P[\"I0\"]; C = P[\"C\"]; N = P[\"N\"]; D = P[\"D\"]\n    R = Q(P[\"R\"]) / 100\n    F = Q(P[\"F\"]) / 100\n    K = Q(P[\"K\"]) / 100\n\n    # Build the net flow ledger year by year\n    flows = {0: -Q(I0)}\n    for t in range(1, N + 1):\n        flows[t] = Q(C)\n    flows[N] = Q(C) - Q(D)\n\n    # NPV at R\n    npv = Q(0)\n    for t, cf in flows.items():\n        npv += cf / (1 + R) ** t\n\n    # Classify flows by sign\n    pv_neg = Q(0)   # magnitude of PV of negative flows at finance rate\n    fv_pos = Q(0)   # FV at year N of positive flows at reinvestment rate\n    for t, cf in flows.items():\n        if cf < 0:\n            pv_neg += (-cf) / (1 + F) ** t\n        elif cf > 0:\n            fv_pos += cf * (1 + K) ** (N - t)\n        # zero flows ignored\n\n    if pv_neg <= 0 or fv_pos <= 0:\n        raise ValueError(\"MIRR undefined: need both negative and positive flows\")\n\n    # MIRR: (1+m)^N = fv_pos / pv_neg  -> find growth factor g=(1+m) by bisection\n    ratio = fv_pos / pv_neg\n    lo = Q(0)\n    hi = Q(1)\n    while hi ** N < ratio:\n        hi *= 2\n    for _ in range(200):\n        mid = (lo + hi) / 2\n        if mid ** N < ratio:\n            lo = mid\n        else:\n            hi = mid\n    g = (lo + hi) / 2\n    m = g - 1\n    mirr_pct = m * 100\n\n    return {\n        \"final\": mirr_pct,\n        \"npv\": npv,\n        \"npv_positive\": \"positive\" if npv > 0 else \"not_positive\",\n        \"pv_negative_flows\": pv_neg,\n        \"fv_positive_flows\": fv_pos,\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_I0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_F",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_I0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_F",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

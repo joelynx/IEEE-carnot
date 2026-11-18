@@ -1,0 +1,149 @@
+{
+ "name": "esg_score_tilt_renormalized_weights",
+ "domain_id": "sustainable_finance",
+ "topic_id": "esg_investing",
+ "difficulty": "intermediate",
+ "params": {
+  "W_A": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 1
+  },
+  "W_B": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 1
+  },
+  "W_C": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 1
+  },
+  "S_A": {
+   "kind": "int",
+   "min": 20,
+   "max": 95,
+   "step": 1
+  },
+  "S_B": {
+   "kind": "int",
+   "min": 20,
+   "max": 95,
+   "step": 1
+  },
+  "S_C": {
+   "kind": "int",
+   "min": 20,
+   "max": 95,
+   "step": 1
+  },
+  "S_D": {
+   "kind": "int",
+   "min": 20,
+   "max": 95,
+   "step": 1
+  },
+  "TARGET": {
+   "kind": "choice",
+   "values": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ]
+  }
+ },
+ "question_template": "A benchmark holds four stocks A, B, C and D with weights {W_A}%, {W_B}%, {W_C}% and the remainder to 100% in D (if that remainder is below 1% the benchmark is invalid). ESG scores on a 0-100 scale are A {S_A}, B {S_B}, C {S_C}, D {S_D}. An ESG tilt first computes the benchmark-weighted average score. Each stock's tilt factor is 1 + 2 x (its score minus that average)/100, but never below a floor of 0.25; the floor applies to the factor before renormalization. Multiply each benchmark weight by its factor, then renormalize the four tilted weights so they sum to 100%. Report the tilted weight of stock {TARGET} in percent. Also report the benchmark-weighted average ESG score, the tilted portfolio's weighted ESG score, and the active weight of stock {TARGET}, defined as tilted weight minus benchmark weight, in percentage points.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "benchmark_avg_score",
+   "description": "Benchmark-weighted average ESG score on the 0-100 scale",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "tilted_portfolio_score",
+   "description": "Weighted ESG score of the renormalized tilted portfolio",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "active_weight_pp",
+   "description": "Tilted weight minus benchmark weight of the target stock, percentage points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    wa = Fraction(P[\"W_A\"])\n    wb = Fraction(P[\"W_B\"])\n    wc = Fraction(P[\"W_C\"])\n    wd = 100 - wa - wb - wc\n    if wd < 1:\n        raise ValueError(\"remainder weight for D below 1 percent\")\n    names = [\"A\", \"B\", \"C\", \"D\"]\n    weights = {\"A\": wa / 100, \"B\": wb / 100, \"C\": wc / 100, \"D\": wd / 100}\n    scores = {\"A\": Fraction(P[\"S_A\"]), \"B\": Fraction(P[\"S_B\"]), \"C\": Fraction(P[\"S_C\"]), \"D\": Fraction(P[\"S_D\"])}\n    avg = sum(weights[n] * scores[n] for n in names)\n    floor = Fraction(1, 4)\n    factors = {}\n    for n in names:\n        f = 1 + 2 * (scores[n] - avg) / 100\n        if f < floor:\n            f = floor\n        factors[n] = f\n    raw = {n: weights[n] * factors[n] for n in names}\n    total = sum(raw[n] for n in names)\n    new = {n: raw[n] / total for n in names}\n    port_score = sum(new[n] * scores[n] for n in names)\n    t = P[\"TARGET\"]\n    final = new[t] * 100\n    active = final - weights[t] * 100\n    return {\"final\": final, \"benchmark_avg_score\": avg, \"tilted_portfolio_score\": port_score, \"active_weight_pp\": active}",
+ "coverage_params": [
+  {
+   "W_A": 30,
+   "W_B": 25,
+   "W_C": 20,
+   "S_A": 70,
+   "S_B": 50,
+   "S_C": 60,
+   "S_D": 40,
+   "TARGET": "A"
+  },
+  {
+   "W_A": 40,
+   "W_B": 20,
+   "W_C": 20,
+   "S_A": 90,
+   "S_B": 80,
+   "S_C": 85,
+   "S_D": 20,
+   "TARGET": "D"
+  },
+  {
+   "W_A": 30,
+   "W_B": 30,
+   "W_C": 25,
+   "S_A": 70,
+   "S_B": 70,
+   "S_C": 50,
+   "S_D": 20,
+   "TARGET": "B"
+  },
+  {
+   "W_A": 50,
+   "W_B": 30,
+   "W_C": 20,
+   "S_A": 60,
+   "S_B": 60,
+   "S_C": 60,
+   "S_D": 60,
+   "TARGET": "C"
+  }
+ ]
+}

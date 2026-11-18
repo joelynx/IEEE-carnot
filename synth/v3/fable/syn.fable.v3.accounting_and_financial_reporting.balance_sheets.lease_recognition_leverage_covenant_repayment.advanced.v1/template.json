@@ -1,0 +1,109 @@
+{
+ "name": "lease_recognition_leverage_covenant_repayment",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "balance_sheets",
+ "difficulty": "advanced",
+ "params": {
+  "EQUITY": {
+   "kind": "int",
+   "min": 400000,
+   "max": 900000,
+   "step": 10000
+  },
+  "DEBT": {
+   "kind": "int",
+   "min": 300000,
+   "max": 900000,
+   "step": 10000
+  },
+  "LEASE_PAYMENT": {
+   "kind": "int",
+   "min": 40000,
+   "max": 120000,
+   "step": 5000
+  },
+  "LEASE_TERM": {
+   "kind": "int",
+   "min": 3,
+   "max": 8,
+   "step": 1
+  },
+  "RATE": {
+   "kind": "decimal",
+   "min": "4.00",
+   "max": "9.00",
+   "step": "0.25"
+  },
+  "TIMING": {
+   "kind": "choice",
+   "values": [
+    "end",
+    "start"
+   ]
+  },
+  "COVENANT_MAX": {
+   "kind": "decimal",
+   "min": "1.00",
+   "max": "2.00",
+   "step": "0.25"
+  }
+ },
+ "question_template": "A company reports shareholders' equity E={EQUITY} USD and interest-bearing debt D={DEBT} USD immediately before recognising a new lease on its balance sheet. The lease requires n={LEASE_TERM} annual payments of L={LEASE_PAYMENT} USD, each paid at the {TIMING} of the year, and the company discounts them at its incremental borrowing rate r={RATE} percent, compounded annually. At recognition the lease liability equals the present value of the payments and the right-of-use asset is recognised at exactly the same amount, so equity is unchanged; the lease liability counts as interest-bearing debt. A loan covenant requires interest-bearing debt divided by equity to be at most m={COVENANT_MAX}. If the ratio after recognition exceeds m, the company immediately repays existing debt from surplus cash (equity unchanged; assume sufficient cash) by the minimum amount that brings the ratio to exactly m; if the ratio is at or below m, no repayment is made. Use exact arithmetic. Compute the required debt repayment in USD (0 if none).",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "lease_liability_recognised",
+   "description": "Present value of the lease payments in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "leverage_after_recognition",
+   "description": "Interest-bearing debt over equity after the lease.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "multiple",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 6
+    }
+   }
+  },
+  {
+   "slot_id": "covenant_breached",
+   "description": "Whether post-lease leverage exceeds the covenant maximum.",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "false",
+     "true"
+    ]
+   }
+  },
+  {
+   "slot_id": "maximum_permitted_debt",
+   "description": "Largest debt consistent with the covenant in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    E0 = Q(P[\"EQUITY\"])\n    D0 = Q(P[\"DEBT\"])\n    L = Q(P[\"LEASE_PAYMENT\"])\n    n = P[\"LEASE_TERM\"]\n    r = Q(P[\"RATE\"]) / 100\n    m = Q(P[\"COVENANT_MAX\"])\n    timing = P[\"TIMING\"]\n    if r <= 0:\n        raise ValueError(\"rate must be positive\")\n    v = 1 / (1 + r)\n    annuity = (1 - v ** n) / r\n    if timing == \"start\":\n        annuity = annuity * (1 + r)\n    pv = L * annuity\n    debt_after = D0 + pv\n    ratio = debt_after / E0\n    max_debt = m * E0\n    breached = ratio > m\n    if breached:\n        repay = debt_after - max_debt\n    else:\n        repay = Q(0)\n    return {\n        \"final\": repay,\n        \"lease_liability_recognised\": pv,\n        \"leverage_after_recognition\": ratio,\n        \"covenant_breached\": \"true\" if breached else \"false\",\n        \"maximum_permitted_debt\": max_debt,\n    }\n"
+}

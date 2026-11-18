@@ -1,0 +1,229 @@
+{
+ "family": "c1_70",
+ "template_sha256": "32193e4b8bd8b0245066db528dde941c38f7ce5a4c963a63b8ec59d70d99696e",
+ "draws_sha256": "1e2bd77bf79aa4916d049c167b8a2b49dda75aa7eb2d938817e4068fe1a7c7e8",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "0122ae46430a3e834f3792aa5af658d50d60bdcc81b73fd51c2a5199c026514e",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1876,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 514,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1876,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 514,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1876,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1876
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0633905
+  }
+ ],
+ "program": "def solve():\n    base = Q(P[\"BASE\"])\n    bps = [Q(P[\"BPS_A\"]), Q(P[\"BPS_B\"]), Q(P[\"BPS_C\"])]\n    comp = [P[\"Q_A\"], P[\"Q_B\"], P[\"Q_C\"]]\n    cost_pct = Q(P[\"COST_PCT\"])\n\n    annual = [base * b / 10000 for b in bps]\n    quarterly = [a / 4 for a in annual]\n    costs = [a * cost_pct / 100 for a in annual]\n\n    # Period-by-period ledger\n    cum = Q(0)\n    cum_by_q = {}\n    earned_by_q = {}\n    for q in range(1, 9):\n        earned = Q(0)\n        incurred = Q(0)\n        for i in range(3):\n            if q == comp[i]:\n                incurred += costs[i]\n            if q > comp[i]:\n                earned += quarterly[i]\n        cum += earned - incurred\n        cum_by_q[q] = cum\n        earned_by_q[q] = earned\n\n    first_pos = 0\n    for q in range(1, 9):\n        if cum_by_q[q] > 0:\n            first_pos = q\n            break\n\n    return {\n        \"final\": cum_by_q[8],\n        \"total_one_time_cost\": sum(costs, Q(0)),\n        \"run_rate_quarterly_saving\": earned_by_q[8],\n        \"first_positive_quarter\": Q(first_pos),\n        \"cumulative_after_q4\": cum_by_q[4],\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BASE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BPS_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BPS_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BPS_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Q_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Q_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Q_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COST_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BASE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BPS_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BPS_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BPS_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Q_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Q_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Q_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COST_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

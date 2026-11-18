@@ -1,0 +1,112 @@
+{
+  "name": "growing_deposits_inflated_target_midplan_withdrawal_topup",
+  "domain_id": "personal_finance",
+  "topic_id": "saveretire",
+  "difficulty": "advanced",
+  "params": {
+    "D": {
+      "kind": "int",
+      "min": 5000,
+      "max": 15000,
+      "step": 500
+    },
+    "G": {
+      "kind": "decimal",
+      "min": "0.0",
+      "max": "5.0",
+      "step": "0.5"
+    },
+    "R": {
+      "kind": "decimal",
+      "min": "3.0",
+      "max": "8.0",
+      "step": "0.5"
+    },
+    "N": {
+      "kind": "int",
+      "min": 6,
+      "max": 12,
+      "step": 1
+    },
+    "K": {
+      "kind": "int",
+      "min": 2,
+      "max": 5,
+      "step": 1
+    },
+    "W": {
+      "kind": "int",
+      "min": 2000,
+      "max": 8000,
+      "step": 500
+    },
+    "T": {
+      "kind": "int",
+      "min": 100000,
+      "max": 250000,
+      "step": 5000
+    },
+    "I": {
+      "kind": "decimal",
+      "min": "2.0",
+      "max": "4.0",
+      "step": "0.5"
+    }
+  },
+  "question_template": "Apply only this fictional scenario-local retirement plan. A saver starts with zero savings and makes end-of-year deposits for {N} years. The first deposit, at the end of year 1, is {D} USD; each later deposit is {G} percent larger than the previous year's deposit. The balance earns {R} percent per year, credited at each year end before that year's deposit is added. At the end of year {K}, immediately after that year's deposit, the saver withdraws {W} USD once; the remaining balance keeps compounding. The retirement target is {T} USD in today's purchasing power and is inflated at {I} percent per year compounded over all {N} years. Shortfall is the larger of the inflated target minus the projected end-of-year-{N} balance and zero. To close any shortfall, the saver would add a level extra deposit at the end of each year from the year after the withdrawal year through year {N} inclusive, earning the same {R} percent return. The top-up factor is the sum of the end-of-year-{N} compounded values of one USD deposited at each of those year ends. The required extra annual deposit equals shortfall divided by the top-up factor and is zero when there is no shortfall. Report the projected balance, inflated target, shortfall and top-up factor.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd_per_year",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "projected_balance_usd",
+      "description": "Report projected balance at end of final plan year after withdrawal.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "inflated_target_usd",
+      "description": "Report retirement target inflated over the full plan horizon.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "shortfall_usd",
+      "description": "Report nonnegative shortfall of projected balance versus inflated target.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "topup_factor",
+      "description": "Report compounded value sum of one USD deposited each top-up year end.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "multiple",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    D = Fraction(P[\"D\"])\n    g = Fraction(P[\"G\"]) / 100\n    r = Fraction(P[\"R\"]) / 100\n    N = int(P[\"N\"])\n    K = int(P[\"K\"])\n    W = Fraction(P[\"W\"])\n    T = Fraction(P[\"T\"])\n    i = Fraction(P[\"I\"]) / 100\n    if K >= N:\n        raise ValueError(\"withdrawal year must precede final plan year\")\n    bal = Fraction(0)\n    for t in range(1, N + 1):\n        bal = bal * (1 + r) + D * (1 + g) ** (t - 1)\n        if t == K:\n            if bal < W:\n                raise ValueError(\"withdrawal exceeds balance\")\n            bal = bal - W\n    target = T * (1 + i) ** N\n    shortfall = max(target - bal, Fraction(0))\n    factor = Fraction(0)\n    for j in range(N - K):\n        factor = factor + (1 + r) ** j\n    extra = shortfall / factor\n    return {\n        \"final\": extra,\n        \"projected_balance_usd\": bal,\n        \"inflated_target_usd\": target,\n        \"shortfall_usd\": shortfall,\n        \"topup_factor\": factor,\n    }\n"
+}

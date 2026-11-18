@@ -1,0 +1,547 @@
+{
+ "family": "c1_57",
+ "draws_sha256": "d147a5c6b8db4462c48f9751e4f8d39a62790b28105eef83d8759df4e9be6b8e",
+ "checks": [
+  {
+   "case_id": "t1_syn46d7e0a88932d474a134",
+   "verdicts": {
+    "final": true,
+    "npv": true,
+    "npv_positive": true,
+    "pv_negative_flows": true,
+    "fv_positive_flows": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn46d7e0a88932d474a134",
+     "final_answer": {
+      "value": "-36.90"
+     },
+     "steps": [
+      {
+       "slot_id": "npv",
+       "value": "-27906880000/185193"
+      },
+      {
+       "slot_id": "npv_positive",
+       "value": "not_positive"
+      },
+      {
+       "slot_id": "pv_negative_flows",
+       "value": "1826175520000/9663597"
+      },
+      {
+       "slot_id": "fv_positive_flows",
+       "value": "47488"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-36.90": 1
+     },
+     "npv": {
+      "-27906880000/185193": 1
+     },
+     "npv_positive": {
+      "not_positive": 1
+     },
+     "pv_negative_flows": {
+      "1826175520000/9663597": 1
+     },
+     "fv_positive_flows": {
+      "47488": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-36.90",
+       "npv": "-27906880000/185193",
+       "npv_positive": "not_positive",
+       "pv_negative_flows": "1826175520000/9663597",
+       "fv_positive_flows": "47488"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "02896ccf161cc8df6716c4d8a55a1fbb6c0b21b07419ed4d3b8c102df4ea0ef3",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1204,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 370,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1204,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 370,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1204,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1204
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.042781,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4403,
+         "session_id": "a1c30789-cd2d-4445-baa5-2f670a703be6",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    outlay = Q(160000)\n    inflow = Q(20000)\n    decom = Q(55000)\n    r = Q(\"0.14\")\n    fin = Q(\"0.065\")\n    reinv = Q(\"0.12\")\n    n = 3\n    flows = {0: -outlay, 1: inflow, 2: inflow, 3: inflow - decom}\n    npv = sum(cf / (1 + r) ** t for t, cf in flows.items())\n    pv_neg = sum(-cf / (1 + fin) ** t for t, cf in flows.items() if cf < 0)\n    fv_pos = sum(cf * (1 + reinv) ** (n - t) for t, cf in flows.items() if cf > 0)\n    mirr = (fv_pos / pv_neg) ** (Q(1, n)) - 1\n    return {\n        \"final\": mirr * 100,\n        \"npv\": npv,\n        \"npv_positive\": \"positive\" if npv > 0 else \"not_positive\",\n        \"pv_negative_flows\": pv_neg,\n        \"fv_positive_flows\": fv_pos,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 112
+        },
+        "rendered": {
+         "final": "-36.90",
+         "npv": "-27906880000/185193",
+         "npv_positive": "not_positive",
+         "pv_negative_flows": "1826175520000/9663597",
+         "fv_positive_flows": "47488"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn5f1f09b19aa963b107f8",
+   "verdicts": {
+    "final": true,
+    "npv": true,
+    "npv_positive": true,
+    "pv_negative_flows": true,
+    "fv_positive_flows": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn5f1f09b19aa963b107f8",
+     "final_answer": {
+      "value": "32.72"
+     },
+     "steps": [
+      {
+       "slot_id": "npv",
+       "value": "243873200121875/1686616064"
+      },
+      {
+       "slot_id": "npv_positive",
+       "value": "positive"
+      },
+      {
+       "slot_id": "pv_negative_flows",
+       "value": "50000"
+      },
+      {
+       "slot_id": "fv_positive_flows",
+       "value": "362738.991349803"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "32.72": 1
+     },
+     "npv": {
+      "243873200121875/1686616064": 1
+     },
+     "npv_positive": {
+      "positive": 1
+     },
+     "pv_negative_flows": {
+      "50000": 1
+     },
+     "fv_positive_flows": {
+      "362738.991349803": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "32.72",
+       "npv": "243873200121875/1686616064",
+       "npv_positive": "positive",
+       "pv_negative_flows": "50000",
+       "fv_positive_flows": "362738.991349803"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "a6b05a202ee5d99ccd35da00aaac9a7104a9cf34ec852eb48ef838c28eb97fe2",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1202,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 415,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1202,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 415,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1202,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1202
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.044991,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5108,
+         "session_id": "1783b7e1-7ea5-48d8-993a-3855bfed7be8",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    outlay = Q(50000)\n    inflow = Q(47000)\n    decom = Q(44000)\n    n = 7\n    r = Q(\"0.12\")\n    fin = Q(\"0.08\")\n    reinv = Q(\"0.07\")\n\n    flows = {0: -outlay}\n    for t in range(1, n + 1):\n        flows[t] = inflow\n    flows[n] = inflow - decom\n\n    npv = sum(cf / (1 + r) ** t for t, cf in flows.items())\n    npv_positive = \"positive\" if npv > 0 else \"not_positive\"\n\n    pv_neg = Q(0)\n    fv_pos = Q(0)\n    for t, cf in flows.items():\n        if cf < 0:\n            pv_neg += -cf / (1 + fin) ** t\n        elif cf > 0:\n            fv_pos += cf * (1 + reinv) ** (n - t)\n\n    mirr = (fv_pos / pv_neg) ** (Q(1, n)) - 1\n\n    return {\n        \"final\": mirr * 100,\n        \"npv\": npv,\n        \"npv_positive\": npv_positive,\n        \"pv_negative_flows\": pv_neg,\n        \"fv_positive_flows\": fv_pos,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 168
+        },
+        "rendered": {
+         "final": "32.72",
+         "npv": "243873200121875/1686616064",
+         "npv_positive": "positive",
+         "pv_negative_flows": "50000",
+         "fv_positive_flows": "362738.991349803"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syncf9f9e5f8ac4c73863da",
+   "verdicts": {
+    "final": true,
+    "npv": true,
+    "npv_positive": true,
+    "pv_negative_flows": true,
+    "fv_positive_flows": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syncf9f9e5f8ac4c73863da",
+     "final_answer": {
+      "value": "-22.15"
+     },
+     "steps": [
+      {
+       "slot_id": "npv",
+       "value": "-59634380000/1225043"
+      },
+      {
+       "slot_id": "npv_positive",
+       "value": "not_positive"
+      },
+      {
+       "slot_id": "pv_negative_flows",
+       "value": "787815820000/9663597"
+      },
+      {
+       "slot_id": "fv_positive_flows",
+       "value": "38466.45"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-22.15": 1
+     },
+     "npv": {
+      "-59634380000/1225043": 1
+     },
+     "npv_positive": {
+      "not_positive": 1
+     },
+     "pv_negative_flows": {
+      "787815820000/9663597": 1
+     },
+     "fv_positive_flows": {
+      "38466.45": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-22.15",
+       "npv": "-59634380000/1225043",
+       "npv_positive": "not_positive",
+       "pv_negative_flows": "787815820000/9663597",
+       "fv_positive_flows": "38466.45"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "ea63ca1b5a01380e645beeb45f0a11a67a022ca5e1ae08a77453d58384581a8c",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1206,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 361,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1206,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 361,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1206,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1206
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.042371000000000006,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4564,
+         "session_id": "4237a129-6f85-435b-a45b-b1908a37fbaf",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    flows = [Q(-60000), Q(18000), Q(18000), Q(18000) - Q(44000)]\n    r = Q(\"0.07\")\n    npv = sum(cf / (1 + r) ** t for t, cf in enumerate(flows))\n    fin = Q(\"0.065\")\n    reinv = Q(\"0.045\")\n    n = 3\n    pv_neg = Q(0)\n    fv_pos = Q(0)\n    for t, cf in enumerate(flows):\n        if cf < 0:\n            pv_neg += -cf / (1 + fin) ** t\n        elif cf > 0:\n            fv_pos += cf * (1 + reinv) ** (n - t)\n    mirr = ((fv_pos / pv_neg) ** (Q(1, n)) - 1) * 100\n    return {\n        \"final\": mirr,\n        \"npv\": npv,\n        \"npv_positive\": \"positive\" if npv > 0 else \"not_positive\",\n        \"pv_negative_flows\": pv_neg,\n        \"fv_positive_flows\": fv_pos,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 199
+        },
+        "rendered": {
+         "final": "-22.15",
+         "npv": "-59634380000/1225043",
+         "npv_positive": "not_positive",
+         "pv_negative_flows": "787815820000/9663597",
+         "fv_positive_flows": "38466.45"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn18393032fad92a8eae02",
+   "verdicts": {
+    "final": true,
+    "npv": true,
+    "npv_positive": true,
+    "pv_negative_flows": true,
+    "fv_positive_flows": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn18393032fad92a8eae02",
+     "final_answer": {
+      "value": "12.08"
+     },
+     "steps": [
+      {
+       "slot_id": "npv",
+       "value": "-11847476000/1594323"
+      },
+      {
+       "slot_id": "npv_positive",
+       "value": "not_positive"
+      },
+      {
+       "slot_id": "pv_negative_flows",
+       "value": "1178697492859039820000/8053553520421713"
+      },
+      {
+       "slot_id": "fv_positive_flows",
+       "value": "325253.62961296603125"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "12.08": 1
+     },
+     "npv": {
+      "-11847476000/1594323": 1
+     },
+     "npv_positive": {
+      "not_positive": 1
+     },
+     "pv_negative_flows": {
+      "1178697492859039820000/8053553520421713": 1
+     },
+     "fv_positive_flows": {
+      "325253.62961296603125": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "12.08",
+       "npv": "-11847476000/1594323",
+       "npv_positive": "not_positive",
+       "pv_negative_flows": "1178697492859039820000/8053553520421713",
+       "fv_positive_flows": "325253.62961296603125"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "4bf957bfd98503974cd9bf6ef61e0942ff9b218c997da3c27d5f3ef9f4390816",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1208,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 415,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1208,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 415,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1208,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1208
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.045111,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4627,
+         "session_id": "0681a368-e9c2-4e92-a3f8-f15f1f059d8c",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    outlay = Q(140000)\n    inflow = Q(34000)\n    decom = Q(46000)\n    n = 7\n    r = Q(\"0.125\")\n    fin = Q(\"0.095\")\n    reinv = Q(\"0.135\")\n\n    flows = {0: -outlay}\n    for t in range(1, n + 1):\n        flows[t] = inflow\n    flows[n] = inflow - decom\n\n    npv = sum(cf / (1 + r) ** t for t, cf in flows.items())\n    npv_positive = \"positive\" if npv > 0 else \"not_positive\"\n\n    pv_neg = Q(0)\n    fv_pos = Q(0)\n    for t, cf in flows.items():\n        if cf < 0:\n            pv_neg += -cf / (1 + fin) ** t\n        elif cf > 0:\n            fv_pos += cf * (1 + reinv) ** (n - t)\n\n    mirr = (fv_pos / pv_neg) ** (Q(1, n)) - 1\n    return {\n        \"final\": mirr * 100,\n        \"npv\": npv,\n        \"npv_positive\": npv_positive,\n        \"pv_negative_flows\": pv_neg,\n        \"fv_positive_flows\": fv_pos,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 139
+        },
+        "rendered": {
+         "final": "12.08",
+         "npv": "-11847476000/1594323",
+         "npv_positive": "not_positive",
+         "pv_negative_flows": "1178697492859039820000/8053553520421713",
+         "fv_positive_flows": "325253.62961296603125"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

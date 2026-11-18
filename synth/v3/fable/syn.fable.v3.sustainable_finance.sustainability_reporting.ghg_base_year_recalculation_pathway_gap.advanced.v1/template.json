@@ -1,0 +1,106 @@
+{
+ "name": "ghg_base_year_recalculation_pathway_gap",
+ "domain_id": "sustainable_finance",
+ "topic_id": "sustainability_reporting",
+ "difficulty": "advanced",
+ "params": {
+  "BASE_EMISSIONS": {
+   "kind": "int",
+   "min": 60000,
+   "max": 120000,
+   "step": 1000
+  },
+  "ACQUIRED_EMISSIONS": {
+   "kind": "int",
+   "min": 1000,
+   "max": 15000,
+   "step": 100
+  },
+  "THRESHOLD_PCT": {
+   "kind": "decimal",
+   "min": "5.00",
+   "max": "10.00",
+   "step": "0.25"
+  },
+  "TARGET_REDUCTION_PCT": {
+   "kind": "decimal",
+   "min": "30.00",
+   "max": "50.00",
+   "step": "0.50"
+  },
+  "HORIZON_YEARS": {
+   "kind": "int",
+   "min": 8,
+   "max": 12,
+   "step": 1
+  },
+  "YEARS_ELAPSED": {
+   "kind": "int",
+   "min": 2,
+   "max": 5,
+   "step": 1
+  },
+  "CURRENT_EMISSIONS": {
+   "kind": "int",
+   "min": 50000,
+   "max": 110000,
+   "step": 500
+  }
+ },
+ "question_template": "A company's GHG inventory reports base-year Scope 1 plus Scope 2 emissions E0={BASE_EMISSIONS} tons CO2e. During the reporting period it acquired a business whose base-year emissions were A={ACQUIRED_EMISSIONS} tons CO2e; the current-year inventory already includes the acquired business. Base-year recalculation policy: if A divided by E0 is at least the significance threshold s={THRESHOLD_PCT} percent (exactly at the threshold triggers recalculation), the base year is recalculated to E0 plus A; otherwise the base year stays E0. The company's target is to cut emissions by R={TARGET_REDUCTION_PCT} percent below the (possibly recalculated) base-year emissions by the target year, N={HORIZON_YEARS} years after the base year, following a straight-line pathway from base-year emissions to the target-year level. The current reporting year is k={YEARS_ELAPSED} years after the base year, with reported emissions C={CURRENT_EMISSIONS} tons CO2e. Excess over pathway is current emissions minus the pathway allowance for year k, positive when above the pathway. Compute the constant annual percentage reduction that, applied to C and compounding each year over the remaining N minus k years, lands exactly on the target-year level. Use exact arithmetic for all tonnage quantities and round only the final percentage half up to two decimal places.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "base_year_recalculated",
+   "description": "Whether the recalculation policy is triggered.",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "false",
+     "true"
+    ]
+   }
+  },
+  {
+   "slot_id": "adjusted_base_year_emissions",
+   "description": "Exact base-year emissions after policy applied.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "current_year_pathway_allowance",
+   "description": "Exact straight-line pathway allowance for current year.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "excess_over_pathway",
+   "description": "Exact signed current emissions above pathway allowance.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    E0 = P[\"BASE_EMISSIONS\"]\n    A = P[\"ACQUIRED_EMISSIONS\"]\n    s = P[\"THRESHOLD_PCT\"]\n    R = P[\"TARGET_REDUCTION_PCT\"]\n    N = P[\"HORIZON_YEARS\"]\n    k = P[\"YEARS_ELAPSED\"]\n    C = P[\"CURRENT_EMISSIONS\"]\n    share = Fraction(A, E0)\n    recalc = share >= Fraction(s) / 100\n    base = E0 + A if recalc else E0\n    target_level = base * (1 - Fraction(R) / 100)\n    allowance = base - (base - target_level) * Fraction(k, N)\n    excess = C - allowance\n    remaining = N - k\n    if remaining < 1:\n        raise ValueError(\"no remaining years\")\n    if C <= target_level:\n        raise ValueError(\"current emissions already at or below target level\")\n    if C > base:\n        raise ValueError(\"current emissions exceed base-year emissions\")\n    ratio = Fraction(target_level) / C\n    rate = 100 * (1 - exp(ln(ratio) / remaining))\n    return {\n        \"final\": rate,\n        \"base_year_recalculated\": \"true\" if recalc else \"false\",\n        \"adjusted_base_year_emissions\": base,\n        \"current_year_pathway_allowance\": allowance,\n        \"excess_over_pathway\": excess,\n    }\n"
+}

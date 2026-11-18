@@ -1,0 +1,95 @@
+{
+ "name": "mm_tax_recap_target_leverage_share_price",
+ "domain_id": "corporate_finance",
+ "topic_id": "capital_structure",
+ "difficulty": "advanced",
+ "params": {
+  "V": {
+   "kind": "int",
+   "min": 800,
+   "max": 2000,
+   "step": 10
+  },
+  "D0": {
+   "kind": "int",
+   "min": 100,
+   "max": 400,
+   "step": 10
+  },
+  "N": {
+   "kind": "int",
+   "min": 40,
+   "max": 150,
+   "step": 5
+  },
+  "T": {
+   "kind": "int",
+   "min": 20,
+   "max": 30,
+   "step": 1
+  },
+  "L": {
+   "kind": "decimal",
+   "min": "0.60",
+   "max": "1.20",
+   "step": "0.05"
+  }
+ },
+ "question_template": "Use exact arithmetic. A firm with existing perpetual debt D0={D0} USD million and current total firm value V={V} USD million has N={N} million shares outstanding. The corporate tax rate is T={T} percent and Modigliani-Miller with taxes holds: each USD of additional perpetual debt adds T USD of tax shield to firm value. The firm announces a recapitalisation: it issues new perpetual debt and uses all proceeds to repurchase shares at the post-announcement price, which fully reflects the added tax shield. The new debt is sized so that total debt (existing plus new) divided by post-recapitalisation equity value equals the target ratio L={L}. The disclosed inputs always imply a strictly positive new debt issue. Compute the post-announcement share price in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "new_debt_issued",
+   "description": "New perpetual debt issued in USD million.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "tax_shield_added",
+   "description": "Firm value added by the new tax shield.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "post_recap_equity_value",
+   "description": "Equity value after debt issue and buyback.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "shares_repurchased_millions",
+   "description": "Shares bought back, in millions of shares.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    V = Q(P[\"V\"])\n    D0 = Q(P[\"D0\"])\n    N = Q(P[\"N\"])\n    t = Q(P[\"T\"]) / 100\n    L = Q(P[\"L\"])\n    denom = 1 + L - L * t\n    dD = (L * (V - D0) - D0) / denom\n    if dD <= 0:\n        raise ValueError(\"target leverage already met or exceeded by existing debt\")\n    shield = t * dD\n    VL = V + shield\n    E_post = VL - D0 - dD\n    if E_post <= 0:\n        raise ValueError(\"non-positive post-recap equity\")\n    price = (VL - D0) / N\n    shares_rep = dD / price\n    if shares_rep >= N:\n        raise ValueError(\"buyback exceeds shares outstanding\")\n    return {\n        \"final\": price,\n        \"new_debt_issued\": dD,\n        \"tax_shield_added\": shield,\n        \"post_recap_equity_value\": E_post,\n        \"shares_repurchased_millions\": shares_rep,\n    }\n"
+}

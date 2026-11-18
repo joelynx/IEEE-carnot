@@ -1,0 +1,77 @@
+{
+ "name": "net_zero_offset_credit_purchase_cost",
+ "domain_id": "sustainable_finance",
+ "topic_id": "sustainability_reporting",
+ "difficulty": "intermediate",
+ "params": {
+  "S1": {
+   "kind": "int",
+   "min": 2000,
+   "max": 20000,
+   "step": 50
+  },
+  "S2": {
+   "kind": "int",
+   "min": 1000,
+   "max": 15000,
+   "step": 25
+  },
+  "REC_PCT": {
+   "kind": "decimal",
+   "min": "20.00",
+   "max": "80.00",
+   "step": "0.25"
+  },
+  "PRICE": {
+   "kind": "decimal",
+   "min": "8.00",
+   "max": "30.00",
+   "step": "0.25"
+  }
+ },
+ "question_template": "A company's GHG inventory for the reporting year shows Scope 1 emissions S1={S1} tCO2e and location-based Scope 2 emissions S2={S2} tCO2e. It retires renewable energy certificates covering p={REC_PCT} percent of Scope 2, so market-based Scope 2 equals the uncovered share of S2. Its net-zero reporting policy offsets all Scope 1 plus market-based Scope 2 with carbon credits of one tCO2e each, bought only in whole credits (any fractional ton of residual emissions requires one additional credit) at c={PRICE} USD per credit. Use exact arithmetic. Compute the total credit purchase cost in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "market_based_scope2_trace",
+   "description": "Exact market-based Scope 2 emissions in tCO2e.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "residual_emissions_trace",
+   "description": "Exact residual emissions to be offset in tCO2e.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "credits_required_trace",
+   "description": "Whole number of carbon credits purchased.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "credits",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    s1 = P[\"S1\"]\n    s2 = P[\"S2\"]\n    p = P[\"REC_PCT\"]\n    c = P[\"PRICE\"]\n    market_based_scope2 = s2 * (1 - p / 100)\n    residual = s1 + market_based_scope2\n    credits = math.ceil(residual)\n    cost = credits * c\n    return {\n        \"final\": cost,\n        \"market_based_scope2_trace\": market_based_scope2,\n        \"residual_emissions_trace\": residual,\n        \"credits_required_trace\": credits,\n    }\n"
+}

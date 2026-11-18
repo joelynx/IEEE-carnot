@@ -1,0 +1,146 @@
+{
+ "name": "eaa_choice_signed_terminal_and_cost_change_convention",
+ "domain_id": "investment_analysis",
+ "topic_id": "npv",
+ "difficulty": "advanced",
+ "params": {
+  "RATE": {
+   "kind": "int",
+   "min": 4,
+   "max": 12,
+   "step": 1
+  },
+  "INV_A": {
+   "kind": "int",
+   "min": 5000,
+   "max": 12000,
+   "step": 500
+  },
+  "LIFE_A": {
+   "kind": "int",
+   "min": 3,
+   "max": 6,
+   "step": 1
+  },
+  "CF_A": {
+   "kind": "int",
+   "min": 1500,
+   "max": 4000,
+   "step": 100
+  },
+  "TERM_A": {
+   "kind": "int",
+   "min": -1500,
+   "max": 1500,
+   "step": 100
+  },
+  "INV_B": {
+   "kind": "int",
+   "min": 4000,
+   "max": 10000,
+   "step": 500
+  },
+  "LIFE_B": {
+   "kind": "int",
+   "min": 2,
+   "max": 8,
+   "step": 1
+  },
+  "DCOST_B": {
+   "kind": "int",
+   "min": -4000,
+   "max": 1000,
+   "step": 100
+  }
+ },
+ "question_template": "A firm must choose between two mutually exclusive projects evaluated at an annual discount rate of {RATE} percent; every cash flow other than the time-zero outlay occurs at a year-end. Project A costs USD {INV_A} at time zero, generates USD {CF_A} of revenue at the end of each of its {LIFE_A} years, and in addition to that final year's revenue has a signed terminal cash flow of USD {TERM_A} at the end of year {LIFE_A}, where a positive figure is a salvage receipt and a negative figure is a decommissioning payment. Project B costs USD {INV_B} at time zero and lasts {LIFE_B} years with no terminal cash flow; its engineers report the change in annual operating cost as USD {DCOST_B} per year, where a negative figure is a cost reduction that counts as a year-end cash inflow of the same magnitude and a positive figure is a cost increase that counts as a year-end outflow of the same magnitude. Compute each project's NPV, convert each NPV to an equivalent annual annuity (EAA) over that project's own life at the stated rate, and identify the larger of the two EAAs. Decision rule: if both NPVs are zero or negative, choose neither project; otherwise choose the project with the larger EAA, with ties going to Project A. Which project should be chosen?",
+ "answer_spec": {
+  "type": "enum",
+  "allowed_values": [
+   "project_a",
+   "project_b",
+   "neither"
+  ]
+ },
+ "slots": [
+  {
+   "slot_id": "npv_a",
+   "description": "NPV of Project A including the signed terminal cash flow",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "npv_b",
+   "description": "NPV of Project B using the stated operating-cost sign convention",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "eaa_larger",
+   "description": "The larger of the two equivalent annual annuities",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_per_year",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    r = Q(P[\"RATE\"]) / 100\n    inv_a = Q(P[\"INV_A\"])\n    la = P[\"LIFE_A\"]\n    cf_a = Q(P[\"CF_A\"])\n    term_a = Q(P[\"TERM_A\"])\n    inv_b = Q(P[\"INV_B\"])\n    lb = P[\"LIFE_B\"]\n    dcost_b = Q(P[\"DCOST_B\"])\n    if r <= 0:\n        raise ValueError(\"rate must be positive for annuity factor\")\n    def af(n):\n        return (1 - Q(1) / (1 + r) ** n) / r\n    af_a = af(la)\n    af_b = af(lb)\n    npv_a = cf_a * af_a + term_a / (1 + r) ** la - inv_a\n    annual_b = -dcost_b\n    npv_b = annual_b * af_b - inv_b\n    eaa_a = npv_a / af_a\n    eaa_b = npv_b / af_b\n    eaa_larger = eaa_a if eaa_a >= eaa_b else eaa_b\n    if npv_a <= 0 and npv_b <= 0:\n        choice = \"neither\"\n    elif eaa_a >= eaa_b:\n        choice = \"project_a\"\n    else:\n        choice = \"project_b\"\n    return {\"final\": choice, \"npv_a\": npv_a, \"npv_b\": npv_b, \"eaa_larger\": eaa_larger}",
+ "coverage_params": [
+  {
+   "RATE": 8,
+   "INV_A": 6000,
+   "LIFE_A": 4,
+   "CF_A": 2500,
+   "TERM_A": 1000,
+   "INV_B": 6000,
+   "LIFE_B": 6,
+   "DCOST_B": -1500
+  },
+  {
+   "RATE": 10,
+   "INV_A": 8000,
+   "LIFE_A": 5,
+   "CF_A": 2400,
+   "TERM_A": -1500,
+   "INV_B": 5000,
+   "LIFE_B": 4,
+   "DCOST_B": -2500
+  },
+  {
+   "RATE": 6,
+   "INV_A": 10000,
+   "LIFE_A": 3,
+   "CF_A": 3000,
+   "TERM_A": 500,
+   "INV_B": 7000,
+   "LIFE_B": 5,
+   "DCOST_B": 400
+  },
+  {
+   "RATE": 5,
+   "INV_A": 7000,
+   "LIFE_A": 6,
+   "CF_A": 1500,
+   "TERM_A": 0,
+   "INV_B": 4000,
+   "LIFE_B": 2,
+   "DCOST_B": -2300
+  }
+ ]
+}

@@ -1,0 +1,1790 @@
+[
+  {
+    "case_id": "t1_synea073902ae185642e01b",
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synea073902ae185642e01b",
+        "final_answer": {
+          "value": "604005.72"
+        },
+        "steps": [
+          {
+            "slot_id": "equity_after_result",
+            "value": "240000"
+          },
+          {
+            "slot_id": "injection_leverage_only",
+            "value": "17600000/41"
+          },
+          {
+            "slot_id": "injection_equity_ratio_only",
+            "value": "422200000/699"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "604005.72": 5
+        },
+        "equity_after_result": {
+          "240000": 5
+        },
+        "injection_leverage_only": {
+          "17600000/41": 5
+        },
+        "injection_equity_ratio_only": {
+          "422200000/699": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "604005.72",
+            "equity_after_result": "240000",
+            "injection_leverage_only": "17600000/41",
+            "injection_equity_ratio_only": "422200000/699"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "476cc0f997ceafd888e8c4b1d682b8b78e1b6cc1d93c4f3bd506c4118c641e98",
+              "cached": true,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3180,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 1025,
+                "output_tokens_details": {
+                  "thinking_tokens": 574
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3180,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1025,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3180,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3180
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.023074,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8279,
+                "session_id": "f267103f-5ab3-4737-84d3-965f1db53363",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L = Q(1300000)\n    E0 = Q(250000)\n    result = Q(-10000)\n    E = E0 + result  # equity after booking the net result\n    r = Q(\"0.3\")     # share of injection used to repay liabilities\n    f = Q(0)         # prepayment fee rate on the repaid amount\n    maxDE = Q(\"1.75\")\n    minER = Q(\"0.43\")\n\n    # Per unit of injection x:\n    #   liabilities = L - r*x\n    #   equity = E + x*(1 - r*f)\n    k = 1 - r * f\n\n    # Debt-to-equity covenant: L - r*x <= maxDE*(E + k*x)\n    x_lev = (L - maxDE * E) / (r + maxDE * k)\n    x_lev = max(x_lev, Q(0))\n\n    # Equity-to-assets covenant: E + k*x >= minER*(L + E + (k - r)*x)\n    denom = k - minER * (k - r)\n    x_eq = (minER * (L + E) - E) / denom\n    x_eq = max(x_eq, Q(0))\n\n    final = max(x_lev, x_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 217
+              },
+              "rendered": {
+                "final": "604005.72",
+                "equity_after_result": "240000",
+                "injection_leverage_only": "17600000/41",
+                "injection_equity_ratio_only": "422200000/699"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "604005.72",
+            "equity_after_result": "240000",
+            "injection_leverage_only": "17600000/41",
+            "injection_equity_ratio_only": "422200000/699"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "e908e40873d3aec82e87581210fb2a2c1293890d4239f727fafc2fe45520d97d",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3180,
+                "cache_read_input_tokens": 1094,
+                "output_tokens": 1034,
+                "output_tokens_details": {
+                  "thinking_tokens": 497
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3180,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1034,
+                    "cache_read_input_tokens": 1094,
+                    "cache_creation_input_tokens": 3180,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3180
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.023173400000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8400,
+                "session_id": "3fe0269c-bc5c-4943-af97-2765ffc1e545",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L = Q(1300000)\n    E_start = Q(250000)\n    result = Q(-10000)\n    inj_repay_share = Q(\"0.3\")\n    fee_rate = Q(0)\n    max_de = Q(\"1.75\")\n    min_eq_ratio = Q(\"0.43\")\n\n    # Equity after booking net result, before any injection\n    E0 = E_start + result\n\n    # Per USD injected: liabilities fall by 0.3, equity rises by 1 - fee on repayment\n    k = 1 - inj_repay_share * fee_rate      # equity change per USD injected\n    liab_change = -inj_repay_share          # liabilities change per USD injected\n\n    # Leverage covenant: L + liab_change*x <= max_de*(E0 + k*x)\n    if L <= max_de * E0:\n        x_lev = Q(0)\n    else:\n        x_lev = max((L - max_de * E0) / (inj_repay_share + max_de * k), Q(0))\n\n    # Equity ratio covenant: E0 + k*x >= r*(L + E0 + (liab_change + k)*x)\n    a = k - min_eq_ratio * (liab_change + k)\n    b = min_eq_ratio * (L + E0) - E0\n    if b <= 0:\n        x_eq = Q(0)\n    else:\n        x_eq = b / a\n\n    final = max(x_lev, x_eq, Q(0))\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 240
+              },
+              "rendered": {
+                "final": "604005.72",
+                "equity_after_result": "240000",
+                "injection_leverage_only": "17600000/41",
+                "injection_equity_ratio_only": "422200000/699"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "604005.72",
+            "equity_after_result": "240000",
+            "injection_leverage_only": "17600000/41",
+            "injection_equity_ratio_only": "422200000/699"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5fc95999536f8d1526f4d666a2569ab75da2b5c08c7e0232e3d379fc01ca3a42",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3180,
+                "cache_read_input_tokens": 1085,
+                "output_tokens": 927,
+                "output_tokens_details": {
+                  "thinking_tokens": 516
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3180,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 927,
+                    "cache_read_input_tokens": 1085,
+                    "cache_creation_input_tokens": 3180,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3180
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0221025,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7340,
+                "session_id": "82f31910-eafc-4973-8cdf-c8a63236240c",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(1300000)\n    E_before = Q(250000)\n    result = Q(-10000)\n    rep = Q(\"0.3\")\n    fee = Q(0)\n    max_de = Q(\"1.75\")\n    min_ea = Q(\"0.43\")\n\n    E0 = E_before + result\n    c = 1 - rep * fee  # equity change per USD injected (injection less fee on repayment)\n\n    # Debt-to-equity: L0 - rep*x <= max_de*(E0 + c*x)\n    num1 = L0 - max_de * E0\n    x_lev = max(Q(0), num1 / (max_de * c + rep))\n\n    # Equity-to-assets: E >= min_ea*(L+E) -> (1-min_ea)*E >= min_ea*L\n    num2 = min_ea * L0 - (1 - min_ea) * E0\n    x_eq = max(Q(0), num2 / ((1 - min_ea) * c + min_ea * rep))\n\n    final = max(x_lev, x_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 148
+              },
+              "rendered": {
+                "final": "604005.72",
+                "equity_after_result": "240000",
+                "injection_leverage_only": "17600000/41",
+                "injection_equity_ratio_only": "422200000/699"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "604005.72",
+            "equity_after_result": "240000",
+            "injection_leverage_only": "17600000/41",
+            "injection_equity_ratio_only": "422200000/699"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "4a3ea611e65c258f28d3fc8eb0287b6dc13cf900c25d54a5344a72bc0b806d6b",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3177,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 914,
+                "output_tokens_details": {
+                  "thinking_tokens": 287
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3177,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 914,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3177,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3177
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.043904,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8643,
+                "session_id": "cbf497e5-eb42-4a2c-ac9c-62132352e016",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(1300000)          # total liabilities, USD\n    E_start = Q(250000)      # total equity, USD\n    net_result = Q(-10000)   # loss reduces equity\n    repay_share = Q(\"0.30\")  # share of injection used to repay liabilities\n    fee_rate = Q(0)          # prepayment fee as fraction of repaid amount\n    max_de = Q(\"1.75\")       # debt-to-equity cap\n    min_ea = Q(\"0.43\")       # equity-to-assets floor\n\n    E0 = E_start + net_result  # equity after booking result\n\n    # After injection x: L = L0 - a x ; E = E0 + x(1 - f a) ; A = L + E\n    a = repay_share\n    eq_coef = 1 - fee_rate * a          # equity gain per USD injected\n    asset_coef = 1 - a - fee_rate * a   # asset change per USD injected\n\n    # Leverage covenant: L0 - a x <= max_de * (E0 + eq_coef x)\n    if L0 <= max_de * E0:\n        x_lev = Q(0)\n    else:\n        x_lev = (L0 - max_de * E0) / (a + max_de * eq_coef)\n\n    # Equity-to-assets: E0 + eq_coef x >= min_ea * (L0 + E0 + asset_coef x)\n    if E0 >= min_ea * (L0 + E0):\n        x_ea = Q(0)\n    else:\n        x_ea = (min_ea * (L0 + E0) - E0) / (eq_coef - min_ea * asset_coef)\n\n    x_min = max(x_lev, x_ea, Q(0))\n\n    return {\n        \"final\": x_min,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_ea,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 109
+              },
+              "rendered": {
+                "final": "604005.72",
+                "equity_after_result": "240000",
+                "injection_leverage_only": "17600000/41",
+                "injection_equity_ratio_only": "422200000/699"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "604005.72",
+            "equity_after_result": "240000",
+            "injection_leverage_only": "17600000/41",
+            "injection_equity_ratio_only": "422200000/699"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "235ee01d17697ee87ed63b203bbd025b3703e2130dada3d03409460d75099c06",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3177,
+                "cache_read_input_tokens": 1107,
+                "output_tokens": 905,
+                "output_tokens_details": {
+                  "thinking_tokens": 265
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3177,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 905,
+                    "cache_read_input_tokens": 1107,
+                    "cache_creation_input_tokens": 3177,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3177
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.043745400000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8179,
+                "session_id": "d19cb00f-372a-4d93-8918-07061dfee9ac",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(1300000)          # initial liabilities\n    E_init = Q(250000)       # initial equity\n    net_result = Q(-10000)   # loss reduces equity\n    repay_share = Q(30) / 100\n    fee_rate = Q(0) / 100\n    max_de = Q(\"1.75\")\n    min_ea = Q(43) / 100\n\n    # Equity after booking result, pre-injection\n    E0 = E_init + net_result\n\n    # With injection x:\n    #   liabilities L(x) = L0 - repay_share*x\n    #   equity      E(x) = E0 + x - fee_rate*repay_share*x\n    #   assets      A(x) = L(x) + E(x)\n    a_L = -repay_share\n    a_E = 1 - fee_rate * repay_share\n\n    # Debt-to-equity: L(x) <= max_de * E(x)  ->  L0 - max_de*E0 <= x*(max_de*a_E - a_L)\n    if L0 <= max_de * E0:\n        x_de = Q(0)\n    else:\n        x_de = (L0 - max_de * E0) / (max_de * a_E - a_L)\n\n    # Equity-to-assets: E(x) >= min_ea * (L(x)+E(x))\n    #   E0 + a_E x >= min_ea*(L0+E0) + min_ea*(a_L+a_E) x\n    rhs = min_ea * (L0 + E0) - E0\n    coef = a_E - min_ea * (a_L + a_E)\n    if rhs <= 0:\n        x_ea = Q(0)\n    else:\n        x_ea = rhs / coef\n\n    x_min = max(x_de, x_ea, Q(0))\n    return {\n        \"final\": x_min,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x_de,\n        \"injection_equity_ratio_only\": x_ea,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 126
+              },
+              "rendered": {
+                "final": "604005.72",
+                "equity_after_result": "240000",
+                "injection_leverage_only": "17600000/41",
+                "injection_equity_ratio_only": "422200000/699"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    },
+    "scores": {
+      "r5d": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "r5j": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      }
+    },
+    "complete_row_choice": {
+      "index": 0,
+      "reason": "final_plurality_checkpoint_agreement"
+    },
+    "complete_row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_synea073902ae185642e01b",
+      "final_answer": {
+        "value": "604005.72"
+      },
+      "steps": [
+        {
+          "slot_id": "equity_after_result",
+          "value": "240000"
+        },
+        {
+          "slot_id": "injection_leverage_only",
+          "value": "17600000/41"
+        },
+        {
+          "slot_id": "injection_equity_ratio_only",
+          "value": "422200000/699"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synfad5de334f6be064d1d2",
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synfad5de334f6be064d1d2",
+        "final_answer": {
+          "value": "221875.00"
+        },
+        "steps": [
+          {
+            "slot_id": "equity_after_result",
+            "value": "290000"
+          },
+          {
+            "slot_id": "injection_leverage_only",
+            "value": "0"
+          },
+          {
+            "slot_id": "injection_equity_ratio_only",
+            "value": "221875"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "221875.00": 5
+        },
+        "equity_after_result": {
+          "290000": 5
+        },
+        "injection_leverage_only": {
+          "0": 5
+        },
+        "injection_equity_ratio_only": {
+          "221875": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "221875.00",
+            "equity_after_result": "290000",
+            "injection_leverage_only": "0",
+            "injection_equity_ratio_only": "221875"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5a7c72af4d594f44c5e878d33fa6aa42d25ed27d96842cbb121b8cf40760e452",
+              "cached": true,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3179,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 907,
+                "output_tokens_details": {
+                  "thinking_tokens": 509
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3179,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 907,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3179,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3179
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.02189,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6782,
+                "session_id": "216739e3-2e63-4e83-a57e-6f3ebf2cdb2b",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L = Q(790000)\n    E0 = Q(260000) + Q(30000)  # equity after booking the net result\n    p = Q(\"0.10\")   # share of the injection used to repay liabilities\n    f = Q(0)        # prepayment fee rate on the repaid amount\n    # After injection x: liabilities = L - p*x, equity = E0 + x*(1 - p*f)\n    # Debt-to-equity: L - p*x <= 2.75*(E0 + x*(1 - p*f))\n    lev = (L - Q(\"2.75\") * E0) / (Q(\"2.75\") * (1 - p * f) + p)\n    lev = max(lev, Q(0))\n    # Equity-to-assets: E >= 0.4*(L - p*x + E)\n    eq = (Q(\"0.4\") * L - Q(\"0.6\") * E0) / (Q(\"0.6\") * (1 - p * f) + Q(\"0.4\") * p)\n    eq = max(eq, Q(0))\n    return {\n        \"final\": max(lev, eq),\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": lev,\n        \"injection_equity_ratio_only\": eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 151
+              },
+              "rendered": {
+                "final": "221875.00",
+                "equity_after_result": "290000",
+                "injection_leverage_only": "0",
+                "injection_equity_ratio_only": "221875"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "221875.00",
+            "equity_after_result": "290000",
+            "injection_leverage_only": "0",
+            "injection_equity_ratio_only": "221875"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "7b209279889235085fe70976683c157fc39935ec8b0070de823dca3c2807127f",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3179,
+                "cache_read_input_tokens": 1094,
+                "output_tokens": 973,
+                "output_tokens_details": {
+                  "thinking_tokens": 514
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3179,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 973,
+                    "cache_read_input_tokens": 1094,
+                    "cache_creation_input_tokens": 3179,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3179
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0225594,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7167,
+                "session_id": "bbe02ce9-fb5a-47de-bfed-5900997a85b3",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L = Q(790000)\n    E = Q(260000)\n    result = Q(30000)\n    p = Q(\"0.10\")   # share of injection used to repay liabilities\n    f = Q(0)        # prepayment fee rate on repaid amount\n    maxDE = Q(\"2.75\")\n    minER = Q(\"0.40\")\n\n    E0 = E + result  # equity after booking net result, before injection\n\n    # After injection x: liabilities = L - p*x ; equity = E0 + x - f*p*x\n    k = 1 - f * p  # equity gain per USD injected\n\n    # Leverage: L - p x <= maxDE*(E0 + k x)\n    x_lev = (L - maxDE * E0) / (p + maxDE * k)\n    x_lev = max(x_lev, Q(0))\n\n    # Equity/assets >= minER  <=> E >= minER/(1-minER) * Liabilities\n    r = minER / (1 - minER)\n    # E0 + k x >= r (L - p x)\n    x_eq = (r * L - E0) / (k + r * p)\n    x_eq = max(x_eq, Q(0))\n\n    final = max(x_lev, x_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 204
+              },
+              "rendered": {
+                "final": "221875.00",
+                "equity_after_result": "290000",
+                "injection_leverage_only": "0",
+                "injection_equity_ratio_only": "221875"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "221875.00",
+            "equity_after_result": "290000",
+            "injection_leverage_only": "0",
+            "injection_equity_ratio_only": "221875"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "9c5ef26d50beb272679316b787546730ab6d8ad8563a76f4614bdb136af0c012",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3179,
+                "cache_read_input_tokens": 1085,
+                "output_tokens": 1210,
+                "output_tokens_details": {
+                  "thinking_tokens": 615
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3179,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1210,
+                    "cache_read_input_tokens": 1085,
+                    "cache_creation_input_tokens": 3179,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3179
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0249285,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8322,
+                "session_id": "93430239-93a6-4f2d-b63c-281cb8e27248",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(790000)\n    E0 = Q(260000)\n    result = Q(30000)\n    repay_share = Q(\"0.10\")\n    fee_rate = Q(0)\n    max_de = Q(\"2.75\")\n    min_eq_ratio = Q(\"0.40\")\n\n    # Equity after booking the net result, before any injection\n    E1 = E0 + result\n\n    # After injection x: repayment = repay_share*x, fee = fee_rate*repayment\n    # E(x) = E1 + x*a, with a = 1 - repay_share*fee_rate\n    # L(x) = L0 - repay_share*x\n    a = 1 - repay_share * fee_rate\n\n    # Debt-to-equity: L0 - s*x <= m*(E1 + a*x)  ->  x >= (L0 - m*E1)/(s + m*a)\n    lev = (L0 - max_de * E1) / (repay_share + max_de * a)\n    inj_lev = max(Q(0), lev)\n\n    # Equity-to-assets: E >= r*(L+E)  ->  (1-r)*E >= r*L\n    r = min_eq_ratio\n    # (1-r)*(E1 + a*x) >= r*(L0 - s*x)\n    # x >= (r*L0 - (1-r)*E1) / ((1-r)*a + r*s)\n    eq = (r * L0 - (1 - r) * E1) / ((1 - r) * a + r * repay_share)\n    inj_eq = max(Q(0), eq)\n\n    final = max(inj_lev, inj_eq)\n\n    return {\n        \"final\": final,\n        \"equity_after_result\": E1,\n        \"injection_leverage_only\": inj_lev,\n        \"injection_equity_ratio_only\": inj_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 148
+              },
+              "rendered": {
+                "final": "221875.00",
+                "equity_after_result": "290000",
+                "injection_leverage_only": "0",
+                "injection_equity_ratio_only": "221875"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "221875.00",
+            "equity_after_result": "290000",
+            "injection_leverage_only": "0",
+            "injection_equity_ratio_only": "221875"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5e2a07f9a10ae591d191c7ac75dc21f6a9eeb4d4ca154e8e096689effba7f133",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3176,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 955,
+                "output_tokens_details": {
+                  "thinking_tokens": 374
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3176,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 955,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3176,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3176
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.044716,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 9053,
+                "session_id": "318874fc-2aa1-4f66-ab1c-9c02e3011725",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    liabilities = Q(790000)\n    equity0 = Q(260000)\n    net_result = Q(30000)\n    repay_share = Q(10) / 100      # share of injection used to repay liabilities\n    fee_rate = Q(0) / 100          # prepayment fee per USD repaid, expensed\n    max_de = Q(\"2.75\")\n    min_ea = Q(40) / 100\n\n    # Equity after booking the net result\n    equity = equity0 + net_result\n\n    # Per USD injected: liabilities fall by a, equity rises by (1 - fee*a)\n    a = repay_share\n    eq_gain = 1 - fee_rate * a\n\n    # Debt-to-equity: (L - aX) <= max_de * (E + eq_gain*X)\n    de_shortfall = liabilities - max_de * equity\n    de_denom = a + max_de * eq_gain\n    if de_shortfall <= 0:\n        x_lev = Q(0)\n    else:\n        x_lev = de_shortfall / de_denom\n\n    # Equity-to-assets: (1-m)(E + eq_gain*X) >= m(L - aX)\n    ea_shortfall = min_ea * liabilities - (1 - min_ea) * equity\n    ea_denom = (1 - min_ea) * eq_gain + min_ea * a\n    if ea_shortfall <= 0:\n        x_ea = Q(0)\n    else:\n        x_ea = ea_shortfall / ea_denom\n\n    final = max(x_lev, x_ea, Q(0))\n    return {\n        \"final\": final,\n        \"equity_after_result\": equity,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_ea,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 98
+              },
+              "rendered": {
+                "final": "221875.00",
+                "equity_after_result": "290000",
+                "injection_leverage_only": "0",
+                "injection_equity_ratio_only": "221875"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "221875.00",
+            "equity_after_result": "290000",
+            "injection_leverage_only": "0",
+            "injection_equity_ratio_only": "221875"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "2e9d2508e05ee4d5c587bee03c479afb98522c5a3581bd3faa13958d8a32aa6a",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3176,
+                "cache_read_input_tokens": 1107,
+                "output_tokens": 1016,
+                "output_tokens_details": {
+                  "thinking_tokens": 403
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3176,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1016,
+                    "cache_read_input_tokens": 1107,
+                    "cache_creation_input_tokens": 3176,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3176
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.045957399999999995,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 9565,
+                "session_id": "de3a4b1a-9003-4d9b-b40b-6a4dffc30471",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    # Inputs\n    L0 = Q(790000)            # liabilities before any injection\n    E_start = Q(260000)       # equity before net result\n    net_result = Q(30000)     # profit (positive) booked before test date\n    repay_share = Q(\"0.10\")   # share of injection used to repay liabilities\n    fee_rate = Q(0)           # prepayment fee on repaid amount, expensed\n    max_de = Q(\"2.75\")        # debt-to-equity ceiling\n    min_ea = Q(\"0.40\")        # equity-to-assets floor\n\n    # Equity after booking the net result, before any injection\n    E0 = E_start + net_result\n\n    # After injection I: L(I) = L0 - r*I ; E(I) = E0 + I*(1 - r*f)\n    a = 1 - repay_share * fee_rate   # equity gain per USD injected\n    r = repay_share                  # liability reduction per USD injected\n\n    # Debt-to-equity covenant: L0 - r*I <= max_de*(E0 + a*I)\n    need_lev = (L0 - max_de * E0) / (r + max_de * a)\n    inj_lev = max(need_lev, Q(0))\n\n    # Equity-to-assets covenant: E >= m*(L+E) <=> (1-m)E >= m*L\n    need_ea = (min_ea * L0 - (1 - min_ea) * E0) / ((1 - min_ea) * a + min_ea * r)\n    inj_ea = max(need_ea, Q(0))\n\n    # Both covenants: binding (larger) requirement\n    final = max(inj_lev, inj_ea)\n\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": inj_lev,\n        \"injection_equity_ratio_only\": inj_ea,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 162
+              },
+              "rendered": {
+                "final": "221875.00",
+                "equity_after_result": "290000",
+                "injection_leverage_only": "0",
+                "injection_equity_ratio_only": "221875"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    },
+    "scores": {
+      "r5d": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "r5j": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      }
+    },
+    "complete_row_choice": {
+      "index": 0,
+      "reason": "final_plurality_checkpoint_agreement"
+    },
+    "complete_row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_synfad5de334f6be064d1d2",
+      "final_answer": {
+        "value": "221875.00"
+      },
+      "steps": [
+        {
+          "slot_id": "equity_after_result",
+          "value": "290000"
+        },
+        {
+          "slot_id": "injection_leverage_only",
+          "value": "0"
+        },
+        {
+          "slot_id": "injection_equity_ratio_only",
+          "value": "221875"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn20985d202a476ce24ce8",
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn20985d202a476ce24ce8",
+        "final_answer": {
+          "value": "242784.79"
+        },
+        "steps": [
+          {
+            "slot_id": "equity_after_result",
+            "value": "345000"
+          },
+          {
+            "slot_id": "injection_leverage_only",
+            "value": "23000000/169"
+          },
+          {
+            "slot_id": "injection_equity_ratio_only",
+            "value": "3979000000/16389"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "242784.79": 5
+        },
+        "equity_after_result": {
+          "345000": 5
+        },
+        "injection_leverage_only": {
+          "23000000/169": 5
+        },
+        "injection_equity_ratio_only": {
+          "3979000000/16389": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "242784.79",
+            "equity_after_result": "345000",
+            "injection_leverage_only": "23000000/169",
+            "injection_equity_ratio_only": "3979000000/16389"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "0c54a5c58300c2bb6e2adb56ef2bf3fa5d9d7dd7ad0fbf5cd90e9b9085faa142",
+              "cached": true,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3181,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 928,
+                "output_tokens_details": {
+                  "thinking_tokens": 426
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3181,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 928,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3181,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3181
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.022108,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6767,
+                "session_id": "8861b9f3-561d-4173-b2f1-f4ac469c6274",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L = Q(920000)\n    E0 = Q(290000)\n    result = Q(55000)  # positive = profit\n    E = E0 + result\n\n    share_repay = Q(\"0.6\")\n    fee_rate = Q(\"0.025\")\n    fee_per_x = share_repay * fee_rate          # fee per USD injected\n    eq_per_x = 1 - fee_per_x                    # equity change per USD injected\n    liab_per_x = -share_repay                   # liability change per USD injected\n    assets_per_x = liab_per_x + eq_per_x\n\n    # Debt-to-equity: (L + liab_per_x*x) <= 1.75*(E + eq_per_x*x)\n    k = Q(\"1.75\")\n    lev_num = L - k * E\n    lev_den = k * eq_per_x - liab_per_x\n    x_lev = max(Q(0), lev_num / lev_den)\n\n    # Equity-to-assets: (E + eq_per_x*x) >= 0.43*(L+E + assets_per_x*x)\n    r = Q(\"0.43\")\n    eq_num = r * (L + E) - E\n    eq_den = eq_per_x - r * assets_per_x\n    x_eq = max(Q(0), eq_num / eq_den)\n\n    final = max(x_lev, x_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 118
+              },
+              "rendered": {
+                "final": "242784.79",
+                "equity_after_result": "345000",
+                "injection_leverage_only": "23000000/169",
+                "injection_equity_ratio_only": "3979000000/16389"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "242784.79",
+            "equity_after_result": "345000",
+            "injection_leverage_only": "23000000/169",
+            "injection_equity_ratio_only": "3979000000/16389"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "f404ab90d55d88edbcf9b055ce81592c21765cd0df306db55166ef20bf7eb462",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3181,
+                "cache_read_input_tokens": 1094,
+                "output_tokens": 952,
+                "output_tokens_details": {
+                  "thinking_tokens": 407
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3181,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 952,
+                    "cache_read_input_tokens": 1094,
+                    "cache_creation_input_tokens": 3181,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3181
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0223574,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7054,
+                "session_id": "891935db-050a-4e0b-99b9-5b56b867ea5e",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(920000)\n    E_start = Q(290000)\n    net_result = Q(55000)\n    # \"net result\" is positive for profit, negative for loss; it changes equity by that amount\n    E0 = E_start + net_result * 0  # placeholder replaced below\n    # The question states the net result is 55000 USD (negative = loss), so 55000 is a profit.\n    E0 = E_start + net_result\n\n    repay_share = Q(\"0.6\")\n    fee_rate = Q(\"0.025\")\n    max_de = Q(\"1.75\")\n    min_er = Q(\"0.43\")\n\n    # After injection x:\n    # L = L0 - repay_share*x\n    # E = E0 + x - fee_rate*repay_share*x\n    a_L = -repay_share\n    a_E = 1 - fee_rate * repay_share\n\n    # D/E: L0 + a_L x <= max_de (E0 + a_E x)\n    x_lev = (L0 - max_de * E0) / (max_de * a_E - a_L)\n    x_lev = max(x_lev, Q(0))\n\n    # E/(L+E) >= min_er  ->  (1-min_er) E >= min_er L\n    x_eq = (min_er * L0 - (1 - min_er) * E0) / ((1 - min_er) * a_E - min_er * a_L)\n    x_eq = max(x_eq, Q(0))\n\n    final = max(x_lev, x_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 147
+              },
+              "rendered": {
+                "final": "242784.79",
+                "equity_after_result": "345000",
+                "injection_leverage_only": "23000000/169",
+                "injection_equity_ratio_only": "3979000000/16389"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "242784.79",
+            "equity_after_result": "345000",
+            "injection_leverage_only": "23000000/169",
+            "injection_equity_ratio_only": "3979000000/16389"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "69a37a743ffabda5e595b9e50e72877a226de10e82f12b66481a7a0fe854167d",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3181,
+                "cache_read_input_tokens": 1085,
+                "output_tokens": 886,
+                "output_tokens_details": {
+                  "thinking_tokens": 401
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3181,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 886,
+                    "cache_read_input_tokens": 1085,
+                    "cache_creation_input_tokens": 3181,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3181
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0216965,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6563,
+                "session_id": "f08cb441-bdc4-4663-92cf-9ac8709c652d",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(920000)\n    E_start = Q(290000)\n    result = Q(55000)\n    E0 = E_start + result  # equity after booking net result\n\n    repay_share = Q(\"0.6\")\n    fee_rate = Q(\"0.025\")\n    max_de = Q(\"1.75\")\n    min_eq_assets = Q(\"0.43\")\n\n    # After injection x: liabilities = L0 - repay_share*x\n    # equity = E0 + x - fee_rate*repay_share*x\n    l_coef = -repay_share\n    e_coef = 1 - fee_rate * repay_share\n\n    # Leverage: L <= max_de * E  ->  (L0 + l_coef x) <= max_de (E0 + e_coef x)\n    a1 = max_de * e_coef - l_coef\n    b1 = L0 - max_de * E0\n    x1 = max(Q(0), b1 / a1)\n\n    # Equity ratio: E >= r (L + E) -> (1-r) E >= r L\n    r = min_eq_assets\n    a2 = (1 - r) * e_coef - r * l_coef\n    b2 = r * L0 - (1 - r) * E0\n    x2 = max(Q(0), b2 / a2)\n\n    final = max(x1, x2)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x1,\n        \"injection_equity_ratio_only\": x2,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 172
+              },
+              "rendered": {
+                "final": "242784.79",
+                "equity_after_result": "345000",
+                "injection_leverage_only": "23000000/169",
+                "injection_equity_ratio_only": "3979000000/16389"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "242784.79",
+            "equity_after_result": "345000",
+            "injection_leverage_only": "23000000/169",
+            "injection_equity_ratio_only": "3979000000/16389"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "70e30690bb7af82a6c7ce0e6fe114b2ed6928dc37a0f72c0f21699e69bcf90a8",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3178,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 998,
+                "output_tokens_details": {
+                  "thinking_tokens": 400
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3178,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 998,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3178,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3178
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.045591999999999994,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 9409,
+                "session_id": "513946e2-e8a1-47b3-b81d-8579eab60185",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    liabilities = Q(920000)\n    equity = Q(290000)\n    net_result = Q(55000)\n    repay_share = Q(\"0.6\")\n    fee_rate = Q(\"0.025\")\n    de_max = Q(\"1.75\")\n    ea_min = Q(\"0.43\")\n\n    # Equity after booking the net result, before any injection\n    eq0 = equity + net_result\n\n    # Injection x: liabilities fall by 0.6x; equity rises by x minus fee on the repaid amount\n    liab_coef = repay_share                    # L' = L - liab_coef * x\n    eq_coef = 1 - fee_rate * repay_share       # E' = eq0 + eq_coef * x\n\n    # Debt-to-equity covenant: L - a x <= de_max * (eq0 + b x)\n    if liabilities / eq0 <= de_max:\n        x_de = Q(0)\n    else:\n        x_de = (liabilities - de_max * eq0) / (de_max * eq_coef + liab_coef)\n\n    # Equity-to-assets covenant: E' >= ea_min * (L' + E')  <=>  (1 - ea_min) E' >= ea_min L'\n    if eq0 / (liabilities + eq0) >= ea_min:\n        x_ea = Q(0)\n    else:\n        x_ea = (ea_min * liabilities - (1 - ea_min) * eq0) / ((1 - ea_min) * eq_coef + ea_min * liab_coef)\n\n    # Both covenants must hold simultaneously\n    final = max(x_de, x_ea, Q(0))\n    return {\n        \"final\": final,\n        \"equity_after_result\": eq0,\n        \"injection_leverage_only\": x_de,\n        \"injection_equity_ratio_only\": x_ea,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 96
+              },
+              "rendered": {
+                "final": "242784.79",
+                "equity_after_result": "345000",
+                "injection_leverage_only": "23000000/169",
+                "injection_equity_ratio_only": "3979000000/16389"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "242784.79",
+            "equity_after_result": "345000",
+            "injection_leverage_only": "23000000/169",
+            "injection_equity_ratio_only": "3979000000/16389"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "926e23fe60235277852717a38658b9cc77ba38c491e2ce7baad42b0805558384",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3178,
+                "cache_read_input_tokens": 1107,
+                "output_tokens": 1027,
+                "output_tokens_details": {
+                  "thinking_tokens": 345
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3178,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1027,
+                    "cache_read_input_tokens": 1107,
+                    "cache_creation_input_tokens": 3178,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3178
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.046193399999999996,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 9994,
+                "session_id": "7816abf9-49a3-496c-a695-27062bb32b61",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    # Inputs\n    liabilities0 = Q(920000)\n    equity0 = Q(290000)\n    net_result = Q(55000)            # positive = profit, adds to equity\n    repay_share = Q(\"0.60\")          # share of injection used to repay liabilities\n    fee_rate = Q(\"0.025\")            # prepayment fee on repaid amount, expensed\n    max_de = Q(\"1.75\")               # debt-to-equity ceiling\n    min_ea = Q(\"0.43\")               # equity-to-assets floor\n\n    # Equity after booking the net result (before any injection)\n    equity_after = equity0 + net_result\n\n    # Effect of an injection X:\n    #   liabilities = L - 0.6X\n    #   equity      = E + X - 0.025*0.6X = E + 0.985X\n    #   assets      = liabilities + equity = L + E + 0.385X\n    dL = -repay_share\n    dE = 1 - fee_rate * repay_share\n    dA = dL + dE\n\n    # Leverage covenant alone: (L + dL*X) <= max_de * (E + dE*X)\n    if liabilities0 <= max_de * equity_after:\n        x_lev = Q(0)\n    else:\n        x_lev = (liabilities0 - max_de * equity_after) / (max_de * dE - dL)\n\n    # Equity-to-assets covenant alone: (E + dE*X) >= min_ea * (L + E + dA*X)\n    assets_after = liabilities0 + equity_after\n    if equity_after >= min_ea * assets_after:\n        x_ea = Q(0)\n    else:\n        x_ea = (min_ea * assets_after - equity_after) / (dE - min_ea * dA)\n\n    # Both covenants become easier as X grows, so the binding one is the larger\n    final = max(x_lev, x_ea)\n\n    return {\n        \"final\": final,\n        \"equity_after_result\": equity_after,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_ea,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 144
+              },
+              "rendered": {
+                "final": "242784.79",
+                "equity_after_result": "345000",
+                "injection_leverage_only": "23000000/169",
+                "injection_equity_ratio_only": "3979000000/16389"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    },
+    "scores": {
+      "r5d": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "r5j": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      }
+    },
+    "complete_row_choice": {
+      "index": 0,
+      "reason": "final_plurality_checkpoint_agreement"
+    },
+    "complete_row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_syn20985d202a476ce24ce8",
+      "final_answer": {
+        "value": "242784.79"
+      },
+      "steps": [
+        {
+          "slot_id": "equity_after_result",
+          "value": "345000"
+        },
+        {
+          "slot_id": "injection_leverage_only",
+          "value": "23000000/169"
+        },
+        {
+          "slot_id": "injection_equity_ratio_only",
+          "value": "3979000000/16389"
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syna7a456d9b93762630aa0",
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syna7a456d9b93762630aa0",
+        "final_answer": {
+          "value": "342281.02"
+        },
+        "steps": [
+          {
+            "slot_id": "equity_after_result",
+            "value": "465000"
+          },
+          {
+            "slot_id": "injection_leverage_only",
+            "value": "1332500000/3893"
+          },
+          {
+            "slot_id": "injection_equity_ratio_only",
+            "value": "592500000/3793"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "342281.02": 5
+        },
+        "equity_after_result": {
+          "465000": 5
+        },
+        "injection_leverage_only": {
+          "1332500000/3893": 5
+        },
+        "injection_equity_ratio_only": {
+          "592500000/3793": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "342281.02",
+            "equity_after_result": "465000",
+            "injection_leverage_only": "1332500000/3893",
+            "injection_equity_ratio_only": "592500000/3793"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "2e837db37a73e42a79a30ffbb1c866e51b3e3ebc509d38cc5d62a0fdeaf1e434",
+              "cached": true,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3180,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 919,
+                "output_tokens_details": {
+                  "thinking_tokens": 359
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3180,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 919,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3180,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3180
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.022014,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7078,
+                "session_id": "4fd8ec3c-86c6-4a11-b019-8d4f267cf31f",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(1480000)\n    E0 = Q(420000)\n    result = Q(45000)\n    E1 = E0 + result  # equity after booking the net result\n\n    # After injection x: repayment = 0.2x, fee = 0.002x\n    # L = L0 - 0.2x ; E = E1 + x - 0.002x\n    repay_frac = Q(\"0.2\")\n    fee_rate = Q(\"0.01\")\n    fee_frac = repay_frac * fee_rate\n    eq_coef = 1 - fee_frac\n    liab_coef = -repay_frac\n\n    # Leverage: L <= 1.75 E\n    max_de = Q(\"1.75\")\n    # L0 + liab_coef*x <= max_de*(E1 + eq_coef*x)\n    lev_x = (L0 - max_de * E1) / (max_de * eq_coef - liab_coef)\n    lev_x = max(lev_x, Q(0))\n\n    # Equity ratio: E >= 0.3 (L+E)  ->  0.7 E >= 0.3 L\n    r = Q(\"0.3\")\n    # (1-r)*(E1 + eq_coef x) >= r*(L0 + liab_coef x)\n    eq_x = (r * L0 - (1 - r) * E1) / ((1 - r) * eq_coef - r * liab_coef)\n    eq_x = max(eq_x, Q(0))\n\n    final = max(lev_x, eq_x, Q(0))\n    return {\n        \"final\": final,\n        \"equity_after_result\": E1,\n        \"injection_leverage_only\": lev_x,\n        \"injection_equity_ratio_only\": eq_x,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 89
+              },
+              "rendered": {
+                "final": "342281.02",
+                "equity_after_result": "465000",
+                "injection_leverage_only": "1332500000/3893",
+                "injection_equity_ratio_only": "592500000/3793"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "342281.02",
+            "equity_after_result": "465000",
+            "injection_leverage_only": "1332500000/3893",
+            "injection_equity_ratio_only": "592500000/3793"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "4381f1804e000d5992e9da51b2db77d1da3bd4cbea67404287fe15c2736caaff",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3180,
+                "cache_read_input_tokens": 1094,
+                "output_tokens": 866,
+                "output_tokens_details": {
+                  "thinking_tokens": 419
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3180,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 866,
+                    "cache_read_input_tokens": 1094,
+                    "cache_creation_input_tokens": 3180,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3180
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.021493400000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6411,
+                "session_id": "cac9910e-662f-4af7-a26c-e48960210d2f",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(1480000)\n    E0 = Q(420000) + Q(45000)  # equity after booking net result\n    rep = Q(\"0.2\")             # share of injection used to repay liabilities\n    fee = Q(\"0.01\")            # prepayment fee on repaid amount\n    # After injection x: L = L0 - rep*x ; E = E0 + x - fee*rep*x\n    e_coef = 1 - fee * rep\n    # Debt-to-equity: L <= 1.75 E\n    lev_num = L0 - Q(\"1.75\") * E0\n    lev_den = rep + Q(\"1.75\") * e_coef\n    inj_lev = max(Q(0), lev_num / lev_den)\n    # Equity-to-assets >= 0.3  <=>  0.7 E >= 0.3 L\n    eq_num = Q(\"0.3\") * L0 - Q(\"0.7\") * E0\n    eq_den = Q(\"0.7\") * e_coef + Q(\"0.3\") * rep\n    inj_eq = max(Q(0), eq_num / eq_den)\n    final = max(inj_lev, inj_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": inj_lev,\n        \"injection_equity_ratio_only\": inj_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 124
+              },
+              "rendered": {
+                "final": "342281.02",
+                "equity_after_result": "465000",
+                "injection_leverage_only": "1332500000/3893",
+                "injection_equity_ratio_only": "592500000/3793"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "342281.02",
+            "equity_after_result": "465000",
+            "injection_leverage_only": "1332500000/3893",
+            "injection_equity_ratio_only": "592500000/3793"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "00ed73a3e67a4032cd223c354947def85a445237751432a607de2eada358f375",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3180,
+                "cache_read_input_tokens": 1085,
+                "output_tokens": 931,
+                "output_tokens_details": {
+                  "thinking_tokens": 344
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3180,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 931,
+                    "cache_read_input_tokens": 1085,
+                    "cache_creation_input_tokens": 3180,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3180
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0221425,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6899,
+                "session_id": "51eaad80-3082-41b8-8a79-65ccbb6b05d2",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(1480000)\n    E_before = Q(420000)\n    result = Q(45000)\n    E0 = E_before + result  # equity after booking the net result\n\n    repay_frac = Q(\"0.2\")\n    fee_rate = Q(\"0.01\")\n    # Per USD injected, liabilities fall by repay_frac; equity rises by 1 and falls by the fee on the repaid amount.\n    dL = -repay_frac                  # liabilities change per unit injected\n    dE = 1 - repay_frac * fee_rate    # equity change per unit injected\n\n    # Debt-to-equity: (L0 + dL*x) <= 1.75 * (E0 + dE*x)\n    maxDE = Q(\"1.75\")\n    # (L0 - 1.75*E0) <= x*(1.75*dE - dL)\n    x_lev = (L0 - maxDE * E0) / (maxDE * dE - dL)\n    x_lev = max(x_lev, Q(0))\n\n    # Equity-to-assets: E >= 0.3 * (L + E)\n    minEA = Q(\"0.3\")\n    # E0 + dE*x >= 0.3*(L0+E0 + (dL+dE)*x)\n    # x*(dE - 0.3*(dL+dE)) >= 0.3*(L0+E0) - E0\n    x_eq = (minEA * (L0 + E0) - E0) / (dE - minEA * (dL + dE))\n    x_eq = max(x_eq, Q(0))\n\n    final = max(x_lev, x_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 140
+              },
+              "rendered": {
+                "final": "342281.02",
+                "equity_after_result": "465000",
+                "injection_leverage_only": "1332500000/3893",
+                "injection_equity_ratio_only": "592500000/3793"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "342281.02",
+            "equity_after_result": "465000",
+            "injection_leverage_only": "1332500000/3893",
+            "injection_equity_ratio_only": "592500000/3793"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "de5d97686361a5773b49a924069abd869e5d1e6401b63a0cf0b237900ed8c91b",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3177,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 898,
+                "output_tokens_details": {
+                  "thinking_tokens": 358
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3177,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 898,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3177,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3177
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.043584,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8519,
+                "session_id": "3ea94a6e-e0e8-42be-84f2-437cf50ee9a6",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L = Q(1480000)            # total liabilities\n    E0 = Q(420000)            # total equity before result\n    result = Q(45000)         # net result (positive = profit)\n    repay_share = Q(\"0.20\")   # share of injection repaying liabilities\n    fee_rate = Q(\"0.01\")      # prepayment fee on repaid amount\n    max_de = Q(\"1.75\")        # debt-to-equity ceiling\n    min_ea = Q(\"0.30\")        # equity-to-assets floor\n\n    E = E0 + result           # equity after booking result\n\n    # After injection x: L' = L - 0.2x ; E' = E + x - 0.01*0.2x\n    dL = repay_share                       # liability reduction per USD injected\n    dE = 1 - fee_rate * repay_share        # equity increase per USD injected\n\n    # Debt-to-equity: L - dL*x <= max_de*(E + dE*x)\n    x_lev = (L - max_de * E) / (dL + max_de * dE)\n    x_lev = max(x_lev, Q(0))\n\n    # Equity-to-assets: (1-min_ea)*E' >= min_ea*L'\n    x_eq = (min_ea * L - (1 - min_ea) * E) / ((1 - min_ea) * dE + min_ea * dL)\n    x_eq = max(x_eq, Q(0))\n\n    final = max(x_lev, x_eq)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E,\n        \"injection_leverage_only\": x_lev,\n        \"injection_equity_ratio_only\": x_eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 174
+              },
+              "rendered": {
+                "final": "342281.02",
+                "equity_after_result": "465000",
+                "injection_leverage_only": "1332500000/3893",
+                "injection_equity_ratio_only": "592500000/3793"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "342281.02",
+            "equity_after_result": "465000",
+            "injection_leverage_only": "1332500000/3893",
+            "injection_equity_ratio_only": "592500000/3793"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "0630bf8f9b07ddac88b7559ad3653bd53dfd2a545023c1f4ac9ffa17221d4023",
+              "cached": false,
+              "model_id": "claude-opus-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3177,
+                "cache_read_input_tokens": 1107,
+                "output_tokens": 1013,
+                "output_tokens_details": {
+                  "thinking_tokens": 371
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3177,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1013,
+                    "cache_read_input_tokens": 1107,
+                    "cache_creation_input_tokens": 3177,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3177
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0459054,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 11125,
+                "session_id": "db580aea-0f0f-4ecd-9566-0b079cd85045",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    L0 = Q(1480000)           # liabilities before injection\n    E0 = Q(420000)            # equity before net result\n    net_result = Q(45000)     # positive = profit\n    repay_share = Q(\"0.20\")   # share of injection repaying liabilities\n    fee_rate = Q(\"0.01\")      # prepayment fee on the repaid amount, expensed\n    max_de = Q(\"1.75\")\n    min_ea = Q(\"0.30\")\n\n    # Equity after booking net result, before any injection\n    E1 = E0 + net_result\n\n    # After injection X:\n    #   L(X) = L0 - repay_share*X\n    #   E(X) = E1 + X - fee_rate*repay_share*X\n    eq_coef = 1 - fee_rate * repay_share\n    liab_coef = -repay_share\n\n    # Debt-to-equity covenant: L(X) <= max_de * E(X)\n    # L0 + liab_coef*X <= max_de*E1 + max_de*eq_coef*X\n    de_slope = max_de * eq_coef - liab_coef\n    x_de = (L0 - max_de * E1) / de_slope\n    inj_lev = max(x_de, Q(0))\n\n    # Equity-to-assets covenant: E(X) >= min_ea*(L(X)+E(X))\n    # (1-min_ea)*E(X) >= min_ea*L(X)\n    ea_slope = (1 - min_ea) * eq_coef - min_ea * liab_coef\n    x_ea = (min_ea * L0 - (1 - min_ea) * E1) / ea_slope\n    inj_ea = max(x_ea, Q(0))\n\n    final = max(inj_lev, inj_ea)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E1,\n        \"injection_leverage_only\": inj_lev,\n        \"injection_equity_ratio_only\": inj_ea,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 157
+              },
+              "rendered": {
+                "final": "342281.02",
+                "equity_after_result": "465000",
+                "injection_leverage_only": "1332500000/3893",
+                "injection_equity_ratio_only": "592500000/3793"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    },
+    "scores": {
+      "r5d": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "r5j": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      }
+    },
+    "complete_row_choice": {
+      "index": 0,
+      "reason": "final_plurality_checkpoint_agreement"
+    },
+    "complete_row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_syna7a456d9b93762630aa0",
+      "final_answer": {
+        "value": "342281.02"
+      },
+      "steps": [
+        {
+          "slot_id": "equity_after_result",
+          "value": "465000"
+        },
+        {
+          "slot_id": "injection_leverage_only",
+          "value": "1332500000/3893"
+        },
+        {
+          "slot_id": "injection_equity_ratio_only",
+          "value": "592500000/3793"
+        }
+      ]
+    }
+  }
+]

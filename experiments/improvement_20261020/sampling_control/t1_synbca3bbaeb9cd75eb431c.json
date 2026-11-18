@@ -1,0 +1,555 @@
+{
+  "family": "family_09",
+  "case_id": "t1_synbca3bbaeb9cd75eb431c",
+  "recipe_sha256": "f26230c214ba6c4f06ceb15239214522a454ac92436b36266bc04266cd9b3b12",
+  "fac": 0,
+  "matched_slots": 3,
+  "total_slots": 4,
+  "baseline": {
+    "fac": 0,
+    "matched_slots": 3,
+    "total_slots": 4
+  },
+  "outcome": {
+    "row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_synbca3bbaeb9cd75eb431c",
+      "final_answer": {
+        "value": "2080.26"
+      },
+      "steps": [
+        {
+          "slot_id": "principal_after_year2",
+          "value": "500"
+        },
+        {
+          "slot_id": "pv_year3_at_year2",
+          "value": "20900/43"
+        },
+        {
+          "slot_id": "call_decision",
+          "value": "no_call"
+        },
+        {
+          "slot_id": "year2_total_received",
+          "value": "871.5"
+        }
+      ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+      "final": {
+        "2080.26": 3,
+        "2084.56": 3
+      },
+      "principal_after_year2": {
+        "500": 6
+      },
+      "pv_year3_at_year2": {
+        "20900/43": 3,
+        "21100/43": 3
+      },
+      "call_decision": {
+        "no_call": 6
+      },
+      "year2_total_received": {
+        "871.5": 6
+      }
+    },
+    "samples": [
+      {
+        "texts": {
+          "final": "2080.26",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "20900/43",
+          "call_decision": "no_call",
+          "year2_total_received": "871.5"
+        },
+        "issues": {},
+        "attempts": [
+          {
+            "attempt": 0,
+            "cache_key": "1ed5b85eb09f64276c4e18d668fcdae20aa0e6ac0a773ed90c1333306e6b687a",
+            "cached": true,
+            "model_id": "claude-sonnet-5-5",
+            "usage": {
+              "input_tokens": 2,
+              "cache_creation_input_tokens": 3278,
+              "cache_read_input_tokens": 1000,
+              "output_tokens": 533,
+              "output_tokens_details": {
+                "thinking_tokens": 0
+              },
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 3278,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "global",
+              "iterations": [
+                {
+                  "input_tokens": 2,
+                  "output_tokens": 533,
+                  "cache_read_input_tokens": 1000,
+                  "cache_creation_input_tokens": 3278,
+                  "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 3278
+                  },
+                  "type": "message"
+                }
+              ],
+              "speed": "standard",
+              "fallback_credit": null
+            },
+            "cost_equivalent_usd": 0.018546,
+            "meta": {
+              "stop_reason": "end_turn",
+              "duration_ms": 4257,
+              "session_id": "7e3c771f-a4d0-48a6-97ec-2932306c6d85",
+              "num_turns": 1
+            },
+            "code": "def solve():\n    face = Q(2000)\n    y = Q(\"0.075\")\n    p1 = face * Q(\"0.35\")\n    p2 = face * Q(\"0.40\")\n    p3 = face - p1 - p2\n    out1 = face\n    out2 = face - p1\n    out3 = out2 - p2  # principal after year 2\n    r1 = Q(\"0.065\")\n    r2 = r1 - Q(\"0.01\")\n    r3 = r2 - Q(\"0.01\")\n    c1 = r1 * out1\n    c2 = r2 * out2\n    c3 = r3 * out3\n    cf1 = c1 + p1\n    cf2 = c2 + p2\n    cf3 = c3 + p3\n    pv3_at2 = cf3 / (1 + y)\n    call_pay = Q(\"1.03\") * out3\n    call = call_pay < pv3_at2\n    days = Q(330)\n    frac = days / 360\n    d1 = (1 + y) ** (1 - frac)\n    d2 = (1 + y) ** (2 - frac)\n    d3 = (1 + y) ** (3 - frac)\n    pv = cf1 / d1\n    if call:\n        year2_total = cf2 + call_pay\n        pv += year2_total / d2\n    else:\n        year2_total = cf2\n        pv += cf2 / d2 + cf3 / d3\n    return {\n        \"final\": pv,\n        \"principal_after_year2\": out3,\n        \"pv_year3_at_year2\": pv3_at2,\n        \"call_decision\": \"call\" if call else \"no_call\",\n        \"year2_total_received\": year2_total,\n    }\n",
+            "sandbox": {
+              "ok": true,
+              "stage": null,
+              "error": null,
+              "elapsed_ms": 127
+            },
+            "rendered": {
+              "final": "2080.26",
+              "principal_after_year2": "500",
+              "pv_year3_at_year2": "20900/43",
+              "call_decision": "no_call",
+              "year2_total_received": "871.5"
+            },
+            "issues": {},
+            "flags": [
+              "final:inexact"
+            ]
+          }
+        ]
+      },
+      {
+        "texts": {
+          "final": "2080.26",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "20900/43",
+          "call_decision": "no_call",
+          "year2_total_received": "871.5"
+        },
+        "issues": {},
+        "attempts": [
+          {
+            "attempt": 0,
+            "cache_key": "4005904d445a11f6b45cc303a60a60715c81010d3b5741acaa9646a7c88ce8c3",
+            "cached": false,
+            "model_id": "claude-sonnet-5-5",
+            "usage": {
+              "input_tokens": 2,
+              "cache_creation_input_tokens": 3280,
+              "cache_read_input_tokens": 1094,
+              "output_tokens": 564,
+              "output_tokens_details": {
+                "thinking_tokens": 0
+              },
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 3280,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "global",
+              "iterations": [
+                {
+                  "input_tokens": 2,
+                  "output_tokens": 564,
+                  "cache_read_input_tokens": 1094,
+                  "cache_creation_input_tokens": 3280,
+                  "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 3280
+                  },
+                  "type": "message"
+                }
+              ],
+              "speed": "standard",
+              "fallback_credit": null
+            },
+            "cost_equivalent_usd": 0.0188734,
+            "meta": {
+              "stop_reason": "end_turn",
+              "duration_ms": 4052,
+              "session_id": "cbc49b80-cceb-4693-b992-fc2650a35633",
+              "num_turns": 1
+            },
+            "code": "def solve():\n    face = Q(2000)\n    y = Q(\"0.075\")\n    # principal outstanding during each year\n    p1 = face\n    p2 = face - face * Q(\"0.35\")\n    p3 = p2 - face * Q(\"0.40\")  # outstanding during year 3 = principal after year 2\n    r1 = Q(\"0.065\")\n    r2 = r1 - Q(\"0.01\")\n    r3 = r2 - Q(\"0.01\")\n    c1 = r1 * p1\n    c2 = r2 * p2\n    c3 = r3 * p3\n    inst1 = face * Q(\"0.35\")\n    inst2 = face * Q(\"0.40\")\n    cf1 = c1 + inst1\n    cf2 = c2 + inst2\n    cf3 = c3 + p3\n    # value at end of year 2 of year-3 payment\n    pv3_at2 = cf3 / (1 + y)\n    call_payment = Q(\"1.03\") * p3\n    call = call_payment < pv3_at2\n    t = Q(330) / 360\n    d1 = (1 + y) ** (1 - t)\n    d2 = (1 + y) ** (2 - t)\n    d3 = (1 + y) ** (3 - t)\n    pv = cf1 / d1 + cf2 / d2\n    if call:\n        pv += call_payment / d2\n        y2 = cf2 + call_payment\n    else:\n        pv += cf3 / d3\n        y2 = cf2\n    return {\n        \"final\": pv,\n        \"principal_after_year2\": p3,\n        \"pv_year3_at_year2\": pv3_at2,\n        \"call_decision\": \"call\" if call else \"no_call\",\n        \"year2_total_received\": y2,\n    }\n",
+            "sandbox": {
+              "ok": true,
+              "stage": null,
+              "error": null,
+              "elapsed_ms": 191
+            },
+            "rendered": {
+              "final": "2080.26",
+              "principal_after_year2": "500",
+              "pv_year3_at_year2": "20900/43",
+              "call_decision": "no_call",
+              "year2_total_received": "871.5"
+            },
+            "issues": {},
+            "flags": [
+              "final:inexact"
+            ]
+          }
+        ]
+      },
+      {
+        "texts": {
+          "final": "2080.26",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "20900/43",
+          "call_decision": "no_call",
+          "year2_total_received": "871.5"
+        },
+        "issues": {},
+        "attempts": [
+          {
+            "attempt": 0,
+            "cache_key": "64544fd74601a794136a26428f0203c7f6c8b983342c935ce7018b31c8e4a17c",
+            "cached": false,
+            "model_id": "claude-sonnet-5-5",
+            "usage": {
+              "input_tokens": 2,
+              "cache_creation_input_tokens": 3280,
+              "cache_read_input_tokens": 1085,
+              "output_tokens": 515,
+              "output_tokens_details": {
+                "thinking_tokens": 0
+              },
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 3280,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "global",
+              "iterations": [
+                {
+                  "input_tokens": 2,
+                  "output_tokens": 515,
+                  "cache_read_input_tokens": 1085,
+                  "cache_creation_input_tokens": 3280,
+                  "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 3280
+                  },
+                  "type": "message"
+                }
+              ],
+              "speed": "standard",
+              "fallback_credit": null
+            },
+            "cost_equivalent_usd": 0.0183825,
+            "meta": {
+              "stop_reason": "end_turn",
+              "duration_ms": 3683,
+              "session_id": "633e15dd-91d9-43e6-8d49-d2d3096b5577",
+              "num_turns": 1
+            },
+            "code": "def solve():\n    face = Q(2000)\n    y = Q(\"0.075\")\n    p1 = face * Q(\"0.35\")\n    p2 = face * Q(\"0.40\")\n    p3 = face - p1 - p2\n    out1 = face\n    out2 = face - p1\n    out3 = face - p1 - p2\n    r1 = Q(\"0.065\")\n    r2 = r1 - Q(\"0.01\")\n    r3 = r2 - Q(\"0.01\")\n    c1 = r1 * out1\n    c2 = r2 * out2\n    c3 = r3 * out3\n    # value at end of year 2 of year-3 flows\n    pv3_at2 = (c3 + p3) / (1 + y)\n    call_payment = Q(\"1.03\") * out3\n    call = call_payment < pv3_at2\n    t = Q(330, 360)\n    cf1 = c1 + p1\n    cf2 = c2 + p2\n    pv = cf1 / (1 + y) ** (1 - t) + cf2 / (1 + y) ** (2 - t)\n    if call:\n        pv += call_payment / (1 + y) ** (2 - t)\n    else:\n        pv += (c3 + p3) / (1 + y) ** (3 - t)\n    year2_total = cf2 + (call_payment if call else 0)\n    return {\n        \"final\": pv,\n        \"principal_after_year2\": out3,\n        \"pv_year3_at_year2\": pv3_at2,\n        \"call_decision\": \"call\" if call else \"no_call\",\n        \"year2_total_received\": year2_total,\n    }\n",
+            "sandbox": {
+              "ok": true,
+              "stage": null,
+              "error": null,
+              "elapsed_ms": 128
+            },
+            "rendered": {
+              "final": "2080.26",
+              "principal_after_year2": "500",
+              "pv_year3_at_year2": "20900/43",
+              "call_decision": "no_call",
+              "year2_total_received": "871.5"
+            },
+            "issues": {},
+            "flags": [
+              "final:inexact"
+            ]
+          }
+        ]
+      },
+      {
+        "texts": {
+          "final": "2084.56",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "21100/43",
+          "call_decision": "no_call",
+          "year2_total_received": "871.5"
+        },
+        "issues": {},
+        "attempts": [
+          {
+            "attempt": 0,
+            "cache_key": "2097b6f9a78b3ea7cba585a3842e2a2215627befaa71d8a7eafe98e4629a46c3",
+            "cached": false,
+            "model_id": "claude-opus-5-5",
+            "usage": {
+              "input_tokens": 2,
+              "cache_creation_input_tokens": 3274,
+              "cache_read_input_tokens": 1000,
+              "output_tokens": 810,
+              "output_tokens_details": {
+                "thinking_tokens": 225
+              },
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 3274,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "global",
+              "iterations": [
+                {
+                  "input_tokens": 2,
+                  "output_tokens": 810,
+                  "cache_read_input_tokens": 1000,
+                  "cache_creation_input_tokens": 3274,
+                  "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 3274
+                  },
+                  "type": "message"
+                }
+              ],
+              "speed": "standard",
+              "fallback_credit": null
+            },
+            "cost_equivalent_usd": 0.0426,
+            "meta": {
+              "stop_reason": "end_turn",
+              "duration_ms": 9294,
+              "session_id": "b76c6207-0c02-40c9-a13f-d32c2efe1778",
+              "num_turns": 1
+            },
+            "code": "def solve():\n    face = Q(2000)\n    y = Q(\"0.075\")\n    t_settle = Q(330, 360)  # years elapsed at settlement\n\n    # Principal schedule\n    inst1 = face * Q(\"0.35\")\n    inst2 = face * Q(\"0.40\")\n    p0 = face\n    p1 = p0 - inst1          # outstanding during year 2\n    p2 = p1 - inst2          # outstanding during year 3 (after year-2 installment)\n    inst3 = p2\n\n    # Coupon rates\n    r1 = Q(\"0.065\")\n    r2 = r1 - Q(\"0.01\")      # year 2 onward: -100 bp\n    r3 = r2\n\n    cf1 = r1 * p0 + inst1\n    cf2 = r2 * p1 + inst2    # year-2 total scheduled payment\n    cf3 = r3 * p2 + inst3\n\n    # Value at end of year 2 of year-3 payment\n    pv3_at2 = cf3 / (1 + y)\n    call_payment = Q(\"1.03\") * p2\n    called = call_payment < pv3_at2\n    decision = \"call\" if called else \"no_call\"\n\n    def disc(k):\n        return (1 + y) ** (k - t_settle)\n\n    if called:\n        year2_total = cf2 + call_payment\n        price = cf1 / disc(1) + year2_total / disc(2)\n    else:\n        year2_total = cf2\n        price = cf1 / disc(1) + cf2 / disc(2) + cf3 / disc(3)\n\n    return {\n        \"final\": price,\n        \"principal_after_year2\": p2,\n        \"pv_year3_at_year2\": pv3_at2,\n        \"call_decision\": decision,\n        \"year2_total_received\": year2_total,\n    }\n",
+            "sandbox": {
+              "ok": true,
+              "stage": null,
+              "error": null,
+              "elapsed_ms": 126
+            },
+            "rendered": {
+              "final": "2084.56",
+              "principal_after_year2": "500",
+              "pv_year3_at_year2": "21100/43",
+              "call_decision": "no_call",
+              "year2_total_received": "871.5"
+            },
+            "issues": {},
+            "flags": [
+              "final:inexact"
+            ]
+          }
+        ]
+      },
+      {
+        "texts": {
+          "final": "2084.56",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "21100/43",
+          "call_decision": "no_call",
+          "year2_total_received": "871.5"
+        },
+        "issues": {},
+        "attempts": [
+          {
+            "attempt": 0,
+            "cache_key": "0b1bb9b0c50e47bc69ce13905106d8d8e5deec5972ed4da58090c4e1ce6f13ce",
+            "cached": false,
+            "model_id": "claude-opus-5-5",
+            "usage": {
+              "input_tokens": 2,
+              "cache_creation_input_tokens": 3274,
+              "cache_read_input_tokens": 1107,
+              "output_tokens": 806,
+              "output_tokens_details": {
+                "thinking_tokens": 206
+              },
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 3274,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "global",
+              "iterations": [
+                {
+                  "input_tokens": 2,
+                  "output_tokens": 806,
+                  "cache_read_input_tokens": 1107,
+                  "cache_creation_input_tokens": 3274,
+                  "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 3274
+                  },
+                  "type": "message"
+                }
+              ],
+              "speed": "standard",
+              "fallback_credit": null
+            },
+            "cost_equivalent_usd": 0.0425414,
+            "meta": {
+              "stop_reason": "end_turn",
+              "duration_ms": 7903,
+              "session_id": "63d6138e-97df-421d-bc9c-353d1ce1eeab",
+              "num_turns": 1
+            },
+            "code": "def solve():\n    face = Q(2000)\n    y = Q(\"0.075\")\n    r1 = Q(\"6.5\") / 100\n    r2 = r1 + Q(-100) / 10000          # rate from year 2 onward (-100 bp)\n    days = Q(330)\n\n    # Year 1: coupon on full face, then 35% installment\n    out1 = face\n    inst1 = face * Q(\"0.35\")\n    cf1 = r1 * out1 + inst1\n\n    # Year 2: coupon on balance outstanding during year 2, then 40% installment\n    out2 = out1 - inst1\n    inst2 = face * Q(\"0.40\")\n    cf2_sched = r2 * out2 + inst2\n\n    # Principal remaining after year-2 installment\n    out3 = out2 - inst2\n\n    # Year-3 scheduled payment and its value at end of year 2\n    cf3 = r2 * out3 + out3\n    pv3_at2 = cf3 / (1 + y)\n\n    # Call iff call price strictly below PV of remaining payment\n    call_pay = Q(\"1.03\") * out3\n    called = call_pay < pv3_at2\n    decision = \"call\" if called else \"no_call\"\n\n    # Total cash received at end of year 2 (call payment added only if called)\n    cf2_total = cf2_sched + (call_pay if called else Q(0))\n\n    t = days / 360\n    def disc(k):\n        return (1 + y) ** (k - t)\n\n    price = cf1 / disc(1) + cf2_total / disc(2)\n    if not called:\n        price += cf3 / disc(3)\n\n    return {\n        \"final\": price,\n        \"principal_after_year2\": out3,\n        \"pv_year3_at_year2\": pv3_at2,\n        \"call_decision\": decision,\n        \"year2_total_received\": cf2_total,\n    }\n",
+            "sandbox": {
+              "ok": true,
+              "stage": null,
+              "error": null,
+              "elapsed_ms": 107
+            },
+            "rendered": {
+              "final": "2084.56",
+              "principal_after_year2": "500",
+              "pv_year3_at_year2": "21100/43",
+              "call_decision": "no_call",
+              "year2_total_received": "871.5"
+            },
+            "issues": {},
+            "flags": [
+              "final:inexact"
+            ]
+          }
+        ]
+      },
+      {
+        "texts": {
+          "final": "2084.56",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "21100/43",
+          "call_decision": "no_call",
+          "year2_total_received": "871.5"
+        },
+        "issues": {},
+        "attempts": [
+          {
+            "attempt": 0,
+            "cache_key": "e443a1b5bee9b86ea245decf3bdd4fa6711de0805ed05be4bbe7be55aeeab2e4",
+            "cached": false,
+            "model_id": "claude-opus-5-5",
+            "usage": {
+              "input_tokens": 2,
+              "cache_creation_input_tokens": 384,
+              "cache_read_input_tokens": 3892,
+              "output_tokens": 939,
+              "output_tokens_details": {
+                "thinking_tokens": 302
+              },
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 384,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "global",
+              "iterations": [
+                {
+                  "input_tokens": 2,
+                  "output_tokens": 939,
+                  "cache_read_input_tokens": 3892,
+                  "cache_creation_input_tokens": 384,
+                  "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 384
+                  },
+                  "type": "message"
+                }
+              ],
+              "speed": "standard",
+              "fallback_credit": null
+            },
+            "cost_equivalent_usd": 0.022638399999999996,
+            "meta": {
+              "stop_reason": "end_turn",
+              "duration_ms": 9024,
+              "session_id": "1877b4e4-5ebc-42be-82db-b4acfa068761",
+              "num_turns": 1
+            },
+            "code": "def solve():\n    face = Q(2000)\n    y = Q(\"0.075\")\n    days = Q(330)\n    t_off = days / 360\n\n    # Coupon rates: year 1 at 6.5%; from year 2 onward 6.5% - 1.00% = 5.5%\n    r1 = Q(\"0.065\")\n    r_later = r1 - Q(\"0.01\")\n\n    # Principal schedule\n    inst1 = face * Q(\"0.35\")\n    inst2 = face * Q(\"0.40\")\n    p1 = face                 # outstanding during year 1\n    p2 = face - inst1         # outstanding during year 2\n    p3 = p2 - inst2           # outstanding during year 3 (after year-2 installment)\n\n    # Scheduled cash flows\n    cf1 = r1 * p1 + inst1\n    cf2_sched = r_later * p2 + inst2\n    cf3 = r_later * p3 + p3\n\n    # Call test at end of year 2\n    pv3_at2 = cf3 / (1 + y)\n    call_pay = Q(\"1.03\") * p3\n    called = call_pay < pv3_at2\n\n    # Discount factors: year k discounted by (1+y)^(k - days/360)\n    d1 = (1 + y) ** (1 - t_off)\n    d2 = (1 + y) ** (2 - t_off)\n    d3 = (1 + y) ** (3 - t_off)\n\n    if called:\n        year2_total = cf2_sched + call_pay\n        price = cf1 / d1 + year2_total / d2\n    else:\n        year2_total = cf2_sched\n        price = cf1 / d1 + year2_total / d2 + cf3 / d3\n\n    return {\n        \"final\": price,\n        \"principal_after_year2\": p3,\n        \"pv_year3_at_year2\": pv3_at2,\n        \"call_decision\": \"call\" if called else \"no_call\",\n        \"year2_total_received\": year2_total,\n    }\n",
+            "sandbox": {
+              "ok": true,
+              "stage": null,
+              "error": null,
+              "elapsed_ms": 118
+            },
+            "rendered": {
+              "final": "2084.56",
+              "principal_after_year2": "500",
+              "pv_year3_at_year2": "21100/43",
+              "call_decision": "no_call",
+              "year2_total_received": "871.5"
+            },
+            "issues": {},
+            "flags": [
+              "final:inexact"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "backend": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  }
+}

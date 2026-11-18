@@ -1,0 +1,118 @@
+{
+ "name": "event_shock_collateral_liquidation_equity",
+ "domain_id": "crypto_finance",
+ "topic_id": "global_events_impact",
+ "difficulty": "advanced",
+ "params": {
+  "Q": {
+   "kind": "int",
+   "min": 1,
+   "max": 20,
+   "step": 1
+  },
+  "P0": {
+   "kind": "int",
+   "min": 800,
+   "max": 4000,
+   "step": 50
+  },
+  "LTV": {
+   "kind": "int",
+   "min": 50,
+   "max": 70,
+   "step": 5
+  },
+  "SHOCK": {
+   "kind": "int",
+   "min": 10,
+   "max": 40,
+   "step": 1
+  },
+  "DRIFT": {
+   "kind": "decimal",
+   "min": "-2.0",
+   "max": "3.0",
+   "step": "0.5"
+  },
+  "RATE": {
+   "kind": "decimal",
+   "min": "4.0",
+   "max": "18.0",
+   "step": "0.5"
+  },
+  "N": {
+   "kind": "int",
+   "min": 5,
+   "max": 15,
+   "step": 1
+  },
+  "M": {
+   "kind": "decimal",
+   "min": "1.15",
+   "max": "1.40",
+   "step": "0.05"
+  },
+  "PEN": {
+   "kind": "int",
+   "min": 3,
+   "max": 10,
+   "step": 1
+  }
+ },
+ "question_template": "A fictional geopolitical shock hits a crypto asset pledged as loan collateral. A borrower holds q={Q} units, the pre-event price is P0={P0} USD, and the stablecoin loan principal equals {LTV} percent of the pre-event collateral value. The day-1 close equals P0 reduced by the shock s={SHOCK} percent; each later close moves by the signed daily drift d={DRIFT} percent of the previous close (negative means a further decline), compounding daily. Interest accrues on the principal at a simple annual rate r={RATE} percent on a 365-day year, so the loan balance at the close of day t is principal times one plus r times t over 365. At each close from day 1 to day N={N}, if collateral value (units times close) is strictly below m={M} times the balance, the position is liquidated at that close: the collateral is sold with a liquidation penalty of p={PEN} percent of collateral value and the borrower receives sale proceeds minus the loan balance (possibly negative); no later days are evaluated. If no liquidation occurs through day N, the borrower's equity is day-N collateral value minus the day-N balance. Use exact arithmetic. What is the borrower's ending equity in USD?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "day_one_close_price",
+   "description": "Asset close price after the day-one shock.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "liquidation_day_number",
+   "description": "Day number of liquidation, zero if none.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "exit_day_loan_balance",
+   "description": "Loan balance at liquidation day or day N.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "exit_day_collateral_ratio",
+   "description": "Collateral value over loan balance at exit day.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    q = Q(P[\"Q\"])\n    p0 = Q(P[\"P0\"])\n    ltv = Q(P[\"LTV\"])\n    s = Q(P[\"SHOCK\"])\n    d = Q(P[\"DRIFT\"])\n    r = Q(P[\"RATE\"])\n    n = P[\"N\"]\n    m = Q(P[\"M\"])\n    pen = Q(P[\"PEN\"])\n    principal = q * p0 * ltv / Q(100)\n    price = p0 * (Q(1) - s / Q(100))\n    day_one_close = price\n    liq_day = 0\n    exit_balance = None\n    exit_ratio = None\n    equity = None\n    for t in range(1, n + 1):\n        if t > 1:\n            price = price * (Q(1) + d / Q(100))\n        bal = principal * (Q(1) + r / Q(100) * Q(t) / Q(365))\n        coll = q * price\n        ratio = coll / bal\n        if coll < m * bal:\n            liq_day = t\n            exit_balance = bal\n            exit_ratio = ratio\n            equity = coll * (Q(1) - pen / Q(100)) - bal\n            break\n        if t == n:\n            exit_balance = bal\n            exit_ratio = ratio\n            equity = coll - bal\n    return {\n        \"final\": equity,\n        \"day_one_close_price\": day_one_close,\n        \"liquidation_day_number\": Q(liq_day),\n        \"exit_day_loan_balance\": exit_balance,\n        \"exit_day_collateral_ratio\": exit_ratio,\n    }\n"
+}

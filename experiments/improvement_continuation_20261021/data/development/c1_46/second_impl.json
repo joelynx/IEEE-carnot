@@ -1,0 +1,229 @@
+{
+ "family": "c1_46",
+ "template_sha256": "6b2d29039eaf38ad37c2063b8d9a217c577699d9f0a1ed81d1c5bfd65671923a",
+ "draws_sha256": "ecbfb93bf9a6236fbbd5004d37747644707fc9fb28624f045adf55715084e847",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "be4384c9a1550158ee9feb58014d5eb044cb2592966ca258fc4403cf04acfdf8",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1846,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 534,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1846,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 534,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1846,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1846
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0637905
+  }
+ ],
+ "program": "def solve():\n    ni1 = Q(P[\"NI_1\"])\n    g = Q(P[\"GROWTH\"]) / 100\n    charge = Q(P[\"CHARGE\"])\n    share = Q(P[\"SHARE\"]) / 100\n    prior = Q(P[\"PRIOR\"])\n    cash = Q(P[\"CASH\"])\n    ebitda = Q(P[\"EBITDA\"])\n    request = Q(P[\"REQUEST\"])\n    gross_debt = Q(310)\n    general = Q(12)\n    threshold = Q(3)\n\n    # Year-by-year ledger of net income\n    cumulative = Q(0)\n    pre_charge = ni1\n    for year in range(1, 5):\n        if year > 1:\n            pre_charge = pre_charge * (1 + g)\n        ni = pre_charge\n        if year == 2:\n            ni = ni - charge  # may be a loss year; still added to cumulative\n        cumulative += ni\n\n    builder = share * cumulative - prior\n    if builder < 0:\n        builder = Q(0)\n\n    proposed = min(request, builder + general)\n    cash_after = cash - proposed\n    pro_forma = (gross_debt - cash_after) / ebitda\n\n    blocked = pro_forma > threshold\n    if blocked:\n        permitted = min(request, general)\n    else:\n        permitted = proposed\n\n    return {\n        \"final\": permitted,\n        \"cumulative_net_income\": cumulative,\n        \"builder_capacity\": builder,\n        \"pro_forma_leverage\": pro_forma,\n        \"block_applies\": \"yes\" if blocked else \"no\",\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_NI_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_GROWTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CHARGE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SHARE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PRIOR",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CASH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_EBITDA",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_REQUEST",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NI_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_GROWTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CHARGE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SHARE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PRIOR",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CASH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_EBITDA",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_REQUEST",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

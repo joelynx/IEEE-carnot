@@ -1,0 +1,61 @@
+{
+ "name": "ownership_dilution_from_new_issue",
+ "domain_id": "finance_regulation",
+ "topic_id": "security",
+ "difficulty": "basic",
+ "params": {
+  "SHARES_HELD": {
+   "kind": "int",
+   "min": 50000,
+   "max": 600000,
+   "step": 10000
+  },
+  "SHARES_OUTSTANDING": {
+   "kind": "int",
+   "min": 1000000,
+   "max": 10000000,
+   "step": 100000
+  },
+  "NEW_SHARES": {
+   "kind": "int",
+   "min": 100000,
+   "max": 3000000,
+   "step": 100000
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local securities calculation. An investor holds {SHARES_HELD} shares of an issuer with {SHARES_OUTSTANDING} shares outstanding. The issuer then issues {NEW_SHARES} new shares, all to other parties; the investor buys none. Ownership percent is 100 times shares held divided by total shares outstanding. Compute the signed change in the investor's ownership in percentage points, post-issue minus pre-issue. Use exact arithmetic. Report pre-issue and post-issue ownership percent.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "pre_issue_ownership_percent",
+   "description": "Exact ownership percent before the new issue.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "post_issue_ownership_percent",
+   "description": "Ownership percent after the new issue.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    held = P[\"SHARES_HELD\"]\n    outstanding = P[\"SHARES_OUTSTANDING\"]\n    new = P[\"NEW_SHARES\"]\n    if held >= outstanding:\n        raise ValueError(\"shares held must be less than shares outstanding\")\n    pre = Fraction(100 * held, outstanding)\n    post = Fraction(100 * held, outstanding + new)\n    change = post - pre\n    return {\n        \"final\": change,\n        \"pre_issue_ownership_percent\": pre,\n        \"post_issue_ownership_percent\": post\n    }\n"
+}

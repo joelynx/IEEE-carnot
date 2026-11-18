@@ -1,0 +1,227 @@
+{
+ "family": "c1_31",
+ "template_sha256": "d3b4c62d742ff705ccf98d96a47b86fdbe09a0fce24d738497956ddc5e49e63d",
+ "draws_sha256": "1e7307ef7512f9d4e5a6485a5a20ebcce2346380df3f846f0da0d90c5de9a25d",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "3560776b727ae2a0bbd818d73921aa41a3afae8f8045eb1752f1b20790eaa675",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1935,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 615,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1935,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 615,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1935,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1935
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0696205
+  }
+ ],
+ "program": "def solve():\n    loss = Q(P[\"LOSS\"])\n    recovery = Q(P[\"RECOVERY\"])\n    fee_pct = Q(P[\"FEE_PCT\"])\n    ded = Q(P[\"DEDUCTIBLE\"])\n    tier = Q(P[\"TIER_BREAK\"])\n    c_low = Q(P[\"COINS_LOW\"]) / 100\n    c_high = Q(P[\"COINS_HIGH\"]) / 100\n    sub = Q(P[\"SUBLIMIT\"])\n\n    def apply_terms(insured):\n        # (1) deductible, floored at zero\n        rem = insured - ded\n        if rem < 0:\n            rem = Q(0)\n        # (2) marginal coinsurance: enumerate two tiers explicitly\n        in_low = rem if rem <= tier else tier\n        in_high = rem - in_low\n        pay = c_low * in_low + c_high * in_high\n        # (3) sublimit\n        if pay > sub:\n            pay = sub\n        return pay\n\n    fee = recovery * fee_pct / 100\n    net_rec = recovery - fee\n    if net_rec > loss:\n        raise ValueError(\"net recovery exceeds gross loss; claim invalid\")\n\n    insured_loss = loss - net_rec\n    payment = apply_terms(insured_loss)\n    retained = insured_loss - payment\n    if retained < 0:\n        retained = -retained\n\n    bench_pay = apply_terms(loss)\n    bench_retained = loss - bench_pay\n    if bench_retained < 0:\n        bench_retained = -bench_retained\n\n    change = retained - bench_retained\n\n    return {\n        \"final\": change,\n        \"net_recovery\": net_rec,\n        \"insurer_payment\": payment,\n        \"retained_loss\": retained,\n        \"benchmark_payment\": bench_pay,\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_12",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_LOSS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_RECOVERY",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_FEE_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DEDUCTIBLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TIER_BREAK",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COINS_LOW",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COINS_HIGH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SUBLIMIT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_LOSS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_RECOVERY",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DEDUCTIBLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_TIER_BREAK",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COINS_LOW",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COINS_HIGH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SUBLIMIT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

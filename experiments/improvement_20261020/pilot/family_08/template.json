@@ -1,0 +1,95 @@
+{
+  "name": "partly_hedged_invoice_inverse_quote_effective_rate",
+  "domain_id": "financial_markets",
+  "topic_id": "forex_trading",
+  "difficulty": "intermediate",
+  "params": {
+    "INVOICE": {
+      "kind": "int",
+      "min": 50000,
+      "max": 400000,
+      "step": 5000
+    },
+    "HEDGE_PCT": {
+      "kind": "int",
+      "min": 20,
+      "max": 90,
+      "step": 5
+    },
+    "FWD_RATE": {
+      "kind": "decimal",
+      "min": "6.00",
+      "max": "9.50",
+      "step": "0.05"
+    },
+    "SPOT_RATE": {
+      "kind": "decimal",
+      "min": "5.50",
+      "max": "10.00",
+      "step": "0.05"
+    },
+    "FWD_FEE": {
+      "kind": "int",
+      "min": 0,
+      "max": 300,
+      "step": 25
+    },
+    "SPOT_FEE_BP": {
+      "kind": "int",
+      "min": 0,
+      "max": 60,
+      "step": 5
+    },
+    "DOM_PCT": {
+      "kind": "decimal",
+      "min": "-5.0",
+      "max": "5.0",
+      "step": "0.5"
+    }
+  },
+  "question_template": "A US importer must settle an invoice of {INVOICE} FC (a foreign currency). All quotes are inverse: FC per USD. The importer hedged {HEDGE_PCT}% of the invoice with a forward at {FWD_RATE} FC per USD; the forward carries a flat USD {FWD_FEE} contract fee. The unhedged remainder is bought at the settlement spot of {SPOT_RATE} FC per USD, and the bank charges {SPOT_FEE_BP} basis points of the USD spent on that spot purchase. Domestic clearance costs then change the bill by {DOM_PCT}% of the total USD paid to the bank (both legs including both fees); a negative value is a rebate. Find the effective all-in rate in FC per USD, defined as invoice FC divided by total USD cost after the domestic adjustment.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 4
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "hedged_leg_usd",
+      "description": "USD paid for the forward leg including the flat contract fee.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "spot_leg_usd",
+      "description": "USD paid for the spot leg including the basis-point fee.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "total_usd_cost",
+      "description": "Total USD cost after the signed domestic clearance adjustment.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    inv = Q(P[\"INVOICE\"])\n    h = Q(P[\"HEDGE_PCT\"]) / 100\n    fwd = Q(P[\"FWD_RATE\"])\n    spot = Q(P[\"SPOT_RATE\"])\n    fwd_fee = Q(P[\"FWD_FEE\"])\n    bp = Q(P[\"SPOT_FEE_BP\"]) / 10000\n    dom = Q(P[\"DOM_PCT\"]) / 100\n    hedged_fc = inv * h\n    spot_fc = inv - hedged_fc\n    hedged_usd = hedged_fc / fwd + fwd_fee\n    spot_usd = (spot_fc / spot) * (1 + bp)\n    bank_total = hedged_usd + spot_usd\n    total = bank_total * (1 + dom)\n    if total <= 0:\n        raise ValueError(\"total USD cost must be positive\")\n    eff = inv / total\n    return {\n        \"final\": eff,\n        \"hedged_leg_usd\": hedged_usd,\n        \"spot_leg_usd\": spot_usd,\n        \"total_usd_cost\": total,\n    }\n"
+}

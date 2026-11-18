@@ -1,0 +1,103 @@
+{
+  "name": "hedged_var_limit_rebalance_capital_charge",
+  "domain_id": "risk_management",
+  "topic_id": "var",
+  "difficulty": "advanced",
+  "params": {
+    "L": {
+      "kind": "int",
+      "min": 50,
+      "max": 200,
+      "step": 10
+    },
+    "H": {
+      "kind": "int",
+      "min": 20,
+      "max": 220,
+      "step": 10
+    },
+    "SA": {
+      "kind": "decimal",
+      "min": "1.0",
+      "max": "3.0",
+      "step": "0.1"
+    },
+    "SB": {
+      "kind": "decimal",
+      "min": "1.0",
+      "max": "3.5",
+      "step": "0.1"
+    },
+    "RHO": {
+      "kind": "int",
+      "min": -40,
+      "max": 90,
+      "step": 10
+    },
+    "Z": {
+      "kind": "decimal",
+      "min": "1.65",
+      "max": "2.60",
+      "step": "0.05"
+    },
+    "T": {
+      "kind": "decimal",
+      "min": "1.0",
+      "max": "6.0",
+      "step": "0.5"
+    },
+    "C": {
+      "kind": "int",
+      "min": 6,
+      "max": 16,
+      "step": 2
+    }
+  },
+  "question_template": "A desk is long {L} USD million of asset A and short a hedge of {H} USD million in asset B. Daily volatilities are {SA} percent (A) and {SB} percent (B); their daily return correlation is {RHO} percent. Hedged daily variance is the long notional's variance plus the hedge notional's variance minus twice correlation times both volatilities times both notionals (the short hedge subtracts this term). One-day VaR is {Z} times the hedged daily standard deviation. The VaR limit is {T} USD million. If VaR with the stated hedge is at or below the limit, the hedge stands with no rebalancing cost. Otherwise the short hedge notional is reset to the minimum-variance level, correlation times the ratio of A's volatility to B's volatility times the long notional (a negative value means a long position in B), VaR is recomputed with that hedge, and a rebalancing cost of 0.10 percent of the absolute change in hedge notional is incurred. The capital charge equals {C} percent of the applied VaR up to the limit, plus three times that rate on any applied VaR above the limit, plus any rebalancing cost. Use exact arithmetic with no intermediate rounding. Compute the total capital charge in USD million.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 4
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "initial_var",
+      "description": "One-day VaR using the stated short hedge notional, in USD million.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "half_up",
+          "decimal_places": 6
+        }
+      }
+    },
+    {
+      "slot_id": "applied_hedge_notional",
+      "description": "Short hedge notional in force after applying the limit rules, in USD million.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "applied_var",
+      "description": "One-day VaR used for the capital charge after any rebalancing.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "half_up",
+          "decimal_places": 6
+        }
+      }
+    }
+  ],
+  "program": "from fractions import Fraction\nfrom decimal import Decimal, getcontext\n\ndef solve():\n    getcontext().prec = 60\n    L = Fraction(P[\"L\"])\n    H = Fraction(P[\"H\"])\n    sA = Fraction(P[\"SA\"]) / 100\n    sB = Fraction(P[\"SB\"]) / 100\n    rho = Fraction(P[\"RHO\"]) / 100\n    z = Fraction(P[\"Z\"])\n    T = Fraction(P[\"T\"])\n    c = Fraction(P[\"C\"]) / 100\n\n    def var_of(h):\n        return L * L * sA * sA + h * h * sB * sB - 2 * L * h * sA * sB * rho\n\n    def to_dec(fr):\n        return Decimal(fr.numerator) / Decimal(fr.denominator)\n\n    zd = to_dec(z)\n    Td = to_dec(T)\n    cd = to_dec(c)\n\n    var0 = zd * to_dec(var_of(H)).sqrt()\n\n    if var0 <= Td:\n        h_app = H\n        var_app = var0\n        rebal = Decimal(0)\n    else:\n        h_app = rho * sA / sB * L\n        var_app = zd * to_dec(var_of(h_app)).sqrt()\n        diff = abs(h_app - H)\n        rebal = to_dec(diff) * Decimal(\"0.001\")\n\n    if var_app <= Td:\n        charge = cd * var_app\n    else:\n        charge = cd * Td + 3 * cd * (var_app - Td)\n\n    total = charge + rebal\n    return {\n        \"final\": total,\n        \"initial_var\": var0,\n        \"applied_hedge_notional\": h_app,\n        \"applied_var\": var_app,\n    }\n"
+}

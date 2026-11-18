@@ -1,0 +1,199 @@
+{
+ "family": "c1_36",
+ "template_sha256": "fa82b4fd44ad28e524781f6000fa7918219f3edd966decb347547a775ba3cc29",
+ "draws_sha256": "48e4ca43345f8cce0f673fbf3a4dcddf8c7ff6b1fb75b03bbeb5ea84612d4ec4",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "844e139ad724f53524ab8a9fc87989417964415e461a186cc9b192b5a96f80eb",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1677,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1330,
+    "output_tokens_details": {
+     "thinking_tokens": 531
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1677,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1330,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1677,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1677
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.10021050000000001
+  }
+ ],
+ "program": "def solve():\n    from fractions import Fraction as F\n    from decimal import Decimal, getcontext\n    getcontext().prec = 60\n\n    y1 = F(P[\"Y1\"]) / 100\n    y2 = F(P[\"Y2\"]) / 100\n    y3 = F(P[\"Y3\"]) / 100\n    spread_bp = F(P[\"SPREAD_BP\"])\n    face = F(P[\"FACE\"])\n\n    # Bootstrap discount factors exactly, maturity by maturity.\n    # Par bond at maturity n: c_n * sum(d_1..d_n) + d_n = 1\n    dfs = []\n    for y in (y1, y2, y3):\n        s = sum(dfs)\n        denom = 1 + y\n        if denom <= 0:\n            raise ValueError(\"invalid par yield\")\n        d = (1 - y * s) / denom\n        if d <= 0:\n            raise ValueError(\"inconsistent par curve: non-positive discount factor\")\n        dfs.append(d)\n    d1, d2, d3 = dfs\n\n    def to_dec(fr):\n        return Decimal(fr.numerator) / Decimal(fr.denominator)\n\n    # Zero rates: (1+z_t)^t = 1/d_t\n    z2 = to_dec(1 / d2) ** (Decimal(1) / Decimal(2)) - 1\n    z3 = to_dec(1 / d3) ** (Decimal(1) / Decimal(3)) - 1\n    # Forward: (1+f) = (1+z3)^3/(1+z2)^2 = d2/d3 (exact rational)\n    f_rate = d2 / d3 - 1\n\n    # Bond coupon: three-year par yield plus spread, floored at zero\n    coupon_rate = y3 + spread_bp / 10000\n    if coupon_rate < 0:\n        coupon_rate = F(0)\n    coupon = face * coupon_rate\n\n    # Price by cash-flow ledger\n    cashflows = [(1, coupon), (2, coupon), (3, coupon + face)]\n    price = F(0)\n    for t, cf in cashflows:\n        price += cf * dfs[t - 1]\n\n    return {\n        \"final\": price,\n        \"two_year_zero_rate\": z2 * 100,\n        \"three_year_zero_rate\": z3 * 100,\n        \"forward_rate_2y1y\": f_rate * 100,\n    }\n",
+ "result": {
+  "compared": 28,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Y1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Y2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Y3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SPREAD_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FACE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Y1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Y2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Y3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SPREAD_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FACE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

@@ -1,0 +1,95 @@
+{
+  "name": "min_equity_injection_two_covenants_with_mandatory_repayment",
+  "domain_id": "financial_ratios",
+  "topic_id": "levratio",
+  "difficulty": "advanced",
+  "params": {
+    "LIAB": {
+      "kind": "int",
+      "min": 600000,
+      "max": 1500000,
+      "step": 10000
+    },
+    "EQ": {
+      "kind": "int",
+      "min": 200000,
+      "max": 500000,
+      "step": 10000
+    },
+    "ADJ": {
+      "kind": "int",
+      "min": -60000,
+      "max": 80000,
+      "step": 5000
+    },
+    "MAX_DE": {
+      "kind": "decimal",
+      "min": "1.50",
+      "max": "3.00",
+      "step": "0.25"
+    },
+    "MIN_EA": {
+      "kind": "int",
+      "min": 25,
+      "max": 45,
+      "step": 1
+    },
+    "REPAY_PCT": {
+      "kind": "int",
+      "min": 0,
+      "max": 80,
+      "step": 10
+    },
+    "PENALTY_PCT": {
+      "kind": "decimal",
+      "min": "0.0",
+      "max": "5.0",
+      "step": "0.5"
+    }
+  },
+  "question_template": "A firm has total liabilities of {LIAB} USD and total equity of {EQ} USD. Before the covenant test date it will book a net result of {ADJ} USD (negative means a loss), which changes equity by that amount and leaves liabilities unchanged. On the test date the owner injects cash as new equity. Loan terms require that {REPAY_PCT} percent of any injection be used immediately to repay liabilities, and each USD repaid incurs a prepayment fee of {PENALTY_PCT} percent of the repaid amount that is expensed, reducing equity by the fee; the rest of the injection is held as cash. Two covenants are tested after these steps: debt-to-equity (total liabilities divided by total equity) must not exceed {MAX_DE}, and equity-to-assets (total equity divided by total assets, where total assets equal liabilities plus equity) must be at least {MIN_EA} percent. Compute the minimum injection, in USD, that satisfies both covenants simultaneously; if both covenants already hold with no injection, the answer is 0.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "equity_after_result",
+      "description": "Equity after booking the net result, before any injection.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "injection_leverage_only",
+      "description": "Minimum injection satisfying the debt-to-equity covenant alone, zero if already compliant.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "injection_equity_ratio_only",
+      "description": "Minimum injection satisfying the equity-to-assets covenant alone, zero if already compliant.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    L = Fraction(P[\"LIAB\"])\n    E = Fraction(P[\"EQ\"])\n    adj = Fraction(P[\"ADJ\"])\n    D = Fraction(P[\"MAX_DE\"])\n    m = Fraction(P[\"MIN_EA\"]) / 100\n    r = Fraction(P[\"REPAY_PCT\"]) / 100\n    p = Fraction(P[\"PENALTY_PCT\"]) / 100\n    E0 = E + adj\n    if E0 <= 0:\n        raise ValueError(\"equity must be positive after the net result\")\n    # per USD injected: liabilities fall by r, equity rises by k = 1 - p*r\n    k = 1 - p * r\n    # L - r X <= D (E0 + k X)\n    x1 = (L - D * E0) / (D * k + r)\n    # E0 + k X >= m (L + E0 + (k - r) X)\n    x2 = (m * (L + E0) - E0) / (k * (1 - m) + m * r)\n    inj1 = max(Fraction(0), x1)\n    inj2 = max(Fraction(0), x2)\n    final = max(inj1, inj2)\n    return {\n        \"final\": final,\n        \"equity_after_result\": E0,\n        \"injection_leverage_only\": inj1,\n        \"injection_equity_ratio_only\": inj2,\n    }\n"
+}

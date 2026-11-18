@@ -1,0 +1,1762 @@
+{
+  "config": "r4",
+  "config_sha256": "86dd678177c8357e6d5f06a5226ecc58e427eae497f7fe65c9fe23cfc120a01d",
+  "system_sha256": "02fa773273f0247d44636c412bef4ffb3ebf0a28c5d44b3c04fd1dc0a27f866d",
+  "llm": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-sonnet-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-sonnet-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  },
+  "scores": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 16,
+    "total_slots": 16
+  },
+  "cases": [
+    {
+      "case_id": "t1_syn6f50833c38bdd30dc380",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn6f50833c38bdd30dc380",
+          "final_answer": {
+            "value": "0.00"
+          },
+          "steps": [
+            {
+              "slot_id": "post_shock_collateral_value",
+              "value": "17250"
+            },
+            {
+              "slot_id": "repaid_debt",
+              "value": "0"
+            },
+            {
+              "slot_id": "seized_collateral_value",
+              "value": "0"
+            },
+            {
+              "slot_id": "remaining_collateral_value",
+              "value": "17250"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.00": 5
+          },
+          "post_shock_collateral_value": {
+            "17250": 4,
+            "12750": 1
+          },
+          "repaid_debt": {
+            "0": 5
+          },
+          "seized_collateral_value": {
+            "0": 5
+          },
+          "remaining_collateral_value": {
+            "17250": 4,
+            "12750": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "17250",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "17250"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "25bfa0dc6323b84b35f71aee8eb92592b35d9f7eff8bf8b2d2727f640fec56a1",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3240,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 286,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3240,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 286,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3240,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3240
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0159055,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3172,
+                  "session_id": "231abd4d-96a3-4582-bad1-b6eede965cbd",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(15000) * (1 + Q(15) / 100)\n    debt = Q(7000)\n    liq = debt > Q(\"0.8\") * coll\n    if liq:\n        repaid = debt * Q(\"0.45\")\n        seized = repaid * (1 + Q(\"0.10\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = coll - seized\n    remaining_debt = debt - repaid\n    needed = remaining_debt / Q(\"0.7\")\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": coll,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 346
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "17250",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "17250"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "17250",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "17250"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0e3851335d8d407be5b5c29156d17f23d20fab78b6b9da695ae82b51372ae76b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 308,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 308,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0034895000000000004,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3066,
+                  "session_id": "97c14551-f6ca-43af-a4e5-94cea0f76f0d",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll0 = Q(15000)\n    debt = Q(7000)\n    shock = Q(15) / 100\n    coll = coll0 * (1 + shock)\n    liquidatable = debt > Q(\"0.8\") * coll\n    if liquidatable:\n        repaid = Q(\"0.45\") * debt\n        seized = repaid * (1 + Q(\"0.10\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = coll - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / Q(\"0.7\")\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": coll,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 341
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "17250",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "17250"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "12750",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "12750"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "b57546b66fac48f1775a1158eb2bb6eaa362d78269be18fb0d15dcdda1ac8c2f",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 290,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 290,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0033095,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2930,
+                  "session_id": "20956818-088b-438e-a421-48f09dbd999c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(15000)\n    debt = Q(7000)\n    post = coll * (1 + Q(-15) / 100)\n    liq = debt > Q(\"0.8\") * post\n    if liq:\n        repaid = debt * Q(\"0.45\")\n        seized = repaid * (1 + Q(\"0.1\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_debt = debt - repaid\n    remaining_coll = post - seized\n    needed = remaining_debt / Q(\"0.7\")\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 388
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "12750",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "12750"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "17250",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "17250"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "c318503ca67b58884af1bee88c11a293a2a6a3e34af710dfa9ffa927de31ba5b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 286,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 286,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032695000000000003,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2819,
+                  "session_id": "eb2011cd-39f6-43f6-b416-bc626f51b3ac",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(15000) * (1 + Q(15) / 100)\n    debt = Q(7000)\n    liq = debt > Q(\"0.8\") * coll\n    if liq:\n        repaid = debt * Q(\"0.45\")\n        seized = repaid * (1 + Q(\"0.10\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = coll - seized\n    remaining_debt = debt - repaid\n    needed = remaining_debt / Q(\"0.7\")\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": coll,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 147
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "17250",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "17250"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "17250",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "17250"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "38f5f29938d3b5fea507ba2c5f882b40163c345b4a7f20a458dbc13d37b41f13",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 296,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 296,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0033695,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3224,
+                  "session_id": "c211407a-7663-40f7-b6a7-1bf58f070deb",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(15000)\n    debt = Q(7000)\n    shock = Q(15) / 100\n    post = coll * (1 + shock)\n    liq = debt > Q(\"0.8\") * post\n    if liq:\n        repaid = debt * Q(\"0.45\")\n        seized = repaid * (1 + Q(\"0.10\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = post - seized\n    remaining_debt = debt - repaid\n    needed = remaining_debt / Q(\"0.7\")\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 156
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "17250",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "17250"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn4d97eb10b00114e468be",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn4d97eb10b00114e468be",
+          "final_answer": {
+            "value": "0.00"
+          },
+          "steps": [
+            {
+              "slot_id": "post_shock_collateral_value",
+              "value": "14025"
+            },
+            {
+              "slot_id": "repaid_debt",
+              "value": "0"
+            },
+            {
+              "slot_id": "seized_collateral_value",
+              "value": "0"
+            },
+            {
+              "slot_id": "remaining_collateral_value",
+              "value": "14025"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.00": 5
+          },
+          "post_shock_collateral_value": {
+            "14025": 5
+          },
+          "repaid_debt": {
+            "0": 5
+          },
+          "seized_collateral_value": {
+            "0": 5
+          },
+          "remaining_collateral_value": {
+            "14025": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "14025",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "14025"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "14e50097085629ea75b65ac8241d27b8681da793876753495d607e2029f045a9",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3240,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 289,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3240,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 289,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3240,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3240
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0159355,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2924,
+                  "session_id": "d3408e8c-303f-49c3-8177-965680f96043",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(16500)\n    debt = Q(4000)\n    post = coll * (1 - Q(15, 100))\n    liq = debt > Q(85, 100) * post\n    if liq:\n        repaid = debt * Q(30, 100)\n        seized = repaid * (1 + Q(11, 100))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = post - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / Q(60, 100)\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 225
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "14025",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "14025"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "14025",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "14025"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "e35168525d0cf4b08f50f27aa2bc2b7ed4d642dcb85bbb303641f9befe3927d7",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 290,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 290,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0033095,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2876,
+                  "session_id": "fa3444c3-a1cf-4b0a-9485-c8dccf294dbd",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    C = Q(16500)\n    D = Q(4000)\n    post = C * (1 - Q(15) / 100)\n    liq = D > Q(85) / 100 * post\n    if liq:\n        repaid = D * Q(30) / 100\n        seized = repaid * (1 + Q(11) / 100)\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = post - seized\n    remaining_debt = D - repaid\n    needed = remaining_debt / (Q(60) / 100)\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 223
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "14025",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "14025"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "14025",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "14025"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "469ed762129ac07b5468785a61e41e9e3f6322895692e73edc4649291f197c57",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 291,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 291,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0033195000000000004,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2805,
+                  "session_id": "f84bd184-58f0-4e2c-b82b-20e0bcec386e",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(16500) * (1 - Q(15) / 100)\n    debt = Q(4000)\n    liq = debt > Q(85) / 100 * coll\n    if liq:\n        repaid = debt * Q(30) / 100\n        seized = repaid * (1 + Q(11) / 100)\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = coll - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / (Q(60) / 100)\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": coll,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 238
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "14025",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "14025"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "14025",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "14025"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a6c108e0dc1051a6256e391cdb546effd5f13a91ff3ef55eea087fff846d7589",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 430,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 430,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.004709499999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3572,
+                  "session_id": "ac1b4109-fb56-4744-b5b2-51f45942b359",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(16500)\n    debt = Q(4000)\n    shock = Q(-15)\n    post = coll * (1 + shock / 100)\n    liq = debt > Q(85) / 100 * post\n    if liq:\n        repaid = debt * Q(30) / 100\n        seized = repaid * (1 + Q(11) / 100)\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = post - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / (Q(60) / 100)\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 253
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "14025",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "14025"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "14025",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "14025"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "2219b4ad773e7a1f7bd00fb9152dcc81f0e4be0dcc54f0b990f3c9c502b477ce",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 294,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 294,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0033495,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3330,
+                  "session_id": "022faa53-1d85-48cb-96dd-eec44ccd44f8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(16500)\n    debt = Q(4000)\n    post = coll * (1 - Q(15) / 100)\n    liq = debt > Q(85) / 100 * post\n    if liq:\n        repaid = debt * Q(30) / 100\n        seized = repaid * (1 + Q(11) / 100)\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = post - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / (Q(60) / 100)\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 208
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "14025",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "14025"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synea26fe3787cfcb5863b3",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synea26fe3787cfcb5863b3",
+          "final_answer": {
+            "value": "1317.31"
+          },
+          "steps": [
+            {
+              "slot_id": "post_shock_collateral_value",
+              "value": "11375"
+            },
+            {
+              "slot_id": "repaid_debt",
+              "value": "0"
+            },
+            {
+              "slot_id": "seized_collateral_value",
+              "value": "0"
+            },
+            {
+              "slot_id": "remaining_collateral_value",
+              "value": "11375"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "1317.31": 5
+          },
+          "post_shock_collateral_value": {
+            "11375": 5
+          },
+          "repaid_debt": {
+            "0": 5
+          },
+          "seized_collateral_value": {
+            "0": 5
+          },
+          "remaining_collateral_value": {
+            "11375": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "1317.31",
+              "post_shock_collateral_value": "11375",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "11375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "038ec11ee763de9c4434c8bd69f7f1acb4f1d060ab6e93feb2e4b2bab97d016d",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3240,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 312,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3240,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 312,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3240,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3240
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0161655,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2882,
+                  "session_id": "82f8bc86-2a69-4031-955b-0a3ecf8eb7b4",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll0 = Q(17500)\n    debt = Q(8250)\n    shock = Q(-35)\n    post = coll0 * (1 + shock / 100)\n    liquidatable = debt > Q(90) / 100 * post\n    if liquidatable:\n        repaid = debt * Q(30) / 100\n        seized = repaid * (1 + Q(9) / 100)\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = post - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / (Q(65) / 100)\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 190
+                },
+                "rendered": {
+                  "final": "1317.31",
+                  "post_shock_collateral_value": "11375",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "11375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1317.31",
+              "post_shock_collateral_value": "11375",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "11375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "2f448b1e4cff8e75d7267dfa3197e7a5cf66e3fafb44e37dbb7a16f2069cbdfa",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 283,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 283,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032395,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2795,
+                  "session_id": "28c53665-1128-42e2-af5c-45da515eb061",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    C = Q(17500)\n    D = Q(8250)\n    post = C * (1 - Q(35) / 100)\n    liq = D > Q(\"0.9\") * post\n    if liq:\n        repaid = D * Q(\"0.3\")\n        seized = repaid * (1 + Q(\"0.09\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = post - seized\n    remaining_debt = D - repaid\n    needed = remaining_debt / Q(\"0.65\")\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 386
+                },
+                "rendered": {
+                  "final": "1317.31",
+                  "post_shock_collateral_value": "11375",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "11375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1317.31",
+              "post_shock_collateral_value": "11375",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "11375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "cfc107bbf005a237abc9ce8e4c1af9cb6e0d8a847459390fc436fd258beeb70e",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 284,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 284,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032495000000000002,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2609,
+                  "session_id": "be9c7429-d6e8-41b6-9bf6-6f62b3bb5e58",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(17500) * (1 - Q(35) / 100)\n    debt = Q(8250)\n    liq = debt > Q(\"0.9\") * coll\n    if liq:\n        repaid = debt * Q(\"0.3\")\n        seized = repaid * (1 + Q(\"0.09\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = coll - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / Q(\"0.65\")\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": coll,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 239
+                },
+                "rendered": {
+                  "final": "1317.31",
+                  "post_shock_collateral_value": "11375",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "11375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1317.31",
+              "post_shock_collateral_value": "11375",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "11375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "cd98b6bf5c61ac85c8843fd01c0600ac43212360bd04dc02d7d7fd5d24f2bbe9",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 284,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 284,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032495000000000002,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2723,
+                  "session_id": "2481d474-9abd-4482-b946-16b1dd473303",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(17500) * (1 - Q(35) / 100)\n    debt = Q(8250)\n    liq = debt > Q(\"0.9\") * coll\n    if liq:\n        repaid = debt * Q(\"0.3\")\n        seized = repaid * (1 + Q(\"0.09\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_coll = coll - seized\n    remaining_debt = debt - repaid\n    required = remaining_debt / Q(\"0.65\")\n    deposit = max(required - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": coll,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 181
+                },
+                "rendered": {
+                  "final": "1317.31",
+                  "post_shock_collateral_value": "11375",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "11375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1317.31",
+              "post_shock_collateral_value": "11375",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "11375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d9b46119ed1dc7a00d6036856744146dab52f9061a074be35262babf3ebd8f4a",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 276,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 276,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031695,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2903,
+                  "session_id": "2826cd50-ae40-4cce-bcc0-a22a7967391a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    C = Q(17500)\n    D = Q(8250)\n    post = C * (1 - Q(35) / 100)\n    liq = D > Q(\"0.9\") * post\n    if liq:\n        repaid = D * Q(\"0.3\")\n        seized = repaid * (1 + Q(\"0.09\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    rem_coll = post - seized\n    rem_debt = D - repaid\n    need = rem_debt / Q(\"0.65\")\n    deposit = max(need - rem_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": rem_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 208
+                },
+                "rendered": {
+                  "final": "1317.31",
+                  "post_shock_collateral_value": "11375",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "11375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn60d2a753f1d5b9704c19",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn60d2a753f1d5b9704c19",
+          "final_answer": {
+            "value": "0.00"
+          },
+          "steps": [
+            {
+              "slot_id": "post_shock_collateral_value",
+              "value": "21450"
+            },
+            {
+              "slot_id": "repaid_debt",
+              "value": "0"
+            },
+            {
+              "slot_id": "seized_collateral_value",
+              "value": "0"
+            },
+            {
+              "slot_id": "remaining_collateral_value",
+              "value": "21450"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.00": 5
+          },
+          "post_shock_collateral_value": {
+            "21450": 5
+          },
+          "repaid_debt": {
+            "0": 5
+          },
+          "seized_collateral_value": {
+            "0": 5
+          },
+          "remaining_collateral_value": {
+            "21450": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "21450",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "21450"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "49f5f396218cb8fd6c69d13e5a56ad6d902a5b11f1f30d50bc38c0e825a359d4",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3240,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 287,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3240,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 287,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3240,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3240
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0159155,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3731,
+                  "session_id": "2406477f-e0ee-426b-a22c-fc06c698074b",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    C = Q(19500)\n    D = Q(4500)\n    shock = Q(10) / 100\n    post = C * (1 + shock)\n    liq = D > Q(\"0.8\") * post\n    if liq:\n        repaid = D * Q(\"0.25\")\n        seized = repaid * (1 + Q(\"0.12\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_col = post - seized\n    remaining_debt = D - repaid\n    needed = remaining_debt / Q(\"0.7\")\n    deposit = max(needed - remaining_col, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_col,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 291
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "21450",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "21450"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "21450",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "21450"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f46239695611c7d0de102eef3b0ff909deef28dedbf41c0d3dd82f719a77e8d9",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 283,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 283,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032395,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3034,
+                  "session_id": "44200bf6-0702-47d1-a0f5-f57640e0f7f4",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    C = Q(19500)\n    D = Q(4500)\n    shock = Q(10) / 100\n    post = C * (1 + shock)\n    liq = D > Q(\"0.8\") * post\n    if liq:\n        repaid = D * Q(\"0.25\")\n        seized = repaid * (1 + Q(\"0.12\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    rem_debt = D - repaid\n    rem_coll = post - seized\n    needed = rem_debt / Q(\"0.7\")\n    dep = max(needed - rem_coll, Q(0))\n    return {\n        \"final\": dep,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": rem_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 224
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "21450",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "21450"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "21450",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "21450"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "7821d6d85186bc3d4cef75d996094fc19831a142e0c01b5c0c6d53a8f4be9dbd",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 290,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 290,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0033095,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3097,
+                  "session_id": "968861b7-e55a-4a07-a000-cda66a972181",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    C = Q(19500)\n    D = Q(4500)\n    shock = Q(10) / 100\n    post = C * (1 + shock)\n    liq = D > Q(\"0.8\") * post\n    if liq:\n        repaid = D * Q(\"0.25\")\n        seized = repaid * (1 + Q(\"0.12\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_debt = D - repaid\n    remaining_coll = post - seized\n    needed = remaining_debt / Q(\"0.7\")\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 246
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "21450",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "21450"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "21450",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "21450"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f4066fc2458a4adb4317ee00b941f2050228aa8b08f89f579d0c35cb6982afd2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 289,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 289,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032995,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2688,
+                  "session_id": "46f39434-c6d9-4306-911a-5d2c078b288a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    C = Q(19500)\n    D = Q(4500)\n    shock = Q(10) / 100\n    C1 = C * (1 + shock)\n    liq = D > Q(\"0.8\") * C1\n    if liq:\n        repaid = D * Q(\"0.25\")\n        seized = repaid * (1 + Q(\"0.12\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    rem_coll = C1 - seized\n    rem_debt = D - repaid\n    need = rem_debt / Q(\"0.7\")\n    deposit = max(need - rem_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": C1,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": rem_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 324
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "21450",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "21450"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.00",
+              "post_shock_collateral_value": "21450",
+              "repaid_debt": "0",
+              "seized_collateral_value": "0",
+              "remaining_collateral_value": "21450"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0142a0f978b33702ef1378e50f337909d0df9bb30b801785a06601789dbcae8b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4055,
+                  "output_tokens": 454,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 454,
+                      "cache_read_input_tokens": 4055,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.004949499999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3798,
+                  "session_id": "3aba8e80-16c3-43ab-a212-a429e7e5cb04",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    coll = Q(19500)\n    debt = Q(4500)\n    shock = Q(10)\n    post = coll * (1 + shock / 100)\n    liq = debt > Q(\"0.8\") * post\n    if liq:\n        repaid = debt * Q(\"0.25\")\n        seized = repaid * (1 + Q(\"0.12\"))\n    else:\n        repaid = Q(0)\n        seized = Q(0)\n    remaining_debt = debt - repaid\n    remaining_coll = post - seized\n    needed = remaining_debt / Q(\"0.7\")\n    deposit = max(needed - remaining_coll, Q(0))\n    return {\n        \"final\": deposit,\n        \"post_shock_collateral_value\": post,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": remaining_coll,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 257
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "post_shock_collateral_value": "21450",
+                  "repaid_debt": "0",
+                  "seized_collateral_value": "0",
+                  "remaining_collateral_value": "21450"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "0c6fc1e4f616789350fe22bc850f5068d91ee86af26f060cfccc418e91e2f51a"
+}

@@ -1,0 +1,193 @@
+{
+ "family": "c1_41",
+ "template_sha256": "5e67338a5045489f9e9733958925290f40a495b913107709cbcc16a78b43062d",
+ "draws_sha256": "cc474f2ed03278659d6a4439b6ceed0db2348be6cbdf3a76bf5142281ef1ed48",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "7d1c76dcac66e1b8c4332d388d8d4572c25327d6a37a138a4d3d28ec27d77dfb",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1564,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 664,
+    "output_tokens_details": {
+     "thinking_tokens": 207
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1564,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 664,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1564,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1564
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0646505
+  }
+ ],
+ "program": "def solve():\n    m = Q(P[\"NET_MARGIN\"]) / 100\n    em = Q(P[\"EQUITY_MULTIPLIER\"])\n    t = Q(P[\"TARGET_ROE\"]) / 100\n    F = Q(P[\"FIXED_ASSETS\"])\n    v = Q(P[\"VARIABLE_SHARE\"])\n\n    # ROE(S) = m * (S / (F + v*S)) * em, increasing in S, bounded above by m*em/v\n    # Feasible only if the target lies strictly below that asymptote.\n    asymptote = m * em / v\n    if t >= asymptote:\n        raise ValueError(\"Target ROE cannot be reached at any positive sales level\")\n\n    # Solve m*em*S = t*(F + v*S)\n    S = t * F / (m * em - t * v)\n    if S <= 0:\n        raise ValueError(\"No positive sales level reaches the target\")\n\n    total_assets = F + v * S\n    turnover = S / total_assets\n    equity = total_assets / em\n\n    # consistency check via DuPont\n    net_income = m * S\n    roe = net_income / equity\n    if roe != t:\n        raise ValueError(\"Inconsistent solution\")\n\n    return {\n        \"final\": S,\n        \"total_assets\": total_assets,\n        \"asset_turnover\": turnover,\n        \"shareholders_equity\": equity,\n    }\n",
+ "result": {
+  "compared": 22,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_12",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_NET_MARGIN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_EQUITY_MULTIPLIER",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TARGET_ROE",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_FIXED_ASSETS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_VARIABLE_SHARE",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_NET_MARGIN",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_EQUITY_MULTIPLIER",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_TARGET_ROE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FIXED_ASSETS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_VARIABLE_SHARE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

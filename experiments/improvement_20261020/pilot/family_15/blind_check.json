@@ -1,0 +1,542 @@
+{
+  "family": "family_15",
+  "all_agree": true,
+  "checks": [
+    {
+      "case_id": "t1_sync716b0ead0db97196953",
+      "verdicts": {
+        "final": true,
+        "core_variance_pp2": true,
+        "min_variance_pp2": true,
+        "target_attainable": true,
+        "selected_hedge_ratio": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_sync716b0ead0db97196953",
+          "final_answer": {
+            "value": "64.2857"
+          },
+          "steps": [
+            {
+              "slot_id": "core_variance_pp2",
+              "value": "324"
+            },
+            {
+              "slot_id": "min_variance_pp2",
+              "value": "272.16"
+            },
+            {
+              "slot_id": "target_attainable",
+              "value": "unattainable"
+            },
+            {
+              "slot_id": "selected_hedge_ratio",
+              "value": "0.257143"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "64.2857": 1
+          },
+          "core_variance_pp2": {
+            "324": 1
+          },
+          "min_variance_pp2": {
+            "272.16": 1
+          },
+          "target_attainable": {
+            "unattainable": 1
+          },
+          "selected_hedge_ratio": {
+            "0.257143": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "64.2857",
+              "core_variance_pp2": "324",
+              "min_variance_pp2": "272.16",
+              "target_attainable": "unattainable",
+              "selected_hedge_ratio": "0.257143"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a7a3fa79aea33a36d2ca282ee009bc1c479379e187b99985075782299117ad9d",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1368,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 730,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1368,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 730,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1368,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1368
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.06412999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 10283,
+                  "session_id": "619001e9-a007-42fb-89b3-c25dbe5b9cd5",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    core_value = 250  # USD million\n    sigma_E = 18  # percent\n    sigma_H = 28  # percent\n    rho = Q(\"-0.4\")\n    target_vol = 9  # percent\n\n    core_variance_pp2 = sigma_E ** 2  # 324\n    futures_variance_pp2 = sigma_H ** 2  # 784\n    cov_pp2 = rho * sigma_E * sigma_H\n\n    # Minimum-variance overlay ratio: h* = -rho*sigma_E/sigma_H\n    h_min = -cov_pp2 / futures_variance_pp2\n    min_variance_pp2 = core_variance_pp2 + h_min ** 2 * futures_variance_pp2 + 2 * h_min * cov_pp2\n\n    target_variance = target_vol ** 2\n\n    if target_variance >= min_variance_pp2:\n        target_attainable = \"attainable\"\n        # Solve h^2*sH^2 + 2h*cov + (sE^2 - target) = 0\n        a = futures_variance_pp2\n        b = 2 * cov_pp2\n        c = core_variance_pp2 - target_variance\n        disc = b * b - 4 * a * c\n        root = sqrt(disc)\n        h1 = (-b + root) / (2 * a)\n        h2 = (-b - root) / (2 * a)\n        # choose smaller absolute value; negative if tied\n        if abs(h1) < abs(h2):\n            selected_hedge_ratio = h1\n        elif abs(h2) < abs(h1):\n            selected_hedge_ratio = h2\n        else:\n            selected_hedge_ratio = min(h1, h2)\n    else:\n        target_attainable = \"unattainable\"\n        selected_hedge_ratio = h_min\n\n    futures_notional = selected_hedge_ratio * core_value  # signed, USD million\n\n    return {\n        \"final\": futures_notional,\n        \"core_variance_pp2\": core_variance_pp2,\n        \"min_variance_pp2\": min_variance_pp2,\n        \"target_attainable\": target_attainable,\n        \"selected_hedge_ratio\": selected_hedge_ratio,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 337
+                },
+                "rendered": {
+                  "final": "64.2857",
+                  "core_variance_pp2": "324",
+                  "min_variance_pp2": "272.16",
+                  "target_attainable": "unattainable",
+                  "selected_hedge_ratio": "0.257143"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn6f4d9ff8ef6e82ae2bf2",
+      "verdicts": {
+        "final": true,
+        "core_variance_pp2": true,
+        "min_variance_pp2": true,
+        "target_attainable": true,
+        "selected_hedge_ratio": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn6f4d9ff8ef6e82ae2bf2",
+          "final_answer": {
+            "value": "-303.3333"
+          },
+          "steps": [
+            {
+              "slot_id": "core_variance_pp2",
+              "value": "676"
+            },
+            {
+              "slot_id": "min_variance_pp2",
+              "value": "507"
+            },
+            {
+              "slot_id": "target_attainable",
+              "value": "unattainable"
+            },
+            {
+              "slot_id": "selected_hedge_ratio",
+              "value": "-0.866667"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "-303.3333": 1
+          },
+          "core_variance_pp2": {
+            "676": 1
+          },
+          "min_variance_pp2": {
+            "507": 1
+          },
+          "target_attainable": {
+            "unattainable": 1
+          },
+          "selected_hedge_ratio": {
+            "-0.866667": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "-303.3333",
+              "core_variance_pp2": "676",
+              "min_variance_pp2": "507",
+              "target_attainable": "unattainable",
+              "selected_hedge_ratio": "-0.866667"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "e08baedb8cd9a04a9a4f67b965c25938f15265bac7397b73be7fbb836dc4859d",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1368,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 769,
+                  "output_tokens_details": {
+                    "thinking_tokens": 172
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1368,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 769,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1368,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1368
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.06608,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 8616,
+                  "session_id": "6a34e7ff-acb6-4bdc-abcd-c2b3c7097bf1",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    core_value = 350          # USD million\n    sigma_E = 26              # core vol, percentage points\n    sigma_H = 15              # futures vol, percentage points\n    rho = Q(\"0.5\")\n    target_vol = 13\n\n    # variance components in pp^2\n    core_variance_pp2 = sigma_E ** 2\n    a = sigma_H ** 2                      # coefficient on h^2\n    b = 2 * rho * sigma_E * sigma_H       # coefficient on h\n    c = core_variance_pp2\n\n    # minimum-variance overlay ratio and minimum variance\n    h_min = -b / (2 * a)\n    min_variance_pp2 = c + a * h_min ** 2 + b * h_min\n\n    target_variance = target_vol ** 2\n\n    if target_variance >= min_variance_pp2:\n        target_attainable = \"attainable\"\n        disc = b ** 2 - 4 * a * (c - target_variance)\n        root = sqrt(disc)\n        h1 = (-b + root) / (2 * a)\n        h2 = (-b - root) / (2 * a)\n        if abs(h1) < abs(h2):\n            h_sel = h1\n        elif abs(h2) < abs(h1):\n            h_sel = h2\n        else:\n            h_sel = min(h1, h2)  # tie -> negative one\n    else:\n        target_attainable = \"unattainable\"\n        h_sel = h_min\n\n    futures_notional = h_sel * core_value  # signed, USD million\n\n    return {\n        \"final\": futures_notional,\n        \"core_variance_pp2\": core_variance_pp2,\n        \"min_variance_pp2\": min_variance_pp2,\n        \"target_attainable\": target_attainable,\n        \"selected_hedge_ratio\": h_sel,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 195
+                },
+                "rendered": {
+                  "final": "-303.3333",
+                  "core_variance_pp2": "676",
+                  "min_variance_pp2": "507",
+                  "target_attainable": "unattainable",
+                  "selected_hedge_ratio": "-0.866667"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn0568c8a1968975ff5b5e",
+      "verdicts": {
+        "final": true,
+        "core_variance_pp2": true,
+        "min_variance_pp2": true,
+        "target_attainable": true,
+        "selected_hedge_ratio": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn0568c8a1968975ff5b5e",
+          "final_answer": {
+            "value": "-13.9286"
+          },
+          "steps": [
+            {
+              "slot_id": "core_variance_pp2",
+              "value": "225"
+            },
+            {
+              "slot_id": "min_variance_pp2",
+              "value": "216"
+            },
+            {
+              "slot_id": "target_attainable",
+              "value": "unattainable"
+            },
+            {
+              "slot_id": "selected_hedge_ratio",
+              "value": "-0.107143"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "-13.9286": 1
+          },
+          "core_variance_pp2": {
+            "225": 1
+          },
+          "min_variance_pp2": {
+            "216": 1
+          },
+          "target_attainable": {
+            "unattainable": 1
+          },
+          "selected_hedge_ratio": {
+            "-0.107143": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "-13.9286",
+              "core_variance_pp2": "225",
+              "min_variance_pp2": "216",
+              "target_attainable": "unattainable",
+              "selected_hedge_ratio": "-0.107143"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d8a78cd5394019625c0605128ac89644ee1a038e74ae5a87f4ba9fe678a1944b",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1368,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 594,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1368,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 594,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1368,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1368
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.057330000000000006,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6383,
+                  "session_id": "012d37bf-42be-4506-a32f-dc1c75cc2293",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    core_value = 130\n    sigma_E = 15\n    sigma_H = 28\n    rho = Q(\"0.2\")\n    target_vol = 14\n\n    core_var = sigma_E ** 2                       # 225\n    # variance(h) = sigma_E^2 + h^2 sigma_H^2 + 2 h rho sigma_E sigma_H\n    h_min = -rho * sigma_E / sigma_H               # minimum-variance overlay ratio\n    min_var = core_var + h_min ** 2 * sigma_H ** 2 + 2 * h_min * rho * sigma_E * sigma_H\n\n    target_var = target_vol ** 2\n    if target_var >= min_var:\n        attainable = \"attainable\"\n        # solve sigma_H^2 h^2 + 2 rho sigma_E sigma_H h + (sigma_E^2 - target_var) = 0\n        a = sigma_H ** 2\n        b = 2 * rho * sigma_E * sigma_H\n        c = core_var - target_var\n        disc = b * b - 4 * a * c\n        root = sqrt(disc)\n        h1 = (-b + root) / (2 * a)\n        h2 = (-b - root) / (2 * a)\n        if abs(h1) < abs(h2):\n            h = h1\n        elif abs(h2) < abs(h1):\n            h = h2\n        else:\n            h = min(h1, h2)  # tied -> negative one\n    else:\n        attainable = \"unattainable\"\n        h = h_min\n\n    notional = h * core_value\n    return {\n        \"final\": notional,\n        \"core_variance_pp2\": core_var,\n        \"min_variance_pp2\": min_var,\n        \"target_attainable\": attainable,\n        \"selected_hedge_ratio\": h,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 292
+                },
+                "rendered": {
+                  "final": "-13.9286",
+                  "core_variance_pp2": "225",
+                  "min_variance_pp2": "216",
+                  "target_attainable": "unattainable",
+                  "selected_hedge_ratio": "-0.107143"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn5b7370b2c8090f925410",
+      "verdicts": {
+        "final": true,
+        "core_variance_pp2": true,
+        "min_variance_pp2": true,
+        "target_attainable": true,
+        "selected_hedge_ratio": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn5b7370b2c8090f925410",
+          "final_answer": {
+            "value": "-28.3992"
+          },
+          "steps": [
+            {
+              "slot_id": "core_variance_pp2",
+              "value": "225"
+            },
+            {
+              "slot_id": "min_variance_pp2",
+              "value": "81"
+            },
+            {
+              "slot_id": "target_attainable",
+              "value": "attainable"
+            },
+            {
+              "slot_id": "selected_hedge_ratio",
+              "value": "-0.236660"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "-28.3992": 1
+          },
+          "core_variance_pp2": {
+            "225": 1
+          },
+          "min_variance_pp2": {
+            "81": 1
+          },
+          "target_attainable": {
+            "attainable": 1
+          },
+          "selected_hedge_ratio": {
+            "-0.236660": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "-28.3992",
+              "core_variance_pp2": "225",
+              "min_variance_pp2": "81",
+              "target_attainable": "attainable",
+              "selected_hedge_ratio": "-0.236660"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0c85d93c124bb4172c0262e5ca1934ffd7645dd8d809566d8707be1bc69f845e",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1368,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 869,
+                  "output_tokens_details": {
+                    "thinking_tokens": 259
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1368,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 869,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1368,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1368
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.07108,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 11801,
+                  "session_id": "2ab229c3-0cd2-43f8-8ae6-e9487a1e3756",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    core_value = 120  # USD million\n    sigma_E = 15  # core vol in percent\n    sigma_H = 20  # futures vol in percent\n    rho = Q(\"-0.8\")\n    target_vol = 19\n\n    core_variance = sigma_E ** 2          # 225\n    futures_variance = sigma_H ** 2       # 400\n    cov = rho * sigma_E * sigma_H         # -240\n\n    # Minimum-variance overlay ratio and the minimum variance\n    h_min = -cov / futures_variance\n    min_variance = core_variance + h_min ** 2 * futures_variance + 2 * h_min * cov\n\n    target_variance = target_vol ** 2\n    if target_variance >= min_variance:\n        attainable = \"attainable\"\n        # futures_variance*h^2 + 2*cov*h + (core_variance - target_variance) = 0\n        a = futures_variance\n        b = 2 * cov\n        c = core_variance - target_variance\n        disc = b ** 2 - 4 * a * c\n        root = sqrt(disc)\n        h1 = (-b + root) / (2 * a)\n        h2 = (-b - root) / (2 * a)\n        if abs(h1) < abs(h2):\n            h_sel = h1\n        elif abs(h2) < abs(h1):\n            h_sel = h2\n        else:\n            h_sel = min(h1, h2)  # tie: choose negative\n    else:\n        attainable = \"unattainable\"\n        h_sel = h_min\n\n    notional = h_sel * core_value  # signed futures notional, USD million\n\n    return {\n        \"final\": notional,\n        \"core_variance_pp2\": core_variance,\n        \"min_variance_pp2\": min_variance,\n        \"target_attainable\": attainable,\n        \"selected_hedge_ratio\": h_sel,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 360
+                },
+                "rendered": {
+                  "final": "-28.3992",
+                  "core_variance_pp2": "225",
+                  "min_variance_pp2": "81",
+                  "target_attainable": "attainable",
+                  "selected_hedge_ratio": "-0.236660"
+                },
+                "issues": {},
+                "flags": [
+                  "final:inexact",
+                  "selected_hedge_ratio:inexact"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "5feb6229e7c6f37d42a789024db41cae1a7b7d5a519e5c4f539802f71e4f0fe9"
+}

@@ -1,0 +1,203 @@
+{
+ "family": "c1_81",
+ "template_sha256": "6a5331be46d15ab853e92f5846666b8151ebd92116243b65dca07a5c3482bfe6",
+ "draws_sha256": "66c5b537bb156e536212bedd1eb039ddf9b735874a3dc38da9c5a6a14faab352",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "1f095870e9dfc46dbc4e0ca34b965eab102501896eccfe27cdb00a18a5dbd64f",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1462,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 380,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1462,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 380,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1462,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1462
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.048410499999999995
+  }
+ ],
+ "program": "def solve():\n    B = Q(P[\"B\"])\n    U = Q(P[\"U\"])\n    D = Q(P[\"D\"])\n    C = Q(P[\"C\"])\n    PU = Q(P[\"PU\"])\n    PD = Q(P[\"PD\"])\n\n    PB = 100 - PU - PD\n    if PB <= 0:\n        raise ValueError(\"Base-case probability must be strictly positive\")\n\n    # Scenario values\n    upside_value = B * (1 + U / 100)\n    downside_value = B * (1 - D / 100) - C\n    base_value = B\n\n    # Enumerate scenarios as (probability, value) ledger\n    scenarios = [\n        (PU / 100, upside_value),\n        (PD / 100, downside_value),\n        (PB / 100, base_value),\n    ]\n    expected_value = 0\n    for prob, val in scenarios:\n        expected_value += prob * val\n\n    downside_loss = base_value - downside_value\n    incremental = expected_value - base_value\n\n    return {\n        \"final\": incremental,\n        \"base_probability\": PB,\n        \"expected_value\": expected_value,\n        \"downside_loss\": downside_loss,\n    }\n",
+ "result": {
+  "compared": 24,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_12",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_13",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_14",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_U",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PU",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_B",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_U",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_D",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_C",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_PU",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

@@ -1,0 +1,499 @@
+{
+ "family": "c1_35",
+ "draws_sha256": "903949d59ea14ea9c0381e093171b20aab3affdeb260de9b04a3b14c698436ed",
+ "checks": [
+  {
+   "case_id": "t1_synf84d09b587aa1ff50324",
+   "verdicts": {
+    "final": true,
+    "daily_net_carry": true,
+    "total_carry": true,
+    "price_pnl": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synf84d09b587aa1ff50324",
+     "final_answer": {
+      "value": "-98003/48"
+     },
+     "steps": [
+      {
+       "slot_id": "daily_net_carry",
+       "value": "1729/96"
+      },
+      {
+       "slot_id": "total_carry",
+       "value": "22477/48"
+      },
+      {
+       "slot_id": "price_pnl",
+       "value": "-2500"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-98003/48": 1
+     },
+     "daily_net_carry": {
+      "1729/96": 1
+     },
+     "total_carry": {
+      "22477/48": 1
+     },
+     "price_pnl": {
+      "-2500": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-98003/48",
+       "daily_net_carry": "1729/96",
+       "total_carry": "22477/48",
+       "price_pnl": "-2500"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "0b81111d49f587054102b8a4989c55e62257cb0fe41f3c216afa849d69c022ab",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1137,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 257,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1137,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 257,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1137,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1137
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.035791,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3466,
+         "session_id": "b38a1af0-904d-4801-8b79-ededbd1b25b5",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    units = 100000\n    open_rate = Q(\"1.235\")\n    close_rate = Q(\"1.26\")\n    days = 26\n    notional = units * open_rate\n    gross = notional * (Q(\"0.0575\") - 0) / 360\n    markup = notional * Q(\"0.005\") / 360\n    net = gross - markup\n    if net > 0:\n        net = min(net, 60)\n    total_carry = net * days\n    price_pnl = (open_rate - close_rate) * units\n    post = total_carry + price_pnl - 10\n    if post > 0:\n        post = post * Q(\"0.8\")\n    return {\n        \"final\": post,\n        \"daily_net_carry\": net,\n        \"total_carry\": total_carry,\n        \"price_pnl\": price_pnl,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 265
+        },
+        "rendered": {
+         "final": "-98003/48",
+         "daily_net_carry": "1729/96",
+         "total_carry": "22477/48",
+         "price_pnl": "-2500"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_sync64afd5f7a901fa0cd1a",
+   "verdicts": {
+    "final": true,
+    "daily_net_carry": true,
+    "total_carry": true,
+    "price_pnl": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_sync64afd5f7a901fa0cd1a",
+     "final_answer": {
+      "value": "-304.725"
+     },
+     "steps": [
+      {
+       "slot_id": "daily_net_carry",
+       "value": "211/720"
+      },
+      {
+       "slot_id": "total_carry",
+       "value": "5.275"
+      },
+      {
+       "slot_id": "price_pnl",
+       "value": "-300"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-304.725": 1
+     },
+     "daily_net_carry": {
+      "211/720": 1
+     },
+     "total_carry": {
+      "5.275": 1
+     },
+     "price_pnl": {
+      "-300": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-304.725",
+       "daily_net_carry": "211/720",
+       "total_carry": "5.275",
+       "price_pnl": "-300"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "7f39f4e06dcb0bf861094de71b958f5c9e833c78f8f642a575914e34f94caea0",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1135,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 319,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1135,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 319,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1135,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1135
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.038851,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5207,
+         "session_id": "aff4cd67-fc84-4b1d-b05b-1ec89e40c5a7",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    units = Q(20000)\n    open_rate = Q(\"1.055\")\n    close_rate = Q(\"1.07\")\n    days = 18\n    notional = units * open_rate\n    base_rate = Q(0)\n    usd_rate = Q(\"0.01\")\n    markup = Q(\"0.005\")\n    gross = notional * (usd_rate - base_rate) / 360\n    markup_daily = notional * markup / 360\n    net = gross - markup_daily\n    if net > 0:\n        net = min(net, Q(30))\n    total_carry = net * days\n    price_pnl = (open_rate - close_rate) * units\n    pre = total_carry + price_pnl - 10\n    if pre > 0:\n        final = pre * (1 - Q(\"0.2\"))\n    else:\n        final = pre\n    return {\n        \"final\": final,\n        \"daily_net_carry\": net,\n        \"total_carry\": total_carry,\n        \"price_pnl\": price_pnl,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 279
+        },
+        "rendered": {
+         "final": "-304.725",
+         "daily_net_carry": "211/720",
+         "total_carry": "5.275",
+         "price_pnl": "-300"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn666389ac889e4c7a6f73",
+   "verdicts": {
+    "final": true,
+    "daily_net_carry": true,
+    "total_carry": true,
+    "price_pnl": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn666389ac889e4c7a6f73",
+     "final_answer": {
+      "value": "-19264/3"
+     },
+     "steps": [
+      {
+       "slot_id": "daily_net_carry",
+       "value": "-17/24"
+      },
+      {
+       "slot_id": "total_carry",
+       "value": "-34/3"
+      },
+      {
+       "slot_id": "price_pnl",
+       "value": "-6400"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-19264/3": 1
+     },
+     "daily_net_carry": {
+      "-17/24": 1
+     },
+     "total_carry": {
+      "-34/3": 1
+     },
+     "price_pnl": {
+      "-6400": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-19264/3",
+       "daily_net_carry": "-17/24",
+       "total_carry": "-34/3",
+       "price_pnl": "-6400"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "1ee4202dde32920c559f36c8171fdaab6a78b3afb9bead7d77ea35c611569107",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1137,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 267,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1137,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 267,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1137,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1137
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.036291,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3368,
+         "session_id": "9112ef12-2ec1-4592-baa1-0d1693d0bd21",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    units = 80000\n    open_rate = Q(\"1.275\")\n    close_rate = Q(\"1.355\")\n    days = 16\n    notional = units * open_rate\n    gross = notional * (Q(\"0.05\") - Q(\"0.0475\")) / 360\n    markup = notional * Q(\"0.005\") / 360\n    net = gross - markup\n    if net > 0:\n        net = min(net, 5)\n    total_carry = net * days\n    price_pnl = (open_rate - close_rate) * units\n    post = total_carry + price_pnl - 10\n    if post > 0:\n        post = post * (1 - Q(\"0.2\"))\n    return {\n        \"final\": post,\n        \"daily_net_carry\": net,\n        \"total_carry\": total_carry,\n        \"price_pnl\": price_pnl,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 137
+        },
+        "rendered": {
+         "final": "-19264/3",
+         "daily_net_carry": "-17/24",
+         "total_carry": "-34/3",
+         "price_pnl": "-6400"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syne53f1d788291affb6c16",
+   "verdicts": {
+    "final": true,
+    "daily_net_carry": true,
+    "total_carry": true,
+    "price_pnl": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syne53f1d788291affb6c16",
+     "final_answer": {
+      "value": "-1154753/60"
+     },
+     "steps": [
+      {
+       "slot_id": "daily_net_carry",
+       "value": "847/960"
+      },
+      {
+       "slot_id": "total_carry",
+       "value": "847/60"
+      },
+      {
+       "slot_id": "price_pnl",
+       "value": "-19250"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-1154753/60": 1
+     },
+     "daily_net_carry": {
+      "847/960": 1
+     },
+     "total_carry": {
+      "847/60": 1
+     },
+     "price_pnl": {
+      "-19250": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-1154753/60",
+       "daily_net_carry": "847/960",
+       "total_carry": "847/60",
+       "price_pnl": "-19250"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "7979f955776aa0311aa4bf228cf9b323ac927e948c95aa6a5f59a07685d40ba5",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1135,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 275,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1135,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 275,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1135,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1135
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.036650999999999996,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5169,
+         "session_id": "13f01c89-4922-4406-9d29-b73448bbf598",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    units = 110000\n    open_rate = Q(\"1.155\")\n    close_rate = Q(\"1.33\")\n    days = 16\n    notional = units * open_rate\n    gross = notional * (Q(\"0.06\") - Q(\"0.0475\")) / 360\n    markup = notional * Q(\"0.01\") / 360\n    net = gross - markup\n    if net > 0:\n        net = min(net, 50)\n    total_carry = net * days\n    price_pnl = (open_rate - close_rate) * units\n    pre = total_carry + price_pnl - 10\n    if pre > 0:\n        final = pre * Q(\"0.8\")\n    else:\n        final = pre\n    return {\n        \"final\": final,\n        \"daily_net_carry\": net,\n        \"total_carry\": total_carry,\n        \"price_pnl\": price_pnl,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 449
+        },
+        "rendered": {
+         "final": "-1154753/60",
+         "daily_net_carry": "847/960",
+         "total_carry": "847/60",
+         "price_pnl": "-19250"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

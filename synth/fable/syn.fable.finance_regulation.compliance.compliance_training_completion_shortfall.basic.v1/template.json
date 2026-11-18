@@ -1,0 +1,59 @@
+{
+ "name": "compliance_training_completion_shortfall",
+ "domain_id": "finance_regulation",
+ "topic_id": "compliance",
+ "difficulty": "basic",
+ "params": {
+  "HEADCOUNT": {
+   "kind": "int",
+   "min": 50,
+   "max": 500,
+   "step": 10
+  },
+  "COMPLETED": {
+   "kind": "int",
+   "min": 30,
+   "max": 500,
+   "step": 1
+  },
+  "THRESHOLD": {
+   "kind": "decimal",
+   "min": "80.0",
+   "max": "98.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local compliance policy. A firm has headcount N={HEADCOUNT} employees, of whom C={COMPLETED} have completed mandatory AML training. Policy requires at least T={THRESHOLD} percent of headcount to have completed it. The required count is the smallest whole number of employees that is at least T percent of N. Use exact arithmetic. Report the current completion rate in percent and the required count, then compute how many additional completions are needed, floored at zero.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "count",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "completion_rate_percent",
+   "description": "Current training completion rate in percent.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "required_completions",
+   "description": "Whole-number required completions under policy.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    n = P[\"HEADCOUNT\"]\n    c = P[\"COMPLETED\"]\n    t = P[\"THRESHOLD\"]\n    if c > n:\n        raise ValueError(\"completed exceeds headcount\")\n    rate = Q(100) * c / n\n    required = math.ceil(t * n / 100)\n    shortfall = max(0, required - c)\n    return {\"final\": shortfall, \"completion_rate_percent\": rate, \"required_completions\": required}\n"
+}

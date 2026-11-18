@@ -1,0 +1,58 @@
+{
+ "version": "ablation-zeroshot-v1",
+ "at": "2026-11-18T11:52:57.887766+00:00",
+ "status": "frozen_before_model_calls",
+ "purpose": "Camera-ready revision. Reviewer 1 noted that no ablation separates the contributions of exact execution, the formatter, the worked examples and sampling. Effort, sampling and exact arithmetic are answered from stored runs and gold; the worked examples need one fresh run.",
+ "authorization": "User approved on 18 Nov 2026 the option 'Run zero-shot ablation': R0 without the three worked examples on tuning-eval, S-mode, 580 Sonnet low-effort calls (plus retries) through CLI 2.1.296, reported whatever the outcome, no selection decision depends on it, usage table and call counts updated afterwards. Not authorized: any other model run, lockbox, development leaderboard, Test, uploads.",
+ "arm": {
+  "name": "R0-zeroshot",
+  "config": "configs/r0.json",
+  "config_sha256": "af63a459bfcce824caaccc69c577ac23aafb05f11ea9f9ee69eff2c082c036f7",
+  "change": "exemplars = [] (no '### Example' blocks in the user prompt); everything else as R0",
+  "model": "claude-sonnet-5-5",
+  "effort": "low",
+  "n_samples": 1,
+  "max_retries": 2,
+  "unit_hints": "v1",
+  "echo_notes": false,
+  "system_prompt": "carnot/prompts/pot_system_v1.txt",
+  "system_prompt_sha256": "02fa773273f0247d44636c412bef4ffb3ebf0a28c5d44b3c04fd1dc0a27f866d",
+  "runner": "experiments/ablation_zeroshot_20261118/run_zeroshot.py",
+  "runner_sha256": "ac6177140d0586a48c11172219b73dc7704adaa850b20a3b4cec60cae8a4a771",
+  "cli_version_at_registration": "2.1.296 (Claude Code)"
+ },
+ "comparator": {
+  "run": "runs/20261011T184257Z_r0_tuning-eval_S",
+  "stored_scores": {
+   "seen_fac": "1",
+   "seen_checkpoint": "0.9956746031746032"
+  },
+  "noise_runs": [
+   "runs/20261011T203538Z_r0_tuning-eval_S_rep1",
+   "runs/20261011T204616Z_r0_tuning-eval_S_rep2"
+  ],
+  "note": "The comparator was sampled on 11 Oct 2026; the ablation arm is sampled on 18 Nov 2026 through the same CLI version and model identifier. A change of the served model between the two dates cannot be excluded and is confounded with the ablation."
+ },
+ "panel": {
+  "split": "tuning-eval",
+  "mode": "S",
+  "cases": 580,
+  "templates": 290,
+  "split_ids_sha256": "4dd3a61a073ad45ab800b556955a11276c04a933e5fc93c15484581882a02b9f"
+ },
+ "reported_regardless_of_outcome": [
+  "official seen FAC and checkpoint (toolkit score_submission)",
+  "wrong finals and missed slots (counts)",
+  "questions that needed a retry and total retries",
+  "paired difference to the stored R0 run with the bootstrap of carnot.compare (cases within templates, 10,000 replicates, seed carnot-compare-v1)",
+  "fresh calls and list-price-equivalent cost"
+ ],
+ "interpretation_limits_declared_in_advance": [
+  "One run of one sample per question; differences of one or two fields are within the run-to-run variation measured for R0 (three runs).",
+  "tuning-eval holds familiar templates only; the result says nothing about hidden templates.",
+  "The system prompt was written for the three-example prompt and is unchanged.",
+  "This is an ablation for the paper, not a candidate system: no adoption, promotion or submission decision depends on it. R4 remains the system of record."
+ ],
+ "interruption_rule": "If a usage limit or a crash interrupts the run, the same command is re-run and resumes from the response cache; no partial result is reported.",
+ "git_commit": "983537c23fbb28c4fb67fb958ffcaf49f9f7c69e"
+}

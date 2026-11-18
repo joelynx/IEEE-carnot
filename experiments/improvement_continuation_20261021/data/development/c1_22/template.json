@@ -1,0 +1,144 @@
+{
+ "name": "halving_emission_governance_interval_bps_burn",
+ "domain_id": "crypto_finance",
+ "topic_id": "tokenomics",
+ "difficulty": "advanced",
+ "params": {
+  "GENESIS_SUPPLY": {
+   "kind": "int",
+   "min": 1000000,
+   "max": 50000000,
+   "step": 1000000
+  },
+  "REWARD_BP": {
+   "kind": "int",
+   "min": 20,
+   "max": 200,
+   "step": 5
+  },
+  "ORIG_INTERVAL": {
+   "kind": "int",
+   "min": 3,
+   "max": 8,
+   "step": 1
+  },
+  "NEW_INTERVAL": {
+   "kind": "int",
+   "min": 6,
+   "max": 20,
+   "step": 1
+  },
+  "CHANGE_EPOCH": {
+   "kind": "int",
+   "min": 2,
+   "max": 24,
+   "step": 1
+  },
+  "QUERY_EPOCH": {
+   "kind": "int",
+   "min": 8,
+   "max": 40,
+   "step": 1
+  },
+  "BURN_PCT": {
+   "kind": "decimal",
+   "min": "0.0",
+   "max": "20.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "A fictional protocol launches with a genesis supply of {GENESIS_SUPPLY} tokens. Epochs are numbered from 1. At the end of every epoch the protocol mints a gross block reward. The gross reward for epoch 1 equals {REWARD_BP} basis points of the genesis supply (1 basis point is 0.01 percent). Under the original schedule the gross reward halves at the start of every epoch whose number is one more than a positive multiple of {ORIG_INTERVAL}. A governance change effective from the start of epoch {CHANGE_EPOCH} lengthens the halving interval to {NEW_INTERVAL} epochs for future halvings only: halvings that occurred at the start of epochs strictly before epoch {CHANGE_EPOCH} stand; every halving the original schedule placed at the start of epoch {CHANGE_EPOCH} or later is cancelled; instead the next halving occurs {NEW_INTERVAL} epochs after the start epoch of the most recent halving that occurred before epoch {CHANGE_EPOCH} (or {NEW_INTERVAL} epochs after epoch 1 if none has occurred), with further halvings every {NEW_INTERVAL} epochs thereafter. At each end-of-epoch payment, {BURN_PCT} percent of that epoch's gross reward is burned immediately; net emission is gross reward less the burn. Cumulative totals through epoch {QUERY_EPOCH} include the reward paid at the end of epoch {QUERY_EPOCH}. What is cumulative net emission through the end of epoch {QUERY_EPOCH}, expressed as a percent of genesis supply?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "gross_reward_at_query_epoch",
+   "description": "Gross block reward in tokens paid at the end of the query epoch",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "next_halving_epoch",
+   "description": "First epoch after the query epoch at whose start the reward halves",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "cumulative_gross_tokens",
+   "description": "Total gross reward tokens minted through the end of the query epoch",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "cumulative_burned_tokens",
+   "description": "Total tokens burned at payment through the end of the query epoch",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    S0 = P[\"GENESIS_SUPPLY\"]\n    rbp = P[\"REWARD_BP\"]\n    N = P[\"ORIG_INTERVAL\"]\n    M = P[\"NEW_INTERVAL\"]\n    G = P[\"CHANGE_EPOCH\"]\n    T = P[\"QUERY_EPOCH\"]\n    burn = Fraction(P[\"BURN_PCT\"])\n    if M <= N:\n        raise ValueError(\"new halving interval must exceed the original interval\")\n    R0 = Fraction(S0) * Fraction(rbp) / Fraction(10000)\n    # halvings that stand under the original schedule (strictly before G)\n    halvings = []\n    k = 1\n    while 1 + k * N < G:\n        halvings.append(1 + k * N)\n        k += 1\n    L = halvings[-1] if halvings else 1\n    j = 1\n    while L + j * M <= T + M:\n        halvings.append(L + j * M)\n        j += 1\n    gross_cum = Fraction(0)\n    reward_T = Fraction(0)\n    for e in range(1, T + 1):\n        h = 0\n        for x in halvings:\n            if x <= e:\n                h += 1\n        r = R0 / Fraction(2 ** h)\n        gross_cum += r\n        if e == T:\n            reward_T = r\n    next_h = None\n    for x in halvings:\n        if x > T:\n            next_h = x\n            break\n    burned = gross_cum * burn / Fraction(100)\n    net = gross_cum - burned\n    final = net / Fraction(S0) * Fraction(100)\n    return {\"final\": final, \"gross_reward_at_query_epoch\": reward_T, \"next_halving_epoch\": Fraction(next_h), \"cumulative_gross_tokens\": gross_cum, \"cumulative_burned_tokens\": burned}\n",
+ "coverage_params": [
+  {
+   "GENESIS_SUPPLY": 10000000,
+   "REWARD_BP": 50,
+   "ORIG_INTERVAL": 4,
+   "NEW_INTERVAL": 10,
+   "CHANGE_EPOCH": 5,
+   "QUERY_EPOCH": 20,
+   "BURN_PCT": "5.0"
+  },
+  {
+   "GENESIS_SUPPLY": 25000000,
+   "REWARD_BP": 80,
+   "ORIG_INTERVAL": 5,
+   "NEW_INTERVAL": 12,
+   "CHANGE_EPOCH": 24,
+   "QUERY_EPOCH": 10,
+   "BURN_PCT": "0.0"
+  },
+  {
+   "GENESIS_SUPPLY": 4000000,
+   "REWARD_BP": 125,
+   "ORIG_INTERVAL": 4,
+   "NEW_INTERVAL": 9,
+   "CHANGE_EPOCH": 8,
+   "QUERY_EPOCH": 30,
+   "BURN_PCT": "12.5"
+  },
+  {
+   "GENESIS_SUPPLY": 10000000,
+   "REWARD_BP": 100,
+   "ORIG_INTERVAL": 8,
+   "NEW_INTERVAL": 6,
+   "CHANGE_EPOCH": 10,
+   "QUERY_EPOCH": 20,
+   "BURN_PCT": "2.5"
+  }
+ ]
+}

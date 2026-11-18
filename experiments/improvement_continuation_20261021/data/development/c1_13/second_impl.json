@@ -1,0 +1,206 @@
+{
+ "family": "c1_13",
+ "template_sha256": "f225a2669ed9149a85bbb13315588f47e4a8d9029fdfe2eb3690b9d205242feb",
+ "draws_sha256": "415b5c24b29a9b153fb952a8a3ec5875a1d300c355f55ce1dc4f8c09844806f3",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "7a8607da49d6419ddb55b4f97e5755ea86030b8b3d2e57e2b056379cde6c7b8e",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1721,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1010,
+    "output_tokens_details": {
+     "thinking_tokens": 408
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1721,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1010,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1721,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1721
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0850905
+  }
+ ],
+ "program": "def solve():\n    D0 = P[\"D0\"]\n    g1_bp = P[\"G1_BP\"]\n    n_q = P[\"N_Q\"]\n    g2_pct = P[\"G2_PCT\"]\n    r_eff = P[\"R_EFF\"]\n    conv = P[\"CONV\"]\n\n    # Quarterly discount rate: (1+R)^(1/4) - 1, computed via two square roots\n    one_plus_r = 1 + r_eff / 100\n    q = sqrt(sqrt(one_plus_r)) - 1\n\n    # Stage-one quarterly growth rate from basis points\n    g1 = Q(g1_bp, 10000)\n\n    # Stage-two quarterly growth rate\n    if conv == \"compound\":\n        g2q = sqrt(sqrt(1 + g2_pct / 100)) - 1\n    elif conv == \"nominal\":\n        g2q = g2_pct / 400\n    else:\n        raise ValueError(\"unknown convention\")\n\n    # Period-by-period ledger of stage-one dividends\n    div = D0\n    disc = 1\n    pv_stage_one = 0\n    for t in range(1, n_q + 1):\n        div = div * (1 + g1)\n        disc = disc * (1 + q)\n        pv_stage_one += div / disc\n\n    # Terminal value at end of last stage-one quarter\n    if not (g2q < q):\n        raise ValueError(\"stage-two growth must be below the quarterly discount rate\")\n    first_stage_two_div = div * (1 + g2q)\n    tv = first_stage_two_div / (q - g2q)\n\n    price = pv_stage_one + tv / disc\n\n    return {\n        \"final\": price,\n        \"quarterly_rate\": q * 100,\n        \"stage_one_pv\": pv_stage_one,\n        \"terminal_value\": tv,\n    }\n",
+ "result": {
+  "compared": 27,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_G1_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N_Q",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_G2_PCT",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_R_EFF",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CONV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_G1_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N_Q",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_G2_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R_EFF",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_CONV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

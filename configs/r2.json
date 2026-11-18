@@ -1,0 +1,22 @@
+{
+  "name": "r2",
+  "description": "R2 (PLAN.md §4a, pre-registered): identical to R1 except that novel questions (number-masked skeleton and (slot_id, description) signature both absent from train) are solved by claude-opus-5-5 instead of claude-sonnet-5-5; still 5 samples at --effort medium with per-field plurality vote; seen-like questions are R0 unchanged",
+  "model": "claude-sonnet-5-5",
+  "effort": "low",
+  "system_prompt": "carnot/prompts/pot_system_v1.txt",
+  "exemplars": "exemplars/r0_exemplars.json",
+  "n_samples": 1,
+  "max_retries": 2,
+  "sandbox": {
+    "backend": "wsl",
+    "timeout": 5
+  },
+  "routing": {
+    "rule": "novel_vs_train_v1",
+    "novel": {
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "n_samples": 5
+    }
+  }
+}

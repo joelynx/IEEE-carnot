@@ -1,0 +1,95 @@
+{
+ "name": "sotp_implied_value_per_share",
+ "domain_id": "mergers_and_acquisitions",
+ "topic_id": "valuation_methods",
+ "difficulty": "intermediate",
+ "params": {
+  "EBITDA_A": {
+   "kind": "int",
+   "min": 12,
+   "max": 60,
+   "step": 1
+  },
+  "MULT_A": {
+   "kind": "decimal",
+   "min": "5.00",
+   "max": "10.00",
+   "step": "0.25"
+  },
+  "EBITDA_B": {
+   "kind": "int",
+   "min": 5,
+   "max": 40,
+   "step": 1
+  },
+  "MULT_B": {
+   "kind": "decimal",
+   "min": "4.00",
+   "max": "9.00",
+   "step": "0.25"
+  },
+  "NET_DEBT": {
+   "kind": "int",
+   "min": -20,
+   "max": 90,
+   "step": 1
+  },
+  "MINORITY": {
+   "kind": "int",
+   "min": 0,
+   "max": 15,
+   "step": 1
+  },
+  "SHARES": {
+   "kind": "decimal",
+   "min": "10.0",
+   "max": "80.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "Use exact arithmetic. A target is valued on a sum-of-the-parts basis. Segment A EBITDA is {EBITDA_A} USD million at a comparable multiple of {MULT_A} times; Segment B EBITDA is {EBITDA_B} USD million at a multiple of {MULT_B} times. Net debt is {NET_DEBT} USD million (a negative value means net cash), minority interest is {MINORITY} USD million, and diluted shares outstanding are {SHARES} million. Enterprise value is the sum of the two segment values. Equity value equals enterprise value minus net debt minus minority interest. Compute the implied equity value per share in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "segment_a_value",
+   "description": "Segment A value from its EBITDA multiple.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "sotp_enterprise_value",
+   "description": "Combined enterprise value of both segments.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "implied_equity_value",
+   "description": "Equity value after net debt and minority interest.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    ebitda_a = Q(P[\"EBITDA_A\"])\n    mult_a = Q(P[\"MULT_A\"])\n    ebitda_b = Q(P[\"EBITDA_B\"])\n    mult_b = Q(P[\"MULT_B\"])\n    net_debt = Q(P[\"NET_DEBT\"])\n    minority = Q(P[\"MINORITY\"])\n    shares = Q(P[\"SHARES\"])\n    if shares <= 0:\n        raise ValueError(\"shares must be positive\")\n    seg_a = ebitda_a * mult_a\n    seg_b = ebitda_b * mult_b\n    ev = seg_a + seg_b\n    equity = ev - net_debt - minority\n    if equity <= 0:\n        raise ValueError(\"equity value must be positive\")\n    per_share = equity / shares\n    return {\n        \"final\": per_share,\n        \"segment_a_value\": seg_a,\n        \"sotp_enterprise_value\": ev,\n        \"implied_equity_value\": equity,\n    }\n"
+}

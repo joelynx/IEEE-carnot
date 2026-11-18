@@ -1,0 +1,1650 @@
+[
+  {
+    "case_id": "t1_syneeddc4e7527ebd3bd778",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syneeddc4e7527ebd3bd778",
+        "final_answer": {
+          "value": "30000.00"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_cost",
+            "value": "30000"
+          },
+          {
+            "slot_id": "uncapped_credit",
+            "value": "500"
+          },
+          {
+            "slot_id": "applied_credit",
+            "value": "0"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "30000.00": 5
+        },
+        "gross_cost": {
+          "30000": 5
+        },
+        "uncapped_credit": {
+          "500": 5
+        },
+        "applied_credit": {
+          "0": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "30000.00",
+            "gross_cost": "30000",
+            "uncapped_credit": "500",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b66669e1ccfc0f438afb14878da349bbb73214c027156ab7a27235de4f3e66c6",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3097,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 210,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3097,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 210,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3097,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3097
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0145735,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2180,
+                "session_id": "edc2f506-f2a0-4912-8bf2-a0dd7375077b",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 25\n    tier1 = min(n, 25)\n    tier2 = max(n - 25, 0)\n    gross = Q(tier1) * 1200 + Q(tier2) * 2600\n    uncapped = Q(500) * 1\n    cap = gross * Q(\"0.2\")\n    if gross >= 45000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 307
+              },
+              "rendered": {
+                "final": "30000.00",
+                "gross_cost": "30000",
+                "uncapped_credit": "500",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "30000.00",
+            "gross_cost": "30000",
+            "uncapped_credit": "500",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "4ced79c8cf38011de21e8e874e155f746a6c56b90836d6651fa305fc1694006c",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 209,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 209,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0024852000000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2746,
+                "session_id": "377a4cdf-f200-4b90-a867-19ab1e9106db",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 25\n    tier1 = min(n, 25) * Q(1200)\n    tier2 = max(n - 25, 0) * Q(2600)\n    gross = tier1 + tier2\n    uncapped = Q(500) * 1\n    cap = gross * Q(20) / 100\n    if gross >= 45000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 241
+              },
+              "rendered": {
+                "final": "30000.00",
+                "gross_cost": "30000",
+                "uncapped_credit": "500",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "30000.00",
+            "gross_cost": "30000",
+            "uncapped_credit": "500",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "6884609df8389a96d36351bcea19fb2652601f1c16caf4bb2258886229dab030",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 209,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 209,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0024852000000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2309,
+                "session_id": "b29834af-42a0-4199-b626-8834d8deb092",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 25\n    tier1 = min(n, 25) * Q(1200)\n    tier2 = max(n - 25, 0) * Q(2600)\n    gross = tier1 + tier2\n    uncapped = Q(500) * 1\n    cap = gross * Q(20) / 100\n    if gross >= 45000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 389
+              },
+              "rendered": {
+                "final": "30000.00",
+                "gross_cost": "30000",
+                "uncapped_credit": "500",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "30000.00",
+            "gross_cost": "30000",
+            "uncapped_credit": "500",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b590ee710890a69257900ea07b141046567e2dbd9ee7af14c01f16162f2e903e",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 211,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 211,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0025052,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2334,
+                "session_id": "3f270c82-7748-44f2-a983-ecbd869da6ed",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 25\n    tier1 = min(n, 25)\n    tier2 = max(n - 25, 0)\n    gross = Q(tier1) * 1200 + Q(tier2) * 2600\n    uncapped = Q(500) * 1\n    cap = gross * Q(20) / 100\n    if gross >= 45000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 278
+              },
+              "rendered": {
+                "final": "30000.00",
+                "gross_cost": "30000",
+                "uncapped_credit": "500",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "30000.00",
+            "gross_cost": "30000",
+            "uncapped_credit": "500",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "d65f95bded63c534f452d92a93bb6852d6d0a37b02596bf09c329b0ffa8ada12",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 209,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 209,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0024852000000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2819,
+                "session_id": "814bbeb8-b1d3-4d2e-a1cb-1540fe3ce007",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 25\n    tier1 = min(n, 25) * Q(1200)\n    tier2 = max(n - 25, 0) * Q(2600)\n    gross = tier1 + tier2\n    uncapped = Q(500) * 1\n    cap = gross * Q(20) / 100\n    if gross >= 45000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 437
+              },
+              "rendered": {
+                "final": "30000.00",
+                "gross_cost": "30000",
+                "uncapped_credit": "500",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synf848905010c48abdd66e",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synf848905010c48abdd66e",
+        "final_answer": {
+          "value": "122200.00"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_cost",
+            "value": "122300"
+          },
+          {
+            "slot_id": "uncapped_credit",
+            "value": "100"
+          },
+          {
+            "slot_id": "applied_credit",
+            "value": "100"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "122200.00": 5
+        },
+        "gross_cost": {
+          "122300": 5
+        },
+        "uncapped_credit": {
+          "100": 5
+        },
+        "applied_credit": {
+          "100": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "122200.00",
+            "gross_cost": "122300",
+            "uncapped_credit": "100",
+            "applied_credit": "100"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "00ee1ef539d09343953abaa0ba5461bed3728d61cfb236feff48ca873e77e33c",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3096,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 298,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3096,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 298,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3096,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3096
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0154495,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2580,
+                "session_id": "c71d641f-f64b-4dab-871d-35695d62ef6f",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 60\n    t1 = 29\n    c1 = Q(850)\n    c2 = Q(3150)\n    first = min(n, t1)\n    rest = max(n - t1, 0)\n    gross = first * c1 + rest * c2\n    uncapped = Q(100) * 1\n    cap = gross * Q(5) / 100\n    if gross >= 34000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 180
+              },
+              "rendered": {
+                "final": "122200.00",
+                "gross_cost": "122300",
+                "uncapped_credit": "100",
+                "applied_credit": "100"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "122200.00",
+            "gross_cost": "122300",
+            "uncapped_credit": "100",
+            "applied_credit": "100"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "9c561998c768082feb349dcb543073fe37d2a11f5b5f38daee687e4cff95b854",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 315,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 315,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0035451000000000002,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3047,
+                "session_id": "3443469e-2017-4588-90cb-d0cd703d5331",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 60\n    t1 = 29\n    c1 = Q(850)\n    c2 = Q(3150)\n    first = min(n, t1)\n    rest = max(n - t1, 0)\n    gross = first * c1 + rest * c2\n    uncapped = Q(100) * 1\n    cap = gross * Q(5) / 100\n    if gross >= 34000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 365
+              },
+              "rendered": {
+                "final": "122200.00",
+                "gross_cost": "122300",
+                "uncapped_credit": "100",
+                "applied_credit": "100"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "122200.00",
+            "gross_cost": "122300",
+            "uncapped_credit": "100",
+            "applied_credit": "100"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "9bae3cf5d02297c3d8d0e5697c6803351aefacb064d0fd5d275b7f6e34f842f4",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 301,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 301,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0034051000000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3024,
+                "session_id": "d4200beb-3de8-4273-bee8-b522b4b2368e",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 60\n    t1 = 29\n    c1 = Q(850)\n    c2 = Q(3150)\n    first = min(n, t1)\n    rest = max(n - t1, 0)\n    gross = first * c1 + rest * c2\n    uncapped = Q(100) * 1\n    cap = gross * Q(5) / 100\n    if gross >= 34000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 283
+              },
+              "rendered": {
+                "final": "122200.00",
+                "gross_cost": "122300",
+                "uncapped_credit": "100",
+                "applied_credit": "100"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "122200.00",
+            "gross_cost": "122300",
+            "uncapped_credit": "100",
+            "applied_credit": "100"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "a64e4fab92a28074e6aace2c2cfd85c23acdf76c709a51038333b92fadf896b8",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 306,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 306,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0034551000000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2817,
+                "session_id": "1a02a1dc-a041-4614-bd1a-b79b22048d25",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 60\n    t1 = 29\n    c1 = Q(850)\n    c2 = Q(3150)\n    first = min(n, t1)\n    second = max(n - t1, 0)\n    gross = first * c1 + second * c2\n    uncapped = Q(100) * 1\n    cap = gross * Q(5) / 100\n    if gross >= 34000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 221
+              },
+              "rendered": {
+                "final": "122200.00",
+                "gross_cost": "122300",
+                "uncapped_credit": "100",
+                "applied_credit": "100"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "122200.00",
+            "gross_cost": "122300",
+            "uncapped_credit": "100",
+            "applied_credit": "100"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "8e12539235f9eba4d9b71a630b2201266551d013735518a784253e2cd4609c17",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 287,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 287,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0032651,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4016,
+                "session_id": "daeeb49e-9016-4d8c-bb29-9801cfe2a1a0",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 60\n    t1 = 29\n    first = min(n, t1)\n    beyond = max(n - t1, 0)\n    gross = Q(first) * 850 + Q(beyond) * 3150\n    uncapped = Q(100) * 1\n    cap = gross * Q(5) / 100\n    if gross >= 34000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 230
+              },
+              "rendered": {
+                "final": "122200.00",
+                "gross_cost": "122300",
+                "uncapped_credit": "100",
+                "applied_credit": "100"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn780951f9ca775f94da77",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn780951f9ca775f94da77",
+        "final_answer": {
+          "value": "52175.00"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_cost",
+            "value": "57800"
+          },
+          {
+            "slot_id": "uncapped_credit",
+            "value": "5625"
+          },
+          {
+            "slot_id": "applied_credit",
+            "value": "5625"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "52175.00": 5
+        },
+        "gross_cost": {
+          "57800": 5
+        },
+        "uncapped_credit": {
+          "5625": 5
+        },
+        "applied_credit": {
+          "5625": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "52175.00",
+            "gross_cost": "57800",
+            "uncapped_credit": "5625",
+            "applied_credit": "5625"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "38b6aba72172a6453f9e0f36a9be983d71453f50afebb190da27298b2e50c5fc",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3097,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 315,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3097,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 315,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3097,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3097
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0156235,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2733,
+                "session_id": "d9a0947b-9a2c-4501-a10d-b0527bc12ed1",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 38\n    tier1 = min(n, 18)\n    tier2 = max(n - 18, 0)\n    gross = Q(tier1) * 1600 + Q(tier2) * 1450\n    uncapped = Q(15) * 375\n    cap = gross * Q(\"0.4\")\n    if gross >= 38000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 275
+              },
+              "rendered": {
+                "final": "52175.00",
+                "gross_cost": "57800",
+                "uncapped_credit": "5625",
+                "applied_credit": "5625"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "52175.00",
+            "gross_cost": "57800",
+            "uncapped_credit": "5625",
+            "applied_credit": "5625"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "96b1ceea3c7a6077f911c3b2254ca6e424241f427f8f32eb9b16c98303284b43",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 333,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 333,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0037252,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2877,
+                "session_id": "852d6c25-233b-42da-b8d9-a33e738f578c",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 38\n    tier1 = 18\n    c1 = Q(1600)\n    c2 = Q(1450)\n    n1 = min(n, tier1)\n    n2 = max(n - tier1, 0)\n    gross = n1 * c1 + n2 * c2\n    uncapped = Q(15) * Q(375)\n    cap = gross * Q(40) / 100\n    if gross >= 38000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 238
+              },
+              "rendered": {
+                "final": "52175.00",
+                "gross_cost": "57800",
+                "uncapped_credit": "5625",
+                "applied_credit": "5625"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "52175.00",
+            "gross_cost": "57800",
+            "uncapped_credit": "5625",
+            "applied_credit": "5625"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "dcc65d180a5b303303413eb12f24c8190c15686e97789f5959a6f4856f84e9da",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 210,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 210,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0024952000000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2603,
+                "session_id": "152c73a1-82bd-48ed-8465-3e70aa6c053a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 38\n    tier1 = min(n, 18)\n    tier2 = max(n - 18, 0)\n    gross = Q(tier1) * 1600 + Q(tier2) * 1450\n    uncapped = Q(15) * 375\n    cap = gross * Q(\"0.4\")\n    if gross >= 38000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 193
+              },
+              "rendered": {
+                "final": "52175.00",
+                "gross_cost": "57800",
+                "uncapped_credit": "5625",
+                "applied_credit": "5625"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "52175.00",
+            "gross_cost": "57800",
+            "uncapped_credit": "5625",
+            "applied_credit": "5625"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "ae9ac7a3d27b569452939ebe8a2144ec4ae075465da2fbdc6b373c6e8a9ebf5f",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 196,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 196,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0023552,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2255,
+                "session_id": "96033f16-2911-41b5-b536-1a14f9a35cbc",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 38\n    t1 = min(n, 18)\n    t2 = max(n - 18, 0)\n    gross = Q(t1) * 1600 + Q(t2) * 1450\n    uncapped = Q(375) * 15\n    cap = gross * Q(\"0.4\")\n    applied = min(uncapped, cap) if gross >= 38000 else Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 166
+              },
+              "rendered": {
+                "final": "52175.00",
+                "gross_cost": "57800",
+                "uncapped_credit": "5625",
+                "applied_credit": "5625"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "52175.00",
+            "gross_cost": "57800",
+            "uncapped_credit": "5625",
+            "applied_credit": "5625"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "28056b20eca71ab17f577eb9c895266959294f8b749a50ccaf8fe2689c8bb151",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3912,
+                "output_tokens": 210,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 210,
+                    "cache_read_input_tokens": 3912,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0024952000000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2173,
+                "session_id": "2f6edfc5-da48-45b7-8873-dd52b0b24df4",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 38\n    tier1 = min(n, 18)\n    tier2 = max(n - 18, 0)\n    gross = Q(tier1) * 1600 + Q(tier2) * 1450\n    uncapped = Q(375) * 15\n    cap = gross * Q(\"0.4\")\n    if gross >= 38000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 226
+              },
+              "rendered": {
+                "final": "52175.00",
+                "gross_cost": "57800",
+                "uncapped_credit": "5625",
+                "applied_credit": "5625"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synd5f378da218788d1020f",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synd5f378da218788d1020f",
+        "final_answer": {
+          "value": "27050.00"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_cost",
+            "value": "27050"
+          },
+          {
+            "slot_id": "uncapped_credit",
+            "value": "700"
+          },
+          {
+            "slot_id": "applied_credit",
+            "value": "0"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "27050.00": 5
+        },
+        "gross_cost": {
+          "27050": 5
+        },
+        "uncapped_credit": {
+          "700": 5
+        },
+        "applied_credit": {
+          "0": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "27050.00",
+            "gross_cost": "27050",
+            "uncapped_credit": "700",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b3c374546be118c1784fe62fbb9b4ed3bd410dfc4565b972a3ae1b84126ab950",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3096,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 197,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3096,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 197,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3096,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3096
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0144395,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3058,
+                "session_id": "5a0c8c88-70fa-488c-9a4d-beb2817e4cf3",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 32\n    tier1 = min(n, 27)\n    tier2 = max(n - 27, 0)\n    gross = Q(650) * tier1 + Q(1900) * tier2\n    uncapped = Q(175) * 4\n    cap = gross * Q(\"0.20\")\n    applied = min(uncapped, cap) if gross >= 30000 else Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 180
+              },
+              "rendered": {
+                "final": "27050.00",
+                "gross_cost": "27050",
+                "uncapped_credit": "700",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "27050.00",
+            "gross_cost": "27050",
+            "uncapped_credit": "700",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "50573afc4a6e1ecedc44c1a201ba905724a932226ff4675907ce97e46d2c5ba7",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 294,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 294,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0033351,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2609,
+                "session_id": "83738105-2fc2-4284-91d3-851fd873d94b",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 32\n    t1 = 27\n    c1 = Q(650)\n    c2 = Q(1900)\n    first = min(n, t1)\n    second = max(n - t1, 0)\n    gross = first * c1 + second * c2\n    uncapped = Q(175) * 4\n    cap = gross * Q(\"0.2\")\n    if gross >= 30000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 164
+              },
+              "rendered": {
+                "final": "27050.00",
+                "gross_cost": "27050",
+                "uncapped_credit": "700",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "27050.00",
+            "gross_cost": "27050",
+            "uncapped_credit": "700",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "2ff9ad2e2d6058b17f03a198e4b2f64531cda96d15801dff228ce4e976376c0b",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 199,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 199,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0023851000000000002,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2591,
+                "session_id": "f9e77523-5ab7-47f9-9945-0497d48884a8",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 32\n    tier1 = min(n, 27)\n    tier2 = max(n - 27, 0)\n    gross = Q(tier1) * 650 + Q(tier2) * 1900\n    uncapped = Q(175) * 4\n    cap = gross * Q(\"0.20\")\n    applied = min(uncapped, cap) if gross >= 30000 else Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 185
+              },
+              "rendered": {
+                "final": "27050.00",
+                "gross_cost": "27050",
+                "uncapped_credit": "700",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "27050.00",
+            "gross_cost": "27050",
+            "uncapped_credit": "700",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "19e886497f9aeecad0560dfd082af30c3fd6c575d4ee7c5e0f1e66a0a33f6bb8",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 296,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 296,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0033551,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2689,
+                "session_id": "1301417c-010d-42fe-b178-da9cfc05b23c",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 32\n    t1 = 27\n    c1 = Q(650)\n    c2 = Q(1900)\n    first = min(n, t1)\n    rest = max(n - t1, 0)\n    gross = first * c1 + rest * c2\n    uncapped = Q(175) * 4\n    cap = gross * Q(\"0.2\")\n    if gross >= 30000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 219
+              },
+              "rendered": {
+                "final": "27050.00",
+                "gross_cost": "27050",
+                "uncapped_credit": "700",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "27050.00",
+            "gross_cost": "27050",
+            "uncapped_credit": "700",
+            "applied_credit": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "757ed9d179eaec2c610f69914081c8d89a75256db9dab9694c87e6c71939c252",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3911,
+                "output_tokens": 209,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 209,
+                    "cache_read_input_tokens": 3911,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0024851000000000005,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2858,
+                "session_id": "714b9cf8-a12d-48a1-b520-1fdf92593493",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    n = 32\n    tier1 = min(n, 27)\n    tier2 = max(n - 27, 0)\n    gross = Q(tier1) * 650 + Q(tier2) * 1900\n    uncapped = Q(175) * 4\n    cap = gross * Q(\"0.20\")\n    if gross >= 30000:\n        applied = min(uncapped, cap)\n    else:\n        applied = Q(0)\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 232
+              },
+              "rendered": {
+                "final": "27050.00",
+                "gross_cost": "27050",
+                "uncapped_credit": "700",
+                "applied_credit": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

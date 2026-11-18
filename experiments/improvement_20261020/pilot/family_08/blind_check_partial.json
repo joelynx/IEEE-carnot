@@ -1,0 +1,494 @@
+[
+  {
+    "case_id": "t1_syn9024b6eacfe857ae1fa7",
+    "verdicts": {
+      "final": true,
+      "hedged_leg_usd": true,
+      "spot_leg_usd": true,
+      "total_usd_cost": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn9024b6eacfe857ae1fa7",
+        "final_answer": {
+          "value": "5.9747"
+        },
+        "steps": [
+          {
+            "slot_id": "hedged_leg_usd",
+            "value": "147350/11"
+          },
+          {
+            "slot_id": "spot_leg_usd",
+            "value": "1437865/76"
+          },
+          {
+            "slot_id": "total_usd_cost",
+            "value": "545705323/16720"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "5.9747": 1
+        },
+        "hedged_leg_usd": {
+          "147350/11": 1
+        },
+        "spot_leg_usd": {
+          "1437865/76": 1
+        },
+        "total_usd_cost": {
+          "545705323/16720": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "5.9747",
+            "hedged_leg_usd": "147350/11",
+            "spot_leg_usd": "1437865/76",
+            "total_usd_cost": "545705323/16720"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "ad5f45c3c0513eb1a35dd0203c01df067d87c2a4430f8ddd23f293923072c323",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1146,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 539,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1146,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 539,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1146,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1146
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.050140000000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6424,
+                "session_id": "63765a93-a201-423e-8063-309df78a515b",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    invoice_fc = 195000\n    hedge_ratio = Q(\"0.45\")\n    fwd_rate = Q(\"6.6\")       # FC per USD\n    fwd_fee = 100             # flat USD\n    spot_rate = Q(\"5.7\")      # FC per USD\n    spot_bps = Q(\"0.0055\")    # 55 bp of USD spent on spot\n    domestic_adj = Q(\"0.01\")  # +1% of total USD paid to bank\n\n    # Hedged leg: FC bought forward converted to USD plus flat fee\n    hedged_fc = invoice_fc * hedge_ratio\n    hedged_leg_usd = hedged_fc / fwd_rate + fwd_fee\n\n    # Spot leg: remainder at spot plus basis-point fee on USD spent\n    unhedged_fc = invoice_fc - hedged_fc\n    spot_usd = unhedged_fc / spot_rate\n    spot_leg_usd = spot_usd * (1 + spot_bps)\n\n    # Total paid to bank, then signed domestic clearance adjustment\n    bank_total = hedged_leg_usd + spot_leg_usd\n    total_usd_cost = bank_total * (1 + domestic_adj)\n\n    # Effective all-in rate: FC per USD\n    effective_rate = invoice_fc / total_usd_cost\n\n    return {\n        \"final\": effective_rate,\n        \"hedged_leg_usd\": hedged_leg_usd,\n        \"spot_leg_usd\": spot_leg_usd,\n        \"total_usd_cost\": total_usd_cost,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 187
+              },
+              "rendered": {
+                "final": "5.9747",
+                "hedged_leg_usd": "147350/11",
+                "spot_leg_usd": "1437865/76",
+                "total_usd_cost": "545705323/16720"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn62b21f8058cdf77ceb84",
+    "verdicts": {
+      "final": true,
+      "hedged_leg_usd": true,
+      "spot_leg_usd": true,
+      "total_usd_cost": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn62b21f8058cdf77ceb84",
+        "final_answer": {
+          "value": "7.4620"
+        },
+        "steps": [
+          {
+            "slot_id": "hedged_leg_usd",
+            "value": "1240925/93"
+          },
+          {
+            "slot_id": "spot_leg_usd",
+            "value": "1830915/67"
+          },
+          {
+            "slot_id": "total_usd_cost",
+            "value": "25341707/620"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "7.4620": 1
+        },
+        "hedged_leg_usd": {
+          "1240925/93": 1
+        },
+        "spot_leg_usd": {
+          "1830915/67": 1
+        },
+        "total_usd_cost": {
+          "25341707/620": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "7.4620",
+            "hedged_leg_usd": "1240925/93",
+            "spot_leg_usd": "1830915/67",
+            "total_usd_cost": "25341707/620"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "11a8ea2b6416c952918831c8d2f269d3503c725120f30fd362182acf994d1981",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1148,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 534,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1148,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 534,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1148,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1148
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.049929999999999995,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6043,
+                "session_id": "28a0e034-3af2-4452-89e1-383c1b3e6595",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    invoice_fc = Q(305000)\n    hedge_ratio = Q(\"0.40\")\n    fwd_rate = Q(\"9.3\")      # FC per USD\n    fwd_fee = Q(225)\n    spot_rate = Q(\"6.7\")     # FC per USD\n    spot_fee_bp = Q(5)\n    domestic_pct = Q(\"0.5\")  # % of total USD paid to bank\n\n    # Hedged leg: FC amount / (FC per USD) = USD, plus flat fee\n    hedged_fc = invoice_fc * hedge_ratio\n    hedged_leg_usd = hedged_fc / fwd_rate + fwd_fee\n\n    # Spot leg: remainder / spot rate, plus 5 bp fee on USD spent\n    spot_fc = invoice_fc - hedged_fc\n    spot_usd = spot_fc / spot_rate\n    spot_leg_usd = spot_usd * (1 + spot_fee_bp / 10000)\n\n    # Total paid to bank, then signed domestic adjustment\n    bank_total = hedged_leg_usd + spot_leg_usd\n    total_usd_cost = bank_total * (1 + domestic_pct / 100)\n\n    # Effective all-in rate: FC per USD\n    effective_rate = invoice_fc / total_usd_cost\n\n    return {\n        \"final\": effective_rate,\n        \"hedged_leg_usd\": hedged_leg_usd,\n        \"spot_leg_usd\": spot_leg_usd,\n        \"total_usd_cost\": total_usd_cost,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 161
+              },
+              "rendered": {
+                "final": "7.4620",
+                "hedged_leg_usd": "1240925/93",
+                "spot_leg_usd": "1830915/67",
+                "total_usd_cost": "25341707/620"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synb6ba10beab809e3bfbb8",
+    "verdicts": {
+      "final": true,
+      "hedged_leg_usd": true,
+      "spot_leg_usd": true,
+      "total_usd_cost": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synb6ba10beab809e3bfbb8",
+        "final_answer": {
+          "value": "8.4804"
+        },
+        "steps": [
+          {
+            "slot_id": "hedged_leg_usd",
+            "value": "60450/7"
+          },
+          {
+            "slot_id": "spot_leg_usd",
+            "value": "1822260/173"
+          },
+          {
+            "slot_id": "total_usd_cost",
+            "value": "67319643/3460"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "8.4804": 1
+        },
+        "hedged_leg_usd": {
+          "60450/7": 1
+        },
+        "spot_leg_usd": {
+          "1822260/173": 1
+        },
+        "total_usd_cost": {
+          "67319643/3460": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "8.4804",
+            "hedged_leg_usd": "60450/7",
+            "spot_leg_usd": "1822260/173",
+            "total_usd_cost": "67319643/3460"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "35897886b3a246c201384230c491e198d5f422b75ba714037ff7124f32f5cba9",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1148,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 522,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1148,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 522,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1148,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1148
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04933,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5896,
+                "session_id": "809306c9-6d99-4f28-a9e8-9f032dec69f0",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    invoice_fc = Q(165000)\n    hedge_frac = Q(\"0.45\")\n    fwd_rate = Q(\"8.75\")          # FC per USD\n    fwd_fee = Q(150)              # flat USD\n    spot_rate = Q(\"8.65\")         # FC per USD\n    spot_bps = Q(40) / Q(10000)\n    domestic_pct = Q(\"1.5\") / 100\n\n    # Hedged leg: FC amount / rate + flat fee\n    hedged_fc = invoice_fc * hedge_frac\n    hedged_leg_usd = hedged_fc / fwd_rate + fwd_fee\n\n    # Spot leg: FC amount / rate, plus 40 bps on USD spent\n    spot_fc = invoice_fc - hedged_fc\n    spot_usd_base = spot_fc / spot_rate\n    spot_leg_usd = spot_usd_base * (1 + spot_bps)\n\n    # Total paid to bank, then domestic clearance adjustment (+1.5%)\n    bank_total = hedged_leg_usd + spot_leg_usd\n    total_usd_cost = bank_total * (1 + domestic_pct)\n\n    # Effective all-in rate: FC per USD\n    effective_rate = invoice_fc / total_usd_cost\n\n    return {\n        \"final\": effective_rate,\n        \"hedged_leg_usd\": hedged_leg_usd,\n        \"spot_leg_usd\": spot_leg_usd,\n        \"total_usd_cost\": total_usd_cost,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 188
+              },
+              "rendered": {
+                "final": "8.4804",
+                "hedged_leg_usd": "60450/7",
+                "spot_leg_usd": "1822260/173",
+                "total_usd_cost": "67319643/3460"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn4b4729134e1217a120d1",
+    "verdicts": {
+      "final": true,
+      "hedged_leg_usd": true,
+      "spot_leg_usd": true,
+      "total_usd_cost": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn4b4729134e1217a120d1",
+        "final_answer": {
+          "value": "7.3512"
+        },
+        "steps": [
+          {
+            "slot_id": "hedged_leg_usd",
+            "value": "49650/11"
+          },
+          {
+            "slot_id": "spot_leg_usd",
+            "value": "281260/23"
+          },
+          {
+            "slot_id": "total_usd_cost",
+            "value": "16519659/1012"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "7.3512": 1
+        },
+        "hedged_leg_usd": {
+          "49650/11": 1
+        },
+        "spot_leg_usd": {
+          "281260/23": 1
+        },
+        "total_usd_cost": {
+          "16519659/1012": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "7.3512",
+            "hedged_leg_usd": "49650/11",
+            "spot_leg_usd": "281260/23",
+            "total_usd_cost": "16519659/1012"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "8893b3aa2c446e99c9649420cee96de516c7f03d3fe6f9138e5b9bcc58e5f664",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1148,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 497,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1148,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 497,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1148,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1148
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04808,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5846,
+                "session_id": "f541da66-c470-4cf1-93a9-f7ba805eabb9",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    invoice_fc = 120000\n    hedge_frac = Q(\"0.30\")\n    fwd_rate = Q(\"8.25\")          # FC per USD\n    fwd_fee = 150                 # flat USD\n    spot_rate = Q(\"6.9\")          # FC per USD\n    spot_bps = Q(\"0.0045\")        # 45 bp on USD spent\n    domestic_adj = Q(\"-0.025\")    # signed share of total USD paid to bank\n\n    hedged_fc = invoice_fc * hedge_frac\n    unhedged_fc = invoice_fc - hedged_fc\n\n    # Forward leg: FC / (FC per USD) + flat fee\n    hedged_leg_usd = hedged_fc / fwd_rate + fwd_fee\n\n    # Spot leg: USD spent plus 45 bp fee on that USD\n    spot_usd = unhedged_fc / spot_rate\n    spot_leg_usd = spot_usd * (1 + spot_bps)\n\n    bank_total = hedged_leg_usd + spot_leg_usd\n    total_usd_cost = bank_total * (1 + domestic_adj)\n\n    effective_rate = invoice_fc / total_usd_cost  # FC per USD\n\n    return {\n        \"final\": effective_rate,\n        \"hedged_leg_usd\": hedged_leg_usd,\n        \"spot_leg_usd\": spot_leg_usd,\n        \"total_usd_cost\": total_usd_cost,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 156
+              },
+              "rendered": {
+                "final": "7.3512",
+                "hedged_leg_usd": "49650/11",
+                "spot_leg_usd": "281260/23",
+                "total_usd_cost": "16519659/1012"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,229 @@
+{
+ "family": "c1_69",
+ "template_sha256": "2acaf5074e35704c7617d427e5319d168e51be2c88f301e4ef891361fc7a48bd",
+ "draws_sha256": "1f529e6b639db357075c8539b21c2f907172659120f82099079b7436ec4bc695",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "91b5d86a05cb78cf808368456797330aacbeaeb087b1d091be63699fadf66f85",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1789,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 469,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1789,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 469,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1789,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1789
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0594005
+  }
+ ],
+ "program": "def solve():\n    price = Q(P[\"PURCHASE_PRICE\"])\n    claims = [Q(P[\"CLAIM_A\"]), Q(P[\"CLAIM_B\"]), Q(P[\"CLAIM_C\"])]\n    de_min = Q(P[\"DE_MINIMIS\"])\n    basket = Q(P[\"BASKET\"])\n    cap_pct = Q(P[\"CAP_PCT\"])\n    btype = P[\"BASKET_TYPE\"]\n\n    # Step 1: per-claim de minimis screen (ledger over claims)\n    eligible_total = Q(0)\n    for c in claims:\n        if c < de_min:\n            continue  # disregarded entirely\n        eligible_total += c\n\n    # Step 2: basket rule\n    if eligible_total > basket:\n        if btype == \"deductible\":\n            recoverable = eligible_total - basket\n        elif btype == \"tipping\":\n            recoverable = eligible_total\n        else:\n            raise ValueError(\"unknown basket type\")\n    else:\n        recoverable = Q(0)\n\n    # Step 3: cap\n    cap_amount = price * cap_pct / 100\n    final = recoverable if recoverable <= cap_amount else cap_amount\n\n    return {\n        \"final\": final,\n        \"eligible_claims_total\": eligible_total,\n        \"recoverable_before_cap\": recoverable,\n        \"cap_amount\": cap_amount,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PURCHASE_PRICE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CLAIM_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CLAIM_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CLAIM_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DE_MINIMIS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BASKET",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CAP_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BASKET_TYPE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PURCHASE_PRICE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CLAIM_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CLAIM_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CLAIM_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DE_MINIMIS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BASKET",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CAP_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BASKET_TYPE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

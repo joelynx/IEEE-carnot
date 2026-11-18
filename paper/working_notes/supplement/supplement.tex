@@ -1,0 +1,94 @@
+% Supplementary material for the Working Notes of team carnot, FinReason Cup 2026 Task 1.
+% It preserves, unabridged, three parts of the paper as submitted for review on 2 November 2026
+% (archive/submitted_20261102/main.tex), which the camera-ready paper condenses.
+% Every number is traced in paper/VERIFICATION.md (sections 2, 5 and 6); nothing here is new.
+\documentclass[conference]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage[hyphens]{url}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\id}[1]{\texttt{#1}}
+
+\begin{document}
+
+\title{Supplementary Material: Evaluation Protocol, Synthetic Set and Post-Submission Study\\ Team carnot at FinReason Cup 2026 Task~1}
+
+\author{\IEEEauthorblockN{Joel Jobi}
+\IEEEauthorblockA{\textit{Indian Institute of Technology Delhi -- Abu Dhabi}\\
+Abu Dhabi, United Arab Emirates}}
+
+\maketitle
+
+\begin{abstract}
+The camera-ready Working Notes condense the evaluation methodology, the account of the synthetic hidden-like set and the post-submission investigations. This document keeps the three accounts in full, as they stood in the version submitted for review, so that no protocol detail is lost. System names (R0 to R4), splits and modes are defined in the paper. Section~\ref{sec:records} lists where each record is kept in the repository, \url{https://github.com/joelynx/IEEE-carnot}.
+\end{abstract}
+
+\section{Evaluation Methodology}\label{sec:method}
+
+\subsection{Fixed splits and a lockbox}
+Train and development, eleven labelled cases per template, were split once with a recorded seed and never redrawn. The \emph{lockbox} holds all 290 development cases plus two train cases per template (870 cases) and is reserved for confirming candidate systems. The \emph{tuning} split holds the other eight train cases per template (2,320); \emph{tuning-eval} is two fixed tuning cases per template (580); the \emph{exemplar pool} is the rest (1,740) and is the only source of worked examples; \emph{tuning-noex} is tuning minus the six exemplar cases (2,314) and served the convention experiments. Every template appears in every split, so each split is stratified by domain, topic, difficulty, answer type, unit, rounding and slot count. Lockbox evaluations are capped at four looks, each logged with a reason; two were used. After the first look, in which three cases were inspected (see the paper's error analysis), lockbox results were read as aggregates only. The development leaderboard was used twice: as a pipeline and distribution-shift check for R0 and as the decisive check for R4.
+
+\subsection{Two modes}
+Every labelled evaluation runs in two modes. S-mode uses the fixed examples as deployed. H-mode excludes examples from the question's own template: no worked example, and in the convention experiments no convention example, may come from it; the templates themselves remain part of development. Because the system has no retrieval, H-mode changes the worked examples only for questions of the three primary-example templates (6 of 580 tuning-eval and 21 of 2,314 tuning-noex questions) and otherwise differs in bootstrapping templates rather than cases. Outside the convention experiments, agreement between the modes is therefore a sensitivity check on those few questions and on the resampling unit; the modes are not independent replications.
+
+\subsection{Official scores and paired comparisons}
+Labelled runs are scored with the toolkit's \id{score\_submission}, with the official hierarchical weights. For comparisons, per-case weights are obtained from the scorer by one-hot probing, each run's score is recomputed from them and checked against the toolkit's report, and the difference (candidate minus baseline) is bootstrapped with the same resample indices for both systems (10,000 replicates, fixed seed), resampling cases within templates in S-mode and templates within topics in H-mode. Run-to-run noise was measured with three R0 runs on tuning-eval with fresh samples, which gave FAC 1.000000, 0.998333 and 1.000000, so $\sigma_{\mathrm{run}}(\mathrm{FAC})=0.000962$ and $\sigma_{\mathrm{run}}(\mathrm{checkpoint})=0.000481$.
+
+\subsection{Decision rules and pre-registration}
+Both rules below were fixed before any candidate was run. The \emph{improvement rule} adopts a candidate if the paired 95\,\% interval of $\Delta$ excludes 0, $\Delta>2\sigma_{\mathrm{run}}$, and a subsequent single lockbox look gives $\Delta>0$, taking the keys in the official order. Changes aimed at the hidden stratum fall under the \emph{adoption rule} (recorded in the pre-registration as a non-inferiority rule): (a) the change is pre-registered with its configuration and code hashes, rationale, and pass and fail actions before any of its outputs exist; (b) it acts only through the generic train-driven routing rule; (c) forced onto every tuning-eval question in S- and H-mode, neither FAC nor checkpoint is significantly lower, that is $\Delta\ge-2\sigma_{\mathrm{run}}$ and the interval's upper bound is $\ge0$, four of four; (d) the routed system is not worse on the lockbox and the leaderboard, which for R1 to R3 holds by construction because no question of either set is routed to the novel route; (e) no statistic computed on test outputs is used, not even agreement rates. Each pre-registration, result, disclosure and incident is appended to a log, and the author approved each candidate's specification before it was built.
+
+Criterion (c) tests only for detectable degradation, with a point-estimate tolerance, and so does not establish statistical non-inferiority. An interval that contains 0 can also contain substantial harm (R2's H-mode checkpoint interval reaches $-0.006667$), and the tolerance, taken from three replicates of one configuration, is a noise scale rather than a justified maximum acceptable loss. Adoption under this rule rests on prior evidence and the absence of detected harm on familiar templates.
+
+\section{A Synthetic Hidden-Like Labelled Set}\label{sec:synthetic}
+We tried to build a hidden-like labelled set: new templates in the competition's format, written by a model outside the comparison (\id{claude-fable-5-1}, which saw tuning-set questions of the assigned topic only), with exact reference programs executed in our sandbox, parameters drawn by our own seeded code, every record passing the toolkit validators and scoring 1/1 against itself, and every question novel under the routing rule. House-style limits were derived from train, and the generated ``Answer format'' sentence reproduces all 3,190 train and development questions exactly.
+
+To filter trivial templates, a pre-registered difficulty probe ran the smallest model, \id{claude-haiku-5-5}, through the same program-of-thought pipeline on four disjoint probe instances per template; a template counted as trivial if every field of every probe instance was right. Under train-like rules (v2) 25 templates were authored (6 needed a repair; list-price equivalent about \$5.99); a blind cross-check agreed on 25 of 25; the probe found 24 of 25 trivial, below the pre-registered floor of 12 non-trivial templates, so authoring stopped. Under stricter rules (v3: advanced only, at least five steps, a threshold decision, a solve-for or multi-period timing, three or four slots) a pilot of 5 templates was trivial in 5 of 5 (20 of 20 probe questions, 100 of 100 fields), failing the pilot bar of three non-trivial templates, so the work stopped there. Nothing from this set was used in any submitted system. This process did not produce a set that separates systems. These fully specified problems were easy for our pipeline, which does not show that fully specified financial reasoning is solved. Leaving conventions unstated would not help either, because the gold would then follow the author's conventions rather than the organisers'.
+
+\section{Post-Submission Investigations}\label{sec:post}
+\begin{table}[t]
+\caption{Correct final answers in the post-submission investigations (novel-route variants; none was submitted).}
+\label{tab:post}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Variant & Pilot & Tuning-eval & Fam.\ 1 & Fam.\ 2 & Stress \\
+ & (96) & (580, S/H) & (96) & (96) & (88) \\
+\midrule
+R4 & 93 & 580 & 95 & 96 & 83 \\
+P (prompt) & 94 & 580 & 96 & 96 & 84 \\
+D, J (pool) & 95 & 580 & 96 & 96 & 85 \\
+V (verifier) & 96 & 580 & 96 & 96 & 88 \\
+\bottomrule
+\end{tabular}
+\end{table}
+After R4 was accepted we tested whether the novel route could be improved, with no further upload, test run or lockbox look; none of the variants was submitted, and all of them change only the novel route. \emph{P} replaces the system prompt with a revised one that asks the program to bind each output to its quantity, sign and horizon. \emph{D} draws its five samples from five fixed roles (three Sonnet and two Opus, medium effort; three roles add an instruction such as auditing one-time against recurring changes) and keeps the per-field vote; \emph{J} selects a complete sample from the same pool. \emph{V} adds, only when the pool holds at least two distinct complete rows, one select-only Opus call that sees the anonymised candidate programs and must return an evidence program whose executed outputs reproduce an existing candidate; otherwise J stands, and no value is edited. A model-balanced vote and one extra Opus sample served as controls; they never beat V.
+
+\paragraph*{Pilot} On 24 synthetic families of four instances, authored by \id{claude-fable-5-1} and checked by a blind solve, R4, P, D/J and V answered 93, 94, 95 and 96 of 96 finals (Table~\ref{tab:post}). Every difference lay in one amortizing-bond family whose wording, ``from year 2 onward the rate changes by'' a number of basis points, admits a one-time or a recurring reading. The family-macro FAC difference of V over R4 was $+0.03125$ with a family-clustered interval of $[0,0.09375]$.
+
+\paragraph*{Pre-registered continuation} A versioned runner replayed all 96 pilot cases from the cache with identical requests, outputs and selections (1,464 cached calls, none fresh). On tuning-eval, forced onto the novel route against a freshly sampled R4, every variant answered all 580 finals in S- and H-mode; checkpoint differences were at most two slots, the size of R4's own run-to-run variation.
+
+We then authored 48 new families across all 12 domains, balanced over six mechanism classes (timing, sign, units, interacting rules, output binding, structural dependence). Each family passed three checks before scoring: a second implementation written from the question alone by a different derivation matched the reference on 12 draws and on parameter endpoints; a blind solver with a neutral prompt matched the four scored instances; and the endpoints raised no unexpected error. Three disputed families were adjudicated before scoring, and no gold value changed. R4 made one final error in the first 24 families, misapplying a stated annual-to-quarterly growth conversion that every candidate got right. After the single design revision the protocol allowed (each family composes two mechanism classes and needs at least six dependent steps), every system, R4 included, answered all 96 finals and 348 slots of the second 24. On a stress panel of paired question variants, every system was right when the bond schedule was stated explicitly, once or recurring, so prompting against repeated changes did no harm where recurrence was correct; on the original wording and a neutral paraphrase, R4 scored 2 of 4 on each and V 4 of 4. Paraphrases, minimal pairs and distractors of six other families caused no candidate error. Because the revised design stayed at ceiling, the pre-registered rule stopped the study before any confirmation set was built.
+
+\paragraph*{Revised regression safeguard} The continuation's FAC criterion differed from the adoption rule: the one-sided 95\,\% lower bound of the weighted FAC difference had to exceed $-0.001$, and a difference of zero everywhere was inconclusive unless a zero-event bound fell below the same $0.001$. The first part concerns a weighted score difference, the second the probability that an independent template contains any regression. At ceiling the criterion cannot be met. One tuning-eval case carries between 0.0012 and 0.0028 of official weight, so a single lost answer exceeds the margin, and the zero-event bound $1-0.05^{1/n}$ falls below 0.001 only for $n\ge2{,}995$ independent templates, whereas 290 exist.
+
+We therefore replaced it prospectively with a count-based rule whose estimand is the share of templates with a net final-answer loss: zero final-answer losses against a fresh R4 sample; a one-sided 95\,\% Clopper--Pearson bound of at most 1.1\,\% on that share; a second fresh R4 sample to check that the panel is not noisy; and a noise-calibrated checkpoint tolerance. Under this rule P lost no final answer and gained none on the familiar templates of tuning-eval and of all 2,314 tuning-noex questions, in both modes; the two fresh R4 samples never disagreed on a final, the bound was 1.03\,\%, and P matched 4,122 of 4,129 slots against R4's 4,120.
+
+\paragraph*{Limits of the synthetic panels} As with the original synthetic set, this generation and validation process did not produce a set that discriminates between systems. The candidates' gains came mostly from the ambiguous bond wording, where ``correct'' means agreeing with an author's reading; R4's one family error was instead a misapplied stated conversion. Admitting a family only when a neutral blind solver agrees with its reference also biases the panels towards problems our models can solve, so they say little about what makes hidden templates hard.
+
+\section{Where the Records Are}\label{sec:records}
+Paths are relative to the repository root.
+\begin{itemize}
+\raggedright
+\item Pre-registrations, results, disclosures and incidents of R1 to R4 and of the convention, hint and synthetic-set candidates: \path{experiments/preregistration.jsonl}.
+\item Paired comparisons with their intervals: \path{experiments/comparisons.jsonl}. Lockbox accesses: \path{experiments/lockbox_access.jsonl}. One record per run: \path{experiments/log.jsonl}.
+\item Post-submission pilot: \path{experiments/improvement_20261020/}. Continuation: \path{experiments/improvement_continuation_20261021/}. Revised safeguard: \path{experiments/safeguard_s2_20261022/}.
+\item Zero-shot ablation of the camera-ready paper: \path{experiments/ablation_zeroshot_20261118/}.
+\item Submission registry and receipts: \path{submissions/registry.jsonl}. Replay check of the R3 and R4 test submissions: \path{paper/REPLAY_CHECK.md}.
+\item The source of every number in the paper and in this document: \path{paper/VERIFICATION.md}, with the read-only check scripts in \path{paper/working_notes/verify/}.
+\end{itemize}
+
+\end{document}

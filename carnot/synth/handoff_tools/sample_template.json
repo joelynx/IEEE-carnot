@@ -1,0 +1,61 @@
+{
+ "name": "selfcheck_fee_drag",
+ "domain_id": "personal_finance",
+ "topic_id": "selfcheck",
+ "difficulty": "basic",
+ "params": {
+  "B": {
+   "kind": "int",
+   "min": 1000,
+   "max": 9000,
+   "step": 500
+  },
+  "f": {
+   "kind": "decimal",
+   "min": "0.25",
+   "max": "2.5",
+   "step": "0.25"
+  },
+  "who": {
+   "kind": "choice",
+   "values": [
+    "saver",
+    "retiree"
+   ]
+  }
+ },
+ "question_template": "Use exact arithmetic. A {who} holds a balance of B={B} USD in a wrapper charging an annual fee of f={f} percent of the balance, levied once at year end. Compute the year-end fee in USD and the balance after the fee.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "engine_fee_rate_trace",
+   "description": "Exact fee rate as a plain fraction of the balance.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "engine_fee_usd_trace",
+   "description": "Exact fee in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    rate = P['f'] / 100\n    fee = P['B'] * rate\n    return {'final': P['B'] - fee, 'engine_fee_rate_trace': rate, 'engine_fee_usd_trace': fee}\n"
+}

@@ -1,0 +1,216 @@
+{
+ "family": "c1_22",
+ "template_sha256": "6942200853c762d4bb2e5ede64a875a4fcf60657491dd74992e4f1e2ced0032b",
+ "draws_sha256": "930627e3c43d5fe5883c64e8d64ffa2b6897de990df708afeeffa07bbfb59db9",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "60a2066d4534870311b1f8bbb895d4c50b16bbb3d00915689fd3fa814e08b9a0",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2019,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 2295,
+    "output_tokens_details": {
+     "thinking_tokens": 1335
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 2019,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 2295,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 2019,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 2019
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.1553005
+  }
+ ],
+ "program": "def solve():\n    G = P[\"GENESIS_SUPPLY\"]\n    bp = P[\"REWARD_BP\"]\n    orig = P[\"ORIG_INTERVAL\"]\n    new = P[\"NEW_INTERVAL\"]\n    C = P[\"CHANGE_EPOCH\"]\n    Qe = P[\"QUERY_EPOCH\"]\n    burn_pct = P[\"BURN_PCT\"]\n\n    base = Fraction(G) * Fraction(bp) / Fraction(10000)\n\n    # original halving epochs: k*orig + 1 for k >= 1\n    def orig_halvings_upto(limit_exclusive):\n        return [k * orig + 1 for k in range(1, limit_exclusive) if k * orig + 1 < limit_exclusive]\n\n    standing = orig_halvings_upto(C)  # original halvings strictly before C\n    last = standing[-1] if standing else 1\n\n    # new-schedule halvings: last + n*new, n >= 1\n    horizon = max(Qe, C) + new * 2 + 5\n    new_halvings = []\n    n = 1\n    while last + n * new <= horizon:\n        new_halvings.append(last + n * new)\n        n += 1\n\n    def halving_count(e):\n        if e < C:\n            # pre-change: only original schedule applies\n            return sum(1 for h in standing if h <= e)\n        # post-change: standing halvings plus new-schedule halvings up to e\n        return len(standing) + sum(1 for h in new_halvings if h <= e)\n\n    # period-by-period ledger\n    cum_gross = Fraction(0)\n    cum_burn = Fraction(0)\n    gross_q = Fraction(0)\n    for e in range(1, Qe + 1):\n        cnt = halving_count(e)\n        gross = base / (Fraction(2) ** cnt)\n        burn = gross * Fraction(burn_pct) / Fraction(100)\n        cum_gross += gross\n        cum_burn += burn\n        if e == Qe:\n            gross_q = gross\n\n    # next halving epoch after Qe\n    combined = sorted(set(standing) | set(new_halvings))\n    candidates = []\n    for h in combined:\n        if h > Qe:\n            if h < C and h in standing:\n                candidates.append(h)\n            elif h >= C:\n                candidates.append(h)\n    if not candidates:\n        raise ValueError(\"no next halving found\")\n    next_h = min(candidates)\n\n    cum_net = cum_gross - cum_burn\n    final_pct = cum_net / Fraction(G) * Fraction(100)\n\n    return {\n        \"final\": final_pct,\n        \"gross_reward_at_query_epoch\": gross_q,\n        \"next_halving_epoch\": Fraction(next_h),\n        \"cumulative_gross_tokens\": cum_gross,\n        \"cumulative_burned_tokens\": cum_burn,\n    }\n",
+ "result": {
+  "compared": 29,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_GENESIS_SUPPLY",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_REWARD_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ORIG_INTERVAL",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_NEW_INTERVAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CHANGE_EPOCH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_QUERY_EPOCH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BURN_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_GENESIS_SUPPLY",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_REWARD_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ORIG_INTERVAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NEW_INTERVAL",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_CHANGE_EPOCH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_QUERY_EPOCH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BURN_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

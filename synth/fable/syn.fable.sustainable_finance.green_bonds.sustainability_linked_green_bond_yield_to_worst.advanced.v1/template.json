@@ -1,0 +1,103 @@
+{
+ "name": "sustainability_linked_green_bond_yield_to_worst",
+ "domain_id": "sustainable_finance",
+ "topic_id": "green_bonds",
+ "difficulty": "advanced",
+ "params": {
+  "face": {
+   "kind": "choice",
+   "values": [
+    1000,
+    5000,
+    10000
+   ]
+  },
+  "coupon": {
+   "kind": "decimal",
+   "min": "2.00",
+   "max": "6.00",
+   "step": "0.05"
+  },
+  "years": {
+   "kind": "int",
+   "min": 4,
+   "max": 8,
+   "step": 1
+  },
+  "kpi_year": {
+   "kind": "int",
+   "min": 1,
+   "max": 3,
+   "step": 1
+  },
+  "stepup_bp": {
+   "kind": "int",
+   "min": 25,
+   "max": 100,
+   "step": 25
+  },
+  "miss_prob": {
+   "kind": "int",
+   "min": 10,
+   "max": 60,
+   "step": 5
+  },
+  "conv_yield": {
+   "kind": "decimal",
+   "min": "3.00",
+   "max": "7.00",
+   "step": "0.05"
+  },
+  "greenium_bp": {
+   "kind": "int",
+   "min": 5,
+   "max": 25,
+   "step": 5
+  }
+ },
+ "question_template": "A sustainability-linked green bond has face F={face} USD, annual coupon c={coupon} percent of face paid each year-end, and matures in N={years} years with face repaid then. If the KPI observed at end of year k={kpi_year} is missed, coupons for years k+1 through N step up by s={stepup_bp} basis points; miss probability is p={miss_prob} percent. Conventional debt yields y={conv_yield} percent, annually compounded; the issue price is the present value of probability-weighted expected cash flows discounted at y minus a greenium of g={greenium_bp} basis points. Compute the yield-to-worst: the annually compounded yield at which cash flows with the step-up certain have present value equal to the issue price. Use exact arithmetic for prices and round only the final yield half up to four decimal places.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "greenium_adjusted_yield",
+   "description": "Exact issue discount yield after greenium.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "issue_price",
+   "description": "Exact issue price of expected cash flows.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "stepup_certain_value",
+   "description": "Exact step-up-certain value at issue discount yield.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    F = Q(P[\"face\"])\n    c = Q(P[\"coupon\"]) / 100\n    N = P[\"years\"]\n    k = P[\"kpi_year\"]\n    s = Q(P[\"stepup_bp\"]) / 10000\n    p = Q(P[\"miss_prob\"]) / 100\n    y = Q(P[\"conv_yield\"]) / 100\n    g = Q(P[\"greenium_bp\"]) / 10000\n    if k >= N:\n        raise ValueError(\"KPI year must be before maturity\")\n    yd = y - g\n    if yd <= 0:\n        raise ValueError(\"nonpositive discount yield\")\n    base = F * c\n    up = F * (c + s)\n    exp_cf = []\n    worst_cf = []\n    for t in range(1, N + 1):\n        if t <= k:\n            e = base\n            w = base\n        else:\n            e = (1 - p) * base + p * up\n            w = up\n        if t == N:\n            e = e + F\n            w = w + F\n        exp_cf.append(e)\n        worst_cf.append(w)\n    def pv(r, cf):\n        total = Q(0)\n        for t in range(1, N + 1):\n            total = total + cf[t - 1] / (1 + r) ** t\n        return total\n    price = pv(yd, exp_cf)\n    worst_at_yd = pv(yd, worst_cf)\n    lo = Q(0)\n    hi = Q(1)\n    for i in range(80):\n        mid = (lo + hi) / 2\n        if pv(mid, worst_cf) > price:\n            lo = mid\n        else:\n            hi = mid\n    r = (lo + hi) / 2\n    return {\n        \"final\": r * 100,\n        \"greenium_adjusted_yield\": yd * 100,\n        \"issue_price\": price,\n        \"stepup_certain_value\": worst_at_yd,\n    }\n"
+}

@@ -1,0 +1,66 @@
+{
+ "name": "wacc_from_target_debt_equity_ratio",
+ "domain_id": "corporate_finance",
+ "topic_id": "wacc",
+ "difficulty": "basic",
+ "params": {
+  "DE": {
+   "kind": "decimal",
+   "min": "0.20",
+   "max": "1.50",
+   "step": "0.05"
+  },
+  "KE": {
+   "kind": "decimal",
+   "min": "7.00",
+   "max": "13.00",
+   "step": "0.25"
+  },
+  "KD": {
+   "kind": "decimal",
+   "min": "3.00",
+   "max": "7.50",
+   "step": "0.25"
+  },
+  "T": {
+   "kind": "int",
+   "min": 20,
+   "max": 35,
+   "step": 1
+  }
+ },
+ "question_template": "A company targets a market-value debt-to-equity ratio D/E of {DE}. Its annual nominal cost of equity ke is {KE} percent, its annual nominal pretax cost of debt kd is {KD} percent, and its corporate tax rate T is {T} percent. Capital weights follow from the target ratio alone, ke exceeds kd, and only debt receives the interest tax shield. Compute the annual nominal WACC in percent. Use exact arithmetic and do not round any intermediate value.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "target_debt_weight",
+   "description": "Exact debt share of capital from target ratio.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "debt_contribution_percent",
+   "description": "Exact weighted after-tax debt contribution to WACC.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    de = Q(P[\"DE\"])\n    ke = Q(P[\"KE\"])\n    kd = Q(P[\"KD\"])\n    t = Q(P[\"T\"])\n    if ke <= kd:\n        raise ValueError(\"cost of equity must exceed pretax cost of debt\")\n    wd = de / (1 + de)\n    we = 1 - wd\n    after_tax_kd = kd * (1 - t / 100)\n    debt_part = wd * after_tax_kd\n    wacc = we * ke + debt_part\n    return {\"final\": wacc, \"target_debt_weight\": wd, \"debt_contribution_percent\": debt_part}\n"
+}

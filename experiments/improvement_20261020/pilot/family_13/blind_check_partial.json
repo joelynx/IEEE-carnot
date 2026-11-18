@@ -1,0 +1,494 @@
+[
+  {
+    "case_id": "t1_syn977931097d5d55b51bf0",
+    "verdicts": {
+      "final": true,
+      "withdrawal_gross_sale": true,
+      "post_withdrawal_weight": true,
+      "equity_trade": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn977931097d5d55b51bf0",
+        "final_answer": {
+          "value": "2636.88"
+        },
+        "steps": [
+          {
+            "slot_id": "withdrawal_gross_sale",
+            "value": "65000/491"
+          },
+          {
+            "slot_id": "post_withdrawal_weight",
+            "value": "3093300/64999"
+          },
+          {
+            "slot_id": "equity_trade",
+            "value": "2913260/4973"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "2636.88": 1
+        },
+        "withdrawal_gross_sale": {
+          "65000/491": 1
+        },
+        "post_withdrawal_weight": {
+          "3093300/64999": 1
+        },
+        "equity_trade": {
+          "2913260/4973": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "2636.88",
+            "withdrawal_gross_sale": "65000/491",
+            "post_withdrawal_weight": "3093300/64999",
+            "equity_trade": "2913260/4973"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "75791059812d25e348bbb45518e5d2e1019dc7528106f927aec10e6c9d7c76f7",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1235,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 1104,
+                "output_tokens_details": {
+                  "thinking_tokens": 483
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1235,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1104,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1235,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1235
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.08016999999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 12198,
+                "session_id": "fc115d8a-6f4e-488a-807f-d14f2b72545e",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    equity = Q(1260)\n    bonds = Q(1520)\n    cost = Q(\"0.018\")\n    target = Q(\"0.70\")\n    withdrawal = Q(130)\n    net_ratio = 1 - cost\n\n    # Withdrawal funded by gross bond sale with net proceeds equal to withdrawal\n    withdrawal_gross_sale = withdrawal / net_ratio\n    bonds_after_wd = bonds - withdrawal_gross_sale\n    total_after_wd = equity + bonds_after_wd\n    post_withdrawal_weight = equity / total_after_wd * 100  # percent\n\n    if equity / total_after_wd < target:\n        # Underweight: sell bonds gross G, equity gains G*net_ratio\n        # equity + G*n = target*(total_after_wd + G*(n-1))\n        G = (target * total_after_wd - equity) / (net_ratio - target * (net_ratio - 1))\n        equity_trade = G * net_ratio  # buy\n        final_total = total_after_wd + G * (net_ratio - 1)\n    elif equity / total_after_wd > target:\n        # Overweight: sell equity gross G, bonds gain G*net_ratio\n        # equity - G = target*(total_after_wd + G*(n-1))\n        G = (equity - target * total_after_wd) / (1 + target * (net_ratio - 1))\n        equity_trade = -G  # sell\n        final_total = total_after_wd + G * (net_ratio - 1)\n    else:\n        equity_trade = Q(0)\n        final_total = total_after_wd\n\n    return {\n        \"final\": final_total,\n        \"withdrawal_gross_sale\": withdrawal_gross_sale,\n        \"post_withdrawal_weight\": post_withdrawal_weight,\n        \"equity_trade\": equity_trade,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 288
+              },
+              "rendered": {
+                "final": "2636.88",
+                "withdrawal_gross_sale": "65000/491",
+                "post_withdrawal_weight": "3093300/64999",
+                "equity_trade": "2913260/4973"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syna3045308b3a65b985541",
+    "verdicts": {
+      "final": true,
+      "withdrawal_gross_sale": true,
+      "post_withdrawal_weight": true,
+      "equity_trade": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syna3045308b3a65b985541",
+        "final_answer": {
+          "value": "2766.20"
+        },
+        "steps": [
+          {
+            "slot_id": "withdrawal_gross_sale",
+            "value": "55000/249"
+          },
+          {
+            "slot_id": "post_withdrawal_weight",
+            "value": "3012900/68951"
+          },
+          {
+            "slot_id": "equity_trade",
+            "value": "1813670/2497"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "2766.20": 1
+        },
+        "withdrawal_gross_sale": {
+          "55000/249": 1
+        },
+        "post_withdrawal_weight": {
+          "3012900/68951": 1
+        },
+        "equity_trade": {
+          "1813670/2497": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "2766.20",
+            "withdrawal_gross_sale": "55000/249",
+            "post_withdrawal_weight": "3012900/68951",
+            "equity_trade": "1813670/2497"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "17a52f056ccc291e07f5e8f32237b9b808d4d2fb2e18d1b3cbf8ded15131f9d2",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1235,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 1016,
+                "output_tokens_details": {
+                  "thinking_tokens": 397
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1235,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1016,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1235,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1235
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.07577,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 11990,
+                "session_id": "ed2b4ec7-a898-442c-91b0-ce8052cd8ac3",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    equity = Q(1210)\n    bonds = Q(1780)\n    target = Q(\"0.70\")\n    cost = Q(\"0.004\")\n    withdrawal = Q(220)\n\n    # Gross bond sale so that net proceeds equal the withdrawal exactly\n    withdrawal_gross_sale = withdrawal / (1 - cost)\n    bonds_after_wd = bonds - withdrawal_gross_sale\n    total_after_wd = equity + bonds_after_wd\n\n    # Equity weight immediately after the withdrawal (percentage points)\n    post_withdrawal_weight = equity / total_after_wd * 100\n\n    equity_weight = equity / total_after_wd\n    if equity_weight > target:\n        # Overweight: sell equity gross S, net S(1-c) into bonds\n        # (equity - S) = target * (total_after_wd - c*S)\n        S = (equity - target * total_after_wd) / (1 - target * cost)\n        equity_trade = -S  # equity decreases by gross sale\n        final_total = total_after_wd - cost * S\n    elif equity_weight < target:\n        # Underweight: sell bonds gross S, net S(1-c) into equity\n        # equity + S(1-c) = target * (total_after_wd - c*S)\n        S = (target * total_after_wd - equity) / (1 - cost + target * cost)\n        equity_trade = S * (1 - cost)  # equity increases by net proceeds\n        final_total = total_after_wd - cost * S\n    else:\n        equity_trade = Q(0)\n        final_total = total_after_wd\n\n    return {\n        \"final\": final_total,\n        \"withdrawal_gross_sale\": withdrawal_gross_sale,\n        \"post_withdrawal_weight\": post_withdrawal_weight,\n        \"equity_trade\": equity_trade,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 185
+              },
+              "rendered": {
+                "final": "2766.20",
+                "withdrawal_gross_sale": "55000/249",
+                "post_withdrawal_weight": "3012900/68951",
+                "equity_trade": "1813670/2497"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synfd846944fe271c802294",
+    "verdicts": {
+      "final": true,
+      "withdrawal_gross_sale": true,
+      "post_withdrawal_weight": true,
+      "equity_trade": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synfd846944fe271c802294",
+        "final_answer": {
+          "value": "3067.31"
+        },
+        "steps": [
+          {
+            "slot_id": "withdrawal_gross_sale",
+            "value": "70000/331"
+          },
+          {
+            "slot_id": "post_withdrawal_weight",
+            "value": "289625/6348"
+          },
+          {
+            "slot_id": "equity_trade",
+            "value": "-142820000/825183"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "3067.31": 1
+        },
+        "withdrawal_gross_sale": {
+          "70000/331": 1
+        },
+        "post_withdrawal_weight": {
+          "289625/6348": 1
+        },
+        "equity_trade": {
+          "-142820000/825183": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "3067.31",
+            "withdrawal_gross_sale": "70000/331",
+            "post_withdrawal_weight": "289625/6348",
+            "equity_trade": "-142820000/825183"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "c99733a13af9ebbe8d897c9fb0b39e90f398b5bd4c99a295d6312f8b39c74cb7",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1235,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 841,
+                "output_tokens_details": {
+                  "thinking_tokens": 272
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1235,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 841,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1235,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1235
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.06702,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 10128,
+                "session_id": "4835c972-2bbd-4e8d-9e59-bd49a1c6594d",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    equity = Q(1400)\n    bonds = Q(1880)\n    target = Q(\"0.40\")\n    cost = Q(\"0.007\")\n    withdrawal = Q(210)\n\n    # Gross bond sale so net proceeds equal withdrawal\n    withdrawal_gross_sale = withdrawal / (1 - cost)\n    bonds_after = bonds - withdrawal_gross_sale\n    total_after_withdrawal = equity + bonds_after\n\n    # Post-withdrawal equity weight (percent)\n    post_withdrawal_weight = equity / total_after_withdrawal * 100\n\n    if equity / total_after_withdrawal > target:\n        # Overweight: sell equity gross G so that equity - G = target * (total - G*cost)\n        G = (equity - target * total_after_withdrawal) / (1 - target * cost)\n        equity_trade = -G\n        final_total = total_after_withdrawal - G * cost\n    elif equity / total_after_withdrawal < target:\n        # Underweight: sell bonds gross G, buy equity with net: equity + G(1-c) = target*(total - G*c)\n        G = (target * total_after_withdrawal - equity) / ((1 - cost) + target * cost)\n        equity_trade = G * (1 - cost)\n        final_total = total_after_withdrawal - G * cost\n    else:\n        equity_trade = Q(0)\n        final_total = total_after_withdrawal\n\n    return {\n        \"final\": final_total,\n        \"withdrawal_gross_sale\": withdrawal_gross_sale,\n        \"post_withdrawal_weight\": post_withdrawal_weight,\n        \"equity_trade\": equity_trade,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 390
+              },
+              "rendered": {
+                "final": "3067.31",
+                "withdrawal_gross_sale": "70000/331",
+                "post_withdrawal_weight": "289625/6348",
+                "equity_trade": "-142820000/825183"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn21376c609ce5887317cd",
+    "verdicts": {
+      "final": true,
+      "withdrawal_gross_sale": true,
+      "post_withdrawal_weight": true,
+      "equity_trade": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn21376c609ce5887317cd",
+        "final_answer": {
+          "value": "2536.87"
+        },
+        "steps": [
+          {
+            "slot_id": "withdrawal_gross_sale",
+            "value": "70000/989"
+          },
+          {
+            "slot_id": "post_withdrawal_weight",
+            "value": "9197700/251129"
+          },
+          {
+            "slot_id": "equity_trade",
+            "value": "4206210/19879"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "2536.87": 1
+        },
+        "withdrawal_gross_sale": {
+          "70000/989": 1
+        },
+        "post_withdrawal_weight": {
+          "9197700/251129": 1
+        },
+        "equity_trade": {
+          "4206210/19879": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "2536.87",
+            "withdrawal_gross_sale": "70000/989",
+            "post_withdrawal_weight": "9197700/251129",
+            "equity_trade": "4206210/19879"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "6d81c15dbf05388033988c4276c14ac2795138054c1398a289c1210bc6a37cf4",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1234,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 905,
+                "output_tokens_details": {
+                  "thinking_tokens": 389
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1234,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 905,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1234,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1234
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0702,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 10247,
+                "session_id": "fb571b52-4e25-415f-a0b9-01e8672bbfab",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    equity = Q(930)\n    bonds = Q(1680)\n    target = Q(\"0.45\")\n    cost = Q(\"0.011\")\n    withdrawal = Q(70)\n\n    # Gross bond sale so net proceeds equal withdrawal\n    withdrawal_gross_sale = withdrawal / (1 - cost)\n    bonds_1 = bonds - withdrawal_gross_sale\n    equity_1 = equity\n    total_1 = equity_1 + bonds_1\n\n    # Post-withdrawal equity weight in percent\n    post_withdrawal_weight = equity_1 / total_1 * 100\n\n    if equity_1 / total_1 > target:\n        # Overweight: sell equity gross S, net to bonds; total falls by cost*S\n        S = (equity_1 - target * total_1) / (1 - target * cost)\n        equity_trade = -S\n    elif equity_1 / total_1 < target:\n        # Underweight: sell bonds gross S, net S*(1-cost) buys equity\n        S = (target * total_1 - equity_1) / (1 - cost + target * cost)\n        equity_trade = S * (1 - cost)\n    else:\n        S = Q(0)\n        equity_trade = Q(0)\n\n    total_after = total_1 - cost * S\n\n    return {\n        \"final\": total_after,\n        \"withdrawal_gross_sale\": withdrawal_gross_sale,\n        \"post_withdrawal_weight\": post_withdrawal_weight,\n        \"equity_trade\": equity_trade,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 204
+              },
+              "rendered": {
+                "final": "2536.87",
+                "withdrawal_gross_sale": "70000/989",
+                "post_withdrawal_weight": "9197700/251129",
+                "equity_trade": "4206210/19879"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

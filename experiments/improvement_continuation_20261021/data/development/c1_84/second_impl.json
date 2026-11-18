@@ -1,0 +1,219 @@
+{
+ "family": "c1_84",
+ "template_sha256": "76d9020c6488980a680c111deb4e83a2d66bbde2d5e238dfb5fad707a23900ec",
+ "draws_sha256": "158dd269fd05054e3503be3597b4fc6f4067489f0742ba7de6d63a1ea6117137",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "40fe04ac64637470936f0d0d6a0c67923cca419da6e7f95f7daebea7f1632715",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1903,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1048,
+    "output_tokens_details": {
+     "thinking_tokens": 418
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1903,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1048,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1903,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1903
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0906305
+  }
+ ],
+ "program": "def solve():\n    V = P[\"V\"]\n    w1 = Q(P[\"W1\"]) / 100\n    w2 = 1 - w1\n    s1 = Q(P[\"S1\"]) / 100\n    s2 = Q(P[\"S2\"]) / 100\n    rho = Q(P[\"RHO\"])\n    z = Q(P[\"Z\"])\n    L = Q(P[\"L\"]) / 100\n\n    # Two-asset variance, built from the covariance matrix entry by entry\n    cov11 = s1 * s1\n    cov22 = s2 * s2\n    cov12 = rho * s1 * s2\n    weights = [w1, w2]\n    cov = [[cov11, cov12], [cov12, cov22]]\n    var = 0\n    for i in range(2):\n        for j in range(2):\n            var += weights[i] * weights[j] * cov[i][j]\n    if var <= 0:\n        raise ValueError(\"portfolio variance must be positive\")\n    sigma_p = sqrt(var)\n\n    total_var = V * z * sigma_p\n\n    # Marginal contribution: d sigma / d w_i = (Cov w)_i / sigma\n    cov_w = [sum(cov[i][j] * weights[j] for j in range(2)) for i in range(2)]\n    marg = [cw / sigma_p for cw in cov_w]\n    comp = [V * z * weights[i] * marg[i] for i in range(2)]\n\n    # Limit rule applied once\n    limit = L * V\n    if total_var > limit:\n        factor = limit / total_var\n    else:\n        factor = 1\n\n    comp_after = [c * factor for c in comp]\n\n    return {\n        \"final\": comp_after[0],\n        \"portfolio_volatility\": sigma_p * 100,\n        \"unscaled_total_var\": total_var,\n        \"position_cut_factor\": factor,\n        \"component_var_asset2_after_rule\": comp_after[1],\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_V",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_W1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_RHO",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Z",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_L",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_V",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_W1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_S1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_S2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_RHO",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Z",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_L",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

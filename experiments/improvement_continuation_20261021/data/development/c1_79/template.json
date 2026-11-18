@@ -1,0 +1,133 @@
+{
+ "name": "leveraged_fund_floor_fee_tracking_gap",
+ "domain_id": "personal_finance",
+ "topic_id": "personalinvest",
+ "difficulty": "advanced",
+ "params": {
+  "R1": {
+   "kind": "decimal",
+   "min": "-6.0",
+   "max": "6.0",
+   "step": "0.5"
+  },
+  "R2": {
+   "kind": "decimal",
+   "min": "-6.0",
+   "max": "6.0",
+   "step": "0.5"
+  },
+  "R3": {
+   "kind": "decimal",
+   "min": "-6.0",
+   "max": "6.0",
+   "step": "0.5"
+  },
+  "R4": {
+   "kind": "decimal",
+   "min": "-6.0",
+   "max": "6.0",
+   "step": "0.5"
+  },
+  "FLOOR_PCT": {
+   "kind": "decimal",
+   "min": "-12.0",
+   "max": "-4.0",
+   "step": "0.5"
+  },
+  "FEE_BP": {
+   "kind": "int",
+   "min": 0,
+   "max": 10,
+   "step": 1
+  },
+  "FEE_ORDER": {
+   "kind": "choice",
+   "values": [
+    "fee_after_floor",
+    "fee_before_floor"
+   ]
+  }
+ },
+ "question_template": "Scenario-local rules for a daily-rebalanced 2x leveraged fund. Index daily returns in percent over four trading days are {R1}, {R2}, {R3}, {R4} (negatives are losses). Each day the fund's gross return equals 2 times that day's index return in percentage points. A daily floor of {FLOOR_PCT} percent and a daily fee of {FEE_BP} basis points of the day's starting fund value apply. Rule {FEE_ORDER}: fee_after_floor applies the floor to the gross return, then subtracts the fee; fee_before_floor subtracts the fee from the gross return, then applies the floor. The floor replaces a return only when the return is strictly below the floor; equality is not a floor event. Each day's ending fund value is the starting value times one plus the net daily return; the next day restarts at 2x exposure. The index compounds its stated daily returns. Report the fund's cumulative four-day return in percentage points, twice the index's cumulative four-day return in percentage points, the number of floor events, and the signed difference fund cumulative return minus twice index cumulative return in percentage points.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "fund_cum_return_pct",
+   "description": "Fund cumulative four-day return after floor and fee, percentage points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "twice_index_cum_pct",
+   "description": "Twice the index cumulative four-day return, percentage points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "floor_event_days",
+   "description": "Number of days on which the floor replaced the return",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    rets = [P[\"R1\"], P[\"R2\"], P[\"R3\"], P[\"R4\"]]\n    fee = Q(P[\"FEE_BP\"]) / 10000\n    floor = Q(P[\"FLOOR_PCT\"]) / 100\n    order = P[\"FEE_ORDER\"]\n    if order not in (\"fee_after_floor\", \"fee_before_floor\"):\n        raise ValueError(\"unknown fee order\")\n    fund = Q(1)\n    idx = Q(1)\n    events = 0\n    for r in rets:\n        ri = Q(r) / 100\n        g = 2 * ri\n        if order == \"fee_after_floor\":\n            if g < floor:\n                g = floor\n                events += 1\n            net = g - fee\n        else:\n            g = g - fee\n            if g < floor:\n                g = floor\n                events += 1\n            net = g\n        fund = fund * (1 + net)\n        idx = idx * (1 + ri)\n    fund_cum = (fund - 1) * 100\n    twice_idx = 2 * (idx - 1) * 100\n    diff = fund_cum - twice_idx\n    return {\"final\": diff, \"fund_cum_return_pct\": fund_cum, \"twice_index_cum_pct\": twice_idx, \"floor_event_days\": events}",
+ "coverage_params": [
+  {
+   "R1": "3.0",
+   "R2": "-2.0",
+   "R3": "4.0",
+   "R4": "-3.0",
+   "FLOOR_PCT": "-12.0",
+   "FEE_BP": 0,
+   "FEE_ORDER": "fee_after_floor"
+  },
+  {
+   "R1": "-5.0",
+   "R2": "2.0",
+   "R3": "-4.5",
+   "R4": "1.0",
+   "FLOOR_PCT": "-8.0",
+   "FEE_BP": 5,
+   "FEE_ORDER": "fee_after_floor"
+  },
+  {
+   "R1": "-4.0",
+   "R2": "3.0",
+   "R3": "-1.0",
+   "R4": "2.0",
+   "FLOOR_PCT": "-8.0",
+   "FEE_BP": 3,
+   "FEE_ORDER": "fee_before_floor"
+  },
+  {
+   "R1": "-4.0",
+   "R2": "3.0",
+   "R3": "-1.0",
+   "R4": "2.0",
+   "FLOOR_PCT": "-8.0",
+   "FEE_BP": 3,
+   "FEE_ORDER": "fee_after_floor"
+  }
+ ]
+}

@@ -1,0 +1,209 @@
+{
+ "family": "c1_18",
+ "template_sha256": "6506be2595b57ab85a1c46012ceba317820281b0c540ca8dc4d81e5b28cacc97",
+ "draws_sha256": "5ee18b6febe3049539329c383018d6691ceb3cc21c51c344ede3ab1191673d47",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "a167f58f7967b70a3a5b416b77aade4540319f6d5c7fac5b3c8eb6ab8e093710",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1603,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 858,
+    "output_tokens_details": {
+     "thinking_tokens": 284
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1603,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 858,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1603,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1603
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.07513049999999999
+  }
+ ],
+ "program": "def solve():\n    R_A = Q(P[\"R_A\"])\n    R_U = Q(P[\"R_U\"])\n    direction = P[\"DIRECTION\"]\n    trade_pct = Q(P[\"TRADE_PCT\"])\n    fee_bps = Q(P[\"FEE_BPS\"])\n    shock = Q(P[\"SHOCK\"])\n\n    # Pre-trade invariant and spot\n    k = R_A * R_U\n    spot = R_U / R_A\n    benchmark = spot * (1 + shock / 100)\n\n    if direction == \"sell_a\":\n        in_res, out_res = R_A, R_U\n    elif direction == \"buy_a\":\n        in_res, out_res = R_U, R_A\n    else:\n        raise ValueError(\"unknown direction\")\n\n    gross = in_res * trade_pct / 100\n    fee = gross * fee_bps / 10000\n    net = gross - fee\n\n    # Invariant-based output: new output reserve = k / (in_res + net)\n    new_out_res = k / (in_res + net)\n    out_amt = out_res - new_out_res\n    if out_amt <= 0:\n        raise ValueError(\"no output\")\n\n    post_input_reserve = in_res + gross  # fee stays in pool\n\n    if direction == \"sell_a\":\n        effective = out_amt / gross          # USD out per A in\n        result = out_amt - gross * benchmark\n    else:\n        effective = gross / out_amt          # USD in per A out\n        result = out_amt * benchmark - gross\n\n    price_impact = (effective / spot - 1) * 100\n\n    return {\n        \"final\": result,\n        \"output_amount\": out_amt,\n        \"post_input_reserve\": post_input_reserve,\n        \"price_impact\": price_impact,\n    }\n",
+ "result": {
+  "compared": 30,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R_U",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DIRECTION",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TRADE_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FEE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SHOCK",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R_U",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DIRECTION",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_TRADE_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SHOCK",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

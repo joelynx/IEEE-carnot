@@ -1,0 +1,124 @@
+{
+ "name": "target_structure_relevered_beta_rating_grid_wacc",
+ "domain_id": "corporate_finance",
+ "topic_id": "wacc",
+ "difficulty": "advanced",
+ "params": {
+  "E0": {
+   "kind": "int",
+   "min": 60,
+   "max": 200,
+   "step": 5
+  },
+  "D0": {
+   "kind": "int",
+   "min": 10,
+   "max": 80,
+   "step": 5
+  },
+  "BETA_L": {
+   "kind": "decimal",
+   "min": "0.80",
+   "max": "1.60",
+   "step": "0.05"
+  },
+  "T": {
+   "kind": "int",
+   "min": 20,
+   "max": 30,
+   "step": 1
+  },
+  "W_T": {
+   "kind": "int",
+   "min": 10,
+   "max": 60,
+   "step": 5
+  },
+  "L": {
+   "kind": "int",
+   "min": 30,
+   "max": 45,
+   "step": 5
+  },
+  "S_LOW": {
+   "kind": "int",
+   "min": 80,
+   "max": 200,
+   "step": 10
+  },
+  "S_HIGH": {
+   "kind": "int",
+   "min": 220,
+   "max": 450,
+   "step": 10
+  },
+  "RF": {
+   "kind": "decimal",
+   "min": "2.00",
+   "max": "5.00",
+   "step": "0.25"
+  },
+  "MRP": {
+   "kind": "decimal",
+   "min": "4.0",
+   "max": "7.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "A company currently has market-value common equity E0={E0} USD million and market-value interest-bearing debt D0={D0} USD million; its observed levered common-equity beta at this structure is betaL={BETA_L}. The corporate tax rate is T={T} percent. It will recapitalise to a target structure in which debt is wT={W_T} percent of total market-value capital and common equity is the remainder; there is no preferred stock. Unlever the current beta with the Hamada relationship betaU=betaL/(1+(1-T/100)*D0/E0) and relever it at the debt-to-equity ratio implied by the target debt weight. The annual nominal risk-free rate is rf={RF} percent and the expected market risk premium is MRP={MRP} percent; the cost of equity follows the CAPM with the relevered beta. The annual nominal pretax cost of debt at the target structure is rf plus a credit spread from a rating grid: {S_LOW} basis points if the target debt weight is at or below L={L} percent of total capital, and {S_HIGH} basis points if above L; a weight exactly equal to L takes the lower spread. Only debt interest receives the tax shield. Compute the annual nominal WACC at the target capital structure. Use exact arithmetic and do not round any intermediate value.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "unlevered_asset_beta",
+   "description": "Exact Hamada-unlevered asset beta at current structure.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "relevered_target_beta",
+   "description": "Exact equity beta relevered at target structure.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "applied_credit_spread_bp",
+   "description": "Credit spread selected by the rating grid.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "basis_point",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "target_equity_cost_percent",
+   "description": "Exact CAPM equity cost at target structure.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    E0 = Q(P[\"E0\"])\n    D0 = Q(P[\"D0\"])\n    bL = Q(P[\"BETA_L\"])\n    T = Q(P[\"T\"]) / Q(100)\n    wT = Q(P[\"W_T\"]) / Q(100)\n    L = Q(P[\"L\"]) / Q(100)\n    s_low = Q(P[\"S_LOW\"])\n    s_high = Q(P[\"S_HIGH\"])\n    rf = Q(P[\"RF\"])\n    mrp = Q(P[\"MRP\"])\n    if s_high <= s_low:\n        raise ValueError(\"high-tier spread must exceed low-tier spread\")\n    if wT >= 1 or wT <= 0:\n        raise ValueError(\"target debt weight must be strictly between 0 and 1\")\n    beta_u = bL / (1 + (1 - T) * D0 / E0)\n    target_de = wT / (1 - wT)\n    beta_t = beta_u * (1 + (1 - T) * target_de)\n    if wT <= L:\n        spread = s_low\n    else:\n        spread = s_high\n    kd = rf + spread / Q(100)\n    ke = rf + beta_t * mrp\n    wacc = (1 - wT) * ke + wT * kd * (1 - T)\n    return {\n        \"final\": wacc,\n        \"unlevered_asset_beta\": beta_u,\n        \"relevered_target_beta\": beta_t,\n        \"applied_credit_spread_bp\": spread,\n        \"target_equity_cost_percent\": ke,\n    }\n"
+}

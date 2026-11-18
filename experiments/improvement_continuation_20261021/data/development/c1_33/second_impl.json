@@ -1,0 +1,209 @@
+{
+ "family": "c1_33",
+ "template_sha256": "7ec249115bfd94f27c838d5d993ff8a16be3e1a2ddfccd063301424c8cfea7b2",
+ "draws_sha256": "835c095d89355f6c24395490c684941377cc505d441ed10a25bea27cab669bb2",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "eb28c106565a0529b0f496d2e57456a9d6d0ca5008d30ba99738b111b4fea253",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1528,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 420,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1528,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 420,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1528,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1528
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0517305
+  }
+ ],
+ "program": "def solve():\n    N = Fraction(P[\"N\"])\n    P0 = Fraction(P[\"P0\"])\n    PEX = Fraction(P[\"PEX\"])\n    D = Fraction(P[\"D\"])\n    P1 = Fraction(P[\"P1\"])\n    mode = P[\"MODE\"]\n\n    # Ledger: initial purchase\n    cost = N * P0\n    cash = Fraction(0)\n    shares = N\n\n    # Dividend paid\n    cash += shares * D\n\n    # Reinvest at ex-dividend price\n    if mode == \"fractional\":\n        bought = cash / PEX\n        cash -= bought * PEX\n    elif mode == \"whole\":\n        bought = Fraction(math.floor(cash / PEX))\n        cash -= bought * PEX\n    else:\n        raise ValueError(\"unknown MODE\")\n    shares += bought\n\n    # Ending value\n    ending_value = shares * P1 + cash\n\n    price_return = (P1 / P0 - 1) * 100\n    total_return = (ending_value / cost - 1) * 100\n    dividend_contrib = total_return - price_return\n\n    return {\n        \"final\": dividend_contrib,\n        \"shares_held_end\": shares,\n        \"price_return\": price_return,\n        \"total_return\": total_return,\n    }\n",
+ "result": {
+  "compared": 30,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_P0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PEX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_P1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MODE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_P0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PEX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_P1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MODE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

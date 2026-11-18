@@ -1,0 +1,101 @@
+{
+  "name": "vintage_eligibility_bundle_purchase_surplus_resale",
+  "domain_id": "sustainable_finance",
+  "topic_id": "carbon_credits",
+  "difficulty": "intermediate",
+  "params": {
+    "E": {
+      "kind": "int",
+      "min": 100,
+      "max": 600,
+      "step": 10
+    },
+    "H": {
+      "kind": "int",
+      "min": 0,
+      "max": 500,
+      "step": 10
+    },
+    "V": {
+      "kind": "int",
+      "min": 2016,
+      "max": 2024,
+      "step": 1
+    },
+    "C": {
+      "kind": "int",
+      "min": 2018,
+      "max": 2022,
+      "step": 1
+    },
+    "B": {
+      "kind": "int",
+      "min": 25,
+      "max": 100,
+      "step": 25
+    },
+    "PRICE": {
+      "kind": "decimal",
+      "min": "8.00",
+      "max": "20.00",
+      "step": "0.25"
+    },
+    "D": {
+      "kind": "decimal",
+      "min": "5.0",
+      "max": "30.0",
+      "step": "2.5"
+    },
+    "L": {
+      "kind": "decimal",
+      "min": "1.00",
+      "max": "6.00",
+      "step": "0.25"
+    }
+  },
+  "question_template": "A firm must retire exactly {E} carbon credits against this year's target. A credit is eligible for retirement only if its vintage year is {C} or later. The firm already holds {H} credits, all of vintage {V}. If the held credits are eligible, they are applied to the target first and any held credits beyond the target become surplus; if ineligible, none are applied and all {H} are sold at the legacy price of {L} USD per credit. Any remaining shortfall is covered by buying eligible credits only in whole bundles of {B} credits at {PRICE} USD per credit, using the fewest bundles that cover the shortfall. All surplus credits (bundle excess plus any excess eligible held credits) are resold at {D} percent below the purchase price. Compute the net cash outlay in USD as purchase cost minus all resale and legacy proceeds.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "applied_held_credits",
+      "description": "Held credits counted toward the target after the vintage eligibility test.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "credits",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "bundles_purchased",
+      "description": "Fewest whole bundles needed to cover the remaining shortfall.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "surplus_credits",
+      "description": "Total surplus credits resold, from bundle excess and excess eligible holdings.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "credits",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    E = P[\"E\"]\n    H = P[\"H\"]\n    V = P[\"V\"]\n    C = P[\"C\"]\n    B = P[\"B\"]\n    price = P[\"PRICE\"]\n    D = P[\"D\"]\n    L = P[\"L\"]\n    if V >= C:\n        applied = min(H, E)\n        held_surplus = H - applied\n        legacy_proceeds = 0\n    else:\n        applied = 0\n        held_surplus = 0\n        legacy_proceeds = H * L\n    shortfall = E - applied\n    bundles = (shortfall + B - 1) // B\n    purchased = bundles * B\n    surplus = (purchased - shortfall) + held_surplus\n    resale_price = price * (1 - D / 100)\n    net_outlay = purchased * price - surplus * resale_price - legacy_proceeds\n    return {\n        \"final\": net_outlay,\n        \"applied_held_credits\": applied,\n        \"bundles_purchased\": bundles,\n        \"surplus_credits\": surplus,\n    }\n"
+}

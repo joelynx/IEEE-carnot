@@ -1,0 +1,1652 @@
+[
+  {
+    "case_id": "t1_syn019aa4a6579c364f81cb",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn019aa4a6579c364f81cb",
+        "final_answer": {
+          "value": "29.1889"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "450"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "40.375"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "1178.5"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "29.1889": 5
+        },
+        "debt_issued": {
+          "450": 5
+        },
+        "repurchase_price": {
+          "40.375": 5
+        },
+        "equity_after": {
+          "1178.5": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "29.1889",
+            "debt_issued": "450",
+            "repurchase_price": "40.375",
+            "equity_after": "1178.5"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "db70a0d13a13ac4137b76f1474e875bbe79f403a0c7c4770db07a02e7d75f53d",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3181,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 856,
+                "output_tokens_details": {
+                  "thinking_tokens": 433
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3181,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 856,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3181,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3181
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0213695,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6574,
+                "session_id": "52f208ce-673d-4e56-8da1-95ab6cbf314b",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(1750)\n    D0 = Q(225)\n    sh = Q(40)\n    plan = Q(450)\n    fee_r = Q(\"0.03\")\n    ts_r = Q(\"0.26\")\n    cov = Q(\"0.8\")\n    # equity_after(N) = A + ts_r*N - fee_r*N - D0 - N\n    def eq_after(N):\n        return A + ts_r * N - fee_r * N - (D0 + N)\n    if (D0 + plan) > cov * eq_after(plan):\n        # (D0+N) = cov*(A - D0 + (ts_r - fee_r - 1)*N)\n        N = (cov * (A - D0) - D0) / (1 - cov * (ts_r - fee_r - 1))\n    else:\n        N = plan\n    fee = fee_r * N\n    net = N - fee\n    eq_with_cash = A + ts_r * N - fee - (D0 + N) + net\n    price = eq_with_cash / sh\n    bought = net / price\n    shares_after = sh - bought\n    equity_after = eq_with_cash - net\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 152
+              },
+              "rendered": {
+                "final": "29.1889",
+                "debt_issued": "450",
+                "repurchase_price": "40.375",
+                "equity_after": "1178.5"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "29.1889",
+            "debt_issued": "450",
+            "repurchase_price": "40.375",
+            "equity_after": "1178.5"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "e83e8ee7e65738398096f959c27759fb953e8242ccbfa194f78c014acb209f6a",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 889,
+                "output_tokens_details": {
+                  "thinking_tokens": 458
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 889,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0092936,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6790,
+                "session_id": "0d9a3f96-0d35-4290-a697-20a276167ca0",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(1750)\n    D0 = Q(225)\n    N = Q(40)\n    planned = Q(450)\n    fee_rate = Q(\"0.03\")\n    ts_rate = Q(\"0.26\")\n    cap = Q(\"0.8\")\n\n    # Equity after repurchase as a function of B: V + ts*B - fee*B - D0 - B = a - b*B\n    a = V - D0\n    b = 1 + fee_rate - ts_rate\n    # Covenant: (D0 + B) <= cap * (a - b*B)  =>  B <= (cap*a - D0) / (1 + cap*b)\n    Bmax = (cap * a - D0) / (1 + cap * b)\n    B = planned if planned <= Bmax else Bmax\n\n    fee = fee_rate * B\n    shield = ts_rate * B\n    net = B - fee\n    equity_with_cash = V + shield - fee + net - (D0 + B)\n    price = equity_with_cash / N\n    shares_bought = net / price\n    shares_after = N - shares_bought\n    equity_after = V + shield - fee - (D0 + B)\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 187
+              },
+              "rendered": {
+                "final": "29.1889",
+                "debt_issued": "450",
+                "repurchase_price": "40.375",
+                "equity_after": "1178.5"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "29.1889",
+            "debt_issued": "450",
+            "repurchase_price": "40.375",
+            "equity_after": "1178.5"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "17a1f3554df1f52ac7eede70bb787677e6589dd3330e87937942dc93732f20e5",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 857,
+                "output_tokens_details": {
+                  "thinking_tokens": 469
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 857,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0089736,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7493,
+                "session_id": "efcd53f8-a002-4b3c-afa4-5c4a30b32e6f",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(1750)\n    D0 = Q(225)\n    shares = Q(40)\n    N = Q(450)\n    fee_rate = Q(\"0.03\")\n    ts_rate = Q(\"0.26\")\n    cap = Q(\"0.8\")\n\n    def eq_after(n):\n        return V + ts_rate * n - fee_rate * n - D0 - n\n\n    if (D0 + N) / eq_after(N) > cap:\n        # D0 + N = cap * (V - D0 + (ts - fee - 1) N)\n        N = (cap * (V - D0) - D0) / (1 - cap * (ts_rate - fee_rate - 1))\n\n    fee = fee_rate * N\n    ts = ts_rate * N\n    net = N - fee\n    eq_with_cash = V + ts - fee - D0 - N + net\n    price = eq_with_cash / shares\n    repurchased = net / price\n    final_shares = shares - repurchased\n    eq_post = eq_with_cash - net\n    return {\n        \"final\": final_shares,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_post,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 273
+              },
+              "rendered": {
+                "final": "29.1889",
+                "debt_issued": "450",
+                "repurchase_price": "40.375",
+                "equity_after": "1178.5"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "29.1889",
+            "debt_issued": "450",
+            "repurchase_price": "40.375",
+            "equity_after": "1178.5"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "21cd2a017c19494ba9cc7fdc2519f08dedeb224f194c860912dfcab99e42be44",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 892,
+                "output_tokens_details": {
+                  "thinking_tokens": 479
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 892,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.009323600000000001,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7424,
+                "session_id": "eb98a9da-44b3-4c28-8420-21ea93b742a9",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(1750)\n    D0 = Q(225)\n    shares = Q(40)\n    plan = Q(450)\n    fee_r = Q(\"0.03\")\n    ts_r = Q(\"0.26\")\n    cap = Q(\"0.8\")\n\n    def eq_after(N):\n        return A + ts_r * N - fee_r * N - D0 - N\n\n    # covenant check at planned issue\n    if (D0 + plan) / eq_after(plan) > cap:\n        # (D0+N) = cap*(A - D0 + (ts_r - fee_r - 1)*N)\n        N = (cap * (A - D0) - D0) / (1 - cap * (ts_r - fee_r - 1))\n    else:\n        N = plan\n\n    fee = fee_r * N\n    shield = ts_r * N\n    net = N - fee\n    equity_before_rep = A + shield - fee + net - (D0 + N)\n    price = equity_before_rep / shares\n    repurchased = net / price\n    shares_after = shares - repurchased\n    equity_after = equity_before_rep - net\n\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 235
+              },
+              "rendered": {
+                "final": "29.1889",
+                "debt_issued": "450",
+                "repurchase_price": "40.375",
+                "equity_after": "1178.5"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "29.1889",
+            "debt_issued": "450",
+            "repurchase_price": "40.375",
+            "equity_after": "1178.5"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b7f2367b689c608410ff1d018c8955a3064c43f55d278c8cd2400a6edf180a40",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 1266,
+                "output_tokens_details": {
+                  "thinking_tokens": 845
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1266,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0130636,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 10125,
+                "session_id": "72df7973-027f-4799-a1a6-5ae90e49eab7",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(1750)\n    D0 = Q(225)\n    N = Q(40)\n    planned = Q(450)\n    fee_rate = Q(\"0.03\")\n    ts_rate = Q(\"0.26\")\n    cap = Q(\"0.8\")\n\n    def eq_post(B):\n        return V + ts_rate * B - fee_rate * B - D0 - B\n\n    # Covenant: (D0 + B) <= cap * (V - D0 + (ts_rate - fee_rate - 1) * B)\n    # Solve for the largest B meeting the limit exactly\n    Bmax = (cap * (V - D0) - D0) / (1 + cap * (1 - ts_rate + fee_rate))\n    if (D0 + planned) / eq_post(planned) > cap:\n        B = Bmax\n    else:\n        B = planned\n\n    fee = fee_rate * B\n    net = B - fee\n    equity_after = eq_post(B)\n    equity_before_repurchase = equity_after + net\n    price = equity_before_repurchase / N\n    repurchased = net / price\n    shares = N - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 255
+              },
+              "rendered": {
+                "final": "29.1889",
+                "debt_issued": "450",
+                "repurchase_price": "40.375",
+                "equity_after": "1178.5"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synd0022c62e25c9234720c",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synd0022c62e25c9234720c",
+        "final_answer": {
+          "value": "43.9535"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "350"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "3433/110"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "1371.75"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "43.9535": 5
+        },
+        "debt_issued": {
+          "350": 5
+        },
+        "repurchase_price": {
+          "3433/110": 5
+        },
+        "equity_after": {
+          "1371.75": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "43.9535",
+            "debt_issued": "350",
+            "repurchase_price": "3433/110",
+            "equity_after": "1371.75"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "ab7549920b3d7baf7b882f6cd59468cb0fb624a92e76b0500c4b6333b272cf77",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3183,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 814,
+                "output_tokens_details": {
+                  "thinking_tokens": 439
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3183,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 814,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3183,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3183
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.020957500000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6048,
+                "session_id": "c2afea34-fef1-4081-a0c7-79882ac1d364",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(1800)\n    D0 = Q(150)\n    N = Q(55)\n    planned = Q(350)\n    fee_r = Q(\"0.015\")\n    ts_r = Q(\"0.22\")\n    cap = Q(\"0.45\")\n\n    def equity(B):\n        return V + ts_r * B - fee_r * B - D0 - B\n\n    if (D0 + planned) / equity(planned) > cap:\n        # (D0+B) = cap*(V - D0 + (ts_r - fee_r - 1)*B)\n        B = (cap * (V - D0) - D0) / (1 - cap * (ts_r - fee_r - 1))\n        B = B if B < planned else planned\n    else:\n        B = planned\n\n    fee = fee_r * B\n    net = B - fee\n    eq_after = equity(B)\n    eq_just_after = eq_after + net\n    price = eq_just_after / N\n    repurchased = net / price\n    shares = N - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 287
+              },
+              "rendered": {
+                "final": "43.9535",
+                "debt_issued": "350",
+                "repurchase_price": "3433/110",
+                "equity_after": "1371.75"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "43.9535",
+            "debt_issued": "350",
+            "repurchase_price": "3433/110",
+            "equity_after": "1371.75"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b88b24d19b12f59eb926595a3697e8a5507077b9ce59af49033d300220b3fc8a",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3998,
+                "output_tokens": 1624,
+                "output_tokens_details": {
+                  "thinking_tokens": 1254
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1624,
+                    "cache_read_input_tokens": 3998,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0166438,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 16771,
+                "session_id": "634b1d05-6c16-4a07-8a0e-437c6bdcc71a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(1800)\n    D0 = Q(150)\n    N = Q(55)\n    fee_rate = Q(\"0.015\")\n    ts_rate = Q(\"0.22\")\n    cap = Q(\"0.45\")\n    planned = Q(350)\n    # covenant: (D0+B) <= cap*(A + ts*B - fee*B - D0 - B)\n    # D0 + B <= cap*(A - D0) - cap*(1 - ts + fee)*B\n    Bmax = (cap * (A - D0) - D0) / (1 + cap * (1 - ts_rate + fee_rate))\n    B = min(planned, Bmax)\n    fee = fee_rate * B\n    shield = ts_rate * B\n    equity_after = A + shield - fee - (D0 + B)\n    net = B - fee\n    equity_just_after = equity_after + net\n    price = equity_just_after / N\n    shares_after = N - net / price\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 168
+              },
+              "rendered": {
+                "final": "43.9535",
+                "debt_issued": "350",
+                "repurchase_price": "3433/110",
+                "equity_after": "1371.75"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "43.9535",
+            "debt_issued": "350",
+            "repurchase_price": "3433/110",
+            "equity_after": "1371.75"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "793bba71d83489b05338061231bc6377175eb47fce7ed76c2bfe00bd2d9967f3",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3998,
+                "output_tokens": 745,
+                "output_tokens_details": {
+                  "thinking_tokens": 360
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 745,
+                    "cache_read_input_tokens": 3998,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0078538,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6272,
+                "session_id": "262fa23d-2573-48cd-a45f-ff4d43d847a7",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(1800)\n    D0 = Q(150)\n    N = Q(55)\n    plan = Q(350)\n    fee_rate = Q(\"0.015\")\n    ts_rate = Q(\"0.22\")\n    cap = Q(\"0.45\")\n\n    # equity after = V + ts*B - fee*B - D0 - B = a - b*B\n    a = V - D0\n    b = 1 + fee_rate - ts_rate\n\n    def eq_after(B):\n        return a - b * B\n\n    if (D0 + plan) / eq_after(plan) > cap:\n        # D0 + B = cap*(a - b*B)\n        B = (cap * a - D0) / (1 + cap * b)\n    else:\n        B = plan\n\n    fee = fee_rate * B\n    net = B - fee\n    eq_after_v = eq_after(B)\n    eq_with_cash = eq_after_v + net\n    price = eq_with_cash / N\n    repurchased = net / price\n    shares = N - repurchased\n\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_after_v,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 249
+              },
+              "rendered": {
+                "final": "43.9535",
+                "debt_issued": "350",
+                "repurchase_price": "3433/110",
+                "equity_after": "1371.75"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "43.9535",
+            "debt_issued": "350",
+            "repurchase_price": "3433/110",
+            "equity_after": "1371.75"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "7c82e5537977ccce4041178d6c2dd985d8029c947db23e0bc5bf705a681a9cfd",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3998,
+                "output_tokens": 1387,
+                "output_tokens_details": {
+                  "thinking_tokens": 978
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1387,
+                    "cache_read_input_tokens": 3998,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.014273800000000001,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 13568,
+                "session_id": "fd2b62b8-833e-4c66-a400-f25b52a5c2c2",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(1800)\n    D0 = Q(150)\n    N = Q(55)\n    planned = Q(350)\n    fee_rate = Q(\"0.015\")\n    ts_rate = Q(\"0.22\")\n    cap = Q(\"0.45\")\n    # equity after = V + ts*B - fee*B - D0 - B ; covenant (D0+B) <= cap*equity_after\n    def eq_after(B):\n        return V + ts_rate * B - fee_rate * B - (D0 + B)\n    if (D0 + planned) <= cap * eq_after(planned):\n        B = planned\n    else:\n        # D0 + B = cap*(V - D0 + (ts - fee - 1)*B)\n        B = (cap * (V - D0) - D0) / (1 - cap * (ts_rate - fee_rate - 1))\n    fee = fee_rate * B\n    net = B - fee\n    eq_post = eq_after(B)\n    eq_just_after = eq_post + net\n    price = eq_just_after / N\n    shares_after = N - net / price\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_post,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 182
+              },
+              "rendered": {
+                "final": "43.9535",
+                "debt_issued": "350",
+                "repurchase_price": "3433/110",
+                "equity_after": "1371.75"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "43.9535",
+            "debt_issued": "350",
+            "repurchase_price": "3433/110",
+            "equity_after": "1371.75"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "110630ac3b4c5e90076d8c1c34ba9dc3cdeb8086820c03e8022e2df1a3520dd7",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3183,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 1300,
+                "output_tokens_details": {
+                  "thinking_tokens": 965
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3183,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1300,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3183,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3183
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0258175,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 11014,
+                "session_id": "9d2bd9e9-149d-4716-9abe-3565a0c5c532",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(1800)\n    D0 = Q(150)\n    sh = Q(55)\n    N = Q(350)\n    fee_rate = Q(\"0.015\")\n    ts_rate = Q(\"0.22\")\n    cap = Q(\"0.45\")\n\n    def eq_after(n):\n        return V + ts_rate * n - fee_rate * n - D0 - n\n\n    if (D0 + N) / eq_after(N) > cap:\n        # (D0+n) = cap*(V + ts n - fee n - D0 - n)\n        N = (cap * (V - D0) - D0) / (1 + cap * (1 - ts_rate + fee_rate))\n    eq = eq_after(N)\n    net = N * (1 - fee_rate)\n    price = (eq + net) / sh\n    repurchased = net / price\n    shares = sh - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 247
+              },
+              "rendered": {
+                "final": "43.9535",
+                "debt_issued": "350",
+                "repurchase_price": "3433/110",
+                "equity_after": "1371.75"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synde8653648032c8e47f25",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synde8653648032c8e47f25",
+        "final_answer": {
+          "value": "32.7927"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "47000/259"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "33785/2331"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "123100/259"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "32.7927": 5
+        },
+        "debt_issued": {
+          "47000/259": 5
+        },
+        "repurchase_price": {
+          "33785/2331": 5
+        },
+        "equity_after": {
+          "123100/259": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "32.7927",
+            "debt_issued": "47000/259",
+            "repurchase_price": "33785/2331",
+            "equity_after": "123100/259"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5a58cd887c1b05b764d3fc506cc38f355b5d5db3d104c0d1e8b998c95e7bc8af",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3182,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 786,
+                "output_tokens_details": {
+                  "thinking_tokens": 390
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3182,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 786,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3182,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3182
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0206735,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8658,
+                "session_id": "674c2947-9745-444c-85f0-ee8bf733569c",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(800)\n    D0 = Q(175)\n    S0 = Q(45)\n    planned = Q(700)\n    fee_rate = Q(\"0.025\")\n    ts_rate = Q(\"0.2\")\n    cap = Q(\"0.75\")\n\n    def ratio_ok(N):\n        eq = V + ts_rate * N - fee_rate * N - D0 - N\n        return (D0 + N) <= cap * eq\n\n    if ratio_ok(planned):\n        N = planned\n    else:\n        # (D0+N) = cap*(V - D0 + (ts-fee-1)N)\n        N = (cap * (V - D0) - D0) / (1 + cap * (1 - ts_rate + fee_rate))\n\n    fee = fee_rate * N\n    net = N - fee\n    eq_after = V + ts_rate * N - fee - D0 - N\n    eq_with_cash = eq_after + net\n    price = eq_with_cash / S0\n    repurchased = net / price\n    shares = S0 - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 261
+              },
+              "rendered": {
+                "final": "32.7927",
+                "debt_issued": "47000/259",
+                "repurchase_price": "33785/2331",
+                "equity_after": "123100/259"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "32.7927",
+            "debt_issued": "47000/259",
+            "repurchase_price": "33785/2331",
+            "equity_after": "123100/259"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "a2f279bf91bc85f4d9a75b0d8c5bba3b47600cba597d74e63b4bf7db386c63ef",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3997,
+                "output_tokens": 1097,
+                "output_tokens_details": {
+                  "thinking_tokens": 667
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1097,
+                    "cache_read_input_tokens": 3997,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0113737,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8305,
+                "session_id": "b59ece0e-90c1-46c0-98c7-c0f1cac659b0",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(800)\n    D0 = Q(175)\n    N = Q(45)\n    planned = Q(700)\n    fee_rate = Q(\"0.025\")\n    ts_rate = Q(\"0.2\")\n    cap = Q(\"0.75\")\n    # equity after = A + ts*B - fee*B - D0 - B ; covenant: (D0+B) <= cap*equity_after\n    def eq_after(B):\n        return A + ts_rate * B - fee_rate * B - D0 - B\n    if (D0 + planned) <= cap * eq_after(planned):\n        B = planned\n    else:\n        # D0 + B = cap*(A - D0 + (ts - fee - 1)*B)\n        B = (cap * (A - D0) - D0) / (1 - cap * (ts_rate - fee_rate - 1))\n    fee = fee_rate * B\n    net = B - fee\n    equity_pre = A + ts_rate * B - fee - D0 - B + net\n    price = equity_pre / N\n    repurchased = net / price\n    shares = N - repurchased\n    eq_after_val = eq_after(B)\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_after_val,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 200
+              },
+              "rendered": {
+                "final": "32.7927",
+                "debt_issued": "47000/259",
+                "repurchase_price": "33785/2331",
+                "equity_after": "123100/259"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "32.7927",
+            "debt_issued": "47000/259",
+            "repurchase_price": "33785/2331",
+            "equity_after": "123100/259"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "140de9df8a6e5b6eb22df179479c8a999c7edc4be533ac356d2c9639caa5cd38",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3997,
+                "output_tokens": 797,
+                "output_tokens_details": {
+                  "thinking_tokens": 396
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 797,
+                    "cache_read_input_tokens": 3997,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0083737,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6872,
+                "session_id": "99cded24-48cd-4fec-b074-faf21bd1469b",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(800)\n    D0 = Q(175)\n    sh = Q(45)\n    planned = Q(700)\n    fee_r = Q(\"0.025\")\n    ts_r = Q(\"0.2\")\n    cap = Q(\"0.75\")\n\n    def eq_after(N):\n        return A + ts_r * N - fee_r * N - D0 - N\n\n    if (D0 + planned) <= cap * eq_after(planned) and eq_after(planned) > 0:\n        N = planned\n    else:\n        # (D0+N) = cap*(A + ts*N - fee*N - D0 - N)\n        N = (cap * (A - D0) - D0) / (1 + cap * (1 - ts_r + fee_r))\n        if N > planned:\n            N = planned\n\n    net = N * (1 - fee_r)\n    eq_before_repurchase = eq_after(N) + net\n    price = eq_before_repurchase / sh\n    repurchased = net / price\n    shares_after = sh - repurchased\n    equity_after = eq_after(N)\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 210
+              },
+              "rendered": {
+                "final": "32.7927",
+                "debt_issued": "47000/259",
+                "repurchase_price": "33785/2331",
+                "equity_after": "123100/259"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "32.7927",
+            "debt_issued": "47000/259",
+            "repurchase_price": "33785/2331",
+            "equity_after": "123100/259"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "c11267f29d4e5a680c843981a019816cd8d88fb4198913d56340096a641ef77e",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3997,
+                "output_tokens": 1808,
+                "output_tokens_details": {
+                  "thinking_tokens": 1435
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1808,
+                    "cache_read_input_tokens": 3997,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0184837,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 14260,
+                "session_id": "b4574508-cea2-4a47-9058-9c7b285d4ef6",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    Vu = Q(800)\n    D0 = Q(175)\n    N = Q(45)\n    plan = Q(700)\n    fee_rate = Q(\"0.025\")\n    ts_rate = Q(\"0.2\")\n    cap = Q(\"0.75\")\n\n    def eq_after(B):\n        return Vu + ts_rate * B - fee_rate * B - D0 - B\n\n    if (D0 + plan) <= cap * eq_after(plan):\n        B = plan\n    else:\n        # (D0+B) = cap*(Vu - D0 + (ts-fee-1)*B)\n        B = (cap * (Vu - D0) - D0) / (1 - cap * (ts_rate - fee_rate - 1))\n    fee = fee_rate * B\n    net = B - fee\n    eq_post = eq_after(B)\n    eq_before = eq_post + net\n    price = eq_before / N\n    repurchased = net / price\n    shares = N - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_post,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 313
+              },
+              "rendered": {
+                "final": "32.7927",
+                "debt_issued": "47000/259",
+                "repurchase_price": "33785/2331",
+                "equity_after": "123100/259"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "32.7927",
+            "debt_issued": "47000/259",
+            "repurchase_price": "33785/2331",
+            "equity_after": "123100/259"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "f7050701d437af453865b58f32b208a274bb83bfbcd9763a9ab31ba3ed835c6d",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3997,
+                "output_tokens": 1218,
+                "output_tokens_details": {
+                  "thinking_tokens": 837
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1218,
+                    "cache_read_input_tokens": 3997,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0125837,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 9917,
+                "session_id": "ea3647d3-8b3f-4c56-837f-ae15667055f5",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    V = Q(800)\n    D0 = Q(175)\n    S0 = Q(45)\n    N_plan = Q(700)\n    fee_rate = Q(\"0.025\")\n    ts_rate = Q(\"0.2\")\n    cap = Q(\"0.75\")\n\n    def eq_after(N):\n        return V + ts_rate * N - fee_rate * N - (D0 + N)\n\n    if (D0 + N_plan) <= cap * eq_after(N_plan):\n        N = N_plan\n    else:\n        # D0 + N = cap*(V + ts*N - fee*N - D0 - N)\n        N = (cap * (V - D0) - D0) / (1 + cap * (1 + fee_rate - ts_rate))\n\n    net = N * (1 - fee_rate)\n    eq_a = eq_after(N)\n    eq_with_cash = eq_a + net\n    price = eq_with_cash / S0\n    repurchased = net / price\n    shares = S0 - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_a,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 193
+              },
+              "rendered": {
+                "final": "32.7927",
+                "debt_issued": "47000/259",
+                "repurchase_price": "33785/2331",
+                "equity_after": "123100/259"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synaba091ae5ec3c2435792",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synaba091ae5ec3c2435792",
+        "final_answer": {
+          "value": "71.9563"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "817500/2497"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "807365/44946"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "3227500/2497"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "71.9563": 4,
+          "71.9928": 1
+        },
+        "debt_issued": {
+          "817500/2497": 5
+        },
+        "repurchase_price": {
+          "807365/44946": 4,
+          "404500/22473": 1
+        },
+        "equity_after": {
+          "3227500/2497": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "71.9563",
+            "debt_issued": "817500/2497",
+            "repurchase_price": "807365/44946",
+            "equity_after": "3227500/2497"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "ff2216c258ffd979cdd68ff63c1d6b0d64e009b31ab19b7c1190126d94bdbe6d",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3181,
+                "cache_read_input_tokens": 815,
+                "output_tokens": 1360,
+                "output_tokens_details": {
+                  "thinking_tokens": 982
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3181,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1360,
+                    "cache_read_input_tokens": 815,
+                    "cache_creation_input_tokens": 3181,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3181
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.026409500000000002,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 11313,
+                "session_id": "ae4fa5d1-42bf-49a5-a926-1edc29794acd",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(1650)\n    D0 = Q(125)\n    N = Q(90)\n    B_plan = Q(550)\n    fee_rate = Q(\"0.01\")\n    shield = Q(\"0.3\")\n    cap = Q(\"0.35\")\n\n    def eq_post(B):\n        return A + shield * B - fee_rate * B - (D0 + B)\n\n    if (D0 + B_plan) / eq_post(B_plan) > cap:\n        # (D0+B) = cap*(A - D0 + (shield - fee - 1)*B)\n        k = shield - fee_rate - 1\n        B = (cap * (A - D0) - D0) / (1 - cap * k)\n    else:\n        B = B_plan\n\n    fee = fee_rate * B\n    net = B - fee\n    equity_after = eq_post(B)\n    equity_with_cash = equity_after + net\n    price = equity_with_cash / N\n    repurchased = net / price\n    shares = N - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 235
+              },
+              "rendered": {
+                "final": "71.9563",
+                "debt_issued": "817500/2497",
+                "repurchase_price": "807365/44946",
+                "equity_after": "3227500/2497"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "71.9563",
+            "debt_issued": "817500/2497",
+            "repurchase_price": "807365/44946",
+            "equity_after": "3227500/2497"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "44b81239a57040ea26d9c764b7c6cf1965ffbac7665b4b61cc1b9eae2e6f6f3c",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 859,
+                "output_tokens_details": {
+                  "thinking_tokens": 447
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 859,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.008993600000000001,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6355,
+                "session_id": "f6fe6c77-17f7-4299-9c3b-def05e92bc56",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(1650)\n    D0 = Q(125)\n    S0 = Q(90)\n    planned = Q(550)\n    fee_rate = Q(\"0.01\")\n    ts_rate = Q(\"0.3\")\n    cap = Q(\"0.35\")\n\n    def ratio_ok(N):\n        eq = A + ts_rate * N - fee_rate * N - (D0 + N)\n        return (D0 + N) <= cap * eq\n\n    if ratio_ok(planned):\n        N = planned\n    else:\n        # D0 + N = cap*(A - D0 + (ts - fee - 1)*N)\n        k = ts_rate - fee_rate - 1\n        N = (cap * (A - D0) - D0) / (1 - cap * k)\n\n    fee = fee_rate * N\n    net = N - fee\n    eq_just_after = A + ts_rate * N - fee - (D0 + N) + net\n    price = eq_just_after / S0\n    repurchased = net / price\n    shares_after = S0 - repurchased\n    equity_after = eq_just_after - net\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": N,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 244
+              },
+              "rendered": {
+                "final": "71.9563",
+                "debt_issued": "817500/2497",
+                "repurchase_price": "807365/44946",
+                "equity_after": "3227500/2497"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "71.9928",
+            "debt_issued": "817500/2497",
+            "repurchase_price": "404500/22473",
+            "equity_after": "3227500/2497"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "9fd970b4d0a9771ae939a0815287e7ee985189797f9f14e55f6cffebd447569d",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 988,
+                "output_tokens_details": {
+                  "thinking_tokens": 585
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 988,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0102836,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 10968,
+                "session_id": "0cd5f8af-7f06-47b6-8a2c-531ce1def421",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    E0 = Q(1650)\n    D0 = Q(125)\n    N = Q(90)\n    B_plan = Q(550)\n    fee_rate = Q(\"0.01\")\n    ts_rate = Q(\"0.3\")\n    cap = Q(\"0.35\")\n\n    def eq_after(B):\n        return E0 + ts_rate * B - fee_rate * B - D0 - B\n\n    if (D0 + B_plan) / eq_after(B_plan) > cap:\n        # D0 + B = cap * (E0 - D0 + (ts_rate - fee_rate - 1) * B)\n        k = ts_rate - fee_rate - 1\n        B = (cap * (E0 - D0) - D0) / (1 - cap * k)\n    else:\n        B = B_plan\n\n    net = B * (1 - fee_rate)\n    eq_before = E0 + ts_rate * B + net - D0 - B\n    price = eq_before / N\n    eq_post = eq_after(B)\n    shares_rep = net / price\n    shares = N - shares_rep\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": eq_post,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 289
+              },
+              "rendered": {
+                "final": "71.9928",
+                "debt_issued": "817500/2497",
+                "repurchase_price": "404500/22473",
+                "equity_after": "3227500/2497"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "71.9563",
+            "debt_issued": "817500/2497",
+            "repurchase_price": "807365/44946",
+            "equity_after": "3227500/2497"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "d4cf8cccd99548122c2b49f4356a255377d3f83be997838410ddb0b92cebecd9",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 1141,
+                "output_tokens_details": {
+                  "thinking_tokens": 754
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1141,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0118136,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8828,
+                "session_id": "a580f4b8-973a-4684-a5fc-0981741483a9",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(1650)\n    D0 = Q(125)\n    N = Q(90)\n    plan = Q(550)\n    fee_r = Q(\"0.01\")\n    ts_r = Q(\"0.3\")\n    cap = Q(\"0.35\")\n\n    def eq_after(x):\n        return A + ts_r * x - fee_r * x - (D0 + x)\n\n    x = plan\n    if (D0 + x) / eq_after(x) > cap:\n        # (D0+x) = cap*(A - D0 + (ts_r - fee_r - 1 + 1)*x ... solved linearly\n        # D0 + x = cap*(A - D0 - (1 + fee_r - ts_r)*x)\n        x = (cap * (A - D0) - D0) / (1 + cap * (1 + fee_r - ts_r))\n    net = x * (1 - fee_r)\n    eq = eq_after(x)\n    price = (eq + net) / N\n    repurchased = net / price\n    shares = N - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": x,\n        \"repurchase_price\": price,\n        \"equity_after\": eq,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 145
+              },
+              "rendered": {
+                "final": "71.9563",
+                "debt_issued": "817500/2497",
+                "repurchase_price": "807365/44946",
+                "equity_after": "3227500/2497"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "71.9563",
+            "debt_issued": "817500/2497",
+            "repurchase_price": "807365/44946",
+            "equity_after": "3227500/2497"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "9fd05b3ac5831b5ea9e0e0be5c682f9f1b954f25c6c7bbcc130df5f0577e0b7e",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 3996,
+                "output_tokens": 1022,
+                "output_tokens_details": {
+                  "thinking_tokens": 553
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1022,
+                    "cache_read_input_tokens": 3996,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0106236,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8610,
+                "session_id": "54e986db-1844-4270-ad96-eddd13556918",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(1650)\n    D0 = Q(125)\n    N = Q(90)\n    B_plan = Q(550)\n    fee_rate = Q(\"0.01\")\n    ts_rate = Q(\"0.30\")\n    cap = Q(\"0.35\")\n\n    def eq_post(B):\n        return A + ts_rate * B - fee_rate * B - (D0 + B)\n\n    if (D0 + B_plan) / eq_post(B_plan) > cap:\n        # (D0+B) = cap*(A - D0 + (ts-fee-1)*B + D0) -> solve linear\n        # D0 + B = cap*(A - D0 ... ) handled directly below\n        # eq_post(B) = a0 + a1*B\n        a0 = A - D0\n        a1 = ts_rate - fee_rate - 1\n        # D0 + B = cap*(a0 + a1*B)\n        B = (cap * a0 - D0) / (1 - cap * a1)\n    else:\n        B = B_plan\n\n    fee = fee_rate * B\n    net = B - fee\n    equity_after = eq_post(B)\n    equity_pre = equity_after + net\n    price = equity_pre / N\n    repurchased = net / price\n    shares = N - repurchased\n    return {\n        \"final\": shares,\n        \"debt_issued\": B,\n        \"repurchase_price\": price,\n        \"equity_after\": equity_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 311
+              },
+              "rendered": {
+                "final": "71.9563",
+                "debt_issued": "817500/2497",
+                "repurchase_price": "807365/44946",
+                "equity_after": "3227500/2497"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

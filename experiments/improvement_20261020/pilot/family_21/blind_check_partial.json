@@ -1,0 +1,508 @@
+[
+  {
+    "case_id": "t1_syn1c9e91a79fa72e52b0cd",
+    "verdicts": {
+      "final": true,
+      "initial_var": true,
+      "applied_hedge_notional": true,
+      "applied_var": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn1c9e91a79fa72e52b0cd",
+        "final_answer": {
+          "value": "2.3272"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_var",
+            "value": "10.682905"
+          },
+          {
+            "slot_id": "applied_hedge_notional",
+            "value": "-1152/11"
+          },
+          {
+            "slot_id": "applied_var",
+            "value": "8.608347"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "2.3272": 1
+        },
+        "initial_var": {
+          "10.682905": 1
+        },
+        "applied_hedge_notional": {
+          "-1152/11": 1
+        },
+        "applied_var": {
+          "8.608347": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "2.3272",
+            "initial_var": "10.682905",
+            "applied_hedge_notional": "-1152/11",
+            "applied_var": "8.608347"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "dba45c6f5b2a60e3917455cec4a67325105823eb6398c944c4d01124c18f3e3a",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1302,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 855,
+                "output_tokens_details": {
+                  "thinking_tokens": 330
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1302,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 855,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1302,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1302
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.06906,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 9901,
+                "session_id": "45163333-7b4d-48c8-be3f-297e34c34450",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    long_notional = Q(160)\n    hedge_notional = Q(140)\n    vol_a = Q(\"0.024\")\n    vol_b = Q(\"0.011\")\n    rho = Q(\"-0.30\")\n    k = Q(\"2.35\")\n    limit = Q(\"2.5\")\n\n    def hedged_var(h):\n        # hedged daily variance with short hedge notional h\n        var_daily = (long_notional * vol_a) ** 2 + (h * vol_b) ** 2 \\\n            - 2 * rho * vol_a * vol_b * long_notional * h\n        return k * sqrt(var_daily)\n\n    initial_var = hedged_var(hedge_notional)\n\n    if initial_var <= limit:\n        applied_hedge = hedge_notional\n        applied_var = initial_var\n        rebal_cost = Q(0)\n    else:\n        # minimum-variance hedge notional (negative => long B)\n        applied_hedge = rho * (vol_a / vol_b) * long_notional\n        applied_var = hedged_var(applied_hedge)\n        rebal_cost = Q(\"0.001\") * abs(applied_hedge - hedge_notional)\n\n    rate = Q(\"0.10\")\n    within = min(applied_var, limit)\n    excess = max(applied_var - limit, 0)\n    capital_charge = rate * within + 3 * rate * excess + rebal_cost\n\n    return {\n        \"final\": capital_charge,\n        \"initial_var\": initial_var,\n        \"applied_hedge_notional\": applied_hedge,\n        \"applied_var\": applied_var,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 231
+              },
+              "rendered": {
+                "final": "2.3272",
+                "initial_var": "10.682905",
+                "applied_hedge_notional": "-1152/11",
+                "applied_var": "8.608347"
+              },
+              "issues": {},
+              "flags": [
+                "final:inexact",
+                "initial_var:inexact",
+                "applied_var:inexact"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_sync2654ae2c6660a794701",
+    "verdicts": {
+      "final": true,
+      "initial_var": true,
+      "applied_hedge_notional": true,
+      "applied_var": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_sync2654ae2c6660a794701",
+        "final_answer": {
+          "value": "1.8088"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_var",
+            "value": "11.328912"
+          },
+          {
+            "slot_id": "applied_hedge_notional",
+            "value": "384/11"
+          },
+          {
+            "slot_id": "applied_var",
+            "value": "6.593628"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1.8088": 1
+        },
+        "initial_var": {
+          "11.328912": 1
+        },
+        "applied_hedge_notional": {
+          "384/11": 1
+        },
+        "applied_var": {
+          "6.593628": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1.8088",
+            "initial_var": "11.328912",
+            "applied_hedge_notional": "384/11",
+            "applied_var": "6.593628"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "36f475f5a213d0f4fee1b7c224240f685d59d9d17d86ab52f610b5eb75872392",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1300,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 619,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1300,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 619,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1300,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1300
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05721999999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7001,
+                "session_id": "9f51e712-d634-4b29-81f2-ce70425b572d",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    long_notional = 160          # USD million, long asset A\n    hedge_notional = 190         # USD million, short asset B\n    vol_a = 0.024\n    vol_b = 0.033\n    rho = 0.30\n    var_mult = 1.8\n    limit = 3                    # USD million\n    cost_rate = 0.001            # 0.10 percent of absolute change in hedge\n    charge_rate = 0.12\n\n    def hedged_var(h):\n        # hedged daily variance: long var + hedge var - 2*rho*volA*volB*NA*h\n        variance = (long_notional * vol_a) ** 2 + (h * vol_b) ** 2 \\\n                   - 2 * rho * vol_a * vol_b * long_notional * h\n        return var_mult * sqrt(variance)\n\n    initial_var = hedged_var(hedge_notional)\n\n    if initial_var <= limit:\n        applied_hedge = hedge_notional\n        applied_var = initial_var\n        rebalance_cost = 0\n    else:\n        # minimum-variance hedge: rho * (volA/volB) * long notional\n        applied_hedge = rho * vol_a / vol_b * long_notional\n        applied_var = hedged_var(applied_hedge)\n        rebalance_cost = cost_rate * abs(applied_hedge - hedge_notional)\n\n    # capital charge: 12% of VaR up to limit, 36% on excess above limit, plus cost\n    within = min(applied_var, limit)\n    excess = max(applied_var - limit, 0)\n    capital_charge = charge_rate * within + 3 * charge_rate * excess + rebalance_cost\n\n    return {\n        \"final\": capital_charge,\n        \"initial_var\": initial_var,\n        \"applied_hedge_notional\": applied_hedge,\n        \"applied_var\": applied_var,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 211
+              },
+              "rendered": {
+                "final": "1.8088",
+                "initial_var": "11.328912",
+                "applied_hedge_notional": "384/11",
+                "applied_var": "6.593628"
+              },
+              "issues": {},
+              "flags": [
+                "final:inexact",
+                "initial_var:inexact",
+                "applied_var:inexact"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn365ccb4ea9a45c24dced",
+    "verdicts": {
+      "final": true,
+      "initial_var": true,
+      "applied_hedge_notional": true,
+      "applied_var": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn365ccb4ea9a45c24dced",
+        "final_answer": {
+          "value": "1.7275"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_var",
+            "value": "14.538935"
+          },
+          {
+            "slot_id": "applied_hedge_notional",
+            "value": "0"
+          },
+          {
+            "slot_id": "applied_var",
+            "value": "7.425000"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1.7275": 1
+        },
+        "initial_var": {
+          "14.538935": 1
+        },
+        "applied_hedge_notional": {
+          "0": 1
+        },
+        "applied_var": {
+          "7.425000": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1.7275",
+            "initial_var": "14.538935",
+            "applied_hedge_notional": "0",
+            "applied_var": "7.425000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "edf49bfb68410b3c155b20ac6cd02b3845572d589fe1ff2ecc825716568c556a",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1302,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 623,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1302,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 623,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1302,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1302
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05746,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 7142,
+                "session_id": "1446f315-9720-4eb4-b21f-cc9c87e55143",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    long_notional = Q(\"110\")   # USD million, asset A\n    hedge_notional = Q(\"200\")  # USD million, short in asset B\n    vol_a = Q(\"0.027\")\n    vol_b = Q(\"0.025\")\n    rho = Q(\"0\")\n    var_mult = Q(\"2.5\")\n    limit = Q(\"3.5\")\n    rebal_rate = Q(\"0.001\")   # 0.10 percent of absolute change in hedge notional\n    charge_rate = Q(\"0.10\")\n\n    def hedged_var(h):\n        variance = (long_notional * vol_a) ** 2 + (h * vol_b) ** 2 \\\n                   - 2 * rho * vol_a * vol_b * long_notional * h\n        return var_mult * sqrt(variance)\n\n    # Initial VaR with stated hedge\n    initial_var = hedged_var(hedge_notional)\n\n    if initial_var <= limit:\n        applied_hedge = hedge_notional\n        applied_var = initial_var\n        rebal_cost = Q(\"0\")\n    else:\n        # Minimum-variance hedge notional\n        applied_hedge = rho * (vol_a / vol_b) * long_notional\n        applied_var = hedged_var(applied_hedge)\n        rebal_cost = rebal_rate * abs(applied_hedge - hedge_notional)\n\n    # Capital charge: 10% of VaR up to limit, 30% on excess above limit, plus rebalancing cost\n    within = min(applied_var, limit)\n    excess = max(applied_var - limit, Q(\"0\"))\n    capital_charge = charge_rate * within + 3 * charge_rate * excess + rebal_cost\n\n    return {\n        \"final\": capital_charge,\n        \"initial_var\": initial_var,\n        \"applied_hedge_notional\": applied_hedge,\n        \"applied_var\": applied_var,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 179
+              },
+              "rendered": {
+                "final": "1.7275",
+                "initial_var": "14.538935",
+                "applied_hedge_notional": "0",
+                "applied_var": "7.425000"
+              },
+              "issues": {},
+              "flags": [
+                "initial_var:inexact"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn90d072dc4ad6bd8d3c22",
+    "verdicts": {
+      "final": true,
+      "initial_var": true,
+      "applied_hedge_notional": true,
+      "applied_var": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn90d072dc4ad6bd8d3c22",
+        "final_answer": {
+          "value": "0.4485"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_var",
+            "value": "3.737476"
+          },
+          {
+            "slot_id": "applied_hedge_notional",
+            "value": "70"
+          },
+          {
+            "slot_id": "applied_var",
+            "value": "3.737476"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "0.4485": 1
+        },
+        "initial_var": {
+          "3.737476": 1
+        },
+        "applied_hedge_notional": {
+          "70": 1
+        },
+        "applied_var": {
+          "3.737476": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "0.4485",
+            "initial_var": "3.737476",
+            "applied_hedge_notional": "70",
+            "applied_var": "3.737476"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "460832b471d5a35cc2a432ba899391314e37a7118141a0170756e47602dc856c",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1300,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 546,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1300,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 546,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1300,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1300
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05357,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6666,
+                "session_id": "83de275b-a716-4893-bff4-e1fae47ac41a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    A = Q(60)          # long notional in asset A, USD million\n    H = Q(70)          # short hedge notional in asset B, USD million\n    sA = Q(\"0.021\")    # daily vol A\n    sB = Q(\"0.025\")    # daily vol B\n    rho = Q(\"0.40\")    # correlation\n    k = Q(\"2.2\")       # VaR multiplier\n    limit = Q(4)       # VaR limit, USD million\n    rate = Q(\"0.12\")   # capital rate up to limit\n    rebal_rate = Q(\"0.001\")  # 0.10% rebalancing cost\n\n    def var_with_hedge(h):\n        var = (A * sA) ** 2 + (h * sB) ** 2 - 2 * rho * sA * sB * A * h\n        return k * sqrt(var)\n\n    initial_var = var_with_hedge(H)\n\n    if initial_var <= limit:\n        applied_hedge = H\n        applied_var = initial_var\n        rebal_cost = Q(0)\n    else:\n        applied_hedge = rho * (sA / sB) * A   # minimum-variance hedge notional\n        applied_var = var_with_hedge(applied_hedge)\n        rebal_cost = rebal_rate * abs(applied_hedge - H)\n\n    within = min(applied_var, limit)\n    excess = max(applied_var - limit, 0)\n    charge = rate * within + 3 * rate * excess + rebal_cost\n\n    return {\n        \"final\": charge,\n        \"initial_var\": initial_var,\n        \"applied_hedge_notional\": applied_hedge,\n        \"applied_var\": applied_var,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 287
+              },
+              "rendered": {
+                "final": "0.4485",
+                "initial_var": "3.737476",
+                "applied_hedge_notional": "70",
+                "applied_var": "3.737476"
+              },
+              "issues": {},
+              "flags": [
+                "final:inexact",
+                "initial_var:inexact",
+                "applied_var:inexact"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

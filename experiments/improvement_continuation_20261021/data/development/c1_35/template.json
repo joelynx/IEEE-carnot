@@ -1,0 +1,142 @@
+{
+ "name": "short_fx_carry_capped_net_pnl",
+ "domain_id": "financial_markets",
+ "topic_id": "forex_trading",
+ "difficulty": "intermediate",
+ "params": {
+  "UNITS": {
+   "kind": "int",
+   "min": 10000,
+   "max": 200000,
+   "step": 10000
+  },
+  "OPEN": {
+   "kind": "decimal",
+   "min": "1.0500",
+   "max": "1.3500",
+   "step": "0.0050"
+  },
+  "CLOSE": {
+   "kind": "decimal",
+   "min": "1.0300",
+   "max": "1.3700",
+   "step": "0.0050"
+  },
+  "R_BASE": {
+   "kind": "decimal",
+   "min": "0.00",
+   "max": "6.00",
+   "step": "0.25"
+  },
+  "R_QUOTE": {
+   "kind": "decimal",
+   "min": "0.00",
+   "max": "6.00",
+   "step": "0.25"
+  },
+  "DAYS": {
+   "kind": "int",
+   "min": 2,
+   "max": 30,
+   "step": 1
+  },
+  "MARKUP": {
+   "kind": "decimal",
+   "min": "0.00",
+   "max": "1.00",
+   "step": "0.25"
+  },
+  "CAP": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 5
+  }
+ },
+ "question_template": "A trader shorts {UNITS} units of base currency quoted at USD {OPEN} per unit, closing {DAYS} days later at USD {CLOSE}. Notional = units x open rate, fixed throughout. Annual rates: base {R_BASE}%, USD {R_QUOTE}%. The short pays the base rate and receives the USD rate: daily gross carry = notional x (USD rate - base rate)/360, positive when earned. Every day the broker also deducts a financing markup of {MARKUP}% per year on notional, whatever the sign. Daily net carry = gross minus markup; if positive it is capped at USD {CAP} per day, negatives are not floored. Total carry = daily net carry x days. Price P&L = (open - close) x units. Add carry and price P&L, deduct a USD 10 commission, then charge a 20% performance fee only if the post-commission amount is positive. Report the net total P&L in USD, negative for a loss.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "daily_net_carry",
+   "description": "Signed daily net carry after markup and cap, USD per day",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_per_day",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "total_carry",
+   "description": "Signed total carry over the holding period in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "price_pnl",
+   "description": "Signed price P&L of the short position in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    units = Fraction(P[\"UNITS\"])\n    s0 = Fraction(P[\"OPEN\"])\n    s1 = Fraction(P[\"CLOSE\"])\n    rb = Fraction(P[\"R_BASE\"]) / 100\n    rq = Fraction(P[\"R_QUOTE\"]) / 100\n    days = Fraction(P[\"DAYS\"])\n    markup = Fraction(P[\"MARKUP\"]) / 100\n    cap = Fraction(P[\"CAP\"])\n    notional = units * s0\n    gross_daily = notional * (rq - rb) / 360\n    markup_daily = notional * markup / 360\n    net_daily = gross_daily - markup_daily\n    if net_daily > cap:\n        net_daily = cap\n    total_carry = net_daily * days\n    price_pnl = (s0 - s1) * units\n    after_comm = total_carry + price_pnl - 10\n    if after_comm > 0:\n        final = after_comm * Fraction(4, 5)\n    else:\n        final = after_comm\n    return {\"final\": final, \"daily_net_carry\": net_daily, \"total_carry\": total_carry, \"price_pnl\": price_pnl}",
+ "coverage_params": [
+  {
+   "UNITS": 100000,
+   "OPEN": "1.2000",
+   "CLOSE": "1.1800",
+   "R_BASE": "1.00",
+   "R_QUOTE": "5.00",
+   "DAYS": 10,
+   "MARKUP": "0.50",
+   "CAP": 10
+  },
+  {
+   "UNITS": 50000,
+   "OPEN": "1.3000",
+   "CLOSE": "1.3200",
+   "R_BASE": "5.00",
+   "R_QUOTE": "2.00",
+   "DAYS": 5,
+   "MARKUP": "0.25",
+   "CAP": 20
+  },
+  {
+   "UNITS": 20000,
+   "OPEN": "1.1000",
+   "CLOSE": "1.1000",
+   "R_BASE": "2.00",
+   "R_QUOTE": "3.00",
+   "DAYS": 30,
+   "MARKUP": "0.00",
+   "CAP": 50
+  },
+  {
+   "UNITS": 150000,
+   "OPEN": "1.2500",
+   "CLOSE": "1.2450",
+   "R_BASE": "3.00",
+   "R_QUOTE": "3.25",
+   "DAYS": 20,
+   "MARKUP": "0.50",
+   "CAP": 5
+  }
+ ]
+}

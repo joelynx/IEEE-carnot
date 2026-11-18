@@ -1,0 +1,227 @@
+{
+ "family": "c1_28",
+ "template_sha256": "94c2a248e70243596f516e9493acf3af1246f9ac466c40e0b0322955ef26c203",
+ "draws_sha256": "3e302f039ca632f5a698f96a3b3fdad27353f1f09bdd72ca2e3ee32c66aa2d20",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "34e6c80dee9163806a16f7677c08aa4410e758cfb5c1e1b2717c2da8bd4a3385",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1832,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 655,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1832,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 655,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1832,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1832
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0695605
+  }
+ ],
+ "program": "def solve():\n    gross_t1 = Fraction(P[\"GROSS_T1\"])\n    goodwill = Fraction(P[\"GOODWILL\"])\n    dta = Fraction(P[\"DTA\"])\n    dta_thresh_pct = Fraction(P[\"DTA_THRESH_PCT\"])\n    on_bs = Fraction(P[\"ON_BS\"])\n    undrawn = Fraction(P[\"UNDRAWN\"])\n    ccf_pct = Fraction(P[\"CCF_PCT\"])\n    min_pct = Fraction(P[\"MIN_PCT\"])\n\n    # Deductions ledger\n    deductions = []\n    deductions.append(goodwill)\n    threshold = gross_t1 * dta_thresh_pct / 100\n    excess_dta = dta - threshold\n    if excess_dta > 0:\n        deductions.append(excess_dta)\n    else:\n        deductions.append(Fraction(0))\n\n    tier1_after = gross_t1\n    for d in deductions:\n        tier1_after -= d\n\n    if tier1_after <= 0:\n        raise ValueError(\"Tier 1 capital after deductions is zero or negative\")\n\n    # Exposure measure ledger\n    exposure_items = [on_bs, undrawn * ccf_pct / 100]\n    exposure = Fraction(0)\n    for e in exposure_items:\n        exposure += e\n\n    leverage_ratio_pct = tier1_after / exposure * 100\n\n    # Shortfall: additional capital so that (T1 + x)/E * 100 = min_pct\n    required_t1 = min_pct / 100 * exposure\n    shortfall = required_t1 - tier1_after\n    if shortfall < 0:\n        shortfall = Fraction(0)\n\n    return {\n        \"final\": shortfall,\n        \"tier1_after_deductions\": tier1_after,\n        \"exposure_measure\": exposure,\n        \"leverage_ratio_percent\": leverage_ratio_pct,\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_GROSS_T1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_GOODWILL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DTA",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DTA_THRESH_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ON_BS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_UNDRAWN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CCF_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MIN_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_GROSS_T1",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_GOODWILL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DTA",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DTA_THRESH_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ON_BS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_UNDRAWN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CCF_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MIN_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

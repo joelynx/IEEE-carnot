@@ -1,0 +1,147 @@
+{
+ "name": "monthly_compound_deposit_fee_bump_interest_tally",
+ "domain_id": "investment_analysis",
+ "topic_id": "ci",
+ "difficulty": "intermediate",
+ "params": {
+  "PRINCIPAL": {
+   "kind": "int",
+   "min": 2000,
+   "max": 20000,
+   "step": 500
+  },
+  "RATE": {
+   "kind": "decimal",
+   "min": "2.4",
+   "max": "9.6",
+   "step": "0.6"
+  },
+  "MONTHS": {
+   "kind": "int",
+   "min": 6,
+   "max": 18,
+   "step": 1
+  },
+  "DEP_MONTH": {
+   "kind": "int",
+   "min": 2,
+   "max": 6,
+   "step": 1
+  },
+  "DEPOSIT": {
+   "kind": "int",
+   "min": 0,
+   "max": 3000,
+   "step": 250
+  },
+  "BUMP_BP": {
+   "kind": "int",
+   "min": -100,
+   "max": 200,
+   "step": 25
+  },
+  "BUMP_MODE": {
+   "kind": "choice",
+   "values": [
+    "once",
+    "ongoing"
+   ]
+  },
+  "FEE": {
+   "kind": "int",
+   "min": 0,
+   "max": 10,
+   "step": 5
+  }
+ },
+ "question_template": "A savings account opens with USD {PRINCIPAL} at the start of month 1 and runs {MONTHS} months at a base nominal annual rate of {RATE} percent. Each month end, interest equal to the month's opening balance times that month's nominal annual rate divided by 1200 is credited, then a USD {FEE} fee is deducted. A deposit of USD {DEPOSIT} is posted at the beginning of month {DEP_MONTH}, so it is in that month's opening balance. An adjustment of {BUMP_BP} basis points is added to the nominal annual rate {BUMP_MODE}: 'once' means in month {DEP_MONTH} only; 'ongoing' means in every month from month {DEP_MONTH} through month {MONTHS}. Total interest earned means the sum of monthly interest credits, not the balance change. Effective annual rate means the base rate's monthly-compounded equivalent in percent. Report the total interest earned in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "interest_month_k",
+   "description": "Interest credited at the end of the deposit month, in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "ending_balance",
+   "description": "Account balance after the final month's interest credit and fee, in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "effective_annual_rate",
+   "description": "Effective annual rate of the base nominal rate with monthly compounding, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    principal = Fraction(P[\"PRINCIPAL\"])\n    base_rate = Fraction(P[\"RATE\"])\n    n = P[\"MONTHS\"]\n    k = P[\"DEP_MONTH\"]\n    deposit = Fraction(P[\"DEPOSIT\"])\n    bump = Fraction(P[\"BUMP_BP\"]) / 100\n    mode = P[\"BUMP_MODE\"]\n    fee = Fraction(P[\"FEE\"])\n    if k > n:\n        raise ValueError(\"deposit month is beyond the account term\")\n    bal = principal\n    total_interest = Fraction(0)\n    interest_k = Fraction(0)\n    for m in range(1, n + 1):\n        if m == k:\n            bal = bal + deposit\n        annual = base_rate\n        if (mode == \"once\" and m == k) or (mode == \"ongoing\" and m >= k):\n            annual = base_rate + bump\n        if annual < 0:\n            raise ValueError(\"negative nominal rate\")\n        interest = bal * annual / 1200\n        if m == k:\n            interest_k = interest\n        total_interest = total_interest + interest\n        bal = bal + interest - fee\n    ear = ((1 + base_rate / 1200) ** 12 - 1) * 100\n    return {\n        \"final\": total_interest,\n        \"interest_month_k\": interest_k,\n        \"ending_balance\": bal,\n        \"effective_annual_rate\": ear\n    }",
+ "coverage_params": [
+  {
+   "PRINCIPAL": 5000,
+   "RATE": "6.0",
+   "MONTHS": 12,
+   "DEP_MONTH": 4,
+   "DEPOSIT": 1000,
+   "BUMP_BP": 100,
+   "BUMP_MODE": "once",
+   "FEE": 5
+  },
+  {
+   "PRINCIPAL": 10000,
+   "RATE": "4.8",
+   "MONTHS": 9,
+   "DEP_MONTH": 3,
+   "DEPOSIT": 0,
+   "BUMP_BP": -75,
+   "BUMP_MODE": "ongoing",
+   "FEE": 0
+  },
+  {
+   "PRINCIPAL": 2000,
+   "RATE": "2.4",
+   "MONTHS": 6,
+   "DEP_MONTH": 6,
+   "DEPOSIT": 3000,
+   "BUMP_BP": 0,
+   "BUMP_MODE": "once",
+   "FEE": 10
+  },
+  {
+   "PRINCIPAL": 20000,
+   "RATE": "9.6",
+   "MONTHS": 18,
+   "DEP_MONTH": 2,
+   "DEPOSIT": 2500,
+   "BUMP_BP": 200,
+   "BUMP_MODE": "ongoing",
+   "FEE": 5
+  }
+ ]
+}

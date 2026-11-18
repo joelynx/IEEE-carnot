@@ -1,0 +1,539 @@
+{
+  "family": "family_23",
+  "all_agree": true,
+  "checks": [
+    {
+      "case_id": "t1_syn95331558fead606272af",
+      "verdicts": {
+        "final": true,
+        "applicable_baseline": true,
+        "emissions_threshold": true,
+        "stepped_coupon_rate": true,
+        "stepped_coupon_count": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn95331558fead606272af",
+          "final_answer": {
+            "value": "10584000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "376000"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "338400"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "4.9"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "4"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "10584000.00": 1
+          },
+          "applicable_baseline": {
+            "376000": 1
+          },
+          "emissions_threshold": {
+            "338400": 1
+          },
+          "stepped_coupon_rate": {
+            "4.9": 1
+          },
+          "stepped_coupon_count": {
+            "4": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "10584000.00",
+              "applicable_baseline": "376000",
+              "emissions_threshold": "338400",
+              "stepped_coupon_rate": "4.9",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "b0be170e4b3c076437a25dfbd670d58055ceaf65b0b4cc9d667f0c7c4b866f1d",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1331,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 616,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1331,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 616,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1331,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1331
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.05769,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6547,
+                  "session_id": "b061fc16-48cf-494b-982e-30314ca8b3f7",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(36000000)\n    coupon_rate = Q(\"4.9\")  # percent\n    original_baseline = Q(400000)\n    divested_share = Q(\"0.06\")\n\n    # Baseline recalculation: remove share only if >= 5%\n    if divested_share >= Q(\"0.05\"):\n        applicable_baseline = original_baseline * (1 - divested_share)\n    else:\n        applicable_baseline = original_baseline\n\n    # Target: baseline reduced by 10%\n    emissions_threshold = applicable_baseline * (1 - Q(\"0.10\"))\n\n    # Verified emissions = 70.75% of original baseline\n    verified = original_baseline * Q(\"0.7075\")\n\n    # Step-up determination\n    if verified > emissions_threshold * (1 + Q(\"0.05\")):\n        step_up_bp = Q(70)\n    elif verified > emissions_threshold:\n        step_up_bp = Q(35)\n    else:\n        step_up_bp = Q(0)\n    stepped_coupon_rate = coupon_rate + step_up_bp / 100  # percent\n\n    # Coupons 2026..2031 (6 payments); verification 30 June 2028 -> coupons on/after: 2028..2031 = 4\n    total_coupons = 6\n    stepped_coupon_count = 4\n    unstepped_count = total_coupons - stepped_coupon_count\n\n    total = face * (coupon_rate / 100) * unstepped_count + face * (stepped_coupon_rate / 100) * stepped_coupon_count\n\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable_baseline,\n        \"emissions_threshold\": emissions_threshold,\n        \"stepped_coupon_rate\": stepped_coupon_rate,\n        \"stepped_coupon_count\": stepped_coupon_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 216
+                },
+                "rendered": {
+                  "final": "10584000.00",
+                  "applicable_baseline": "376000",
+                  "emissions_threshold": "338400",
+                  "stepped_coupon_rate": "4.9",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn16f1fd980b45ab2b1eef",
+      "verdicts": {
+        "final": true,
+        "applicable_baseline": true,
+        "emissions_threshold": true,
+        "stepped_coupon_rate": true,
+        "stepped_coupon_count": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn16f1fd980b45ab2b1eef",
+          "final_answer": {
+            "value": "2760000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "453250"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "407925"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "4.1"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "4"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "2760000.00": 1
+          },
+          "applicable_baseline": {
+            "453250": 1
+          },
+          "emissions_threshold": {
+            "407925": 1
+          },
+          "stepped_coupon_rate": {
+            "4.1": 1
+          },
+          "stepped_coupon_count": {
+            "4": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "2760000.00",
+              "applicable_baseline": "453250",
+              "emissions_threshold": "407925",
+              "stepped_coupon_rate": "4.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a3aac4154462502aa2dd0746c20a7518a40267ee5bd635d4d3ed7b7037590420",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1333,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 771,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1333,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 771,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1333,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1333
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.06548,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 8465,
+                  "session_id": "62333167-0fd0-4e71-ac1f-da1074eb1dc7",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(\"12000000\")\n    base_rate = Q(\"0.033\")\n    original_baseline = Q(\"490000\")\n    divested_share = Q(\"0.075\")\n\n    # Baseline recalculation rule: remove divested share only if >= 5%\n    if divested_share >= Q(\"0.05\"):\n        applicable_baseline = original_baseline * (1 - divested_share)\n    else:\n        applicable_baseline = original_baseline\n\n    # Target: applicable baseline reduced by 10%\n    emissions_threshold = applicable_baseline * (1 - Q(\"0.10\"))\n\n    # Verified emissions for 2027 = 90.5% of original baseline\n    verified = Q(\"0.905\") * original_baseline\n\n    # Step-up determination\n    if verified > emissions_threshold:\n        excess = verified - emissions_threshold\n        if excess > Q(\"0.05\") * emissions_threshold:\n            step_up = Q(\"0.0080\")\n        else:\n            step_up = Q(\"0.0040\")\n    else:\n        step_up = Q(0)\n\n    stepped_rate = base_rate + step_up\n\n    # Coupons 2026-2031 (6 total); verification 30 June 2028 -> coupons 2028..2031 stepped\n    total_coupons = 6\n    stepped_coupon_count = 4  # 2028, 2029, 2030, 2031\n    unstepped_count = total_coupons - stepped_coupon_count\n\n    total_coupon_cash = face * (base_rate * unstepped_count + stepped_rate * stepped_coupon_count)\n\n    return {\n        \"final\": total_coupon_cash,\n        \"applicable_baseline\": applicable_baseline,\n        \"emissions_threshold\": emissions_threshold,\n        \"stepped_coupon_rate\": stepped_rate * 100,\n        \"stepped_coupon_count\": stepped_coupon_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 181
+                },
+                "rendered": {
+                  "final": "2760000.00",
+                  "applicable_baseline": "453250",
+                  "emissions_threshold": "407925",
+                  "stepped_coupon_rate": "4.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn600842898122bc3eddf9",
+      "verdicts": {
+        "final": true,
+        "applicable_baseline": true,
+        "emissions_threshold": true,
+        "stepped_coupon_rate": true,
+        "stepped_coupon_count": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn600842898122bc3eddf9",
+          "final_answer": {
+            "value": "7567000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "440000"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "396000"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "2.35"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "5"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "7567000.00": 1
+          },
+          "applicable_baseline": {
+            "440000": 1
+          },
+          "emissions_threshold": {
+            "396000": 1
+          },
+          "stepped_coupon_rate": {
+            "2.35": 1
+          },
+          "stepped_coupon_count": {
+            "5": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "7567000.00",
+              "applicable_baseline": "440000",
+              "emissions_threshold": "396000",
+              "stepped_coupon_rate": "2.35",
+              "stepped_coupon_count": "5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "aef67c06fea65bf0dcd1c7e270b270ffa050246a2251e7774d519830c2830526",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1331,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 680,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1331,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 680,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1331,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1331
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.06089,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 7730,
+                  "session_id": "977e3ce6-253f-4b83-8758-6f6e0373c093",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(46000000)\n    coupon_rate_pct = Q(\"2.35\")\n    baseline = Q(440000)\n    divest_share = Q(\"0.02\")\n    # Recalculate only if divested share >= 5%\n    applicable_baseline = baseline * (1 - divest_share) if divest_share >= Q(\"0.05\") else baseline\n    # Target: baseline reduced by 10%\n    emissions_threshold = applicable_baseline * (1 - Q(\"0.10\"))\n    verified = Q(\"0.7425\") * baseline\n    # Step-up determination\n    if verified > emissions_threshold * (1 + Q(\"0.05\")):\n        step_up_pct = Q(\"0.20\")\n    elif verified > emissions_threshold:\n        step_up_pct = Q(\"0.10\")\n    else:\n        step_up_pct = Q(0)\n    stepped_coupon_rate = coupon_rate_pct + step_up_pct\n    # Coupons 2026..2032 = 7 total; verification 30 June 2028 -> coupons 2028..2032 stepped\n    total_coupons = 7\n    stepped_coupon_count = 5\n    unaffected_count = total_coupons - stepped_coupon_count\n    total_cash = face * (coupon_rate_pct / 100) * unaffected_count + face * (stepped_coupon_rate / 100) * stepped_coupon_count\n    return {\n        \"final\": total_cash,\n        \"applicable_baseline\": applicable_baseline,\n        \"emissions_threshold\": emissions_threshold,\n        \"stepped_coupon_rate\": stepped_coupon_rate,\n        \"stepped_coupon_count\": stepped_coupon_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 275
+                },
+                "rendered": {
+                  "final": "7567000.00",
+                  "applicable_baseline": "440000",
+                  "emissions_threshold": "396000",
+                  "stepped_coupon_rate": "2.35",
+                  "stepped_coupon_count": "5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn5e6a8c68e48c44d20490",
+      "verdicts": {
+        "final": true,
+        "applicable_baseline": true,
+        "emissions_threshold": true,
+        "stepped_coupon_rate": true,
+        "stepped_coupon_count": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn5e6a8c68e48c44d20490",
+          "final_answer": {
+            "value": "1860000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "480000"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "432000"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "3.1"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "4"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "1860000.00": 1
+          },
+          "applicable_baseline": {
+            "480000": 1
+          },
+          "emissions_threshold": {
+            "432000": 1
+          },
+          "stepped_coupon_rate": {
+            "3.1": 1
+          },
+          "stepped_coupon_count": {
+            "4": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "1860000.00",
+              "applicable_baseline": "480000",
+              "emissions_threshold": "432000",
+              "stepped_coupon_rate": "3.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "fd1c4525da26f88c3b2ec31085841402957d962f56ad3c75bea3647b9cca1426",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1331,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 596,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1331,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 596,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1331,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1331
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.05668999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 9038,
+                  "session_id": "fd523abb-a754-45ab-a49f-b847be7d4c29",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = 10000000\n    base_rate = Q(\"3.1\")  # percent\n    baseline = 480000\n    divested_share = Q(\"0.04\")\n    # Recalculate only if divested share >= 5%\n    applicable_baseline = baseline * (1 - divested_share) if divested_share >= Q(\"0.05\") else baseline\n    emissions_threshold = applicable_baseline * (1 - Q(\"0.10\"))\n    emissions = Q(\"0.8975\") * baseline  # verified 2027 emissions\n    if emissions > emissions_threshold * (1 + Q(\"0.05\")):\n        step_up = Q(\"0.20\")\n    elif emissions > emissions_threshold:\n        step_up = Q(\"0.10\")\n    else:\n        step_up = Q(0)\n    stepped_coupon_rate = base_rate + step_up\n    total_coupons = 6  # 2026..2031\n    stepped_coupon_count = 4  # 31 Dec 2028..2031, on/after 30 June 2028 verification\n    unstepped = total_coupons - stepped_coupon_count\n    total = face * (unstepped * base_rate / 100 + stepped_coupon_count * stepped_coupon_rate / 100)\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable_baseline,\n        \"emissions_threshold\": emissions_threshold,\n        \"stepped_coupon_rate\": stepped_coupon_rate,\n        \"stepped_coupon_count\": stepped_coupon_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 128
+                },
+                "rendered": {
+                  "final": "1860000.00",
+                  "applicable_baseline": "480000",
+                  "emissions_threshold": "432000",
+                  "stepped_coupon_rate": "3.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "b93ac6f5daa7ae895263c77a93df6095fb2d9e1b6bd4401a1b795e1172e20f2e"
+}

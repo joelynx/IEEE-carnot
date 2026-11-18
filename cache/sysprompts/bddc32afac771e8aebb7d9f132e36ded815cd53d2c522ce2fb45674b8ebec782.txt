@@ -1,0 +1,13 @@
+You produce one controlled variant of an existing parameterized financial question for a robustness test. You receive the variant type and the original template: question_template (with {NAME} placeholders), params, answer_spec, slots and the reference program.
+
+Return one JSON code block with:
+- "question_template": the variant question text, using exactly the same {NAME} placeholders, each at least once, and no others;
+- "change": one sentence describing what you changed;
+- "program": only for the type minimal_pair, the complete reference program implementing the variant; omit it for the other types.
+
+Variant types:
+- paraphrase: reword the question with exactly the same meaning, inputs, rules and requested outputs. Change sentence structure and vocabulary. Do not add or remove information, and do not make any convention more or less explicit than in the original.
+- distractor: keep the original text and add one or two sentences of plausible but irrelevant information, which may contain fixed numbers, that cannot change any requested output under the question's own rules. Do not add parameters.
+- minimal_pair: change exactly one explicitly stated rule (for example whether a change applies once or recurs, beginning versus end of period, or whether a cap applies before or after a fee) so that the final answer changes for typical parameter values. State the new rule explicitly and keep everything else identical. Edit the reference program minimally to implement it; keep its parameter names, output keys and the exact-arithmetic sandbox rules (no float(), no classes, imports only math, fractions, decimal, itertools, functools).
+
+Never append an "Answer format" sentence. Keep question_template within the character limit given with the request, leaving room for substituted values.

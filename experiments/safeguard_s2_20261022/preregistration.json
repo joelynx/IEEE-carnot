@@ -1,0 +1,61 @@
+{
+ "version": "safeguard-s2-v1",
+ "at": "2026-10-22T04:36:20.287298+00:00",
+ "status": "frozen_before_code_and_model_calls",
+ "plan": {
+  "path": "docs/task1-safeguard-v2-plan.md",
+  "sha256": "132c28cd6970bfa83642c9117f7b3805b3c3b0b7f3f56bf3f44136fa3edba499"
+ },
+ "authorization": "User chose option A on 22 Oct 2026: adopt S2 as written, build runner v2 and the S2 analysis with tests, run P against two fresh R4 samples on tuning-eval forced-novel S and H (about 8,800 fresh calls) and report the gates. Not authorized: Gate 5 (tuning-noex), promotion, lockbox, Test, uploads.",
+ "candidate": {
+  "name": "P",
+  "config": "configs/r5p.json",
+  "config_sha256": "cddb8b9ec0ed6913fcc619f8d494bf5f094427110f16ca6d266a6f842695c39d",
+  "novel_route": "Sonnet 5.5 medium, pot_system_v2, 5 samples, 2 retries, field plurality",
+  "seen_route": "R4 unchanged by construction"
+ },
+ "arms": {
+  "R4a": {
+   "config": "configs/r4.json",
+   "identities": [
+    700,
+    701,
+    702,
+    703,
+    704
+   ]
+  },
+  "R4b": {
+   "config": "configs/r4.json",
+   "identities": [
+    710,
+    711,
+    712,
+    713,
+    714
+   ]
+  },
+  "P": {
+   "config": "configs/r5p.json",
+   "identities": [
+    720,
+    721,
+    722,
+    723,
+    724
+   ]
+  }
+ },
+ "panel": "tuning-eval, 580 cases, 290 templates, forced novel route, modes S then H; one interleaved run per mode (every arm per case)",
+ "gates": {
+  "G1": "P loses zero final answers versus R4a (case correct under R4a, wrong under P) in S and in H; gains never offset",
+  "G2": "one-sided 95% Clopper-Pearson upper bound on the share of the 290 templates with a net final-answer loss (P minus R4a) is at most 0.011 in each mode",
+  "G3": "validity: R4a-versus-R4b final-answer discordance is at most 2 cases in each mode; otherwise the run is invalid (not pass or fail) and is not retried with new identities",
+  "G4": "P net matched slots minus R4a net matched slots is at least -k in each mode, where k = max(2, sum over cases of |matched_slots R4a - matched_slots R4b|)",
+  "G5": "tuning-noex repeat of G1 - pending, needs separate authorization"
+ },
+ "verdict": "S2 no-harm gate passes only if G3 is valid and G1, G2 and G4 pass in both modes; G5 pending. Passing never implies improvement or promotion.",
+ "fresh_call_cap": 10000,
+ "resumption": "usage-limit or infrastructure stops resume under identical identities only",
+ "one_look": true
+}

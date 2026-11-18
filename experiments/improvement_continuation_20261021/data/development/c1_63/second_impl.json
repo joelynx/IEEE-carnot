@@ -1,0 +1,229 @@
+{
+ "family": "c1_63",
+ "template_sha256": "e565cad710b5342550dea98172728030985fe9d804a9be7dcdabaaef33555c61",
+ "draws_sha256": "18e650bc1946e8d55e7ad9bf31ed49d8ca18ea8d188762683d5602dec920ab44",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "4798b1d6ee3166371e3bca8b6a827ed329de2a237084a16486d19655a2f3c929",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1811,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 902,
+    "output_tokens_details": {
+     "thinking_tokens": 229
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1811,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 902,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1811,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1811
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0814905
+  }
+ ],
+ "program": "def solve():\n    r = Q(P[\"RATE\"], 100)\n    inv_a = Q(P[\"INV_A\"]); cf_a = Q(P[\"CF_A\"]); life_a = int(P[\"LIFE_A\"]); term_a = Q(P[\"TERM_A\"])\n    inv_b = Q(P[\"INV_B\"]); life_b = int(P[\"LIFE_B\"]); dcost_b = Q(P[\"DCOST_B\"])\n\n    # Build explicit year-by-year cash-flow ledgers\n    flows_a = {0: -inv_a}\n    for t in range(1, life_a + 1):\n        flows_a[t] = cf_a\n    flows_a[life_a] += term_a\n\n    annual_b = -dcost_b  # cost reduction (negative) -> inflow; cost increase -> outflow\n    flows_b = {0: -inv_b}\n    for t in range(1, life_b + 1):\n        flows_b[t] = annual_b\n\n    def npv(flows):\n        total = Q(0)\n        for t, cf in flows.items():\n            total += cf / (1 + r) ** t\n        return total\n\n    npv_a = npv(flows_a)\n    npv_b = npv(flows_b)\n\n    def annuity_factor(n):\n        # PV of 1 per year for n years, computed as explicit sum\n        return sum(1 / (1 + r) ** t for t in range(1, n + 1))\n\n    eaa_a = npv_a / annuity_factor(life_a)\n    eaa_b = npv_b / annuity_factor(life_b)\n    eaa_larger = eaa_a if eaa_a >= eaa_b else eaa_b\n\n    if npv_a <= 0 and npv_b <= 0:\n        final = \"neither\"\n    elif eaa_a >= eaa_b:\n        final = \"project_a\"\n    else:\n        final = \"project_b\"\n\n    return {\n        \"final\": final,\n        \"npv_a\": npv_a,\n        \"npv_b\": npv_b,\n        \"eaa_larger\": eaa_larger,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_LIFE_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CF_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TERM_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_LIFE_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DCOST_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_LIFE_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CF_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_TERM_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_LIFE_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DCOST_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

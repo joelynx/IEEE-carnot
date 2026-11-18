@@ -1,0 +1,153 @@
+{
+ "name": "workstream_integration_cumulative_net_savings_bps",
+ "domain_id": "mergers_and_acquisitions",
+ "topic_id": "post-merger_integration",
+ "difficulty": "advanced",
+ "params": {
+  "BASE": {
+   "kind": "int",
+   "min": 400,
+   "max": 1600,
+   "step": 50
+  },
+  "BPS_A": {
+   "kind": "int",
+   "min": 20,
+   "max": 120,
+   "step": 5
+  },
+  "BPS_B": {
+   "kind": "int",
+   "min": 20,
+   "max": 120,
+   "step": 5
+  },
+  "BPS_C": {
+   "kind": "int",
+   "min": 20,
+   "max": 120,
+   "step": 5
+  },
+  "Q_A": {
+   "kind": "int",
+   "min": 1,
+   "max": 8,
+   "step": 1
+  },
+  "Q_B": {
+   "kind": "int",
+   "min": 1,
+   "max": 8,
+   "step": 1
+  },
+  "Q_C": {
+   "kind": "int",
+   "min": 1,
+   "max": 8,
+   "step": 1
+  },
+  "COST_PCT": {
+   "kind": "int",
+   "min": 0,
+   "max": 200,
+   "step": 10
+  }
+ },
+ "question_template": "Use exact arithmetic. Three integration workstreams A, B, C run over quarters 1 through 8. The combined annual addressable cost base is {BASE} USD million. Each workstream's annual run-rate saving is quoted in basis points of that base (100 basis points equal 1 percent): A {BPS_A}, B {BPS_B}, C {BPS_C}. A workstream's quarterly saving is one quarter of its annual run-rate saving. Completion quarters: A {Q_A}, B {Q_B}, C {Q_C}. Each workstream's one-time cost equals {COST_PCT} percent of its own annual run-rate saving, incurred entirely in its completion quarter. Its quarterly saving is first earned in the quarter after completion, recurs every quarter through quarter 8, and nothing is earned in the completion quarter itself. No discounting. Cumulative net savings after quarter q equal savings earned minus one-time costs incurred in quarters 1 through q. Report cumulative net savings after quarter 8 in USD million. Also find the total one-time cost of the three workstreams, cumulative net savings after quarter 4, the first quarter whose cumulative net savings are strictly positive (0 if none), and the run-rate quarterly saving, defined as total saving earned in quarter 8.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "total_one_time_cost",
+   "description": "Sum of the three one-time integration costs in USD million",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "run_rate_quarterly_saving",
+   "description": "Total saving earned in quarter 8 in USD million",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "first_positive_quarter",
+   "description": "First quarter with strictly positive cumulative net savings, 0 if none",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "cumulative_after_q4",
+   "description": "Cumulative net savings after quarter 4 in USD million",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "from fractions import Fraction\n\ndef solve():\n    base = Fraction(P[\"BASE\"])\n    bps = [Fraction(P[\"BPS_A\"]), Fraction(P[\"BPS_B\"]), Fraction(P[\"BPS_C\"])]\n    qs = [P[\"Q_A\"], P[\"Q_B\"], P[\"Q_C\"]]\n    cost_pct = Fraction(P[\"COST_PCT\"])\n    for q in qs:\n        if q < 1 or q > 8:\n            raise ValueError(\"completion quarter must lie within quarters 1 through 8\")\n    annual = [base * b / Fraction(10000) for b in bps]\n    quarterly = [a / Fraction(4) for a in annual]\n    costs = [a * cost_pct / Fraction(100) for a in annual]\n    total_cost = sum(costs, Fraction(0))\n    cumulative = Fraction(0)\n    first_pos = 0\n    cum_q4 = Fraction(0)\n    saving_q8 = Fraction(0)\n    for q in range(1, 9):\n        net = Fraction(0)\n        earned = Fraction(0)\n        for i in range(3):\n            if qs[i] == q:\n                net -= costs[i]\n            if q > qs[i]:\n                earned += quarterly[i]\n        net += earned\n        cumulative += net\n        if first_pos == 0 and cumulative > 0:\n            first_pos = q\n        if q == 4:\n            cum_q4 = cumulative\n        if q == 8:\n            saving_q8 = earned\n    return {\n        \"final\": cumulative,\n        \"total_one_time_cost\": total_cost,\n        \"run_rate_quarterly_saving\": saving_q8,\n        \"first_positive_quarter\": first_pos,\n        \"cumulative_after_q4\": cum_q4,\n    }\n",
+ "coverage_params": [
+  {
+   "BASE": 1000,
+   "BPS_A": 60,
+   "BPS_B": 80,
+   "BPS_C": 40,
+   "Q_A": 1,
+   "Q_B": 3,
+   "Q_C": 5,
+   "COST_PCT": 100
+  },
+  {
+   "BASE": 800,
+   "BPS_A": 50,
+   "BPS_B": 50,
+   "BPS_C": 50,
+   "Q_A": 6,
+   "Q_B": 7,
+   "Q_C": 8,
+   "COST_PCT": 200
+  },
+  {
+   "BASE": 1200,
+   "BPS_A": 100,
+   "BPS_B": 100,
+   "BPS_C": 100,
+   "Q_A": 1,
+   "Q_B": 1,
+   "Q_C": 1,
+   "COST_PCT": 40
+  },
+  {
+   "BASE": 500,
+   "BPS_A": 20,
+   "BPS_B": 120,
+   "BPS_C": 60,
+   "Q_A": 2,
+   "Q_B": 4,
+   "Q_C": 8,
+   "COST_PCT": 0
+  }
+ ]
+}

@@ -1,0 +1,229 @@
+{
+ "family": "c1_91",
+ "template_sha256": "cc11d3fbb498eecd7dc3fe3b929fba3940b9e11045f1395b5ad77bd9a150e1de",
+ "draws_sha256": "d6b6a211e36b9e1fe356d98dd451713cdc0f6ebda2f4c467f84bc3fc0f174577",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "9df8169c8c4708641d9a964a18596074ca5b866b8b0f0a9a269844c8c3ffcb46",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1737,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 612,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1737,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 612,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1737,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1737
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0655105
+  }
+ ],
+ "program": "def solve():\n    inv = Q(P[\"INV\"])          # USD million\n    b0 = Q(P[\"B\"])             # thousand beneficiaries in year 1\n    drop = Q(P[\"DROP\"]) / 100\n    v = Q(P[\"V\"])              # USD per beneficiary per year\n    dw = Q(P[\"DW\"]) / 100\n    attr = Q(P[\"ATTR\"]) / 100\n    mode = P[\"ATTR_MODE\"]\n    basis = P[\"BASIS\"]\n\n    if mode == \"the_programme\":\n        share = attr\n    elif mode == \"other_actors\":\n        share = 1 - attr\n    else:\n        raise ValueError(\"unknown attribution mode\")\n\n    # Year-by-year ledger of active beneficiaries and gross value (USD million)\n    gross_years = []\n    active = b0\n    for yr in range(1, 5):\n        if yr > 1:\n            active = active * (1 - drop)\n        # thousand beneficiaries * USD -> USD thousands -> USD million (/1000)\n        gross = active * v / 1000\n        gross_years.append(gross)\n\n    net_years = [g * (1 - dw) * share for g in gross_years]\n\n    gross_cum = sum(gross_years)\n    net_first = net_years[0]\n    net_cum = sum(net_years)\n\n    if basis == \"cumulative\":\n        numer = net_cum\n    elif basis == \"first_year\":\n        numer = net_first\n    else:\n        raise ValueError(\"unknown basis\")\n\n    if inv == 0:\n        raise ValueError(\"investment must be positive\")\n\n    sroi = numer / inv\n\n    return {\n        \"final\": sroi,\n        \"gross_cumulative_value\": gross_cum,\n        \"programme_attribution_share\": share,\n        \"net_first_year_value\": net_first,\n        \"net_cumulative_value\": net_cum,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DROP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_V",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DW",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ATTR",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ATTR_MODE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BASIS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DROP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_V",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DW",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ATTR",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ATTR_MODE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BASIS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

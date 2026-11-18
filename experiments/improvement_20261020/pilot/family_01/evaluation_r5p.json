@@ -1,0 +1,1760 @@
+{
+  "config": "r5p",
+  "config_sha256": "cddb8b9ec0ed6913fcc619f8d494bf5f094427110f16ca6d266a6f842695c39d",
+  "system_sha256": "4d3f530d528133106a7f33de773f2958dd40ff1dd39617c26467329e37360bd2",
+  "llm": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-sonnet-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-sonnet-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  },
+  "scores": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 16,
+    "total_slots": 16
+  },
+  "cases": [
+    {
+      "case_id": "t1_syn92179ebef3db1cdf8503",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn92179ebef3db1cdf8503",
+          "final_answer": {
+            "value": "1.9563"
+          },
+          "steps": [
+            {
+              "slot_id": "weighted_shares",
+              "value": "1045000"
+            },
+            {
+              "slot_id": "basic_eps",
+              "value": "448/209"
+            },
+            {
+              "slot_id": "option_incremental_shares",
+              "value": "0"
+            },
+            {
+              "slot_id": "bond_incremental_eps",
+              "value": "3.3"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "1.9563": 5
+          },
+          "weighted_shares": {
+            "1045000": 5
+          },
+          "basic_eps": {
+            "448/209": 5
+          },
+          "option_incremental_shares": {
+            "0": 5
+          },
+          "bond_incremental_eps": {
+            "3.3": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "1.9563",
+              "weighted_shares": "1045000",
+              "basic_eps": "448/209",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "3.3"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "8a543436ccde47002f0aadd23c5449442092793134bbcc49c6b068e751bf3676",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3308,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 505,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3308,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 505,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3308,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3308
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.018386,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5806,
+                  "session_id": "3092f9f7-3283-4225-a748-d15cf527305b",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2300000)\n    pref = Q(60000)\n    base_shares = Q(1000000)\n    new_shares = Q(180000)\n    weighted = base_shares + new_shares * Q(3, 12)\n    basic_eps = (ni - pref) / weighted\n\n    # contingent shares: condition met, included in diluted\n    contingent = Q(100000) if Q(5750000) >= Q(5000000) else Q(0)\n\n    # options: treasury stock method\n    opt_n = Q(200000)\n    ex = Q(20)\n    mp = Q(19)\n    if mp > ex:\n        opt_inc = opt_n * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n\n    num = ni - pref\n    den = weighted + contingent + opt_inc\n    eps_prior = num / den\n\n    # bonds\n    interest_after_tax = Q(2000000) * Q(\"0.11\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(50000)\n    bond_eps = interest_after_tax / bond_shares\n\n    if bond_eps < eps_prior:\n        diluted = (num + interest_after_tax) / (den + bond_shares)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic_eps,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 240
+                },
+                "rendered": {
+                  "final": "1.9563",
+                  "weighted_shares": "1045000",
+                  "basic_eps": "448/209",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "3.3"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.9563",
+              "weighted_shares": "1045000",
+              "basic_eps": "448/209",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "3.3"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "221e335f935fddf42eb91ad5ba9751a7e3a1c6e389c2466e7dbdde63e4825465",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 465,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 465,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0050848,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4341,
+                  "session_id": "82bd468c-3091-402a-bb93-7d750ee428e2",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2300000)\n    pref = Q(60000)\n    base_sh = Q(1000000)\n    new_sh = Q(180000)\n    weighted = base_sh + new_sh * Q(3, 12)\n    basic = (ni - pref) / weighted\n    # contingent shares: revenue met, included\n    cont = Q(100000) if Q(5750000) >= Q(5000000) else Q(0)\n    # options: price 19 < exercise 20 -> none\n    opt_n = Q(200000)\n    ex = Q(20)\n    mp = Q(19)\n    opt_inc = opt_n * (mp - ex) / mp if mp > ex else Q(0)\n    # bonds\n    interest = Q(2000000) * Q(\"0.11\") * (1 - Q(\"0.25\"))\n    bond_sh = Q(50000)\n    bond_eps = interest / bond_sh\n    num = ni - pref\n    den = weighted + cont + opt_inc\n    dil1 = num / den\n    if bond_eps < dil1:\n        dil = (num + interest) / (den + bond_sh)\n    else:\n        dil = dil1\n    return {\n        \"final\": dil,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 268
+                },
+                "rendered": {
+                  "final": "1.9563",
+                  "weighted_shares": "1045000",
+                  "basic_eps": "448/209",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "3.3"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.9563",
+              "weighted_shares": "1045000",
+              "basic_eps": "448/209",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "3.3"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "ac5f124b77a3ba9eb238f7f5bbd0a53beaf3a48f04fbf8fcb6c1c9f6a1e94d40",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 541,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 541,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0058448,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3794,
+                  "session_id": "fae8f1ac-b172-4a9c-9f42-7d2a52d1bf9d",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2300000)\n    pref = Q(60000)\n    base_sh = Q(1000000)\n    new_sh = Q(180000)\n    months = 3  # months 10 through 12\n    weighted = base_sh + new_sh * months / 12\n    earnings = ni - pref\n    basic = earnings / weighted\n\n    # contingent shares: condition met, included\n    contingent = Q(100000) if Q(5750000) >= Q(5000000) else Q(0)\n\n    # options: market price below exercise price, no incremental shares\n    ex = Q(20)\n    mp = Q(19)\n    opt_n = Q(200000)\n    if mp > ex:\n        opt_inc = opt_n - opt_n * ex / mp\n    else:\n        opt_inc = Q(0)\n\n    # diluted EPS after prior inclusions\n    eps_prior = earnings / (weighted + contingent + opt_inc)\n\n    # bonds\n    interest_after_tax = Q(2000000) * Q(\"0.11\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(50000)\n    bond_eps = interest_after_tax / bond_shares\n\n    if bond_eps < eps_prior:\n        diluted = (earnings + interest_after_tax) / (weighted + contingent + opt_inc + bond_shares)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 250
+                },
+                "rendered": {
+                  "final": "1.9563",
+                  "weighted_shares": "1045000",
+                  "basic_eps": "448/209",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "3.3"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.9563",
+              "weighted_shares": "1045000",
+              "basic_eps": "448/209",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "3.3"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "257b124ba86c78bcaaff9f627d18ee528a452d21761f5092ec1e824455907e2c",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 526,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 526,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0056948,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4587,
+                  "session_id": "ac7601e4-ba96-4cc4-9148-d6b023f74edf",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2300000)\n    pref = Q(60000)\n    base_sh = Q(1000000)\n    new_sh = Q(180000)\n    weighted = base_sh + new_sh * Q(3, 12)\n    basic = (ni - pref) / weighted\n\n    # contingent shares: condition met (5750000 >= 5000000)\n    contingent = Q(100000) if Q(5750000) >= Q(5000000) else Q(0)\n\n    # options: treasury stock method, market price 19 < exercise 20 -> zero\n    opt_n = Q(200000)\n    ex = Q(20)\n    mkt = Q(19)\n    if mkt > ex:\n        opt_inc = opt_n * (mkt - ex) / mkt\n    else:\n        opt_inc = Q(0)\n\n    # bonds\n    interest_after_tax = Q(2000000) * Q(\"0.11\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(50000)\n    bond_eps = interest_after_tax / bond_shares\n\n    num = ni - pref\n    den = weighted + contingent + opt_inc\n    eps_prior = num / den\n\n    if bond_eps < eps_prior:\n        diluted = (num + interest_after_tax) / (den + bond_shares)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 271
+                },
+                "rendered": {
+                  "final": "1.9563",
+                  "weighted_shares": "1045000",
+                  "basic_eps": "448/209",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "3.3"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.9563",
+              "weighted_shares": "1045000",
+              "basic_eps": "448/209",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "3.3"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "9b4ffdd22f80133b848c4f4aa5671019ccbeef9bba6f31e36e58c65841f84cec",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 518,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 518,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0056148000000000005,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4621,
+                  "session_id": "e1c964a3-1c6e-4f94-abe5-dd0632bc2d53",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2300000)\n    pref = Q(60000)\n    base_sh = Q(1000000)\n    new_sh = Q(180000)\n    weighted = base_sh + new_sh * 3 / 12\n    earnings = ni - pref\n    basic = earnings / weighted\n\n    # contingent shares: revenue met -> included\n    contingent = Q(100000) if Q(5750000) >= Q(5000000) else Q(0)\n\n    # options: market price below exercise price -> no incremental shares\n    n_opt = Q(200000)\n    ex = Q(20)\n    mp = Q(19)\n    if mp > ex:\n        opt_inc = n_opt * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n\n    # bonds\n    interest_after_tax = Q(2000000) * Q(\"0.11\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(50000)\n    bond_eps = interest_after_tax / bond_shares\n\n    diluted_prior = earnings / (weighted + contingent + opt_inc)\n    if bond_eps < diluted_prior:\n        diluted = (earnings + interest_after_tax) / (weighted + contingent + opt_inc + bond_shares)\n    else:\n        diluted = diluted_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 276
+                },
+                "rendered": {
+                  "final": "1.9563",
+                  "weighted_shares": "1045000",
+                  "basic_eps": "448/209",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "3.3"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn0369e154f556e2953321",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn0369e154f556e2953321",
+          "final_answer": {
+            "value": "1.1212"
+          },
+          "steps": [
+            {
+              "slot_id": "weighted_shares",
+              "value": "1300000"
+            },
+            {
+              "slot_id": "basic_eps",
+              "value": "159/130"
+            },
+            {
+              "slot_id": "option_incremental_shares",
+              "value": "200000/11"
+            },
+            {
+              "slot_id": "bond_incremental_eps",
+              "value": "1.35"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "1.1212": 5
+          },
+          "weighted_shares": {
+            "1300000": 5
+          },
+          "basic_eps": {
+            "159/130": 5
+          },
+          "option_incremental_shares": {
+            "200000/11": 5
+          },
+          "bond_incremental_eps": {
+            "1.35": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "1.1212",
+              "weighted_shares": "1300000",
+              "basic_eps": "159/130",
+              "option_incremental_shares": "200000/11",
+              "bond_incremental_eps": "1.35"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "629e95217851254a49e21193266dcc05bc95ae3334b7a2bf7df5df21b88e09e3",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3308,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 474,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3308,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 474,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3308,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3308
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.018076000000000002,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4440,
+                  "session_id": "1f05867b-5833-4087-b017-2ac5a5d53b14",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(1650000)\n    pref = Q(60000)\n    # weighted shares: 1,000,000 all year + 360,000 for months 3..12 (10 months)\n    weighted = Q(1000000) + Q(360000) * 10 / 12\n    basic = (ni - pref) / weighted\n    # contingent shares: revenue condition met, included all year\n    contingent = Q(100000)\n    # options: treasury stock method\n    n_opt = Q(200000)\n    ex = Q(20)\n    mp = Q(22)\n    if mp > ex:\n        opt_inc = n_opt * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n    num = ni - pref\n    den = weighted + contingent + opt_inc\n    eps_prior = num / den\n    # bonds\n    addback = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(100000)\n    bond_eps = addback / bond_shares\n    if bond_eps < eps_prior:\n        diluted = (num + addback) / (den + bond_shares)\n    else:\n        diluted = eps_prior\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 225
+                },
+                "rendered": {
+                  "final": "1.1212",
+                  "weighted_shares": "1300000",
+                  "basic_eps": "159/130",
+                  "option_incremental_shares": "200000/11",
+                  "bond_incremental_eps": "1.35"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.1212",
+              "weighted_shares": "1300000",
+              "basic_eps": "159/130",
+              "option_incremental_shares": "200000/11",
+              "bond_incremental_eps": "1.35"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "c703de199a036bdcfcb03e78a985591efe7918a83445de0bd14ce207f5f1104f",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 813,
+                  "output_tokens_details": {
+                    "thinking_tokens": 220
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 813,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.008564800000000001,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5874,
+                  "session_id": "9880314b-0780-40bc-b51a-d35628a8a56c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    net_income = Q(1650000)\n    pref = Q(60000)\n    # Weighted shares: 1,000,000 all year plus 360,000 outstanding for 10 of 12 months\n    weighted = Q(1000000) + Q(360000) * 10 / 12\n    numerator = net_income - pref\n    basic = numerator / weighted\n\n    # Contingent shares: revenue condition met, so included in diluted EPS\n    revenue = Q(6000000)\n    contingent = Q(100000) if revenue >= Q(5000000) else Q(0)\n\n    # Options: treasury stock method, only if market price exceeds exercise price\n    opt_n = Q(200000)\n    strike = Q(20)\n    mkt = Q(22)\n    opt_inc = opt_n * (mkt - strike) / mkt if mkt > strike else Q(0)\n\n    # Diluted EPS with prior inclusions (contingent shares and options)\n    eps_prior = numerator / (weighted + contingent + opt_inc)\n\n    # Bonds: after-tax interest add-back per conversion share\n    interest_after_tax = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(100000)\n    bond_per_share = interest_after_tax / bond_shares\n\n    if bond_per_share < eps_prior:\n        diluted = (numerator + interest_after_tax) / (weighted + contingent + opt_inc + bond_shares)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_per_share,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 273
+                },
+                "rendered": {
+                  "final": "1.1212",
+                  "weighted_shares": "1300000",
+                  "basic_eps": "159/130",
+                  "option_incremental_shares": "200000/11",
+                  "bond_incremental_eps": "1.35"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.1212",
+              "weighted_shares": "1300000",
+              "basic_eps": "159/130",
+              "option_incremental_shares": "200000/11",
+              "bond_incremental_eps": "1.35"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "b4f6e5dcff36a3044ddd473bb1a1e8300024f1a796bf987f007793536f011a75",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 501,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 501,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0054448000000000005,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3874,
+                  "session_id": "a653c2e4-ab7d-49bb-ac8d-de58ec0e8d5c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(1650000)\n    pref = Q(60000)\n    # weighted shares: 1,000,000 all year + 360,000 for months 3..12 (10 months)\n    weighted = Q(1000000) + Q(360000) * 10 / 12\n    basic_eps = (ni - pref) / weighted\n    # contingent shares: revenue condition met, included with no earnings adjustment\n    contingent = Q(100000)\n    # options: treasury stock method\n    n_opt = Q(200000)\n    ex = Q(20)\n    mp = Q(22)\n    if mp > ex:\n        opt_inc = n_opt * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n    # diluted EPS after zero-incremental instruments\n    num = ni - pref\n    den = weighted + contingent + opt_inc\n    eps1 = num / den\n    # bonds\n    addback = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(100000)\n    bond_eps = addback / bond_shares\n    if bond_eps < eps1:\n        diluted = (num + addback) / (den + bond_shares)\n    else:\n        diluted = eps1\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic_eps,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 206
+                },
+                "rendered": {
+                  "final": "1.1212",
+                  "weighted_shares": "1300000",
+                  "basic_eps": "159/130",
+                  "option_incremental_shares": "200000/11",
+                  "bond_incremental_eps": "1.35"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.1212",
+              "weighted_shares": "1300000",
+              "basic_eps": "159/130",
+              "option_incremental_shares": "200000/11",
+              "bond_incremental_eps": "1.35"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "cd07fe40e5d524a457a9aed9d5c7c9951522f52856c99e3a0afb4d6a170c9d59",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 495,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 495,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0053847999999999995,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3964,
+                  "session_id": "7cc4898d-68f6-40ed-9b8f-c71495218ea8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(1650000)\n    pref = Q(60000)\n    # weighted shares: 1,000,000 all year + 360,000 for months 3..12 (10 months)\n    weighted = Q(1000000) + Q(360000) * 10 / 12\n    basic = (ni - pref) / weighted\n    # contingent shares: revenue condition met, included all year\n    contingent = Q(100000)\n    # options: treasury stock method\n    n_opt = Q(200000)\n    ex = Q(20)\n    mp = Q(22)\n    if mp > ex:\n        opt_inc = n_opt * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n    num1 = ni - pref\n    den1 = weighted + contingent + opt_inc\n    eps1 = num1 / den1\n    # bonds\n    interest_after_tax = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(100000)\n    bond_eps = interest_after_tax / bond_shares\n    if bond_eps < eps1:\n        diluted = (num1 + interest_after_tax) / (den1 + bond_shares)\n    else:\n        diluted = eps1\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 270
+                },
+                "rendered": {
+                  "final": "1.1212",
+                  "weighted_shares": "1300000",
+                  "basic_eps": "159/130",
+                  "option_incremental_shares": "200000/11",
+                  "bond_incremental_eps": "1.35"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1.1212",
+              "weighted_shares": "1300000",
+              "basic_eps": "159/130",
+              "option_incremental_shares": "200000/11",
+              "bond_incremental_eps": "1.35"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0f1845fdd9c381f4b27473003df32a0f56bad62b6c7b371a82ef74bda03cad99",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 503,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 503,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0054648,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4857,
+                  "session_id": "7397f982-1472-4585-a8c0-93391db4c83a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(1650000)\n    pref = Q(60000)\n    # weighted shares: 1,000,000 all year; 360,000 for months 3..12 = 10 months\n    weighted = Q(1000000) + Q(360000) * 10 / 12\n    basic = (ni - pref) / weighted\n    # contingent shares met (revenue >= 5,000,000)\n    contingent = Q(100000) if Q(6000000) >= Q(5000000) else Q(0)\n    # options treasury stock method\n    ex = Q(20)\n    mp = Q(22)\n    opt_n = Q(200000)\n    opt_inc = opt_n * (mp - ex) / mp if mp > ex else Q(0)\n    # bonds\n    bond_addback = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(100000)\n    bond_eps = bond_addback / bond_shares\n    earnings = ni - pref\n    shares = weighted + contingent + opt_inc\n    eps_prior = earnings / shares\n    if bond_eps < eps_prior:\n        diluted = (earnings + bond_addback) / (shares + bond_shares)\n    else:\n        diluted = eps_prior\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 295
+                },
+                "rendered": {
+                  "final": "1.1212",
+                  "weighted_shares": "1300000",
+                  "basic_eps": "159/130",
+                  "option_incremental_shares": "200000/11",
+                  "bond_incremental_eps": "1.35"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn262a61ef126036ef3c70",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn262a61ef126036ef3c70",
+          "final_answer": {
+            "value": "0.6034"
+          },
+          "steps": [
+            {
+              "slot_id": "weighted_shares",
+              "value": "1200000"
+            },
+            {
+              "slot_id": "basic_eps",
+              "value": "37/60"
+            },
+            {
+              "slot_id": "option_incremental_shares",
+              "value": "0"
+            },
+            {
+              "slot_id": "bond_incremental_eps",
+              "value": "0.54"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.6034": 5
+          },
+          "weighted_shares": {
+            "1200000": 5
+          },
+          "basic_eps": {
+            "37/60": 5
+          },
+          "option_incremental_shares": {
+            "0": 5
+          },
+          "bond_incremental_eps": {
+            "0.54": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.6034",
+              "weighted_shares": "1200000",
+              "basic_eps": "37/60",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "2b1fe7cf0d1288702d217e0bb9e5e51de6867e9fe1428188f30a2937da591e9d",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3307,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 756,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3307,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 756,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3307,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3307
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.020892,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6300,
+                  "session_id": "16985a0b-aa34-4d5e-8baa-345f4056a2b5",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(800000)\n    pref = Q(60000)\n    base_shares = Q(1000000)\n    new_shares = Q(240000)\n    weighted = base_shares + new_shares * Q(10, 12)\n    basic = (ni - pref) / weighted\n\n    # contingent shares: condition not met -> excluded\n    revenue = Q(4250000)\n    contingent = Q(100000) if revenue >= 5000000 else Q(0)\n\n    # options: TSM only if market > exercise\n    n_opt = Q(200000)\n    ex = Q(20)\n    mkt = Q(20)\n    if mkt > ex:\n        opt_inc = n_opt * (mkt - ex) / mkt\n    else:\n        opt_inc = Q(0)\n\n    # bonds\n    face = Q(2000000)\n    interest_at = face * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    conv_shares = Q(250000)\n    bond_eps = interest_at / conv_shares\n\n    num = ni - pref\n    den = weighted + contingent + opt_inc\n    eps_prior = num / den\n    if bond_eps < eps_prior:\n        diluted = (num + interest_at) / (den + conv_shares)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 276
+                },
+                "rendered": {
+                  "final": "0.6034",
+                  "weighted_shares": "1200000",
+                  "basic_eps": "37/60",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.6034",
+              "weighted_shares": "1200000",
+              "basic_eps": "37/60",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "8f00a19b444e36674d47e9d3725fd3914fcf5bc33d5d8c49fce35afcde482770",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4307,
+                  "output_tokens": 763,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 763,
+                      "cache_read_input_tokens": 4307,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0080647,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5289,
+                  "session_id": "7f4515d8-4239-4846-b692-6363924ae4bc",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(800000)\n    pref = Q(60000)\n    base_shares = Q(1000000)\n    new_shares = Q(240000)\n    months = 10\n    weighted = base_shares + new_shares * months / 12\n    basic = (ni - pref) / weighted\n\n    # contingent shares: condition not met -> excluded\n    revenue = Q(4250000)\n    threshold = Q(5000000)\n    contingent = Q(100000) if revenue >= threshold else Q(0)\n\n    # options: treasury stock method only if market > exercise\n    opt_n = Q(200000)\n    ex = Q(20)\n    mkt = Q(20)\n    if mkt > ex:\n        opt_inc = opt_n * (mkt - ex) / mkt\n    else:\n        opt_inc = Q(0)\n\n    num = ni - pref\n    den = weighted + contingent + opt_inc\n    eps_prior = num / den\n\n    # bonds\n    interest = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    conv = Q(250000)\n    bond_eps = interest / conv\n    if bond_eps < eps_prior:\n        diluted = (num + interest) / (den + conv)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 252
+                },
+                "rendered": {
+                  "final": "0.6034",
+                  "weighted_shares": "1200000",
+                  "basic_eps": "37/60",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.6034",
+              "weighted_shares": "1200000",
+              "basic_eps": "37/60",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "2a24038cc450f22e3c5048f02e91b4bf59b80596529014319675ddd44aa223c7",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4307,
+                  "output_tokens": 715,
+                  "output_tokens_details": {
+                    "thinking_tokens": 217
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 715,
+                      "cache_read_input_tokens": 4307,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0075847,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5697,
+                  "session_id": "717e927e-29f2-49b7-b232-dfa30cbd6bd7",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(800000)\n    pref = Q(60000)\n    base_shares = Q(1000000)\n    new_shares = Q(240000)\n    weighted = base_shares + new_shares * Q(10, 12)  # months 3..12 = 10 months\n    basic_eps = (ni - pref) / weighted\n\n    # Contingent shares: revenue condition not met -> excluded\n    contingent_incr = Q(0)\n    # Options: market price not above exercise price -> no incremental shares\n    mp = Q(20)\n    ex = Q(20)\n    opt_shares = Q(200000)\n    if mp > ex:\n        option_incr = opt_shares * (mp - ex) / mp\n    else:\n        option_incr = Q(0)\n\n    num = ni - pref\n    den = weighted + contingent_incr + option_incr\n    eps_prior = num / den\n\n    # Bonds\n    addback = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    conv_shares = Q(250000)\n    bond_eps = addback / conv_shares\n\n    if bond_eps < eps_prior:\n        diluted = (num + addback) / (den + conv_shares)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic_eps,\n        \"option_incremental_shares\": option_incr,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 239
+                },
+                "rendered": {
+                  "final": "0.6034",
+                  "weighted_shares": "1200000",
+                  "basic_eps": "37/60",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.6034",
+              "weighted_shares": "1200000",
+              "basic_eps": "37/60",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "04cf41b8ebc8dd4ae9eff5994591dec9ae9ad5913aea36eeac113b6765505344",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4307,
+                  "output_tokens": 755,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 755,
+                      "cache_read_input_tokens": 4307,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0079847,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 8556,
+                  "session_id": "c40456e3-f5de-403e-823b-26c6209982b4",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(800000)\n    pref = Q(60000)\n    base_shares = Q(1000000)\n    new_shares = Q(240000)\n    weighted = base_shares + new_shares * Q(10, 12)\n    basic = (ni - pref) / weighted\n\n    # contingent shares: revenue not met -> excluded\n    revenue = Q(4250000)\n    cont_shares = Q(100000) if revenue >= 5000000 else Q(0)\n    # options: treasury stock method only if market > exercise\n    n_opt = Q(200000)\n    ex = Q(20)\n    mp = Q(20)\n    opt_inc = n_opt * (mp - ex) / mp if mp > ex else Q(0)\n\n    # bonds\n    face = Q(2000000)\n    addback = face * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    conv = Q(250000)\n    bond_eps = addback / conv\n\n    num = ni - pref\n    den = weighted + opt_inc\n    # contingent shares excluded since condition not met (cont_shares = 0)\n    den += cont_shares\n    eps_prior = num / den\n    if bond_eps < eps_prior:\n        diluted = (num + addback) / (den + conv)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 261
+                },
+                "rendered": {
+                  "final": "0.6034",
+                  "weighted_shares": "1200000",
+                  "basic_eps": "37/60",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "0.6034",
+              "weighted_shares": "1200000",
+              "basic_eps": "37/60",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "70900be48781065b9e2bd075b6bb1654104a5f0cc7d73a12e8251d7db72c2fa3",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4307,
+                  "output_tokens": 717,
+                  "output_tokens_details": {
+                    "thinking_tokens": 207
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 717,
+                      "cache_read_input_tokens": 4307,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007604699999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5357,
+                  "session_id": "fa4a6446-87d3-4999-b178-adb370827ae3",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(800000)\n    pref = Q(60000)\n    base_shares = Q(1000000)\n    new_shares = Q(240000)\n    weighted = base_shares + new_shares * Q(10, 12)  # months 3 through 12 = 10 months\n    basic_eps = (ni - pref) / weighted\n\n    # Contingent shares: revenue condition not met, so excluded (zero incremental either way)\n    contingent_incr = Q(0)\n\n    # Options: exercise price equals market price, so no incremental shares\n    mkt = Q(20)\n    ex = Q(20)\n    opts = Q(200000)\n    if mkt > ex:\n        option_incr = opts - opts * ex / mkt\n    else:\n        option_incr = Q(0)\n\n    # Bonds\n    interest_after_tax = Q(2000000) * Q(\"0.09\") * (1 - Q(\"0.25\"))\n    conv_shares = Q(250000)\n    bond_eps = interest_after_tax / conv_shares\n\n    num = ni - pref\n    den = weighted + contingent_incr + option_incr\n    eps_prior = num / den\n    if bond_eps < eps_prior:\n        num = num + interest_after_tax\n        den = den + conv_shares\n    diluted = num / den\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic_eps,\n        \"option_incremental_shares\": option_incr,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 290
+                },
+                "rendered": {
+                  "final": "0.6034",
+                  "weighted_shares": "1200000",
+                  "basic_eps": "37/60",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn35661e1ef7dac3c24dbd",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn35661e1ef7dac3c24dbd",
+          "final_answer": {
+            "value": "2.0846"
+          },
+          "steps": [
+            {
+              "slot_id": "weighted_shares",
+              "value": "1050000"
+            },
+            {
+              "slot_id": "basic_eps",
+              "value": "37/15"
+            },
+            {
+              "slot_id": "option_incremental_shares",
+              "value": "0"
+            },
+            {
+              "slot_id": "bond_incremental_eps",
+              "value": "0.8"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "2.0846": 5
+          },
+          "weighted_shares": {
+            "1050000": 5
+          },
+          "basic_eps": {
+            "37/15": 5
+          },
+          "option_incremental_shares": {
+            "0": 5
+          },
+          "bond_incremental_eps": {
+            "0.8": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "2.0846",
+              "weighted_shares": "1050000",
+              "basic_eps": "37/15",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.8"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "256ec357db41548852a6feed76b4ba365393bc258c98e4964a7a0498ecb926a2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3308,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 728,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3308,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 728,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3308,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3308
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.020616000000000002,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5673,
+                  "session_id": "29df987f-f3b3-48e7-8979-319772ea8154",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2650000)\n    pref = Q(60000)\n    shares = Q(1000000)\n    weighted = shares + Q(300000) * Q(2, 12)\n    basic = (ni - pref) / weighted\n\n    # contingent shares: revenue condition met\n    revenue = Q(5750000)\n    cont = Q(100000) if revenue >= 5000000 else Q(0)\n\n    # options: treasury stock method\n    n_opt = Q(200000)\n    ex = Q(20)\n    mp = Q(16)\n    opt = n_opt * (mp - ex) / mp if mp > ex else Q(0)\n\n    num = ni - pref\n    den = weighted + cont + opt\n    eps_prior = num / den\n\n    # bonds\n    interest = Q(2000000) * Q(\"0.08\") * (1 - Q(\"0.25\"))\n    conv = Q(150000)\n    bond_eps = interest / conv\n    if bond_eps < eps_prior:\n        diluted = (num + interest) / (den + conv)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 250
+                },
+                "rendered": {
+                  "final": "2.0846",
+                  "weighted_shares": "1050000",
+                  "basic_eps": "37/15",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.8"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2.0846",
+              "weighted_shares": "1050000",
+              "basic_eps": "37/15",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.8"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a5d54f151416948f68693531eb03d5ec17491d997d4f4aeaed28695cbacdbcff",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 791,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 791,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.008344800000000001,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5715,
+                  "session_id": "c4b7b1a9-b137-43dc-9adb-c3cf72b8c14c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2650000)\n    pref = Q(60000)\n    weighted = Q(1000000) + Q(300000) * 2 / 12\n    basic = (ni - pref) / weighted\n\n    # contingent shares\n    revenue = Q(5750000)\n    cont = Q(100000) if revenue >= 5000000 else Q(0)\n\n    # options (treasury stock method)\n    n_opt = Q(200000)\n    ex = Q(20)\n    mp = Q(16)\n    if mp > ex:\n        opt_inc = n_opt * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n\n    num = ni - pref\n    den = weighted + cont + opt_inc\n    eps_prior = num / den\n\n    # bonds\n    interest_at = Q(2000000) * Q(\"0.08\") * (1 - Q(\"0.25\"))\n    conv = Q(150000)\n    bond_eps = interest_at / conv\n\n    if bond_eps < eps_prior:\n        diluted = (num + interest_at) / (den + conv)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 169
+                },
+                "rendered": {
+                  "final": "2.0846",
+                  "weighted_shares": "1050000",
+                  "basic_eps": "37/15",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.8"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2.0846",
+              "weighted_shares": "1050000",
+              "basic_eps": "37/15",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.8"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "61bcce3b550f53b330218e501ce06e9d4cc43618688640806dcab2e6a23c3650",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 483,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 483,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0052648,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 7216,
+                  "session_id": "dbff3cf3-79f9-47dc-8ee9-0a18b41bbb8d",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2650000)\n    pref = Q(60000)\n    weighted = Q(1000000) + Q(300000) * 2 / 12\n    basic = (ni - pref) / weighted\n\n    # contingent shares: revenue met, included in diluted share count\n    contingent = Q(100000)\n\n    # options: treasury stock method\n    exercise = Q(20)\n    avg_price = Q(16)\n    options = Q(200000)\n    if avg_price > exercise:\n        opt_inc = options * (avg_price - exercise) / avg_price\n    else:\n        opt_inc = Q(0)\n\n    # diluted EPS with contingent shares and options\n    num1 = ni - pref\n    den1 = weighted + contingent + opt_inc\n    eps1 = num1 / den1\n\n    # bonds\n    interest_after_tax = Q(2000000) * Q(\"0.08\") * (1 - Q(\"0.25\"))\n    bond_shares = Q(150000)\n    bond_eps = interest_after_tax / bond_shares\n\n    if bond_eps < eps1:\n        diluted = (num1 + interest_after_tax) / (den1 + bond_shares)\n    else:\n        diluted = eps1\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 197
+                },
+                "rendered": {
+                  "final": "2.0846",
+                  "weighted_shares": "1050000",
+                  "basic_eps": "37/15",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.8"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2.0846",
+              "weighted_shares": "1050000",
+              "basic_eps": "37/15",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.8"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "11455c097acbd841548e5058a1803a37395c7cdf5ff439cc2a2f775aee738230",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 813,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 813,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.008564800000000001,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6003,
+                  "session_id": "f8e58597-08e1-48c9-9b55-ff6bf0700f49",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2650000)\n    pref = Q(60000)\n    base_shares = Q(1000000)\n    new_shares = Q(300000)\n    weighted = base_shares + new_shares * Q(2, 12)\n    basic = (ni - pref) / weighted\n\n    # contingent shares: condition met\n    revenue = Q(5750000)\n    cont = Q(100000) if revenue >= 5000000 else Q(0)\n\n    # options: treasury stock method\n    opt_n = Q(200000)\n    ex = Q(20)\n    mp = Q(16)\n    if mp > ex:\n        opt_inc = opt_n * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n\n    num = ni - pref\n    den = weighted + cont + opt_inc\n    eps_prior = num / den\n\n    # bonds\n    interest = Q(2000000) * Q(\"0.08\") * (1 - Q(\"0.25\"))\n    conv = Q(150000)\n    bond_per_share = interest / conv\n    if bond_per_share < eps_prior:\n        diluted = (num + interest) / (den + conv)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_per_share,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 327
+                },
+                "rendered": {
+                  "final": "2.0846",
+                  "weighted_shares": "1050000",
+                  "basic_eps": "37/15",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.8"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2.0846",
+              "weighted_shares": "1050000",
+              "basic_eps": "37/15",
+              "option_incremental_shares": "0",
+              "bond_incremental_eps": "0.8"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0bfd82b3e5f92dea17ccbd3397973d54e1cbe60a880a54f2170825bb101cadcb",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 789,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 789,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0083248,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6019,
+                  "session_id": "671cf0e6-e6d9-4e22-89ce-c76e2605fc62",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    ni = Q(2650000)\n    pref = Q(60000)\n    shares0 = Q(1000000)\n    issued = Q(300000)\n    weighted = shares0 + issued * Q(2, 12)\n    basic = (ni - pref) / weighted\n\n    # contingent shares: condition met\n    revenue = Q(5750000)\n    contingent = Q(100000) if revenue >= 5000000 else Q(0)\n\n    # options (treasury stock method)\n    opt_n = Q(200000)\n    ex = Q(20)\n    mp = Q(16)\n    if mp > ex:\n        opt_inc = opt_n * (mp - ex) / mp\n    else:\n        opt_inc = Q(0)\n\n    num = ni - pref\n    den = weighted + contingent + opt_inc\n    eps_prior = num / den\n\n    # bonds\n    interest_at = Q(2000000) * Q(\"0.08\") * (1 - Q(\"0.25\"))\n    conv = Q(150000)\n    bond_eps = interest_at / conv\n\n    if bond_eps < eps_prior:\n        diluted = (num + interest_at) / (den + conv)\n    else:\n        diluted = eps_prior\n\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": weighted,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_eps,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 206
+                },
+                "rendered": {
+                  "final": "2.0846",
+                  "weighted_shares": "1050000",
+                  "basic_eps": "37/15",
+                  "option_incremental_shares": "0",
+                  "bond_incremental_eps": "0.8"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "698c525bc8a19f082345ea04de3da3dc9884c387424809a837e6051ccd85a8d8"
+}

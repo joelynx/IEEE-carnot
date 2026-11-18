@@ -1,0 +1,229 @@
+{
+ "family": "c1_50",
+ "template_sha256": "e243ddfedd8d8b47939a4f966794bb233043a17bd75ee4117d7c7af0a8fe3b4b",
+ "draws_sha256": "7d17d51e16e9a08ac2a01e587270c3c32e9d66fd67c65b526ce8c04594819daf",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "eab494969588d3decb3bb85513862f3fcc69678ee9725cb0e6375e6d09c68670",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1736,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 485,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1736,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 485,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1736,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1736
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0591405
+  }
+ ],
+ "program": "def solve():\n    N = P[\"N\"]\n    B0 = P[\"B0\"]\n    P1 = P[\"P1\"]\n    D = P[\"D\"]\n    R = P[\"R\"]\n    P2 = P[\"P2\"]\n    P3 = P[\"P3\"]\n    C = P[\"C\"]\n\n    # First sale: signed result per share and total\n    per_share_first = P1 - B0\n    first_total = per_share_first * N\n\n    # Wash-sale check: loss on first sale and repurchase within 30 days inclusive\n    disallowed = 0\n    if per_share_first < 0 and D <= 30:\n        covered = N if N < R else R\n        disallowed = (-per_share_first) * covered\n\n    allowed_first = first_total + disallowed  # loss reduced toward zero by disallowed part\n\n    # New lot basis with disallowed loss added\n    lot_basis = P2 * R + disallowed\n\n    # Second sale of whole new lot\n    second_result = P3 * R - lot_basis\n\n    net = allowed_first + second_result\n\n    if net < 0:\n        loss = -net\n        if loss > C:\n            deduction = C\n            carry = loss - C\n        else:\n            deduction = loss\n            carry = 0\n    else:\n        deduction = 0\n        carry = 0\n\n    return {\n        \"final\": carry,\n        \"disallowed_loss\": disallowed,\n        \"adjusted_lot_basis\": lot_basis,\n        \"net_result\": net,\n        \"year_deduction\": deduction,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_B0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_P1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_P2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_P3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_B0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_P1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_P2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_P3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

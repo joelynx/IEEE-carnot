@@ -1,0 +1,199 @@
+{
+ "family": "c1_24",
+ "template_sha256": "cb4e8160fb23b458b377f22dbccc33a522569e7717e18ebe341248cdecf2337a",
+ "draws_sha256": "3bce94dfc1074b71cef0655a3b5b3e418fe1e7237adef4b1cea8fe054c8ba88c",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "690a49b532d1b52a4489ab156ed32aa038179c4d7f05e280b7f1445944aba117",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1452,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 390,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1452,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 390,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1452,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1452
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.048710500000000004
+  }
+ ],
+ "program": "def solve():\n    T = P[\"T\"]\n    A1 = P[\"A1\"]\n    A2 = P[\"A2\"]\n    B1 = P[\"B1\"]\n    C1 = P[\"C1\"]\n\n    # Ledger: (customer, day) -> list of deposits\n    ledger = {\n        (\"X\", 1): [A1, A2],\n        (\"X\", 2): [B1],\n        (\"Y\", 2): [C1],\n    }\n\n    reports = []  # (customer, day, amount)\n    for (cust, day), deps in ledger.items():\n        agg = sum(deps)\n        if agg > T:\n            reports.append((cust, day, agg))\n        else:\n            for d in deps:\n                if d > T:\n                    reports.append((cust, day, d))\n\n    day1_aggregate = A1 + A2\n    day1_report_count = sum(1 for r in reports if r[1] == 1)\n    total_report_count = len(reports)\n    total_amount = sum(r[2] for r in reports)\n\n    return {\n        \"final\": total_amount,\n        \"day1_aggregate\": day1_aggregate,\n        \"day1_report_count\": day1_report_count,\n        \"total_report_count\": total_report_count,\n    }\n",
+ "result": {
+  "compared": 28,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_T",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_A1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_A2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_B1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_T",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_A1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_A2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_B1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_C1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

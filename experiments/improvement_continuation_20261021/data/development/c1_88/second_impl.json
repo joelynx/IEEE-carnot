@@ -1,0 +1,219 @@
+{
+ "family": "c1_88",
+ "template_sha256": "0770430cc796694c09fd776608e3f7b4931a9ecc50e768061b7a79fa47045032",
+ "draws_sha256": "1d04bc50064d5398a99c521f69620c7abcbeb2b2da8f5ca69237f2239d6a247e",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "8307f19799e52caf21df812d01eb29b140119d955a24b64847c79952a47b4bc4",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1721,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 624,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1721,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 624,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1721,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1721
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0657905
+  }
+ ],
+ "program": "def solve():\n    W_A = Q(P[\"W_A\"]); W_B = Q(P[\"W_B\"]); W_C = Q(P[\"W_C\"])\n    W_D = Q(100) - W_A - W_B - W_C\n    if W_D < 1:\n        raise ValueError(\"benchmark invalid: weight of D below 1%\")\n    names = [\"A\", \"B\", \"C\", \"D\"]\n    weights = {\"A\": W_A, \"B\": W_B, \"C\": W_C, \"D\": W_D}\n    scores = {\"A\": Q(P[\"S_A\"]), \"B\": Q(P[\"S_B\"]), \"C\": Q(P[\"S_C\"]), \"D\": Q(P[\"S_D\"])}\n    target = P[\"TARGET\"]\n    if target not in names:\n        raise ValueError(\"unknown target\")\n\n    # benchmark-weighted average score (weights in %, divide by 100)\n    avg = sum(weights[n] * scores[n] for n in names) / Q(100)\n\n    # tilt factors with floor applied before renormalization\n    tilted_raw = {}\n    for n in names:\n        f = 1 + 2 * (scores[n] - avg) / Q(100)\n        if f < Q(\"0.25\"):\n            f = Q(\"0.25\")\n        tilted_raw[n] = weights[n] * f\n\n    total = sum(tilted_raw[n] for n in names)\n    if total <= 0:\n        raise ValueError(\"tilted weights sum to zero\")\n    tilted = {n: tilted_raw[n] * Q(100) / total for n in names}\n\n    tilted_score = sum(tilted[n] * scores[n] for n in names) / Q(100)\n    active = tilted[target] - weights[target]\n\n    return {\n        \"final\": tilted[target],\n        \"benchmark_avg_score\": avg,\n        \"tilted_portfolio_score\": tilted_score,\n        \"active_weight_pp\": active,\n    }\n",
+ "result": {
+  "compared": 24,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_14",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_18",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_22",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_24",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_25",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_26",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_27",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_W_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_W_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_W_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TARGET",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_W_A",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_W_B",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_W_C",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_S_A",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_S_B",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_S_C",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_S_D",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_TARGET",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

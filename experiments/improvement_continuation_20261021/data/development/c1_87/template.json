@@ -1,0 +1,148 @@
+{
+ "name": "fx_translation_stress_inverse_quote_hedged_subsidiary",
+ "domain_id": "risk_management",
+ "topic_id": "stress_testing",
+ "difficulty": "advanced",
+ "params": {
+  "E0": {
+   "kind": "int",
+   "min": 200,
+   "max": 2000,
+   "step": 50
+  },
+  "P": {
+   "kind": "decimal",
+   "min": "5.0",
+   "max": "60.0",
+   "step": "0.5"
+  },
+  "G": {
+   "kind": "int",
+   "min": -5,
+   "max": 5,
+   "step": 1
+  },
+  "DIV": {
+   "kind": "int",
+   "min": 0,
+   "max": 80,
+   "step": 5
+  },
+  "R0": {
+   "kind": "decimal",
+   "min": "0.80",
+   "max": "1.00",
+   "step": "0.01"
+  },
+  "D": {
+   "kind": "int",
+   "min": 5,
+   "max": 40,
+   "step": 5
+  },
+  "H": {
+   "kind": "int",
+   "min": 0,
+   "max": 125,
+   "step": 25
+  }
+ },
+ "question_template": "A US parent owns a euro-area subsidiary. Opening equity (a stock) is {E0} EUR million. Each quarter the subsidiary retains its full profit: {P} EUR million in Q1, changing by {G} EUR million each later quarter (negative means falling), for four quarters. At year end, before stress, a dividend of {DIV} EUR million is paid, leaving closing equity. Spot is quoted as euros per US dollar: {R0} EUR per USD. The stress is applied once, at year end after the dividend: the euro depreciates by {D} percent, meaning the USD value of one euro falls by {D} percent (so the EUR-per-USD quote rises). Translate closing equity (not opening) into USD millions at the pre-stress and stressed rates; gross translation loss is pre-stress USD value minus stressed USD value. The parent holds a net investment hedge with notional equal to {H} percent of opening equity (not closing); its USD gain is that notional translated at the pre-stress rate minus the same notional at the stressed rate. Report the net translation loss in USD millions, defined as gross loss minus hedge gain, signed: positive is a net loss, negative a net gain. Use exact arithmetic with no intermediate rounding.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "stressed_rate_eur_per_usd",
+   "description": "Stressed spot quote in euros per US dollar after the euro depreciation",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 6
+    }
+   }
+  },
+  {
+   "slot_id": "equity_before_usd_million",
+   "description": "Closing equity after retained profits and dividend, translated at pre-stress rate",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "equity_after_usd_million",
+   "description": "Closing equity translated at the stressed rate, USD millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "gross_loss_usd_million",
+   "description": "Gross translation loss before hedge, positive magnitude in USD millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    E0 = Q(P[\"E0\"])\n    p = Q(P[\"P\"])\n    g = Q(P[\"G\"])\n    div = Q(P[\"DIV\"])\n    r0 = Q(P[\"R0\"])\n    d = Q(P[\"D\"])\n    h = Q(P[\"H\"])\n    eq = E0\n    profit = p\n    for q in range(4):\n        eq = eq + profit\n        profit = profit + g\n    eq = eq - div\n    if eq <= 0:\n        raise ValueError(\"closing equity must be positive\")\n    if d >= 100:\n        raise ValueError(\"depreciation must be below 100 percent\")\n    r1 = r0 / (1 - d / 100)\n    before = eq / r0\n    after = eq / r1\n    gross = before - after\n    notional = E0 * h / 100\n    hedge_gain = notional / r0 - notional / r1\n    net = gross - hedge_gain\n    return {\n        \"final\": net,\n        \"stressed_rate_eur_per_usd\": r1,\n        \"equity_before_usd_million\": before,\n        \"equity_after_usd_million\": after,\n        \"gross_loss_usd_million\": gross,\n    }",
+ "coverage_params": [
+  {
+   "E0": 1000,
+   "P": "20.0",
+   "G": 2,
+   "DIV": 40,
+   "R0": "0.90",
+   "D": 20,
+   "H": 0
+  },
+  {
+   "E0": 500,
+   "P": "10.0",
+   "G": -3,
+   "DIV": 0,
+   "R0": "0.85",
+   "D": 10,
+   "H": 100
+  },
+  {
+   "E0": 1000,
+   "P": "10.0",
+   "G": 0,
+   "DIV": 80,
+   "R0": "0.92",
+   "D": 25,
+   "H": 125
+  },
+  {
+   "E0": 200,
+   "P": "5.0",
+   "G": -5,
+   "DIV": 80,
+   "R0": "1.00",
+   "D": 5,
+   "H": 50
+  }
+ ]
+}

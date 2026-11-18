@@ -1,0 +1,229 @@
+{
+ "family": "c1_38",
+ "template_sha256": "e4d2b2e9d7c6bde81b5dc83beabde318ca6b783d15c63072956551c1df9b1875",
+ "draws_sha256": "8a9c8f3694d54939f2aea909a85eec0a815fac59cc21a3d6d28aaa5c29e6e1e1",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "b9c22b2046124976344b86d45c17e60bfce30b17066b0331c055587c78734de5",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2027,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1059,
+    "output_tokens_details": {
+     "thinking_tokens": 314
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 2027,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1059,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 2027,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 2027
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.09366050000000001
+  }
+ ],
+ "program": "def solve():\n    notional = Q(P[\"NOTIONAL\"])\n    eurusd = Q(P[\"EURUSD\"])\n    eurgbp_inv = Q(P[\"EURGBP_INV\"])\n    gbpusd_mid = Q(P[\"GBPUSD_MID\"])\n    spread_pips = Q(P[\"SPREAD_PIPS\"])\n    fee_bps = Q(P[\"FEE_BPS\"])\n    max_loops = int(P[\"MAX_LOOPS\"])\n    hurdle_bps = Q(P[\"HURDLE_BPS\"])\n\n    fee_keep = 1 - fee_bps / 10000\n    half_width = spread_pips * Q(\"0.0001\") / 2\n    gbp_bid = gbpusd_mid - half_width\n\n    implied_cross = eurusd * eurgbp_inv  # USD per GBP\n\n    def run_loop(usd_start):\n        # USD -> EUR\n        eur = usd_start / eurusd\n        eur = eur * fee_keep\n        # EUR -> GBP (inverse quote: EUR per GBP)\n        gbp = eur / eurgbp_inv\n        gbp = gbp * fee_keep\n        # GBP -> USD sold at bid\n        usd = gbp * gbp_bid\n        usd = usd * fee_keep\n        return usd\n\n    # single-loop profit on the original notional\n    usd_after_one = run_loop(notional)\n    single_profit_bps = (usd_after_one - notional) / notional * 10000\n\n    # ledger of loops\n    balance = notional\n    executed = 0\n    while executed < max_loops:\n        start = balance\n        balance = run_loop(start)\n        executed += 1\n        loop_profit_bps = (balance - start) / start * 10000\n        if loop_profit_bps < hurdle_bps:\n            break\n\n    cumulative_bps = (balance - notional) / notional * 10000\n\n    return {\n        \"final\": cumulative_bps,\n        \"implied_cross_rate\": implied_cross,\n        \"single_loop_profit_bps\": single_profit_bps,\n        \"ending_usd_balance\": balance,\n        \"loop_profitable\": \"profitable\" if single_profit_bps > 0 else \"unprofitable\",\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_NOTIONAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_EURUSD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_EURGBP_INV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_GBPUSD_MID",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SPREAD_PIPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FEE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MAX_LOOPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_HURDLE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NOTIONAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_EURUSD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_EURGBP_INV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_GBPUSD_MID",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SPREAD_PIPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MAX_LOOPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_HURDLE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

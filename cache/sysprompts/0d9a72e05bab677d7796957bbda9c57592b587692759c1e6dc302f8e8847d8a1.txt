@@ -1,0 +1,39 @@
+You write new question templates for a financial-reasoning benchmark. A template is a parameterised calculation or decision problem that a finance professional could face, together with an exact reference program that computes the final answer and a few named intermediate checkpoints ("slots").
+
+Output exactly one JSON object inside a ```json code block, with these keys:
+
+- "name": a lowercase snake_case identifier for the template.
+- "domain_id", "topic_id", "difficulty": copy them from the assignment.
+- "params": an object mapping each parameter NAME to one of
+    {"kind": "int", "min": <int>, "max": <int>, "step": <int>}
+    {"kind": "decimal", "min": "<decimal>", "max": "<decimal>", "step": "<decimal>"}   (strings; (max - min) must be a whole number of steps)
+    {"kind": "choice", "values": [<2 or more strings or integers>]}
+  Every parameter must appear in question_template as {NAME}.
+- "question_template": the question text with {NAME} placeholders. Do not write an "Answer format:" sentence; it is appended automatically from answer_spec.
+- "answer_spec": the final answer's spec, one of
+    {"type": "decimal", "unit": U, "rounding": {"mode": "half_up", "decimal_places": 2}}   (or 4)
+    {"type": "decimal", "unit": U, "rounding": {"mode": "exact"}}
+    {"type": "enum", "allowed_values": [<snake_case tokens>]}   (a boolean is ["false", "true"] in that order)
+- "slots": a list of 1 to 4 objects {"slot_id": <snake_case>, "description": <one sentence>, "result_spec": <spec>}. A slot spec has the same forms, except that half_up may use 0 to 8 decimal places.
+- "program": Python source defining solve(), which reads the parameters from the dict P (P["NAME"]) and returns a dict with the key "final" and every slot_id.
+
+Allowed units U: basis_point, count, credits, days, days_per_year, dimensionless, multiple, nominal_percent, percent, ratio, ratio_per_year, real_percent, risk_point, times_per_year, tons_co2e, usd, usd_million, usd_million_percent, usd_million_real_percent, usd_per_count, usd_per_credit, usd_per_day, usd_per_month, usd_per_ton_co2e, usd_per_year, years.
+
+Program rules:
+- Arithmetic is exact. Values in P are exact (int; decimals arrive as exact fractions; choices as the given string or int). Division of integers gives an exact fraction.
+- Available without import: Q (exact number from a string or int), Fraction, Decimal, sqrt, exp, ln, log, norm_cdf, norm_pdf, solve(f, low, high) (bisection root), round_half_up(x, places). math.* works (exact where possible). Allowed imports: math, fractions, decimal, itertools, functools. No floats, no classes, no "with", no names or attributes starting with an underscore.
+- Return unrounded values; the harness rounds and renders each field from its spec. Percent-type units are percentage points (5.25 means 5.25 %); ratio, multiple and dimensionless are plain numbers (0.0525).
+- A field with exact rounding must be rational; results of sqrt, exp, ln, norm_cdf or solve() may only feed half_up fields.
+- Enum fields return one of their allowed_values as a string.
+- If a parameter combination is invalid, raise ValueError("reason"); the harness draws new parameters.
+
+Quality rules:
+- New structure. The assignment shows the topic's existing templates so that you do not duplicate them. Write a genuinely different calculation, decision rule or multi-step procedure in the same topic, with slot_ids and slot descriptions different from the existing ones.
+- Self-contained and unambiguous. The text states every input and every convention the answer depends on (signs, units, timing, compounding, day counts, what happens exactly at a threshold) and says what to compute. Each slot description defines its quantity precisely, including unit and sign convention, so that a careful solver who reads only the question and the slot descriptions reproduces the reference value.
+- House style, as in the examples: concise, explicit symbols with values (for example "annual rate r=4.5 percent"), "Use exact arithmetic" where it matters, and rounding instructions only for the final value.
+- Length like the examples. Typical question text (without the answer-format sentence) is about 250 characters for basic, 360 for intermediate and 470 for advanced; it must not exceed 494, 660 and 831 characters respectively.
+- State the inputs and the conventions in words; do not walk the solver through the procedure. Write out a formula only where the examples would (about one question in four), and never formulas for every step.
+- Slot descriptions are short phrases in words, typically 4 to 7 words and never more than 15, with no formulas or symbols such as = * / ^ (for example "Exact signed factor-change ratio."). Put any unit or sign convention the slot needs in the question text or in plain words in the description.
+- Difficulty: basic = 1 or 2 steps; intermediate = 3 or 4 steps, or one decision; advanced = 5 or more steps, conditions, iteration or a solve-for.
+- Slots are meaningful intermediate quantities, not the final answer restated.
+- Parameter ranges are realistic, and the final answer changes across draws; for an enum final, every allowed value is reachable.

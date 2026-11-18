@@ -1,0 +1,83 @@
+{
+  "name": "robo_rebalance_after_withdrawal_with_sale_costs",
+  "domain_id": "fintech",
+  "topic_id": "robo_advisors",
+  "difficulty": "advanced",
+  "params": {
+    "EQUITY": {
+      "kind": "int",
+      "min": 400,
+      "max": 1600,
+      "step": 10
+    },
+    "BONDS": {
+      "kind": "int",
+      "min": 600,
+      "max": 2000,
+      "step": 10
+    },
+    "TARGET": {
+      "kind": "int",
+      "min": 40,
+      "max": 70,
+      "step": 5
+    },
+    "COST": {
+      "kind": "decimal",
+      "min": "0.2",
+      "max": "2.0",
+      "step": "0.1"
+    },
+    "WITHDRAW": {
+      "kind": "int",
+      "min": 50,
+      "max": 400,
+      "step": 10
+    }
+  },
+  "question_template": "A fictional robo-advisor manages a two-asset account holding {EQUITY} USD in equities and {BONDS} USD in bonds, with a target equity weight of {TARGET} percent of total account value. Every sale costs {COST} percent of the gross amount sold; the cost is deducted from the sale proceeds, so a gross sale of G reduces that holding by G and yields G times (1 minus cost ratio) in cash. Purchases are free. First the client receives a cash withdrawal of {WITHDRAW} USD, funded entirely by a gross bond sale sized so that its net proceeds equal the withdrawal exactly. Then the advisor compares the post-withdrawal equity weight with the target: if equity is overweight it sells equity and reinvests all net proceeds in bonds; if underweight it sells bonds and reinvests all net proceeds in equities; if exactly on target it trades nothing. The gross rebalancing sale is sized so that, after its sale cost, the equity holding is exactly the target weight of the post-rebalance total. What is the total account value after the rebalance in USD?",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "withdrawal_gross_sale",
+      "description": "Gross bond sale needed to deliver the withdrawal net of cost.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "post_withdrawal_weight",
+      "description": "Equity weight of the account immediately after the withdrawal.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "percent",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "equity_trade",
+      "description": "Signed change in equity holding from rebalancing, positive means buy.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    E = Fraction(P[\"EQUITY\"])\n    B = Fraction(P[\"BONDS\"])\n    w = Fraction(P[\"TARGET\"]) / 100\n    c = Fraction(P[\"COST\"]) / 100\n    W = Fraction(P[\"WITHDRAW\"])\n    gross_bond = W / (1 - c)\n    if gross_bond > B:\n        raise ValueError(\"bond holding insufficient to fund withdrawal\")\n    E1 = E\n    B1 = B - gross_bond\n    T1 = E1 + B1\n    weight1 = E1 / T1\n    if weight1 > w:\n        x = (E1 - w * T1) / (1 - w * c)\n        trade = -x\n        total = T1 - c * x\n    elif weight1 < w:\n        y = (w * T1 - E1) / (1 - c + w * c)\n        trade = y * (1 - c)\n        total = T1 - c * y\n    else:\n        trade = Fraction(0)\n        total = T1\n    return {\n        \"final\": total,\n        \"withdrawal_gross_sale\": gross_bond,\n        \"post_withdrawal_weight\": weight1 * 100,\n        \"equity_trade\": trade\n    }"
+}

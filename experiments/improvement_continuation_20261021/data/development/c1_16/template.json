@@ -1,0 +1,113 @@
+{
+ "name": "eip1559_fee_burn_tip_cap_usd",
+ "domain_id": "crypto_finance",
+ "topic_id": "transaction_analysis",
+ "difficulty": "intermediate",
+ "params": {
+  "GAS_USED": {
+   "kind": "int",
+   "min": 21000,
+   "max": 300000,
+   "step": 1000
+  },
+  "BASE_FEE_GWEI": {
+   "kind": "decimal",
+   "min": "5.0",
+   "max": "80.0",
+   "step": "0.5"
+  },
+  "TIP_GWEI": {
+   "kind": "decimal",
+   "min": "0.5",
+   "max": "5.0",
+   "step": "0.1"
+  },
+  "MAX_FEE_GWEI": {
+   "kind": "decimal",
+   "min": "10.0",
+   "max": "100.0",
+   "step": "0.5"
+  },
+  "ETH_USD": {
+   "kind": "int",
+   "min": 1500,
+   "max": 4500,
+   "step": 10
+  }
+ },
+ "question_template": "A fictional blockchain prices transactions with a base-fee-plus-tip rule. A transaction consumed {GAS_USED} gas units. The block base fee is {BASE_FEE_GWEI} gwei per gas unit and the sender offered a priority tip of {TIP_GWEI} gwei per gas unit, subject to a max fee of {MAX_FEE_GWEI} gwei per gas unit. The effective tip per gas unit is the smaller of the offered tip and the max fee minus the base fee; if the max fee is below the base fee the transaction is invalid. Per gas unit, the base fee is burned and the effective tip is paid to the validator. 1 gwei equals 0.000000001 ETH, and the ETH/USD rate is {ETH_USD} USD per ETH. Report the effective tip per gas unit in gwei, the burned amount in ETH, the total fee paid by the sender in ETH, and the validator's tip in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "effective_tip_gwei",
+   "description": "Effective priority tip per gas unit after the max fee cap, in gwei",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "burned_eth",
+   "description": "Total base fee burned for the transaction, in ETH",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "total_fee_eth",
+   "description": "Total fee paid by the sender including burn and tip, in ETH",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    gas = Fraction(P[\"GAS_USED\"])\n    base = Fraction(P[\"BASE_FEE_GWEI\"])\n    tip = Fraction(P[\"TIP_GWEI\"])\n    max_fee = Fraction(P[\"MAX_FEE_GWEI\"])\n    rate = Fraction(P[\"ETH_USD\"])\n    if max_fee < base:\n        raise ValueError(\"max fee below base fee: transaction invalid\")\n    eff_tip = min(tip, max_fee - base)\n    gwei_to_eth = Fraction(1, 1000000000)\n    burned_eth = gas * base * gwei_to_eth\n    tip_eth = gas * eff_tip * gwei_to_eth\n    total_fee_eth = burned_eth + tip_eth\n    tip_usd = tip_eth * rate\n    return {\n        \"final\": tip_usd,\n        \"effective_tip_gwei\": eff_tip,\n        \"burned_eth\": burned_eth,\n        \"total_fee_eth\": total_fee_eth\n    }",
+ "coverage_params": [
+  {
+   "GAS_USED": 21000,
+   "BASE_FEE_GWEI": "30.0",
+   "TIP_GWEI": "2.0",
+   "MAX_FEE_GWEI": "50.0",
+   "ETH_USD": 3000
+  },
+  {
+   "GAS_USED": 150000,
+   "BASE_FEE_GWEI": "40.0",
+   "TIP_GWEI": "3.0",
+   "MAX_FEE_GWEI": "41.5",
+   "ETH_USD": 2500
+  },
+  {
+   "GAS_USED": 100000,
+   "BASE_FEE_GWEI": "20.0",
+   "TIP_GWEI": "1.5",
+   "MAX_FEE_GWEI": "21.5",
+   "ETH_USD": 4000
+  },
+  {
+   "GAS_USED": 60000,
+   "BASE_FEE_GWEI": "70.0",
+   "TIP_GWEI": "1.0",
+   "MAX_FEE_GWEI": "60.0",
+   "ETH_USD": 2000
+  }
+ ]
+}

@@ -1,0 +1,146 @@
+{
+ "name": "whale_flag_three_addresses_cold_wallet_exclusion_pair",
+ "domain_id": "crypto_finance",
+ "topic_id": "whale_detection",
+ "difficulty": "advanced",
+ "params": {
+  "SUPPLY": {
+   "kind": "int",
+   "min": 50,
+   "max": 500,
+   "step": 10
+  },
+  "BAL_PCT": {
+   "kind": "decimal",
+   "min": "0.50",
+   "max": "3.00",
+   "step": "0.25"
+  },
+  "OUT_THRESH": {
+   "kind": "int",
+   "min": 100000,
+   "max": 1000000,
+   "step": 50000
+  },
+  "BAL_A": {
+   "kind": "int",
+   "min": 500000,
+   "max": 6000000,
+   "step": 50000
+  },
+  "BAL_B": {
+   "kind": "int",
+   "min": 100000,
+   "max": 2000000,
+   "step": 50000
+  },
+  "BAL_C": {
+   "kind": "int",
+   "min": 200000,
+   "max": 4000000,
+   "step": 50000
+  },
+  "OUT_B": {
+   "kind": "int",
+   "min": 0,
+   "max": 1500000,
+   "step": 50000
+  },
+  "COLD": {
+   "kind": "choice",
+   "values": [
+    "A",
+    "B",
+    "C",
+    "none"
+   ]
+  }
+ },
+ "question_template": "A fictional token has a circulating supply of {SUPPLY} million tokens. A monitoring desk screens three addresses. Address A holds {BAL_A} tokens and moved 20000 tokens out over the past 24 hours. Address B holds {BAL_B} tokens and moved {OUT_B} tokens out. Address C holds {BAL_C} tokens and moved no tokens out. The desk's rule: an address is flagged as a whale if its balance strictly exceeds {BAL_PCT} percent of the combined balance of the three screened addresses (the threshold is measured against the three addresses' combined balance, not against circulating supply), or if its 24-hour outflow strictly exceeds {OUT_THRESH} tokens; a balance or outflow exactly equal to its threshold does not qualify. Addresses tagged as exchange cold wallets are never whales regardless of balance or outflow; the cold-wallet tag applies to address {COLD} (none means no address is tagged). The whale share of supply is the combined balance of all flagged addresses divided by circulating supply, expressed in percent. What is the whale share of supply in percent?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "balance_threshold",
+   "description": "Balance level in tokens an address must strictly exceed to qualify by balance",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "whale_count",
+   "description": "Number of addresses flagged as whales after the cold-wallet exclusion",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "total_whale_balance",
+   "description": "Combined token balance of all flagged whale addresses",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    supply = P[\"SUPPLY\"] * 1000000\n    bal = {\"A\": P[\"BAL_A\"], \"B\": P[\"BAL_B\"], \"C\": P[\"BAL_C\"]}\n    out = {\"A\": 20000, \"B\": P[\"OUT_B\"], \"C\": 0}\n    if bal[\"A\"] + bal[\"B\"] + bal[\"C\"] > supply:\n        raise ValueError(\"combined address balances exceed circulating supply\")\n    combined = bal[\"A\"] + bal[\"B\"] + bal[\"C\"]\n    thr = combined * P[\"BAL_PCT\"] / 100\n    out_thr = P[\"OUT_THRESH\"]\n    cold = P[\"COLD\"]\n    whales = []\n    for k in (\"A\", \"B\", \"C\"):\n        if k == cold:\n            continue\n        if bal[k] > thr or out[k] > out_thr:\n            whales.append(k)\n    count = len(whales)\n    total = 0\n    for k in whales:\n        total = total + bal[k]\n    share = total / supply * 100\n    return {\"final\": share, \"balance_threshold\": thr, \"whale_count\": count, \"total_whale_balance\": total}",
+ "coverage_params": [
+  {
+   "SUPPLY": 100,
+   "BAL_PCT": "1.00",
+   "OUT_THRESH": 500000,
+   "BAL_A": 2000000,
+   "BAL_B": 500000,
+   "BAL_C": 800000,
+   "OUT_B": 600000,
+   "COLD": "none"
+  },
+  {
+   "SUPPLY": 200,
+   "BAL_PCT": "0.50",
+   "OUT_THRESH": 500000,
+   "BAL_A": 3000000,
+   "BAL_B": 300000,
+   "BAL_C": 1000000,
+   "OUT_B": 800000,
+   "COLD": "A"
+  },
+  {
+   "SUPPLY": 500,
+   "BAL_PCT": "3.00",
+   "OUT_THRESH": 500000,
+   "BAL_A": 6000000,
+   "BAL_B": 2000000,
+   "BAL_C": 4000000,
+   "OUT_B": 500000,
+   "COLD": "C"
+  },
+  {
+   "SUPPLY": 50,
+   "BAL_PCT": "0.50",
+   "OUT_THRESH": 100000,
+   "BAL_A": 500000,
+   "BAL_B": 1000000,
+   "BAL_C": 4000000,
+   "OUT_B": 0,
+   "COLD": "B"
+  }
+ ]
+}

@@ -1,0 +1,1955 @@
+{
+  "family": "family_10",
+  "instances_sha256": "195685314f127993ca06f9088aef8453b22f10ea0b7499d1051fa7a5ef89abc6",
+  "recipe_sha256": "972557d9d0f268061c30b09447b9e5efc028d170067c98240b6c198a69850e32",
+  "counts": {
+    "r5d": {
+      "cases": 4,
+      "correct_final": 4,
+      "matched_slots": 16,
+      "total_slots": 16
+    },
+    "r5j": {
+      "cases": 4,
+      "correct_final": 4,
+      "matched_slots": 16,
+      "total_slots": 16
+    }
+  },
+  "cases": [
+    {
+      "case_id": "t1_syn6aa055d4217b6807dafb",
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn6aa055d4217b6807dafb",
+          "final_answer": {
+            "value": "-108763.37"
+          },
+          "steps": [
+            {
+              "slot_id": "receivables_release",
+              "value": "11592000/73"
+            },
+            {
+              "slot_id": "inventory_release",
+              "value": "-16228800/73"
+            },
+            {
+              "slot_id": "program_year_purchases",
+              "value": "185472000/73"
+            },
+            {
+              "slot_id": "payables_financing",
+              "value": "-241113600/5329"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "-108763.37": 5
+          },
+          "receivables_release": {
+            "11592000/73": 5
+          },
+          "inventory_release": {
+            "-16228800/73": 5
+          },
+          "program_year_purchases": {
+            "185472000/73": 5
+          },
+          "payables_financing": {
+            "-241113600/5329": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "-108763.37",
+              "receivables_release": "11592000/73",
+              "inventory_release": "-16228800/73",
+              "program_year_purchases": "185472000/73",
+              "payables_financing": "-241113600/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d8ece9ef3d580f568a42e2175cf5cc9d428ec0a7cfb54f5bb4ee048f9ea31226",
+                "cached": true,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3126,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 579,
+                  "output_tokens_details": {
+                    "thinking_tokens": 186
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3126,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 579,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3126,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3126
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.018397999999999998,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5100,
+                  "session_id": "38634c71-ee31-4650-b2ff-6da7126cca2b",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4140000)\n    cogs = revenue * Q(\"0.56\")\n    days = Q(365)\n\n    # Receivables: a 14-day cut releases revenue/365 * 14 regardless of the base days\n    receivables_release = revenue / days * 14\n\n    # Inventory balances (base vs target) on cost of sales\n    inv_base = cogs * 39 / days\n    inv_target = cogs * 74 / days\n    inventory_release = inv_base - inv_target\n\n    # Purchases: base year equals cost of sales; program year adds the inventory build\n    base_purchases = cogs\n    program_purchases = cogs + (inv_target - inv_base)\n\n    # Payables balances on purchases\n    pay_base = base_purchases * 40 / days\n    pay_target = program_purchases * 30 / days\n    payables_financing = pay_target - pay_base\n\n    final = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": final,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 90
+                },
+                "rendered": {
+                  "final": "-108763.37",
+                  "receivables_release": "11592000/73",
+                  "inventory_release": "-16228800/73",
+                  "program_year_purchases": "185472000/73",
+                  "payables_financing": "-241113600/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-108763.37",
+              "receivables_release": "11592000/73",
+              "inventory_release": "-16228800/73",
+              "program_year_purchases": "185472000/73",
+              "payables_financing": "-241113600/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "5aaeb44cbb11413afa8933cba03ff5b2b05a760b82e4eb737fc7e0041eac19c3",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1094,
+                  "output_tokens": 636,
+                  "output_tokens_details": {
+                    "thinking_tokens": 231
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 636,
+                      "cache_read_input_tokens": 1094,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0189734,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5118,
+                  "session_id": "6425c5d1-9fd7-4395-93f5-8100b4cb33bd",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4140000)\n    cogs = revenue * Q(\"0.56\")\n    days = Q(365)\n\n    # Receivables: days cut by 14 on revenue; the base days level cancels out\n    receivables_release = revenue * 14 / days\n\n    # Inventory balances (days on cost of sales)\n    inv_base = cogs * 39 / days\n    inv_target = cogs * 74 / days\n    inventory_release = inv_base - inv_target  # fall in inventory (negative = build)\n\n    # Program-year purchases = COGS + change in inventory (base to target)\n    purchases_program = cogs + (inv_target - inv_base)\n\n    # Payables: base purchases equal COGS; target uses program-year purchases\n    pay_base = cogs * 40 / days\n    pay_target = purchases_program * 30 / days\n    payables_financing = pay_target - pay_base  # rise in payables\n\n    final = receivables_release + inventory_release + payables_financing\n\n    return {\n        \"final\": final,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": purchases_program,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 85
+                },
+                "rendered": {
+                  "final": "-108763.37",
+                  "receivables_release": "11592000/73",
+                  "inventory_release": "-16228800/73",
+                  "program_year_purchases": "185472000/73",
+                  "payables_financing": "-241113600/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-108763.37",
+              "receivables_release": "11592000/73",
+              "inventory_release": "-16228800/73",
+              "program_year_purchases": "185472000/73",
+              "payables_financing": "-241113600/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "727c27489305fc97477288a49f4f5428646bbbdf5b2168a9b9242f88f8312010",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1085,
+                  "output_tokens": 659,
+                  "output_tokens_details": {
+                    "thinking_tokens": 234
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 659,
+                      "cache_read_input_tokens": 1085,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0192025,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4871,
+                  "session_id": "909165aa-f181-4411-9795-7cd661a79d6a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4140000)\n    cogs = revenue * Q(\"0.56\")\n    days = Q(365)\n\n    # Receivables: days cut by 14 on revenue, so release = 14 days of revenue\n    receivables_release = revenue / days * 14\n\n    # Inventory: base 39 days, target 74 days, both on cost of sales\n    inv_base = cogs * 39 / days\n    inv_target = cogs * 74 / days\n    inventory_release = inv_base - inv_target  # fall in inventory (negative = build)\n\n    # Purchases: base year equals cost of sales; program year adds inventory change\n    base_purchases = cogs\n    program_purchases = cogs + (inv_target - inv_base)\n\n    # Payables: base 40 days on base purchases, target 30 days on program purchases\n    pay_base = base_purchases * 40 / days\n    pay_target = program_purchases * 30 / days\n    payables_rise = pay_target - pay_base\n\n    total = receivables_release + inventory_release + payables_rise\n\n    return {\n        \"final\": total,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_purchases,\n        \"payables_financing\": payables_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 116
+                },
+                "rendered": {
+                  "final": "-108763.37",
+                  "receivables_release": "11592000/73",
+                  "inventory_release": "-16228800/73",
+                  "program_year_purchases": "185472000/73",
+                  "payables_financing": "-241113600/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-108763.37",
+              "receivables_release": "11592000/73",
+              "inventory_release": "-16228800/73",
+              "program_year_purchases": "185472000/73",
+              "payables_financing": "-241113600/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "45fd0d7e9963d3fc0b652a0221b2691025f282959610a1daf86e0a9d0b508283",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 435,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 435,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.033892,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4853,
+                  "session_id": "87328fec-9267-4105-9fb7-da4d145e92ae",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4140000)\n    cogs = revenue * Q(56) / 100\n    days_year = Q(365)\n\n    # Receivables: days cut by 14 -> release = revenue * 14 / 365\n    ar_cut_days = Q(14)\n    receivables_release = revenue * ar_cut_days / days_year\n\n    # Inventory balances on cost of sales\n    inv_base = cogs * Q(39) / days_year\n    inv_target = cogs * Q(74) / days_year\n    inventory_release = inv_base - inv_target  # fall in inventory (negative if rise)\n\n    # Purchases\n    base_purchases = cogs\n    program_year_purchases = cogs + (inv_target - inv_base)\n\n    # Payables balances on purchases\n    ap_base = base_purchases * Q(40) / days_year\n    ap_target = program_year_purchases * Q(30) / days_year\n    payables_financing = ap_target - ap_base  # rise in payables\n\n    net_release = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": net_release,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_year_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 105
+                },
+                "rendered": {
+                  "final": "-108763.37",
+                  "receivables_release": "11592000/73",
+                  "inventory_release": "-16228800/73",
+                  "program_year_purchases": "185472000/73",
+                  "payables_financing": "-241113600/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "-108763.37",
+              "receivables_release": "11592000/73",
+              "inventory_release": "-16228800/73",
+              "program_year_purchases": "185472000/73",
+              "payables_financing": "-241113600/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "8fa5fbb97f09fe698b11432d5abf24a55e6748f332f9e5b9956c1d9c37293abd",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1107,
+                  "output_tokens": 589,
+                  "output_tokens_details": {
+                    "thinking_tokens": 125
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 589,
+                      "cache_read_input_tokens": 1107,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.036993399999999996,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6501,
+                  "session_id": "5d2c0ecb-8cb6-40e5-8ae7-cbdf645fdf42",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4140000)\n    cogs = revenue * Q(56) / 100\n    days_year = Q(365)\n\n    # Receivables: days cut by 14, measured on revenue (base days cancel out)\n    receivable_cut_days = Q(14)\n    receivables_release = revenue * receivable_cut_days / days_year  # base minus target balance\n\n    # Inventory: measured on cost of sales\n    inv_base = cogs * Q(39) / days_year\n    inv_target = cogs * Q(74) / days_year\n    inventory_release = inv_base - inv_target  # fall in inventory (negative = cash absorbed)\n\n    # Purchases: base = COGS; program year = COGS + change in inventory\n    purchases_base = cogs\n    purchases_program = cogs + (inv_target - inv_base)\n\n    # Payables: measured on purchases\n    pay_base = purchases_base * Q(40) / days_year\n    pay_target = purchases_program * Q(30) / days_year\n    payables_financing = pay_target - pay_base  # rise in payables\n\n    net_release = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": net_release,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": purchases_program,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 235
+                },
+                "rendered": {
+                  "final": "-108763.37",
+                  "receivables_release": "11592000/73",
+                  "inventory_release": "-16228800/73",
+                  "program_year_purchases": "185472000/73",
+                  "payables_financing": "-241113600/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      },
+      "scores": {
+        "r5d": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        },
+        "r5j": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        }
+      },
+      "complete_row_choice": {
+        "index": 0,
+        "reason": "final_plurality_checkpoint_agreement"
+      },
+      "complete_row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn6aa055d4217b6807dafb",
+        "final_answer": {
+          "value": "-108763.37"
+        },
+        "steps": [
+          {
+            "slot_id": "receivables_release",
+            "value": "11592000/73"
+          },
+          {
+            "slot_id": "inventory_release",
+            "value": "-16228800/73"
+          },
+          {
+            "slot_id": "program_year_purchases",
+            "value": "185472000/73"
+          },
+          {
+            "slot_id": "payables_financing",
+            "value": "-241113600/5329"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn80989aa38c1e29fbd67b",
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn80989aa38c1e29fbd67b",
+          "final_answer": {
+            "value": "140843.11"
+          },
+          "steps": [
+            {
+              "slot_id": "receivables_release",
+              "value": "52500"
+            },
+            {
+              "slot_id": "inventory_release",
+              "value": "60760"
+            },
+            {
+              "slot_id": "program_year_purchases",
+              "value": "720440"
+            },
+            {
+              "slot_id": "payables_financing",
+              "value": "248248/9"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "140843.11": 5
+          },
+          "receivables_release": {
+            "52500": 5
+          },
+          "inventory_release": {
+            "60760": 5
+          },
+          "program_year_purchases": {
+            "720440": 5
+          },
+          "payables_financing": {
+            "248248/9": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "140843.11",
+              "receivables_release": "52500",
+              "inventory_release": "60760",
+              "program_year_purchases": "720440",
+              "payables_financing": "248248/9"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "57d166e9cf184f19ee80bfd62c8246991d47ca7f174b6f8cb8e4ae061bac21e6",
+                "cached": true,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3126,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 480,
+                  "output_tokens_details": {
+                    "thinking_tokens": 175
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3126,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 480,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3126,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3126
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.017408,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5889,
+                  "session_id": "dd5c4229-d9a0-4d9e-9ec9-8fecf8db5b60",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(1260000)\n    cogs = revenue * Q(62) / 100\n    # receivables release: days cut times daily revenue (base days cancel)\n    recv_release = revenue / 360 * 15\n    inv_base = cogs * 74 / 360\n    inv_target = cogs * 46 / 360\n    inv_release = inv_base - inv_target\n    purchases_prog = cogs + (inv_target - inv_base)\n    pay_base = cogs * 50 / 360\n    pay_target = purchases_prog * 68 / 360\n    pay_rise = pay_target - pay_base\n    total = recv_release + inv_release + pay_rise\n    return {\n        \"final\": total,\n        \"receivables_release\": recv_release,\n        \"inventory_release\": inv_release,\n        \"program_year_purchases\": purchases_prog,\n        \"payables_financing\": pay_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 120
+                },
+                "rendered": {
+                  "final": "140843.11",
+                  "receivables_release": "52500",
+                  "inventory_release": "60760",
+                  "program_year_purchases": "720440",
+                  "payables_financing": "248248/9"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "140843.11",
+              "receivables_release": "52500",
+              "inventory_release": "60760",
+              "program_year_purchases": "720440",
+              "payables_financing": "248248/9"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "1cc9978bb014bd680fa972c14b13fc08c259aa890d7a09902d9415691ffb51a4",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1094,
+                  "output_tokens": 601,
+                  "output_tokens_details": {
+                    "thinking_tokens": 226
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 601,
+                      "cache_read_input_tokens": 1094,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0186234,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5003,
+                  "session_id": "bae13a78-f70e-489b-acfc-93cf841c9528",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(1260000)\n    cogs = revenue * Q(62) / 100\n    days = 360\n    # receivables: fall = revenue/360 * days cut (base days not needed)\n    cut = Q(15)\n    rec_release = revenue / days * cut\n    # inventory balances\n    inv_base = cogs * 74 / days\n    inv_target = cogs * 46 / days\n    inv_release = inv_base - inv_target\n    # program-year purchases = COGS + (target inventory - base inventory)\n    purchases_prog = cogs + (inv_target - inv_base)\n    # payables: base purchases = COGS (flat inventory in base year)\n    pay_base = cogs * 50 / days\n    pay_target = purchases_prog * 68 / days\n    pay_rise = pay_target - pay_base\n    total = rec_release + inv_release + pay_rise\n    return {\n        \"final\": total,\n        \"receivables_release\": rec_release,\n        \"inventory_release\": inv_release,\n        \"program_year_purchases\": purchases_prog,\n        \"payables_financing\": pay_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 93
+                },
+                "rendered": {
+                  "final": "140843.11",
+                  "receivables_release": "52500",
+                  "inventory_release": "60760",
+                  "program_year_purchases": "720440",
+                  "payables_financing": "248248/9"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "140843.11",
+              "receivables_release": "52500",
+              "inventory_release": "60760",
+              "program_year_purchases": "720440",
+              "payables_financing": "248248/9"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "8ba0c1505cdfc5f7c22ba870e1decaaa1b3c34f5149233293afc4e1222fcf6f2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1085,
+                  "output_tokens": 617,
+                  "output_tokens_details": {
+                    "thinking_tokens": 252
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 617,
+                      "cache_read_input_tokens": 1085,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0187825,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5243,
+                  "session_id": "3e6eb73b-2ab0-43fe-812c-4b7fdc6a3faf",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(1260000)\n    cogs = revenue * Q(62) / 100\n    days = Q(360)\n\n    # Receivables: only the cut in days matters, so base days cancel out\n    cut = Q(15)\n    receivables_release = revenue / days * cut\n\n    # Inventory\n    inv_base = cogs * 74 / days\n    inv_target = cogs * 46 / days\n    inventory_release = inv_base - inv_target\n\n    # Purchases\n    base_purchases = cogs  # base-year inventory was flat\n    program_purchases = cogs + (inv_target - inv_base)\n\n    # Payables\n    pay_base = base_purchases * 50 / days\n    pay_target = program_purchases * 68 / days\n    payables_rise = pay_target - pay_base\n\n    total = receivables_release + inventory_release + payables_rise\n    return {\n        \"final\": total,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_purchases,\n        \"payables_financing\": payables_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 163
+                },
+                "rendered": {
+                  "final": "140843.11",
+                  "receivables_release": "52500",
+                  "inventory_release": "60760",
+                  "program_year_purchases": "720440",
+                  "payables_financing": "248248/9"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "140843.11",
+              "receivables_release": "52500",
+              "inventory_release": "60760",
+              "program_year_purchases": "720440",
+              "payables_financing": "248248/9"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "1e89cadfbcceb8a36ba746bf138d8ebe9644dd3ce4bb670d3ed328f29d7cd965",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 505,
+                  "output_tokens_details": {
+                    "thinking_tokens": 99
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 505,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.035292000000000004,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5157,
+                  "session_id": "645e7080-9eed-4de2-84a8-cfe2a56c6205",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(1260000)\n    cogs = revenue * Q(62) / 100\n    year = Q(360)\n\n    # Receivables: fall in balance from a 15-day cut in receivable days\n    ar_cut_days = Q(15)\n    receivables_release = revenue * ar_cut_days / year\n\n    # Inventory measured on cost of sales\n    inv_base = cogs * Q(74) / year\n    inv_target = cogs * Q(46) / year\n    inventory_release = inv_base - inv_target\n\n    # Program-year purchases = COGS + change in inventory (target - base)\n    program_purchases = cogs + (inv_target - inv_base)\n\n    # Payables: base on base purchases (= COGS), target on program purchases\n    ap_base = cogs * Q(50) / year\n    ap_target = program_purchases * Q(68) / year\n    payables_financing = ap_target - ap_base\n\n    total = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": total,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 87
+                },
+                "rendered": {
+                  "final": "140843.11",
+                  "receivables_release": "52500",
+                  "inventory_release": "60760",
+                  "program_year_purchases": "720440",
+                  "payables_financing": "248248/9"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "140843.11",
+              "receivables_release": "52500",
+              "inventory_release": "60760",
+              "program_year_purchases": "720440",
+              "payables_financing": "248248/9"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "c6ee8773dff29cd93a4d55c99a790ad52a483456221a2ccdcbd8f4fa0a67825f",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1107,
+                  "output_tokens": 462,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 462,
+                      "cache_read_input_tokens": 1107,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.034453399999999995,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4760,
+                  "session_id": "864e0a22-c039-486b-b05d-a22ade7ec3b2",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(1260000)\n    cogs = revenue * Q(62) / 100\n    days = Q(360)\n\n    # Receivables: cut of 15 days (base days not needed; release = 15 days of revenue)\n    ar_cut_days = Q(15)\n    receivables_release = revenue * ar_cut_days / days  # fall in AR balance\n\n    # Inventory measured on cost of sales\n    inv_base = cogs * Q(74) / days\n    inv_target = cogs * Q(46) / days\n    inventory_release = inv_base - inv_target  # fall in inventory balance\n\n    # Purchases: base = COGS; program year = COGS + (target inv - base inv)\n    purchases_base = cogs\n    purchases_prog = cogs + (inv_target - inv_base)\n\n    # Payables measured on purchases (base on base purchases, target on program purchases)\n    ap_base = purchases_base * Q(50) / days\n    ap_target = purchases_prog * Q(68) / days\n    payables_financing = ap_target - ap_base  # rise in payables\n\n    total = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": total,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": purchases_prog,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 362
+                },
+                "rendered": {
+                  "final": "140843.11",
+                  "receivables_release": "52500",
+                  "inventory_release": "60760",
+                  "program_year_purchases": "720440",
+                  "payables_financing": "248248/9"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      },
+      "scores": {
+        "r5d": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        },
+        "r5j": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        }
+      },
+      "complete_row_choice": {
+        "index": 0,
+        "reason": "final_plurality_checkpoint_agreement"
+      },
+      "complete_row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn80989aa38c1e29fbd67b",
+        "final_answer": {
+          "value": "140843.11"
+        },
+        "steps": [
+          {
+            "slot_id": "receivables_release",
+            "value": "52500"
+          },
+          {
+            "slot_id": "inventory_release",
+            "value": "60760"
+          },
+          {
+            "slot_id": "program_year_purchases",
+            "value": "720440"
+          },
+          {
+            "slot_id": "payables_financing",
+            "value": "248248/9"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synf1197cff2ba07011b384",
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synf1197cff2ba07011b384",
+          "final_answer": {
+            "value": "358765.10"
+          },
+          "steps": [
+            {
+              "slot_id": "receivables_release",
+              "value": "9216000/73"
+            },
+            {
+              "slot_id": "inventory_release",
+              "value": "-4608000/73"
+            },
+            {
+              "slot_id": "program_year_purchases",
+              "value": "214848000/73"
+            },
+            {
+              "slot_id": "payables_financing",
+              "value": "1575475200/5329"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "358765.10": 5
+          },
+          "receivables_release": {
+            "9216000/73": 5
+          },
+          "inventory_release": {
+            "-4608000/73": 5
+          },
+          "program_year_purchases": {
+            "214848000/73": 5
+          },
+          "payables_financing": {
+            "1575475200/5329": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "358765.10",
+              "receivables_release": "9216000/73",
+              "inventory_release": "-4608000/73",
+              "program_year_purchases": "214848000/73",
+              "payables_financing": "1575475200/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d657aaa0600cd742c14b4b63a2d891ff32e06d2983f5924dc6ac4004fbfea851",
+                "cached": true,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3126,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 568,
+                  "output_tokens_details": {
+                    "thinking_tokens": 163
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3126,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 568,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3126,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3126
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.018288,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 7263,
+                  "session_id": "70ae5913-2329-4abc-b0a2-e4d841c5bfc8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(3840000)\n    cogs = revenue * Q(\"0.75\")\n    days = Q(365)\n\n    # Receivables: a 12-day cut releases revenue/365 * 12 whatever the base days were\n    receivables_release = revenue / days * 12\n\n    # Inventory: base 78 days, target 86 days, measured on cost of sales\n    inv_base = cogs * 78 / days\n    inv_target = cogs * 86 / days\n    inventory_release = inv_base - inv_target  # negative, since inventory rises\n\n    # Program-year purchases = cost of sales + change in inventory balance\n    purchases = cogs + (inv_target - inv_base)\n\n    # Payables: base purchases equal cost of sales; target uses program-year purchases\n    pay_base = cogs * 31 / days\n    pay_target = purchases * 67 / days\n    payables_rise = pay_target - pay_base\n\n    total = receivables_release + inventory_release + payables_rise\n    return {\n        \"final\": total,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": purchases,\n        \"payables_financing\": payables_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 221
+                },
+                "rendered": {
+                  "final": "358765.10",
+                  "receivables_release": "9216000/73",
+                  "inventory_release": "-4608000/73",
+                  "program_year_purchases": "214848000/73",
+                  "payables_financing": "1575475200/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "358765.10",
+              "receivables_release": "9216000/73",
+              "inventory_release": "-4608000/73",
+              "program_year_purchases": "214848000/73",
+              "payables_financing": "1575475200/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0408308da2d9f01501cd492091f9c4713ce1f7823c8abe331feac2e5c17565f8",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1094,
+                  "output_tokens": 576,
+                  "output_tokens_details": {
+                    "thinking_tokens": 209
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 576,
+                      "cache_read_input_tokens": 1094,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0183734,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4881,
+                  "session_id": "a9e4bc53-6102-4acc-9b69-a59c43a04aff",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(3840000)\n    cogs = revenue * Q(75) / 100\n    days = Q(365)\n    # receivables: fall = revenue/365 * days cut (base days cancel out)\n    cut = Q(12)\n    recv_release = revenue / days * cut\n    # inventory balances\n    inv_base = cogs * 78 / days\n    inv_target = cogs * 86 / days\n    inv_release = inv_base - inv_target  # fall in inventory (negative: inventory rises)\n    # purchases\n    base_purchases = cogs\n    prog_purchases = cogs + (inv_target - inv_base)\n    pay_base = base_purchases * 31 / days\n    pay_target = prog_purchases * 67 / days\n    pay_rise = pay_target - pay_base\n    total = recv_release + inv_release + pay_rise\n    return {\n        \"final\": total,\n        \"receivables_release\": recv_release,\n        \"inventory_release\": inv_release,\n        \"program_year_purchases\": prog_purchases,\n        \"payables_financing\": pay_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 183
+                },
+                "rendered": {
+                  "final": "358765.10",
+                  "receivables_release": "9216000/73",
+                  "inventory_release": "-4608000/73",
+                  "program_year_purchases": "214848000/73",
+                  "payables_financing": "1575475200/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "358765.10",
+              "receivables_release": "9216000/73",
+              "inventory_release": "-4608000/73",
+              "program_year_purchases": "214848000/73",
+              "payables_financing": "1575475200/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a547e36bb4c7dd27e2ddb7cedca9318f2b73b1a9616674b654140943b2b2847b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1085,
+                  "output_tokens": 594,
+                  "output_tokens_details": {
+                    "thinking_tokens": 204
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 594,
+                      "cache_read_input_tokens": 1085,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0185525,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4877,
+                  "session_id": "e3842b92-4161-4b4d-bfdb-6bbe0f5ff2f6",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(3840000)\n    cogs = revenue * Q(\"0.75\")\n    days = Q(365)\n\n    # Receivables fall: 12 fewer days on revenue (base receivable days cancel out)\n    rec_release = revenue / days * 12\n\n    # Inventory balances on cost of sales\n    inv_base = cogs * 78 / days\n    inv_target = cogs * 86 / days\n    inv_release = inv_base - inv_target  # negative means cash absorbed\n\n    # Purchases: base equals cost of sales; program year adds the inventory change\n    base_purchases = cogs\n    prog_purchases = cogs + (inv_target - inv_base)\n\n    # Payables on purchases\n    pay_base = base_purchases * 31 / days\n    pay_target = prog_purchases * 67 / days\n    pay_rise = pay_target - pay_base\n\n    total = rec_release + inv_release + pay_rise\n    return {\n        \"final\": total,\n        \"receivables_release\": rec_release,\n        \"inventory_release\": inv_release,\n        \"program_year_purchases\": prog_purchases,\n        \"payables_financing\": pay_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 97
+                },
+                "rendered": {
+                  "final": "358765.10",
+                  "receivables_release": "9216000/73",
+                  "inventory_release": "-4608000/73",
+                  "program_year_purchases": "214848000/73",
+                  "payables_financing": "1575475200/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "358765.10",
+              "receivables_release": "9216000/73",
+              "inventory_release": "-4608000/73",
+              "program_year_purchases": "214848000/73",
+              "payables_financing": "1575475200/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "56e41c2e118d88bc81407487b2ec6e2894332f54053c0d0734f267b2eff4196f",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 417,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 417,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.033532,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4511,
+                  "session_id": "c0007612-66a7-422d-adf1-2feb97a9f0c1",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(3840000)\n    cogs = revenue * Q(75) / 100\n    days_year = Q(365)\n\n    # Receivables: base days unknown, but release = revenue * cut / 365\n    rec_cut_days = Q(12)\n    receivables_release = revenue * rec_cut_days / days_year\n\n    # Inventory balances on cost of sales\n    inv_base = cogs * Q(78) / days_year\n    inv_target = cogs * Q(86) / days_year\n    inventory_release = inv_base - inv_target  # fall in inventory (negative if rises)\n\n    # Purchases\n    base_purchases = cogs\n    program_purchases = cogs + (inv_target - inv_base)\n\n    # Payables on purchases\n    pay_base = base_purchases * Q(31) / days_year\n    pay_target = program_purchases * Q(67) / days_year\n    payables_financing = pay_target - pay_base\n\n    net_release = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": net_release,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 118
+                },
+                "rendered": {
+                  "final": "358765.10",
+                  "receivables_release": "9216000/73",
+                  "inventory_release": "-4608000/73",
+                  "program_year_purchases": "214848000/73",
+                  "payables_financing": "1575475200/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "358765.10",
+              "receivables_release": "9216000/73",
+              "inventory_release": "-4608000/73",
+              "program_year_purchases": "214848000/73",
+              "payables_financing": "1575475200/5329"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a2b72210306cf4f570af0701b27750d34c58c821907409a0cbd7dc97c10ee855",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1107,
+                  "output_tokens": 446,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 446,
+                      "cache_read_input_tokens": 1107,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0341334,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5085,
+                  "session_id": "9363b60f-6b19-45d8-b178-dad4e4d09c02",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(3840000)\n    cogs = revenue * Q(75) / 100\n    days_year = Q(365)\n\n    # Receivables: base days unknown but only the change matters; cut of 12 days\n    ar_cut_days = Q(12)\n    receivables_release = revenue * ar_cut_days / days_year  # fall in AR balance\n\n    # Inventory on cost of sales\n    inv_base = cogs * Q(78) / days_year\n    inv_target = cogs * Q(86) / days_year\n    inventory_release = inv_base - inv_target  # fall in inventory (negative = cash absorbed)\n\n    # Purchases\n    base_purchases = cogs  # inventory flat in base year\n    program_purchases = cogs + (inv_target - inv_base)\n\n    # Payables on purchases\n    ap_base = base_purchases * Q(31) / days_year\n    ap_target = program_purchases * Q(67) / days_year\n    payables_financing = ap_target - ap_base  # rise in payables\n\n    net_release = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": net_release,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 112
+                },
+                "rendered": {
+                  "final": "358765.10",
+                  "receivables_release": "9216000/73",
+                  "inventory_release": "-4608000/73",
+                  "program_year_purchases": "214848000/73",
+                  "payables_financing": "1575475200/5329"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      },
+      "scores": {
+        "r5d": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        },
+        "r5j": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        }
+      },
+      "complete_row_choice": {
+        "index": 0,
+        "reason": "final_plurality_checkpoint_agreement"
+      },
+      "complete_row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synf1197cff2ba07011b384",
+        "final_answer": {
+          "value": "358765.10"
+        },
+        "steps": [
+          {
+            "slot_id": "receivables_release",
+            "value": "9216000/73"
+          },
+          {
+            "slot_id": "inventory_release",
+            "value": "-4608000/73"
+          },
+          {
+            "slot_id": "program_year_purchases",
+            "value": "214848000/73"
+          },
+          {
+            "slot_id": "payables_financing",
+            "value": "1575475200/5329"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn1b696a33f033d89bfa67",
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn1b696a33f033d89bfa67",
+          "final_answer": {
+            "value": "575769.86"
+          },
+          "steps": [
+            {
+              "slot_id": "receivables_release",
+              "value": "168000"
+            },
+            {
+              "slot_id": "inventory_release",
+              "value": "265440"
+            },
+            {
+              "slot_id": "program_year_purchases",
+              "value": "3194760"
+            },
+            {
+              "slot_id": "payables_financing",
+              "value": "10390080/73"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "575769.86": 5
+          },
+          "receivables_release": {
+            "168000": 5
+          },
+          "inventory_release": {
+            "265440": 5
+          },
+          "program_year_purchases": {
+            "3194760": 5
+          },
+          "payables_financing": {
+            "10390080/73": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "575769.86",
+              "receivables_release": "168000",
+              "inventory_release": "265440",
+              "program_year_purchases": "3194760",
+              "payables_financing": "10390080/73"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "09a8722f330c09198ef3a27f422626e9fbba5c38b8950a8d844892cdbad615b4",
+                "cached": true,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3126,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 612,
+                  "output_tokens_details": {
+                    "thinking_tokens": 214
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3126,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 612,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3126,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3126
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.018728,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5049,
+                  "session_id": "4288714b-4ff5-4c05-8883-065ef86b7500",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4380000)\n    cogs = revenue * Q(\"0.79\")\n    days = Q(365)\n\n    # Receivables: fall equals 14 days of revenue (base days cancel out)\n    receivables_release = revenue * 14 / days\n\n    # Inventory: base 82 days, target 54 days, on cost of sales\n    inv_base = cogs * 82 / days\n    inv_target = cogs * 54 / days\n    inventory_release = inv_base - inv_target\n\n    # Program-year purchases = COGS + change in inventory (target - base)\n    purchases_prog = cogs + (inv_target - inv_base)\n\n    # Payables: base on base-year purchases (= COGS), target on program-year purchases\n    pay_base = cogs * 45 / days\n    pay_target = purchases_prog * 65 / days\n    payables_rise = pay_target - pay_base\n\n    total = receivables_release + inventory_release + payables_rise\n\n    return {\n        \"final\": total,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": purchases_prog,\n        \"payables_financing\": payables_rise,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 116
+                },
+                "rendered": {
+                  "final": "575769.86",
+                  "receivables_release": "168000",
+                  "inventory_release": "265440",
+                  "program_year_purchases": "3194760",
+                  "payables_financing": "10390080/73"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "575769.86",
+              "receivables_release": "168000",
+              "inventory_release": "265440",
+              "program_year_purchases": "3194760",
+              "payables_financing": "10390080/73"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "fae129b5503649586c46ac81f9cf60a625908e0577aef64561ef7dfecea00a4b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1094,
+                  "output_tokens": 713,
+                  "output_tokens_details": {
+                    "thinking_tokens": 284
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 713,
+                      "cache_read_input_tokens": 1094,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0197434,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6117,
+                  "session_id": "97091776-9b02-4e8b-ade9-c4e13618e089",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    # Inputs\n    revenue = Q(4380000)\n    cogs = revenue * Q(\"0.79\")\n    days = Q(365)\n\n    # Receivables: fall = revenue * 14/365 (base days cancel in the difference)\n    receivables_release = revenue * 14 / days\n\n    # Inventory: base 82 days, target 54 days, on cost of sales\n    inv_base = cogs * 82 / days\n    inv_target = cogs * 54 / days\n    inventory_release = inv_base - inv_target\n\n    # Program-year purchases = COGS + (target inventory - base inventory)\n    program_year_purchases = cogs + (inv_target - inv_base)\n\n    # Payables: base purchases = COGS (base inventory flat), 45 days\n    # Target payables on program-year purchases, 65 days\n    pay_base = cogs * 45 / days\n    pay_target = program_year_purchases * 65 / days\n    payables_financing = pay_target - pay_base\n\n    final = receivables_release + inventory_release + payables_financing\n\n    return {\n        \"final\": final,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_year_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 141
+                },
+                "rendered": {
+                  "final": "575769.86",
+                  "receivables_release": "168000",
+                  "inventory_release": "265440",
+                  "program_year_purchases": "3194760",
+                  "payables_financing": "10390080/73"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "575769.86",
+              "receivables_release": "168000",
+              "inventory_release": "265440",
+              "program_year_purchases": "3194760",
+              "payables_financing": "10390080/73"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "c0243d618023d0ed825706abbcd1e9a90a9117a52e5aa83b1c1f57351e51305a",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3125,
+                  "cache_read_input_tokens": 1085,
+                  "output_tokens": 661,
+                  "output_tokens_details": {
+                    "thinking_tokens": 307
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3125,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 661,
+                      "cache_read_input_tokens": 1085,
+                      "cache_creation_input_tokens": 3125,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3125
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0192225,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5443,
+                  "session_id": "dd9f912c-8879-495d-a8ca-39340a69ecc7",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4380000)\n    cogs = revenue * Q(\"0.79\")\n    days = 365\n\n    # Receivables: fall equals the days cut times daily revenue\n    receivables_release = revenue / days * 14\n\n    # Inventory: balances on cost of sales\n    inv_base = cogs / days * 82\n    inv_target = cogs / days * 54\n    inventory_release = inv_base - inv_target\n\n    # Program-year purchases = COGS + (target inventory - base inventory)\n    purchases = cogs + (inv_target - inv_base)\n\n    # Payables: base year purchases equal COGS\n    pay_base = cogs / days * 45\n    pay_target = purchases / days * 65\n    payables_financing = pay_target - pay_base\n\n    total = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": total,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 163
+                },
+                "rendered": {
+                  "final": "575769.86",
+                  "receivables_release": "168000",
+                  "inventory_release": "265440",
+                  "program_year_purchases": "3194760",
+                  "payables_financing": "10390080/73"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "575769.86",
+              "receivables_release": "168000",
+              "inventory_release": "265440",
+              "program_year_purchases": "3194760",
+              "payables_financing": "10390080/73"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "5f09859de02e91438879e413f64b1c9e647a1031a61f8279d285ba7624c8ab15",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 621,
+                  "output_tokens_details": {
+                    "thinking_tokens": 204
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 621,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.037612,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6501,
+                  "session_id": "8d563433-f8fe-4ee2-9a0d-2e0d2685592a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    revenue = Q(4380000)\n    cogs = revenue * Q(79) / 100\n    days = Q(365)\n\n    # Receivables: cut of 14 days on revenue\n    recv_cut_days = Q(14)\n    receivables_release = revenue * recv_cut_days / days  # base minus target\n\n    # Inventory: 82 -> 54 days on cost of sales\n    inv_base = cogs * Q(82) / days\n    inv_target = cogs * Q(54) / days\n    inventory_release = inv_base - inv_target\n\n    # Program-year purchases = COGS + change in inventory (target - base)\n    program_purchases = cogs + (inv_target - inv_base)\n\n    # Payables: base on base purchases (= COGS), target on program purchases\n    pay_base = cogs * Q(45) / days\n    pay_target = program_purchases * Q(65) / days\n    payables_financing = pay_target - pay_base\n\n    net_release = receivables_release + inventory_release + payables_financing\n    return {\n        \"final\": net_release,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 156
+                },
+                "rendered": {
+                  "final": "575769.86",
+                  "receivables_release": "168000",
+                  "inventory_release": "265440",
+                  "program_year_purchases": "3194760",
+                  "payables_financing": "10390080/73"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "575769.86",
+              "receivables_release": "168000",
+              "inventory_release": "265440",
+              "program_year_purchases": "3194760",
+              "payables_financing": "10390080/73"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "74e2f833478147d3ba25bb2fc727a668f58ce655fd6ded8b8e959839cec01c86",
+                "cached": false,
+                "model_id": "claude-opus-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3123,
+                  "cache_read_input_tokens": 1107,
+                  "output_tokens": 643,
+                  "output_tokens_details": {
+                    "thinking_tokens": 99
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3123,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 643,
+                      "cache_read_input_tokens": 1107,
+                      "cache_creation_input_tokens": 3123,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3123
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0380734,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6402,
+                  "session_id": "5d1e58dd-d9b3-4663-8b2f-8617b1af005c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    # Inputs\n    revenue = Q(4380000)                 # USD per year, unchanged\n    cogs = revenue * Q(79) / 100         # cost of sales, USD per year\n    days_year = Q(365)\n\n    # Receivables: measured on revenue; days cut by 14\n    ar_cut_days = Q(14)\n    receivables_release = revenue * ar_cut_days / days_year  # base AR minus target AR (positive = cash released)\n\n    # Inventory: measured on cost of sales; 82 -> 54 days\n    inv_base = cogs * Q(82) / days_year\n    inv_target = cogs * Q(54) / days_year\n    inventory_release = inv_base - inv_target  # fall in inventory balance\n\n    # Purchases: base year = COGS (flat inventory); program year = COGS + change in inventory\n    base_purchases = cogs\n    program_year_purchases = cogs + (inv_target - inv_base)\n\n    # Payables: measured on purchases; 45 days (base) -> 65 days (target, on program-year purchases)\n    ap_base = base_purchases * Q(45) / days_year\n    ap_target = program_year_purchases * Q(65) / days_year\n    payables_financing = ap_target - ap_base  # rise in payables balance\n\n    # Net cash released\n    net_release = receivables_release + inventory_release + payables_financing\n\n    return {\n        \"final\": net_release,\n        \"receivables_release\": receivables_release,\n        \"inventory_release\": inventory_release,\n        \"program_year_purchases\": program_year_purchases,\n        \"payables_financing\": payables_financing,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 88
+                },
+                "rendered": {
+                  "final": "575769.86",
+                  "receivables_release": "168000",
+                  "inventory_release": "265440",
+                  "program_year_purchases": "3194760",
+                  "payables_financing": "10390080/73"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      },
+      "scores": {
+        "r5d": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        },
+        "r5j": {
+          "fac": 1,
+          "matched_slots": 4,
+          "total_slots": 4
+        }
+      },
+      "complete_row_choice": {
+        "index": 0,
+        "reason": "final_plurality_checkpoint_agreement"
+      },
+      "complete_row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn1b696a33f033d89bfa67",
+        "final_answer": {
+          "value": "575769.86"
+        },
+        "steps": [
+          {
+            "slot_id": "receivables_release",
+            "value": "168000"
+          },
+          {
+            "slot_id": "inventory_release",
+            "value": "265440"
+          },
+          {
+            "slot_id": "program_year_purchases",
+            "value": "3194760"
+          },
+          {
+            "slot_id": "payables_financing",
+            "value": "10390080/73"
+          }
+        ]
+      }
+    }
+  ],
+  "backends": {
+    "claude-opus-5-5": {
+      "backend": "claude-code-cli",
+      "cli_version": "2.1.296 (Claude Code)",
+      "model": "claude-opus-5-5",
+      "effort": "medium",
+      "flags_version": "v1",
+      "flags": [
+        "-p",
+        "--safe-mode",
+        "--model",
+        "claude-opus-5-5",
+        "--effort",
+        "medium",
+        "--system-prompt-file",
+        "<system-prompt-file>",
+        "--tools",
+        "",
+        "--strict-mcp-config",
+        "--disable-slash-commands",
+        "--permission-prompts",
+        "none",
+        "--max-turns",
+        "1",
+        "--no-session-persistence",
+        "--output-format",
+        "json"
+      ],
+      "auth_method": "claude.ai",
+      "subscription_type": "team"
+    },
+    "claude-sonnet-5-5": {
+      "backend": "claude-code-cli",
+      "cli_version": "2.1.296 (Claude Code)",
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "flags_version": "v1",
+      "flags": [
+        "-p",
+        "--safe-mode",
+        "--model",
+        "claude-sonnet-5-5",
+        "--effort",
+        "medium",
+        "--system-prompt-file",
+        "<system-prompt-file>",
+        "--tools",
+        "",
+        "--strict-mcp-config",
+        "--disable-slash-commands",
+        "--permission-prompts",
+        "none",
+        "--max-turns",
+        "1",
+        "--no-session-persistence",
+        "--output-format",
+        "json"
+      ],
+      "auth_method": "claude.ai",
+      "subscription_type": "team"
+    }
+  }
+}

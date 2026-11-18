@@ -1,0 +1,21 @@
+{
+ "at": "2026-10-22T05:20:09.336198+00:00",
+ "frozen_before_fresh_calls": true,
+ "preregistration_sha256": "44406db95ebd953eea4b3d48f0e8d532cb5f72e439c1c8d059ce5c9970cee15f",
+ "code": {
+  "carnot/improvement_validation_v2.py": "e7fe40d135aed6b5a25bd435237a33a9432df0ce880d6375c9444a2fa12bcd2a",
+  "carnot/improvement_validation_v1.py": "395dee8a9ab845d9fe715c63d4aa12d7935a34ace9ecac8d3c6f7c8b62370e06",
+  "carnot/safeguard_s2_v1.py": "bbab8cca19d63873e1c3c4c1fa1c67dfd8eb1a2d056df50238b2a953313ef7c9",
+  "configs/r4.json": "86dd678177c8357e6d5f06a5226ecc58e427eae497f7fe65c9fe23cfc120a01d",
+  "configs/r5p.json": "cddb8b9ec0ed6913fcc619f8d494bf5f094427110f16ca6d266a6f842695c39d"
+ },
+ "commands": [
+  "python -m carnot.improvement_validation_v2 generate --panel experiments/improvement_continuation_20261021/regression/panels/tuning-eval.json --mode S --run-dir experiments/safeguard_s2_20261022/tuning_eval_S --arm R4a=r4:700 --arm R4b=r4:710 --arm P=p:720 --concurrency 3",
+  "python -m carnot.improvement_validation_v2 generate --panel experiments/improvement_continuation_20261021/regression/panels/tuning-eval.json --mode H --run-dir experiments/safeguard_s2_20261022/tuning_eval_H --arm R4a=r4:700 --arm R4b=r4:710 --arm P=p:720 --concurrency 3",
+  "python -m carnot.improvement_validation_v1 score --run-dir experiments/safeguard_s2_20261022/tuning_eval_S",
+  "python -m carnot.improvement_validation_v1 score --run-dir experiments/safeguard_s2_20261022/tuning_eval_H",
+  "python -m carnot.safeguard_s2_v1 --run S=experiments/safeguard_s2_20261022/tuning_eval_S --run H=experiments/safeguard_s2_20261022/tuning_eval_H --out experiments/safeguard_s2_20261022/report.json"
+ ],
+ "identities_previously_unused": true,
+ "projected_fresh_calls": "about 8,700 (S) plus about 90 (H)"
+}

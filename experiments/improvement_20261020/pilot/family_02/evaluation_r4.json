@@ -1,0 +1,1692 @@
+{
+  "config": "r4",
+  "config_sha256": "86dd678177c8357e6d5f06a5226ecc58e427eae497f7fe65c9fe23cfc120a01d",
+  "system_sha256": "02fa773273f0247d44636c412bef4ffb3ebf0a28c5d44b3c04fd1dc0a27f866d",
+  "llm": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-sonnet-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-sonnet-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  },
+  "scores": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 12,
+    "total_slots": 12
+  },
+  "cases": [
+    {
+      "case_id": "t1_syn31fdd8783c1bd91c3260",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn31fdd8783c1bd91c3260",
+          "final_answer": {
+            "value": "11.47"
+          },
+          "steps": [
+            {
+              "slot_id": "flotation_adjusted_equity_cost_percent",
+              "value": "2500/189"
+            },
+            {
+              "slot_id": "deductible_interest",
+              "value": "11.25"
+            },
+            {
+              "slot_id": "after_tax_debt_cost_percent",
+              "value": "4.4375"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "11.47": 5
+          },
+          "flotation_adjusted_equity_cost_percent": {
+            "2500/189": 5
+          },
+          "deductible_interest": {
+            "11.25": 5
+          },
+          "after_tax_debt_cost_percent": {
+            "4.4375": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "11.47",
+              "flotation_adjusted_equity_cost_percent": "2500/189",
+              "deductible_interest": "11.25",
+              "after_tax_debt_cost_percent": "4.4375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "01f1b80b9a082540778cee69888a4b1d8d2396ca4d827e38bb89d2204ca99efd",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3199,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 268,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3199,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 268,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3199,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3199
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0155615,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2546,
+                  "session_id": "1584a463-72d4-4132-a147-5da103841c8a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(\"12.5\")\n    FE = Q(\"5.5\")\n    ke_f = KE / (1 - FE / 100)\n    D = Q(180)\n    KD = Q(\"6.25\")\n    I = D * KD / 100\n    cap = Q(\"0.3\") * 115\n    ded = min(I, cap)\n    T = Q(29)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wD = Q(\"0.2\")\n    wE = 1 - wD\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 327
+                },
+                "rendered": {
+                  "final": "11.47",
+                  "flotation_adjusted_equity_cost_percent": "2500/189",
+                  "deductible_interest": "11.25",
+                  "after_tax_debt_cost_percent": "4.4375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "11.47",
+              "flotation_adjusted_equity_cost_percent": "2500/189",
+              "deductible_interest": "11.25",
+              "after_tax_debt_cost_percent": "4.4375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d19ccbeaeb2a9b4d9e73d911c064f3979af1fd95cc686536da00c8cfa02cbde3",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4014,
+                  "output_tokens": 284,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 284,
+                      "cache_read_input_tokens": 4014,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032454000000000003,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2601,
+                  "session_id": "21d01873-19dc-45f5-9bbd-315f6af5bb44",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(\"12.5\")\n    FE = Q(\"5.5\")\n    D = Q(180)\n    KD = Q(\"6.25\")\n    EBITDA = Q(115)\n    T = Q(29)\n    wD = Q(\"0.2\")\n    wE = 1 - wD\n    ke_f = KE / (1 - FE / 100)\n    I = D * KD / 100\n    cap = Q(\"0.3\") * EBITDA\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 352
+                },
+                "rendered": {
+                  "final": "11.47",
+                  "flotation_adjusted_equity_cost_percent": "2500/189",
+                  "deductible_interest": "11.25",
+                  "after_tax_debt_cost_percent": "4.4375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "11.47",
+              "flotation_adjusted_equity_cost_percent": "2500/189",
+              "deductible_interest": "11.25",
+              "after_tax_debt_cost_percent": "4.4375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f932a70f04e298b3f40c45d73d4e065b54eb92b287a4ac4a2ef6bac900fd7d7f",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4014,
+                  "output_tokens": 284,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 284,
+                      "cache_read_input_tokens": 4014,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032454000000000003,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5335,
+                  "session_id": "729af6d3-6110-4e86-9228-b902a3cfc2b2",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(\"12.5\")\n    FE = Q(\"5.5\")\n    D = Q(180)\n    KD = Q(\"6.25\")\n    EBITDA = Q(115)\n    T = Q(29)\n    wD = Q(\"0.2\")\n    wE = 1 - wD\n    ke_f = KE / (1 - FE / 100)\n    I = D * KD / 100\n    cap = Q(\"0.3\") * EBITDA\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 476
+                },
+                "rendered": {
+                  "final": "11.47",
+                  "flotation_adjusted_equity_cost_percent": "2500/189",
+                  "deductible_interest": "11.25",
+                  "after_tax_debt_cost_percent": "4.4375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "11.47",
+              "flotation_adjusted_equity_cost_percent": "2500/189",
+              "deductible_interest": "11.25",
+              "after_tax_debt_cost_percent": "4.4375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "cf28dd967cfd3c53fddaf338eabfdd55dfdae1aeeaa3bcf0d529584b5e6f794c",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4014,
+                  "output_tokens": 282,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 282,
+                      "cache_read_input_tokens": 4014,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032254000000000007,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2555,
+                  "session_id": "17b33db5-a336-4ffb-80fd-b8cd95a62c03",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(\"12.5\")\n    FE = Q(\"5.5\")\n    ke_f = KE / (1 - FE / 100)\n    D = Q(180)\n    KD = Q(\"6.25\")\n    T = Q(29)\n    ebitda = Q(115)\n    cap = Q(\"0.3\") * ebitda\n    I = D * KD / 100\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wD = Q(\"0.2\")\n    wE = 1 - wD\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 262
+                },
+                "rendered": {
+                  "final": "11.47",
+                  "flotation_adjusted_equity_cost_percent": "2500/189",
+                  "deductible_interest": "11.25",
+                  "after_tax_debt_cost_percent": "4.4375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "11.47",
+              "flotation_adjusted_equity_cost_percent": "2500/189",
+              "deductible_interest": "11.25",
+              "after_tax_debt_cost_percent": "4.4375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "1e3069b8e377228334efb07f5be22da3641337d13b965e4718f050a1b0712a9e",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4014,
+                  "output_tokens": 282,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 282,
+                      "cache_read_input_tokens": 4014,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032254000000000007,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3041,
+                  "session_id": "9ae5874f-fe5f-4bbb-801d-ea752044f358",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(\"12.5\")\n    FE = Q(\"5.5\")\n    D = Q(180)\n    KD = Q(\"6.25\")\n    ebitda = Q(115)\n    T = Q(29)\n    wD = Q(\"0.2\")\n    wE = 1 - wD\n    ke_f = KE / (1 - FE / 100)\n    I = D * KD / 100\n    cap = Q(\"0.3\") * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 413
+                },
+                "rendered": {
+                  "final": "11.47",
+                  "flotation_adjusted_equity_cost_percent": "2500/189",
+                  "deductible_interest": "11.25",
+                  "after_tax_debt_cost_percent": "4.4375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn2f01bf679025a2077d4b",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn2f01bf679025a2077d4b",
+          "final_answer": {
+            "value": "10.40"
+          },
+          "steps": [
+            {
+              "slot_id": "flotation_adjusted_equity_cost_percent",
+              "value": "550/49"
+            },
+            {
+              "slot_id": "deductible_interest",
+              "value": "9"
+            },
+            {
+              "slot_id": "after_tax_debt_cost_percent",
+              "value": "7.11"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "10.40": 5
+          },
+          "flotation_adjusted_equity_cost_percent": {
+            "550/49": 5
+          },
+          "deductible_interest": {
+            "9": 5
+          },
+          "after_tax_debt_cost_percent": {
+            "7.11": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "10.40",
+              "flotation_adjusted_equity_cost_percent": "550/49",
+              "deductible_interest": "9",
+              "after_tax_debt_cost_percent": "7.11"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "8cc2745cbd71eb33772e95daaacdb70f21a6380fde5067b8f99dbafce6fc495f",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3193,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 279,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3193,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 279,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3193,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3193
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0156475,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4092,
+                  "session_id": "7f7c74d4-bdbc-488a-9afa-2b40350eda53",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(11)\n    FE = Q(2)\n    ke_f = KE / (1 - FE / 100)\n    D = Q(100)\n    KD = Q(9)\n    T = Q(21)\n    ebitda = Q(55)\n    I = D * KD / 100\n    cap = Q(20) / 100 * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wD = Q(20) / 100\n    wE = 1 - wD\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 296
+                },
+                "rendered": {
+                  "final": "10.40",
+                  "flotation_adjusted_equity_cost_percent": "550/49",
+                  "deductible_interest": "9",
+                  "after_tax_debt_cost_percent": "7.11"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10.40",
+              "flotation_adjusted_equity_cost_percent": "550/49",
+              "deductible_interest": "9",
+              "after_tax_debt_cost_percent": "7.11"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "625795f791dfd52a6c99dcf244e47318aa96794233de61db1090e74da1c33729",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4008,
+                  "output_tokens": 272,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 272,
+                      "cache_read_input_tokens": 4008,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031248000000000005,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2579,
+                  "session_id": "85f737a3-64e9-4d58-8938-549886a3d4a0",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(20) / 100\n    wE = 1 - wD\n    KE = Q(11)\n    FE = Q(2)\n    kef = KE / (1 - FE / 100)\n    D = Q(100)\n    KD = Q(9)\n    T = Q(21)\n    ebitda = Q(55)\n    cap = ebitda * Q(20) / 100\n    I = D * KD / 100\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * kef + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": kef,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 398
+                },
+                "rendered": {
+                  "final": "10.40",
+                  "flotation_adjusted_equity_cost_percent": "550/49",
+                  "deductible_interest": "9",
+                  "after_tax_debt_cost_percent": "7.11"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10.40",
+              "flotation_adjusted_equity_cost_percent": "550/49",
+              "deductible_interest": "9",
+              "after_tax_debt_cost_percent": "7.11"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0656b32cd8c67259109d27af84dbc206c4fec7cb9e6b9b3ffcb758addc7298ff",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4008,
+                  "output_tokens": 270,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 270,
+                      "cache_read_input_tokens": 4008,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031048000000000004,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3209,
+                  "session_id": "10720a29-cf5d-432c-8408-87883ee3fd27",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(11)\n    FE = Q(2)\n    kef = KE / (1 - FE / 100)\n    D = Q(100)\n    KD = Q(9)\n    T = Q(21)\n    ebitda = Q(55)\n    cap = Q(\"0.2\") * ebitda\n    I = D * KD / 100\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wD = Q(\"0.2\")\n    wE = 1 - wD\n    wacc = wE * kef + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": kef,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 383
+                },
+                "rendered": {
+                  "final": "10.40",
+                  "flotation_adjusted_equity_cost_percent": "550/49",
+                  "deductible_interest": "9",
+                  "after_tax_debt_cost_percent": "7.11"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10.40",
+              "flotation_adjusted_equity_cost_percent": "550/49",
+              "deductible_interest": "9",
+              "after_tax_debt_cost_percent": "7.11"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "59652d1c56d5285119490c7c380da74b0123ae0fce3905ccf9f97deeb686d21d",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4008,
+                  "output_tokens": 278,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 278,
+                      "cache_read_input_tokens": 4008,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031848000000000002,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3574,
+                  "session_id": "9d0076a9-d0c9-4bea-b3e2-c5eb54726149",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(11)\n    FE = Q(2)\n    ke_f = KE / (1 - FE / 100)\n    D = Q(100)\n    KD = Q(9)\n    T = Q(21)\n    ebitda = Q(55)\n    I = D * KD / 100\n    cap = ebitda * Q(20) / 100\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wD = Q(20) / 100\n    wE = 1 - wD\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 167
+                },
+                "rendered": {
+                  "final": "10.40",
+                  "flotation_adjusted_equity_cost_percent": "550/49",
+                  "deductible_interest": "9",
+                  "after_tax_debt_cost_percent": "7.11"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10.40",
+              "flotation_adjusted_equity_cost_percent": "550/49",
+              "deductible_interest": "9",
+              "after_tax_debt_cost_percent": "7.11"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "532f18093442325390f2f8f8bf8fd2eec0c73b301230f54b55e15a36e1c82a8b",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4008,
+                  "output_tokens": 276,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 276,
+                      "cache_read_input_tokens": 4008,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031648,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2715,
+                  "session_id": "708c6ae0-c2ea-4661-82b6-65be17ddacd9",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(11)\n    FE = Q(2)\n    ke_f = KE / (1 - FE / 100)\n    D = Q(100)\n    KD = Q(9)\n    T = Q(21)\n    ebitda = Q(55)\n    I = D * KD / 100\n    cap = Q(\"0.2\") * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wD = Q(\"0.2\")\n    wE = 1 - wD\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 453
+                },
+                "rendered": {
+                  "final": "10.40",
+                  "flotation_adjusted_equity_cost_percent": "550/49",
+                  "deductible_interest": "9",
+                  "after_tax_debt_cost_percent": "7.11"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syncf03e6ce8e288130e027",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syncf03e6ce8e288130e027",
+          "final_answer": {
+            "value": "9.31"
+          },
+          "steps": [
+            {
+              "slot_id": "flotation_adjusted_equity_cost_percent",
+              "value": "1300/93"
+            },
+            {
+              "slot_id": "deductible_interest",
+              "value": "9.5"
+            },
+            {
+              "slot_id": "after_tax_debt_cost_percent",
+              "value": "3.61"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "9.31": 5
+          },
+          "flotation_adjusted_equity_cost_percent": {
+            "1300/93": 5
+          },
+          "deductible_interest": {
+            "9.5": 5
+          },
+          "after_tax_debt_cost_percent": {
+            "3.61": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "9.31",
+              "flotation_adjusted_equity_cost_percent": "1300/93",
+              "deductible_interest": "9.5",
+              "after_tax_debt_cost_percent": "3.61"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "ca9a54e106150a49e665c43c1686d7dcfa5afff03ea5d5e9cba0d206bdd64e82",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3195,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 275,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3195,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 275,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3195,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3195
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.015615500000000001,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4003,
+                  "session_id": "5d3372f7-e791-4f34-ba10-8201e488845a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(45) / 100\n    wE = 1 - wD\n    KE = Q(13)\n    FE = Q(7)\n    kef = KE / (1 - FE / 100)\n    D = Q(200)\n    KD = Q(\"4.75\")\n    T = Q(24)\n    ebitda = Q(95)\n    I = D * KD / 100\n    cap = Q(30) / 100 * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * kef + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": kef,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 294
+                },
+                "rendered": {
+                  "final": "9.31",
+                  "flotation_adjusted_equity_cost_percent": "1300/93",
+                  "deductible_interest": "9.5",
+                  "after_tax_debt_cost_percent": "3.61"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "9.31",
+              "flotation_adjusted_equity_cost_percent": "1300/93",
+              "deductible_interest": "9.5",
+              "after_tax_debt_cost_percent": "3.61"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "dae68a15e126ad0bc3c539397b15000204115fc854ebf95d3e4616ae5bfde2ac",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 274,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 274,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.003145,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3907,
+                  "session_id": "e66848a5-8bd8-4766-a5cb-5b460828f8b2",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(45, 100)\n    wE = 1 - wD\n    KE = Q(13)\n    FE = Q(7)\n    keF = KE / (1 - FE / 100)\n    D = Q(200)\n    KD = Q(\"4.75\")\n    ebitda = Q(95)\n    T = Q(24)\n    I = D * KD / 100\n    cap = Q(30, 100) * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * keF + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": keF,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 465
+                },
+                "rendered": {
+                  "final": "9.31",
+                  "flotation_adjusted_equity_cost_percent": "1300/93",
+                  "deductible_interest": "9.5",
+                  "after_tax_debt_cost_percent": "3.61"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "9.31",
+              "flotation_adjusted_equity_cost_percent": "1300/93",
+              "deductible_interest": "9.5",
+              "after_tax_debt_cost_percent": "3.61"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "cbd7d11172e97f137b583cd00613b3c82b620f1ea2b1b0d38ba1a2e0a8ea5b22",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 273,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 273,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.003135,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2948,
+                  "session_id": "ff0baac9-3dd9-44cd-91b1-46621c6d026a",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wd = Q(45) / 100\n    we = 1 - wd\n    KE = Q(13)\n    FE = Q(7)\n    kef = KE / (1 - FE / 100)\n    D = Q(200)\n    KD = Q(\"4.75\")\n    T = Q(24)\n    ebitda = Q(95)\n    I = D * KD / 100\n    cap = Q(30) / 100 * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = we * kef + wd * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": kef,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 381
+                },
+                "rendered": {
+                  "final": "9.31",
+                  "flotation_adjusted_equity_cost_percent": "1300/93",
+                  "deductible_interest": "9.5",
+                  "after_tax_debt_cost_percent": "3.61"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "9.31",
+              "flotation_adjusted_equity_cost_percent": "1300/93",
+              "deductible_interest": "9.5",
+              "after_tax_debt_cost_percent": "3.61"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "81e1c6264425ff014767fed42e6fb31c4546f5f850b17c76f7a418a4776441f4",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 275,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 275,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031550000000000003,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3346,
+                  "session_id": "7f2947bd-0ae9-4025-ba3b-3d00e7835b32",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(45) / 100\n    wE = 1 - wD\n    KE = Q(13)\n    FE = Q(7)\n    kef = KE / (1 - FE / 100)\n    D = Q(200)\n    KD = Q(\"4.75\")\n    T = Q(24)\n    ebitda = Q(95)\n    I = D * KD / 100\n    cap = Q(30) / 100 * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * kef + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": kef,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 207
+                },
+                "rendered": {
+                  "final": "9.31",
+                  "flotation_adjusted_equity_cost_percent": "1300/93",
+                  "deductible_interest": "9.5",
+                  "after_tax_debt_cost_percent": "3.61"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "9.31",
+              "flotation_adjusted_equity_cost_percent": "1300/93",
+              "deductible_interest": "9.5",
+              "after_tax_debt_cost_percent": "3.61"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "16c4044d8b18f577ec7426cdaf31683e9e16c5cd80d944992b6a1b16e0afb4c6",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 341,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 341,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.003815,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3193,
+                  "session_id": "78f7df5a-7d18-48f8-89ec-cb91935f7c32",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(\"0.45\")\n    wE = 1 - wD\n    KE = Q(13)\n    FE = Q(7)\n    kef = KE / (1 - FE / 100)\n    D = Q(200)\n    KD = Q(\"4.75\")\n    T = Q(24)\n    ebitda = Q(95)\n    I = D * KD / 100\n    cap = Q(\"0.3\") * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * kef + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": kef,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 359
+                },
+                "rendered": {
+                  "final": "9.31",
+                  "flotation_adjusted_equity_cost_percent": "1300/93",
+                  "deductible_interest": "9.5",
+                  "after_tax_debt_cost_percent": "3.61"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syna9483b86628300174475",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syna9483b86628300174475",
+          "final_answer": {
+            "value": "8.05"
+          },
+          "steps": [
+            {
+              "slot_id": "flotation_adjusted_equity_cost_percent",
+              "value": "450/49"
+            },
+            {
+              "slot_id": "deductible_interest",
+              "value": "25.65"
+            },
+            {
+              "slot_id": "after_tax_debt_cost_percent",
+              "value": "5.4"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "8.05": 5
+          },
+          "flotation_adjusted_equity_cost_percent": {
+            "450/49": 5
+          },
+          "deductible_interest": {
+            "25.65": 5
+          },
+          "after_tax_debt_cost_percent": {
+            "5.4": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "8.05",
+              "flotation_adjusted_equity_cost_percent": "450/49",
+              "deductible_interest": "25.65",
+              "after_tax_debt_cost_percent": "5.4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "7abe6b292da17abde3a507d375b986bacf1649ef7ada9a38d1a967e231d05622",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3195,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 278,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3195,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 278,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3195,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3195
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0156455,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3270,
+                  "session_id": "143d9761-f15e-487a-9d28-e418a4040f0f",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    KE = Q(9)\n    FE = Q(2)\n    ke_f = KE / (1 - FE / 100)\n    D = Q(380)\n    KD = Q(\"6.75\")\n    T = Q(20)\n    ebitda = Q(110)\n    I = D * KD / 100\n    cap = ebitda * Q(\"0.25\")\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wD = Q(\"0.3\")\n    wE = 1 - wD\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 675
+                },
+                "rendered": {
+                  "final": "8.05",
+                  "flotation_adjusted_equity_cost_percent": "450/49",
+                  "deductible_interest": "25.65",
+                  "after_tax_debt_cost_percent": "5.4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "8.05",
+              "flotation_adjusted_equity_cost_percent": "450/49",
+              "deductible_interest": "25.65",
+              "after_tax_debt_cost_percent": "5.4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "45244ba81fba354457c4e794afa42c8b84335d364883d50f47ef2aa9f1fde596",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 278,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 278,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.003185,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2371,
+                  "session_id": "20e613cc-1336-4cdf-9a83-7155172c642c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    D = Q(380)\n    KD = Q(\"6.75\")\n    KE = Q(9)\n    FE = Q(2)\n    T = Q(20)\n    ebitda = Q(110)\n    wD = Q(\"0.3\")\n    wE = 1 - wD\n    ke_f = KE / (1 - FE / 100)\n    I = D * KD / 100\n    cap = Q(\"0.25\") * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * ke_f + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 237
+                },
+                "rendered": {
+                  "final": "8.05",
+                  "flotation_adjusted_equity_cost_percent": "450/49",
+                  "deductible_interest": "25.65",
+                  "after_tax_debt_cost_percent": "5.4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "8.05",
+              "flotation_adjusted_equity_cost_percent": "450/49",
+              "deductible_interest": "25.65",
+              "after_tax_debt_cost_percent": "5.4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "4ed958786d9f8afb79e30a5b281d19d5ee29d15c85463efa537cb032f102d1b6",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 274,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 274,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.003145,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2580,
+                  "session_id": "d58177b7-4f4e-4b90-8d26-a8665cb6b21b",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(30) / 100\n    wE = 1 - wD\n    KE = Q(9)\n    FE = Q(2)\n    keF = KE / (1 - FE / 100)\n    D = Q(380)\n    KD = Q(\"6.75\")\n    T = Q(20)\n    ebitda = Q(110)\n    I = D * KD / 100\n    cap = ebitda * Q(25) / 100\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * keF + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": keF,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 247
+                },
+                "rendered": {
+                  "final": "8.05",
+                  "flotation_adjusted_equity_cost_percent": "450/49",
+                  "deductible_interest": "25.65",
+                  "after_tax_debt_cost_percent": "5.4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "8.05",
+              "flotation_adjusted_equity_cost_percent": "450/49",
+              "deductible_interest": "25.65",
+              "after_tax_debt_cost_percent": "5.4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "21c0974a815cbc88474566cb5f29c65032688e9b44575eedef0bfd5c98ba2753",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 272,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 272,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.003125,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3482,
+                  "session_id": "a2590095-663d-4a73-aa6e-c5a80e975dd8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(\"0.3\")\n    wE = 1 - wD\n    KE = Q(9)\n    FE = Q(2)\n    keF = KE / (1 - FE / 100)\n    D = Q(380)\n    KD = Q(\"6.75\")\n    T = Q(20)\n    ebitda = Q(110)\n    I = D * KD / 100\n    cap = ebitda * Q(\"0.25\")\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * keF + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": keF,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 180
+                },
+                "rendered": {
+                  "final": "8.05",
+                  "flotation_adjusted_equity_cost_percent": "450/49",
+                  "deductible_interest": "25.65",
+                  "after_tax_debt_cost_percent": "5.4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "8.05",
+              "flotation_adjusted_equity_cost_percent": "450/49",
+              "deductible_interest": "25.65",
+              "after_tax_debt_cost_percent": "5.4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "e6145b34f904a6bf0a468e6efdb591e55dd5e3a8558495f66c2b0fad1c2e4a81",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4010,
+                  "output_tokens": 272,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 272,
+                      "cache_read_input_tokens": 4010,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.003125,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2941,
+                  "session_id": "3e99446b-ad51-476c-9381-34d72815820f",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    wD = Q(\"0.3\")\n    wE = 1 - wD\n    KE = Q(9)\n    FE = Q(2)\n    keF = KE / (1 - FE / 100)\n    D = Q(380)\n    KD = Q(\"6.75\")\n    T = Q(20)\n    ebitda = Q(110)\n    I = D * KD / 100\n    cap = Q(\"0.25\") * ebitda\n    ded = min(I, cap)\n    atkd = KD * (1 - (T / 100) * (ded / I))\n    wacc = wE * keF + wD * atkd\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": keF,\n        \"deductible_interest\": ded,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 165
+                },
+                "rendered": {
+                  "final": "8.05",
+                  "flotation_adjusted_equity_cost_percent": "450/49",
+                  "deductible_interest": "25.65",
+                  "after_tax_debt_cost_percent": "5.4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "065d0de368a255b97c80ecf6239325331e27b2dc646f56fab259c8dde9a72a1d"
+}

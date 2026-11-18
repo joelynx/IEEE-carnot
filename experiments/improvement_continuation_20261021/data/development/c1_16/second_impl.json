@@ -1,0 +1,196 @@
+{
+ "family": "c1_16",
+ "template_sha256": "7e7b866d9ec0009a2d969323f5d7c26060aaa44d9c241fa337b6bb701b82885e",
+ "draws_sha256": "117be017c23a35fb0b97ef4bf317e8bf576ab112b7248e6260a793d5ef5cdbac",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "50d2c3f9265c9e935952c9bf0903547f9e32e123a131448bafbe5b4350e14bb7",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1589,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 425,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1589,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 425,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1589,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1589
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0532005
+  }
+ ],
+ "program": "def solve():\n    gas = Q(P[\"GAS_USED\"])\n    base = Q(P[\"BASE_FEE_GWEI\"])\n    tip = Q(P[\"TIP_GWEI\"])\n    max_fee = Q(P[\"MAX_FEE_GWEI\"])\n    eth_usd = Q(P[\"ETH_USD\"])\n\n    if max_fee < base:\n        raise ValueError(\"max fee below base fee: transaction invalid\")\n\n    headroom = max_fee - base\n    eff_tip = tip if tip <= headroom else headroom\n\n    gwei_per_eth = Q(10) ** 9\n\n    # per gas unit amounts in ETH\n    burn_per_gas_eth = base / gwei_per_eth\n    tip_per_gas_eth = eff_tip / gwei_per_eth\n\n    burned_eth = burn_per_gas_eth * gas\n    tip_eth = tip_per_gas_eth * gas\n    total_fee_eth = burned_eth + tip_eth\n\n    tip_usd = tip_eth * eth_usd\n\n    return {\n        \"final\": tip_usd,\n        \"effective_tip_gwei\": eff_tip,\n        \"burned_eth\": burned_eth,\n        \"total_fee_eth\": total_fee_eth,\n    }\n",
+ "result": {
+  "compared": 25,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_12",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_13",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_14",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_16",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_17",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_19",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_GAS_USED",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BASE_FEE_GWEI",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_TIP_GWEI",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MAX_FEE_GWEI",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ETH_USD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_GAS_USED",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BASE_FEE_GWEI",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_TIP_GWEI",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MAX_FEE_GWEI",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_ETH_USD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

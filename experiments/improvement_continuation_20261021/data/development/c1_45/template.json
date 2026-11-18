@@ -1,0 +1,135 @@
+{
+ "name": "time_weighted_inventory_turnover_midyear_acquisition",
+ "domain_id": "financial_ratios",
+ "topic_id": "effratio",
+ "difficulty": "advanced",
+ "params": {
+  "OPEN_INV": {
+   "kind": "int",
+   "min": 600000,
+   "max": 1500000,
+   "step": 10000
+  },
+  "H2_CHANGE": {
+   "kind": "int",
+   "min": -150000,
+   "max": 150000,
+   "step": 10000
+  },
+  "COGS_SA": {
+   "kind": "int",
+   "min": 3000000,
+   "max": 9000000,
+   "step": 50000
+  },
+  "ACQ_MONTH": {
+   "kind": "int",
+   "min": 2,
+   "max": 12,
+   "step": 1
+  },
+  "ACQ_INV": {
+   "kind": "int",
+   "min": 100000,
+   "max": 600000,
+   "step": 10000
+  },
+  "ACQ_COGS_MONTH": {
+   "kind": "int",
+   "min": 50000,
+   "max": 300000,
+   "step": 5000
+  },
+  "DAYS": {
+   "kind": "choice",
+   "values": [
+    360,
+    365
+   ]
+  }
+ },
+ "question_template": "A retailer time-weights average inventory: each balance is weighted by the whole months it is held in the 12-month year, and the weighted sum is divided by 12. Standalone inventory is {OPEN_INV} USD in months 1-6; a seasonal adjustment of {H2_CHANGE} USD (added algebraically; negative means a reduction) applies in months 7-12. Standalone cost of goods sold for the year is {COGS_SA} USD. On the first day of month {ACQ_MONTH} the retailer acquires a business holding {ACQ_INV} USD of inventory, held at that level for the rest of the year and incurring cost of goods sold of {ACQ_COGS_MONTH} USD per month after closing. Policy: if closing is in month 6 or earlier, the acquired inventory enters the time-weighted average for the months held and its post-closing cost of goods sold is added to consolidated cost of goods sold; if closing is in month 7 or later, both are excluded entirely as non-comparable. Inventory turnover is cost of goods sold used divided by average inventory; days inventory on hand is {DAYS} days divided by turnover. Compute days inventory on hand.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "days",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "avg_inventory",
+   "description": "Time-weighted average inventory under the applicable policy branch",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "cogs_used",
+   "description": "Consolidated cost of goods sold used in the turnover ratio",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "turnover",
+   "description": "Inventory turnover on the time-weighted average",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "multiple",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    open_inv = Fraction(P[\"OPEN_INV\"])\n    h2_change = Fraction(P[\"H2_CHANGE\"])\n    cogs_sa = Fraction(P[\"COGS_SA\"])\n    m = int(P[\"ACQ_MONTH\"])\n    acq_inv = Fraction(P[\"ACQ_INV\"])\n    acq_cogs_month = Fraction(P[\"ACQ_COGS_MONTH\"])\n    days = Fraction(P[\"DAYS\"])\n    if m < 2 or m > 12:\n        raise ValueError(\"acquisition month must be between 2 and 12\")\n    sa_h2 = open_inv + h2_change\n    if sa_h2 <= 0:\n        raise ValueError(\"second-half standalone inventory must be positive\")\n    weighted = 6 * open_inv + 6 * sa_h2\n    months_held = 13 - m\n    if m <= 6:\n        weighted += acq_inv * months_held\n        cogs_used = cogs_sa + acq_cogs_month * months_held\n    else:\n        cogs_used = cogs_sa\n    avg_inventory = weighted / 12\n    turnover = cogs_used / avg_inventory\n    dio = days / turnover\n    return {\"final\": dio, \"avg_inventory\": avg_inventory, \"cogs_used\": cogs_used, \"turnover\": turnover}",
+ "coverage_params": [
+  {
+   "OPEN_INV": 900000,
+   "H2_CHANGE": 60000,
+   "COGS_SA": 5000000,
+   "ACQ_MONTH": 6,
+   "ACQ_INV": 300000,
+   "ACQ_COGS_MONTH": 120000,
+   "DAYS": 365
+  },
+  {
+   "OPEN_INV": 900000,
+   "H2_CHANGE": 60000,
+   "COGS_SA": 5000000,
+   "ACQ_MONTH": 7,
+   "ACQ_INV": 300000,
+   "ACQ_COGS_MONTH": 120000,
+   "DAYS": 365
+  },
+  {
+   "OPEN_INV": 700000,
+   "H2_CHANGE": -150000,
+   "COGS_SA": 3500000,
+   "ACQ_MONTH": 2,
+   "ACQ_INV": 500000,
+   "ACQ_COGS_MONTH": 250000,
+   "DAYS": 360
+  },
+  {
+   "OPEN_INV": 1200000,
+   "H2_CHANGE": 0,
+   "COGS_SA": 8000000,
+   "ACQ_MONTH": 12,
+   "ACQ_INV": 100000,
+   "ACQ_COGS_MONTH": 50000,
+   "DAYS": 360
+  }
+ ]
+}

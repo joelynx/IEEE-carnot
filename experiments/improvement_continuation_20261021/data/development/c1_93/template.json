@@ -1,0 +1,142 @@
+{
+ "name": "allowance_banking_borrowing_three_year_penalty",
+ "domain_id": "sustainable_finance",
+ "topic_id": "carbon_credits",
+ "difficulty": "advanced",
+ "params": {
+  "A": {
+   "kind": "int",
+   "min": 1000,
+   "max": 1500,
+   "step": 50
+  },
+  "E1": {
+   "kind": "int",
+   "min": 800,
+   "max": 2000,
+   "step": 10
+  },
+  "E2": {
+   "kind": "int",
+   "min": 800,
+   "max": 2000,
+   "step": 10
+  },
+  "E3": {
+   "kind": "int",
+   "min": 800,
+   "max": 2000,
+   "step": 10
+  },
+  "L": {
+   "kind": "int",
+   "min": 5,
+   "max": 25,
+   "step": 1
+  },
+  "R": {
+   "kind": "decimal",
+   "min": "1.00",
+   "max": "1.50",
+   "step": "0.05"
+  },
+  "PEN": {
+   "kind": "int",
+   "min": 20,
+   "max": 100,
+   "step": 5
+  },
+  "B0": {
+   "kind": "int",
+   "min": 0,
+   "max": 300,
+   "step": 50
+  }
+ },
+ "question_template": "A plant is covered by a three-year cap-and-trade scheme. It receives a free allocation of {A} allowances each compliance year (one allowance covers one ton of CO2e; allowances are divisible). Verified emissions are {E1} tons in year 1, {E2} tons in year 2 and {E3} tons in year 3. The plant holds an opening bank of {B0} allowances at the start of year 1. Each year the allowances available for compliance are the bank carried in plus that year's allocation after any repayment deduction. If available allowances exceed emissions, the surplus is banked without limit. If emissions exceed available allowances, the bank is fully used first; the remaining shortfall may be covered by borrowing from the next year's allocation up to {L} percent of that allocation, measured before any repayment deduction. Borrowing is repaid at a ratio of {R} allowances per allowance borrowed, deducted from the next year's allocation at the start of that year. No borrowing is possible in year 3. Any shortfall not covered by borrowing pays a penalty of {PEN} USD per ton, and the penalized tons are extinguished with no carry-forward. Compute the total penalty paid over the three years, the closing bank at the end of year 3 and the total allowances borrowed.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "year2_available",
+   "description": "Allowances available for compliance in year 2 after repayment deduction",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "total_borrowed",
+   "description": "Total allowances borrowed across the three years",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "closing_bank",
+   "description": "Banked allowances held at the end of year 3",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    A = Fraction(P[\"A\"])\n    E = [Fraction(P[\"E1\"]), Fraction(P[\"E2\"]), Fraction(P[\"E3\"])]\n    L = Fraction(P[\"L\"])\n    R = Fraction(P[\"R\"])\n    PEN = Fraction(P[\"PEN\"])\n    bank = Fraction(P[\"B0\"])\n    repay = Fraction(0)\n    total_borrowed = Fraction(0)\n    total_penalty = Fraction(0)\n    year2_available = Fraction(0)\n    for i in range(3):\n        avail = bank + A - repay\n        if avail < 0:\n            raise ValueError(\"repayment exceeds allocation\")\n        if i == 1:\n            year2_available = avail\n        if avail >= E[i]:\n            bank = avail - E[i]\n            repay = Fraction(0)\n        else:\n            short = E[i] - avail\n            bank = Fraction(0)\n            if i < 2:\n                limit = A * L / 100\n                borrowed = short if short < limit else limit\n            else:\n                borrowed = Fraction(0)\n            remaining = short - borrowed\n            total_penalty += remaining * PEN\n            total_borrowed += borrowed\n            repay = borrowed * R\n    return {\"final\": total_penalty, \"year2_available\": year2_available, \"total_borrowed\": total_borrowed, \"closing_bank\": bank}",
+ "coverage_params": [
+  {
+   "A": 1200,
+   "E1": 1300,
+   "E2": 900,
+   "E3": 1000,
+   "L": 10,
+   "R": "1.20",
+   "PEN": 50,
+   "B0": 0
+  },
+  {
+   "A": 1000,
+   "E1": 1400,
+   "E2": 800,
+   "E3": 1500,
+   "L": 20,
+   "R": "1.00",
+   "PEN": 40,
+   "B0": 0
+  },
+  {
+   "A": 1000,
+   "E1": 900,
+   "E2": 1400,
+   "E3": 850,
+   "L": 10,
+   "R": "1.50",
+   "PEN": 60,
+   "B0": 200
+  },
+  {
+   "A": 1500,
+   "E1": 1000,
+   "E2": 1100,
+   "E3": 1200,
+   "L": 15,
+   "R": "1.25",
+   "PEN": 80,
+   "B0": 100
+  }
+ ]
+}

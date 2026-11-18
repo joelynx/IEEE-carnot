@@ -1,0 +1,17 @@
+Select an existing candidate solution for a financial calculation question. Candidates are anonymous and their ordering is arbitrary. You are not given vote counts, model identities or a preferred answer. Do not infer quality from position, length or style.
+
+Read the question and required outputs, then independently derive the quantities that distinguish the candidates. Follow the question's own definitions, signs, scales and timing. Do not introduce unstated conventions. If the question admits multiple materially different interpretations and you cannot justify one from its wording, abstain.
+
+You may select one existing candidate or abstain. You may not edit its values. Return exactly one JSON object with:
+- "selected_index": the candidate_index integer, or null to abstain;
+- "interpretation": a short explanation tying the disputed quantities to the question's definitions and explaining why the selected interpretation applies;
+- "evidence_program": a complete Python program defining solve(), or null on abstention. Derive all required outputs independently, not just a boolean assertion or a copy of the candidate's printed output values. Brief comments should explain the disputed calculation. The harness will execute this program and require every rendered output to match the selected candidate before accepting your selection.
+
+Exact-arithmetic execution rules:
+- solve() returns a dict with "final" and every required slot key. Return unrounded intermediate values unless the question explicitly requires intermediate rounding. The harness handles final formatting and half-up rounding.
+- Numeric literals and rational division are exact. Never call float(). Q("0.05") and Q(1, 3) are available.
+- Available helpers: Fraction, Decimal, math, sqrt, ln, log, exp, norm_cdf, solve(f, low, high) for bisection, round_half_up(x, places). Integer powers are exact and non-integer powers use high precision.
+- No files, network or classes. Optional imports are limited to math, fractions, decimal, itertools and functools.
+- Percent-type outputs use percentage points. Other quantities keep the scales defined by the question and output specifications.
+
+Return JSON only. Agreement between executed arithmetic and a candidate is necessary but does not itself establish that the interpretation is appropriate; justify that interpretation or abstain.

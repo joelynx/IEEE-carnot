@@ -1,0 +1,539 @@
+{
+ "family": "c1_70",
+ "draws_sha256": "1e2bd77bf79aa4916d049c167b8a2b49dda75aa7eb2d938817e4068fe1a7c7e8",
+ "checks": [
+  {
+   "case_id": "t1_syndba361b263417aa5a563",
+   "verdicts": {
+    "final": true,
+    "total_one_time_cost": true,
+    "run_rate_quarterly_saving": true,
+    "first_positive_quarter": true,
+    "cumulative_after_q4": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syndba361b263417aa5a563",
+     "final_answer": {
+      "value": "-37.375"
+     },
+     "steps": [
+      {
+       "slot_id": "total_one_time_cost",
+       "value": "47"
+      },
+      {
+       "slot_id": "run_rate_quarterly_saving",
+       "value": "5.875"
+      },
+      {
+       "slot_id": "first_positive_quarter",
+       "value": "0"
+      },
+      {
+       "slot_id": "cumulative_after_q4",
+       "value": "0"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-37.375": 1
+     },
+     "total_one_time_cost": {
+      "47": 1
+     },
+     "run_rate_quarterly_saving": {
+      "5.875": 1
+     },
+     "first_positive_quarter": {
+      "0": 1
+     },
+     "cumulative_after_q4": {
+      "0": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-37.375",
+       "total_one_time_cost": "47",
+       "run_rate_quarterly_saving": "5.875",
+       "first_positive_quarter": "0",
+       "cumulative_after_q4": "0"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "7d6e62208497c922803444bdffcec7f096ab6583be780181cb980108a520248b",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1324,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 436,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1324,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 436,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1324,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1324
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.048481,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4578,
+         "session_id": "ab0d89a7-ade0-4f2d-91f3-01aa7a00359b",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    base = Q(1000)\n    bps = {\"A\": Q(105), \"B\": Q(55), \"C\": Q(75)}\n    comp = {\"A\": 7, \"B\": 7, \"C\": 5}\n    annual = {k: base * v / 10000 for k, v in bps.items()}\n    quarterly = {k: v / 4 for k, v in annual.items()}\n    cost = {k: 2 * v for k, v in annual.items()}\n    total_cost = sum(cost.values())\n    cum = Q(0)\n    cums = {}\n    q8_saving = Q(0)\n    first_pos = 0\n    for q in range(1, 9):\n        net = Q(0)\n        for k in bps:\n            if q == comp[k]:\n                net -= cost[k]\n            if q > comp[k]:\n                net += quarterly[k]\n                if q == 8:\n                    q8_saving += quarterly[k]\n        cum += net\n        cums[q] = cum\n        if first_pos == 0 and cum > 0:\n            first_pos = q\n    return {\n        \"final\": cums[8],\n        \"total_one_time_cost\": total_cost,\n        \"run_rate_quarterly_saving\": q8_saving,\n        \"first_positive_quarter\": first_pos,\n        \"cumulative_after_q4\": cums[4],\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 120
+        },
+        "rendered": {
+         "final": "-37.375",
+         "total_one_time_cost": "47",
+         "run_rate_quarterly_saving": "5.875",
+         "first_positive_quarter": "0",
+         "cumulative_after_q4": "0"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn9397d57161bf205a49f8",
+   "verdicts": {
+    "final": true,
+    "total_one_time_cost": true,
+    "run_rate_quarterly_saving": true,
+    "first_positive_quarter": true,
+    "cumulative_after_q4": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn9397d57161bf205a49f8",
+     "final_answer": {
+      "value": "3.16125"
+     },
+     "steps": [
+      {
+       "slot_id": "total_one_time_cost",
+       "value": "2.295"
+      },
+      {
+       "slot_id": "run_rate_quarterly_saving",
+       "value": "1.63125"
+      },
+      {
+       "slot_id": "first_positive_quarter",
+       "value": "4"
+      },
+      {
+       "slot_id": "cumulative_after_q4",
+       "value": "0.14625"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "3.16125": 1
+     },
+     "total_one_time_cost": {
+      "2.295": 1
+     },
+     "run_rate_quarterly_saving": {
+      "1.63125": 1
+     },
+     "first_positive_quarter": {
+      "4": 1
+     },
+     "cumulative_after_q4": {
+      "0.14625": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "3.16125",
+       "total_one_time_cost": "2.295",
+       "run_rate_quarterly_saving": "1.63125",
+       "first_positive_quarter": "4",
+       "cumulative_after_q4": "0.14625"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "741018a1cf74e1cc127de0764744f65d99b997d8e8e4e7dcb578b54901a34425",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1323,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 455,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1323,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 455,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1323,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1323
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.049411,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5358,
+         "session_id": "cddb80e0-10c8-46cf-999f-f840920f123f",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    base = Q(450)\n    bps = {\"A\": Q(80), \"B\": Q(65), \"C\": Q(110)}\n    comp = {\"A\": 6, \"B\": 3, \"C\": 8}\n    annual = {k: base * v / 10000 for k, v in bps.items()}\n    quarterly = {k: v / 4 for k, v in annual.items()}\n    cost = {k: Q(\"0.2\") * v for k, v in annual.items()}\n    total_cost = sum(cost.values())\n\n    def saving_in_q(q):\n        return sum(quarterly[k] for k in quarterly if q > comp[k])\n\n    def cost_in_q(q):\n        return sum(cost[k] for k in cost if q == comp[k])\n\n    cum = Q(0)\n    cum_by_q = {}\n    first_pos = 0\n    for q in range(1, 9):\n        cum += saving_in_q(q) - cost_in_q(q)\n        cum_by_q[q] = cum\n        if first_pos == 0 and cum > 0:\n            first_pos = q\n\n    return {\n        \"final\": cum_by_q[8],\n        \"total_one_time_cost\": total_cost,\n        \"run_rate_quarterly_saving\": saving_in_q(8),\n        \"first_positive_quarter\": first_pos,\n        \"cumulative_after_q4\": cum_by_q[4],\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 223
+        },
+        "rendered": {
+         "final": "3.16125",
+         "total_one_time_cost": "2.295",
+         "run_rate_quarterly_saving": "1.63125",
+         "first_positive_quarter": "4",
+         "cumulative_after_q4": "0.14625"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn5d91267fda963b50498a",
+   "verdicts": {
+    "final": true,
+    "total_one_time_cost": true,
+    "run_rate_quarterly_saving": true,
+    "first_positive_quarter": true,
+    "cumulative_after_q4": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn5d91267fda963b50498a",
+     "final_answer": {
+      "value": "-16.28125"
+     },
+     "steps": [
+      {
+       "slot_id": "total_one_time_cost",
+       "value": "32.0625"
+      },
+      {
+       "slot_id": "run_rate_quarterly_saving",
+       "value": "2.5"
+      },
+      {
+       "slot_id": "first_positive_quarter",
+       "value": "0"
+      },
+      {
+       "slot_id": "cumulative_after_q4",
+       "value": "-13.21875"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-16.28125": 1
+     },
+     "total_one_time_cost": {
+      "32.0625": 1
+     },
+     "run_rate_quarterly_saving": {
+      "2.5": 1
+     },
+     "first_positive_quarter": {
+      "0": 1
+     },
+     "cumulative_after_q4": {
+      "-13.21875": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-16.28125",
+       "total_one_time_cost": "32.0625",
+       "run_rate_quarterly_saving": "2.5",
+       "first_positive_quarter": "0",
+       "cumulative_after_q4": "-13.21875"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "3f24dced528a820fa436d33bcc65ee625b548a2fac0c571dbd905a9c9e44f936",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1324,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 458,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1324,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 458,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1324,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1324
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.049581,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5696,
+         "session_id": "09a59b12-e4b5-430d-a9af-eed9c61701f9",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    base = Q(1250)\n    bps = {\"A\": Q(55), \"B\": Q(25), \"C\": Q(55)}\n    comp = {\"A\": 8, \"B\": 1, \"C\": 2}\n    annual = {k: base * v / 10000 for k, v in bps.items()}\n    quarterly = {k: v / 4 for k, v in annual.items()}\n    cost = {k: v * Q(\"1.9\") for k, v in annual.items()}\n    total_cost = sum(cost.values())\n    cum = Q(0)\n    cum_after = {}\n    first_pos = 0\n    q8_saving = Q(0)\n    for q in range(1, 9):\n        saved = Q(0)\n        spent = Q(0)\n        for k in bps:\n            if q == comp[k]:\n                spent += cost[k]\n            if q > comp[k]:\n                saved += quarterly[k]\n        if q == 8:\n            q8_saving = saved\n        cum += saved - spent\n        cum_after[q] = cum\n        if first_pos == 0 and cum > 0:\n            first_pos = q\n    return {\n        \"final\": cum_after[8],\n        \"total_one_time_cost\": total_cost,\n        \"run_rate_quarterly_saving\": q8_saving,\n        \"first_positive_quarter\": first_pos,\n        \"cumulative_after_q4\": cum_after[4],\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 299
+        },
+        "rendered": {
+         "final": "-16.28125",
+         "total_one_time_cost": "32.0625",
+         "run_rate_quarterly_saving": "2.5",
+         "first_positive_quarter": "0",
+         "cumulative_after_q4": "-13.21875"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syna08fef70affb3a2da36b",
+   "verdicts": {
+    "final": true,
+    "total_one_time_cost": true,
+    "run_rate_quarterly_saving": true,
+    "first_positive_quarter": true,
+    "cumulative_after_q4": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syna08fef70affb3a2da36b",
+     "final_answer": {
+      "value": "14.8275"
+     },
+     "steps": [
+      {
+       "slot_id": "total_one_time_cost",
+       "value": "2.385"
+      },
+      {
+       "slot_id": "run_rate_quarterly_saving",
+       "value": "2.98125"
+      },
+      {
+       "slot_id": "first_positive_quarter",
+       "value": "3"
+      },
+      {
+       "slot_id": "cumulative_after_q4",
+       "value": "2.9025"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "14.8275": 1
+     },
+     "total_one_time_cost": {
+      "2.385": 1
+     },
+     "run_rate_quarterly_saving": {
+      "2.98125": 1
+     },
+     "first_positive_quarter": {
+      "3": 1
+     },
+     "cumulative_after_q4": {
+      "2.9025": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "14.8275",
+       "total_one_time_cost": "2.385",
+       "run_rate_quarterly_saving": "2.98125",
+       "first_positive_quarter": "3",
+       "cumulative_after_q4": "2.9025"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "8387da4affbd1c6a68748933445167ad21e00c8de427a89a58486336a6f31100",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1323,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 460,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1323,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 460,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1323,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1323
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.049661,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5099,
+         "session_id": "d546f18e-4697-4032-919f-5eb6b306f4d2",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    base = Q(450)\n    bps = {\"A\": Q(115), \"B\": Q(70), \"C\": Q(80)}\n    comp = {\"A\": 2, \"B\": 4, \"C\": 1}\n    annual = {k: base * v / 10000 for k, v in bps.items()}\n    quarterly = {k: v / 4 for k, v in annual.items()}\n    cost = {k: Q(\"0.2\") * v for k, v in annual.items()}\n    cum = Q(0)\n    cum_by_q = {}\n    first_pos = 0\n    q8_saving = Q(0)\n    for q in range(1, 9):\n        net = Q(0)\n        saved = Q(0)\n        for k in bps:\n            if q == comp[k]:\n                net -= cost[k]\n            if q > comp[k]:\n                net += quarterly[k]\n                saved += quarterly[k]\n        cum += net\n        cum_by_q[q] = cum\n        if first_pos == 0 and cum > 0:\n            first_pos = q\n        if q == 8:\n            q8_saving = saved\n    return {\n        \"final\": cum_by_q[8],\n        \"total_one_time_cost\": sum(cost.values()),\n        \"run_rate_quarterly_saving\": q8_saving,\n        \"first_positive_quarter\": first_pos,\n        \"cumulative_after_q4\": cum_by_q[4],\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 304
+        },
+        "rendered": {
+         "final": "14.8275",
+         "total_one_time_cost": "2.385",
+         "run_rate_quarterly_saving": "2.98125",
+         "first_positive_quarter": "3",
+         "cumulative_after_q4": "2.9025"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

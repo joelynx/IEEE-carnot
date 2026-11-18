@@ -1,0 +1,89 @@
+{
+ "name": "treynor_black_beta_adjusted_active_weight",
+ "domain_id": "investment_analysis",
+ "topic_id": "rar",
+ "difficulty": "advanced",
+ "params": {
+  "RA": {
+   "kind": "decimal",
+   "min": "4.0",
+   "max": "16.0",
+   "step": "0.5"
+  },
+  "SA": {
+   "kind": "int",
+   "min": 12,
+   "max": 30,
+   "step": 1
+  },
+  "BETA": {
+   "kind": "decimal",
+   "min": "0.6",
+   "max": "1.4",
+   "step": "0.1"
+  },
+  "RM": {
+   "kind": "decimal",
+   "min": "6.0",
+   "max": "12.0",
+   "step": "0.5"
+  },
+  "SM": {
+   "kind": "int",
+   "min": 10,
+   "max": 22,
+   "step": 1
+  },
+  "RF": {
+   "kind": "decimal",
+   "min": "1.0",
+   "max": "4.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "An active fund has expected return R_a={RA} percent, total standard deviation sigma_a={SA} percent and beta={BETA} against the market index, which has expected return R_m={RM} percent and standard deviation sigma_m={SM} percent; the risk-free rate is R_f={RF} percent. Apply the Treynor-Black model: alpha is the Jensen alpha of the fund, and residual variance is total variance minus beta-squared times market variance, with all variances in displayed percentage units squared. The unadjusted active weight w0 is alpha divided by residual variance, divided by the market risk premium divided by market variance. The beta-adjusted active weight is w0/(1+(1-beta)w0). Report the beta-adjusted active weight as a percentage of the total risky portfolio (negative means a short position) using exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "jensen_alpha_trace",
+   "description": "Jensen alpha of the active fund in percentage points.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "residual_variance_trace",
+   "description": "Residual variance in displayed percent units squared.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "dimensionless",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "unadjusted_weight_trace",
+   "description": "Unadjusted active weight as a plain ratio.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    ra = Q(P[\"RA\"])\n    sa = Q(P[\"SA\"])\n    beta = Q(P[\"BETA\"])\n    rm = Q(P[\"RM\"])\n    sm = Q(P[\"SM\"])\n    rf = Q(P[\"RF\"])\n    prem = rm - rf\n    if prem <= 0:\n        raise ValueError(\"market premium must be positive\")\n    alpha = ra - (rf + beta * prem)\n    resid = sa * sa - beta * beta * sm * sm\n    if resid <= 0:\n        raise ValueError(\"residual variance must be positive\")\n    w0 = (alpha / resid) / (prem / (sm * sm))\n    denom = 1 + (1 - beta) * w0\n    if denom <= 0:\n        raise ValueError(\"beta adjustment denominator must be positive\")\n    w = w0 / denom\n    return {\n        \"final\": w * 100,\n        \"jensen_alpha_trace\": alpha,\n        \"residual_variance_trace\": resid,\n        \"unadjusted_weight_trace\": w0\n    }\n"
+}

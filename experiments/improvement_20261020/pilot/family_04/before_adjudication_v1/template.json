@@ -1,0 +1,101 @@
+{
+  "name": "cliff_linear_vesting_burn_fdv",
+  "domain_id": "crypto_finance",
+  "topic_id": "tokenomics",
+  "difficulty": "intermediate",
+  "params": {
+    "MAX_SUPPLY": {
+      "kind": "int",
+      "min": 200000000,
+      "max": 1000000000,
+      "step": 100000000
+    },
+    "CIRC_PCT": {
+      "kind": "int",
+      "min": 20,
+      "max": 50,
+      "step": 5
+    },
+    "CLIFF": {
+      "kind": "int",
+      "min": 2,
+      "max": 8,
+      "step": 1
+    },
+    "CLIFF_PCT": {
+      "kind": "int",
+      "min": 5,
+      "max": 15,
+      "step": 1
+    },
+    "LINEAR_PCT": {
+      "kind": "decimal",
+      "min": "0.5",
+      "max": "3.0",
+      "step": "0.5"
+    },
+    "BURN_MONTH": {
+      "kind": "int",
+      "min": 1,
+      "max": 12,
+      "step": 1
+    },
+    "BURN_PCT": {
+      "kind": "int",
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    "PRICE": {
+      "kind": "decimal",
+      "min": "0.25",
+      "max": "5.00",
+      "step": "0.05"
+    }
+  },
+  "question_template": "A fictional token has a maximum supply of {MAX_SUPPLY} tokens, of which {CIRC_PCT} percent is circulating at the start of month 1. Vesting works in whole months: at the start of month {CLIFF} a cliff tranche equal to {CLIFF_PCT} percent of maximum supply unlocks into circulation, and at the start of every later month through month 12 a further {LINEAR_PCT} percent of maximum supply unlocks. At the end of month {BURN_MONTH}, after any unlock scheduled for that month, the protocol burns {BURN_PCT} percent of the tokens circulating at that moment; burned tokens are permanently removed from both circulating supply and maximum supply. No other supply changes occur and the price stays at {PRICE} USD per token. What is the fully diluted valuation in USD at the end of month 12, defined as price times the remaining maximum supply?",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "circ_before_burn",
+      "description": "Circulating supply at the end of the burn month immediately before the burn.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "burned_tokens",
+      "description": "Number of tokens permanently burned.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "circ_end_month_12",
+      "description": "Circulating supply at the end of month 12 after all unlocks and the burn.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    max_supply = Q(P[\"MAX_SUPPLY\"])\n    circ0 = max_supply * Q(P[\"CIRC_PCT\"]) / 100\n    cliff = P[\"CLIFF\"]\n    cliff_tranche = max_supply * Q(P[\"CLIFF_PCT\"]) / 100\n    linear_tranche = max_supply * Q(P[\"LINEAR_PCT\"]) / 100\n    burn_month = P[\"BURN_MONTH\"]\n    burn_ratio = Q(P[\"BURN_PCT\"]) / 100\n    price = Q(P[\"PRICE\"])\n\n    def unlocked_by(month):\n        if month < cliff:\n            return Q(0)\n        linear_count = month - cliff\n        return cliff_tranche + linear_tranche * linear_count\n\n    circ_before_burn = circ0 + unlocked_by(burn_month)\n    burned = circ_before_burn * burn_ratio\n    circ_end = circ0 + unlocked_by(12) - burned\n    remaining_max = max_supply - burned\n    fdv = price * remaining_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end,\n    }"
+}

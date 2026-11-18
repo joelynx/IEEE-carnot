@@ -1,0 +1,142 @@
+{
+ "name": "direct_method_supplier_cash_with_advances_and_share_settlem_para",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "cash_flow_statements",
+ "difficulty": "advanced",
+ "params": {
+  "COGS": {
+   "kind": "int",
+   "min": 300000,
+   "max": 900000,
+   "step": 1000
+  },
+  "INV_OPEN": {
+   "kind": "int",
+   "min": 60000,
+   "max": 200000,
+   "step": 500
+  },
+  "INV_CLOSE": {
+   "kind": "int",
+   "min": 60000,
+   "max": 200000,
+   "step": 500
+  },
+  "AP_OPEN": {
+   "kind": "int",
+   "min": 40000,
+   "max": 150000,
+   "step": 500
+  },
+  "AP_CLOSE": {
+   "kind": "int",
+   "min": 40000,
+   "max": 150000,
+   "step": 500
+  },
+  "ADV_OPEN": {
+   "kind": "int",
+   "min": 0,
+   "max": 40000,
+   "step": 500
+  },
+  "ADV_CLOSE": {
+   "kind": "int",
+   "min": 0,
+   "max": 40000,
+   "step": 500
+  },
+  "SHARE_SETTLE": {
+   "kind": "int",
+   "min": 0,
+   "max": 60000,
+   "step": 1000
+  }
+ },
+ "question_template": "A retailer reports operating cash flows using the direct method. For the year, cost of goods sold is {COGS} USD and includes no write-downs; every inventory purchase is made on credit from trade suppliers, and trade payables arise solely from those suppliers. Opening inventory is {INV_OPEN} USD and closing inventory is {INV_CLOSE} USD. Opening trade payables are {AP_OPEN} USD and closing trade payables are {AP_CLOSE} USD. Supplier advances (cash prepaid to suppliers and later applied against purchases) are {ADV_OPEN} USD at the start and {ADV_CLOSE} USD at the end; cash paid as advances is treated as cash paid to suppliers. In the year, trade payables of {SHARE_SETTLE} USD were settled by issuing the retailer's own shares, cutting payables with no cash involved. Net supplier working capital is defined as inventory plus supplier advances less trade payables, and its change as the closing balance minus the opening balance, so a positive change indicates working capital increased and absorbed cash. Find the year's inventory purchases, the change in trade payables (closing minus opening), the signed change in net supplier working capital, and cash paid to suppliers stated as a positive outflow magnitude. If the implied cash paid is negative, regard the data as inconsistent.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "purchases",
+   "description": "Inventory purchases for the year derived from cost of goods sold and inventory balances",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "payables_change",
+   "description": "Change in trade payables, closing minus opening, signed",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "net_wc_change",
+   "description": "Signed change in net supplier working capital, positive when cash is absorbed",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    cogs = Q(P[\"COGS\"])\n    inv_open = Q(P[\"INV_OPEN\"])\n    inv_close = Q(P[\"INV_CLOSE\"])\n    ap_open = Q(P[\"AP_OPEN\"])\n    ap_close = Q(P[\"AP_CLOSE\"])\n    adv_open = Q(P[\"ADV_OPEN\"])\n    adv_close = Q(P[\"ADV_CLOSE\"])\n    share_settle = Q(P[\"SHARE_SETTLE\"])\n\n    purchases = cogs + inv_close - inv_open\n    payables_change = ap_close - ap_open\n    advances_change = adv_close - adv_open\n    inventory_change = inv_close - inv_open\n    net_wc_change = inventory_change + advances_change - payables_change\n\n    cash_paid = purchases - payables_change + advances_change - share_settle\n    if cash_paid < 0:\n        raise ValueError(\"implied cash paid to suppliers is negative; data inconsistent\")\n\n    return {\n        \"final\": cash_paid,\n        \"purchases\": purchases,\n        \"payables_change\": payables_change,\n        \"net_wc_change\": net_wc_change\n    }",
+ "coverage_params": [
+  {
+   "COGS": 500000,
+   "INV_OPEN": 100000,
+   "INV_CLOSE": 120000,
+   "AP_OPEN": 80000,
+   "AP_CLOSE": 95000,
+   "ADV_OPEN": 10000,
+   "ADV_CLOSE": 25000,
+   "SHARE_SETTLE": 0
+  },
+  {
+   "COGS": 400000,
+   "INV_OPEN": 150000,
+   "INV_CLOSE": 110000,
+   "AP_OPEN": 120000,
+   "AP_CLOSE": 90000,
+   "ADV_OPEN": 30000,
+   "ADV_CLOSE": 5000,
+   "SHARE_SETTLE": 20000
+  },
+  {
+   "COGS": 650000,
+   "INV_OPEN": 90000,
+   "INV_CLOSE": 90000,
+   "AP_OPEN": 70000,
+   "AP_CLOSE": 70000,
+   "ADV_OPEN": 15000,
+   "ADV_CLOSE": 15000,
+   "SHARE_SETTLE": 10000
+  },
+  {
+   "COGS": 300000,
+   "INV_OPEN": 200000,
+   "INV_CLOSE": 60000,
+   "AP_OPEN": 40000,
+   "AP_CLOSE": 150000,
+   "ADV_OPEN": 40000,
+   "ADV_CLOSE": 0,
+   "SHARE_SETTLE": 60000
+  }
+ ]
+}

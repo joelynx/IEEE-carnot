@@ -1,0 +1,1650 @@
+[
+  {
+    "case_id": "t1_syn7773312dd844d78f1836",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn7773312dd844d78f1836",
+        "final_answer": {
+          "value": "515812500.00"
+        },
+        "steps": [
+          {
+            "slot_id": "circ_before_burn",
+            "value": "175000000"
+          },
+          {
+            "slot_id": "burned_tokens",
+            "value": "12250000"
+          },
+          {
+            "slot_id": "circ_end_month_12",
+            "value": "295750000"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "515812500.00": 5
+        },
+        "circ_before_burn": {
+          "175000000": 5
+        },
+        "burned_tokens": {
+          "12250000": 5
+        },
+        "circ_end_month_12": {
+          "295750000": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "515812500.00",
+            "circ_before_burn": "175000000",
+            "burned_tokens": "12250000",
+            "circ_end_month_12": "295750000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "037d0fcb0d132381985085c0f38228fb78d2262802b7057c80eba722f4ca8150",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3091,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 300,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3091,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 300,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3091,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3091
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.015467999999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3278,
+                "session_id": "1667c34f-3b8a-4028-808e-58e08ac7792a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(700000000)\n    circ = max_supply * Q(25) / 100\n    # months 1..2: no unlocks before month 6, so burn at end of month 2\n    circ_before_burn = circ\n    burned = circ_before_burn * Q(7) / 100\n    circ = circ - burned\n    max_after = max_supply - burned\n    # unlocks use the initial maximum supply\n    cliff = max_supply * Q(13) / 100\n    monthly = max_supply * Q(1) / 100\n    circ = circ + cliff  # month 6\n    for m in range(7, 13):\n        circ = circ + monthly\n    fdv = Q(\"0.75\") * max_after\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 238
+              },
+              "rendered": {
+                "final": "515812500.00",
+                "circ_before_burn": "175000000",
+                "burned_tokens": "12250000",
+                "circ_end_month_12": "295750000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "515812500.00",
+            "circ_before_burn": "175000000",
+            "burned_tokens": "12250000",
+            "circ_end_month_12": "295750000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "cec41ee7984add97834d4c68170986836c055e71e585c53867c3ceeb706bc43d",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 305,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 305,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0034630999999999998,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3024,
+                "session_id": "1bce5f0f-71ce-4654-9a50-0481e2572587",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(700000000)\n    circ = max_supply * Q(25) / 100\n    # month 2: no unlocks before month 6, so circulating before burn is the initial amount\n    circ_before_burn = circ\n    burned = circ_before_burn * Q(7) / 100\n    circ = circ_before_burn - burned\n    max_after = max_supply - burned\n    # unlocks use the initial maximum supply: cliff at month 6, then 1% each month 7..12\n    cliff = max_supply * Q(13) / 100\n    monthly = max_supply * Q(1) / 100\n    circ = circ + cliff + monthly * 6\n    fdv = Q(\"0.75\") * max_after\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 265
+              },
+              "rendered": {
+                "final": "515812500.00",
+                "circ_before_burn": "175000000",
+                "burned_tokens": "12250000",
+                "circ_end_month_12": "295750000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "515812500.00",
+            "circ_before_burn": "175000000",
+            "burned_tokens": "12250000",
+            "circ_end_month_12": "295750000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "ce26446a0efb94c793844db9e7552bd68c31277ccf4684c56686bf16fecf6f88",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 256,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 256,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0029731,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2947,
+                "session_id": "09702471-8ab7-49fd-9ac7-076c7fced421",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    M0 = Q(700000000)\n    circ = M0 * Q(\"0.25\")\n    # month 2: no unlocks before month 6, so circulating before burn is initial circulating\n    circ_before = circ\n    burned = circ_before * Q(\"0.07\")\n    circ = circ_before - burned\n    maxsup = M0 - burned\n    # month 6 cliff 13%\n    circ += M0 * Q(\"0.13\")\n    # months 7..12 each 1%\n    circ += M0 * Q(\"0.01\") * 6\n    final = Q(\"0.75\") * maxsup\n    return {\n        \"final\": final,\n        \"circ_before_burn\": circ_before,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 196
+              },
+              "rendered": {
+                "final": "515812500.00",
+                "circ_before_burn": "175000000",
+                "burned_tokens": "12250000",
+                "circ_end_month_12": "295750000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "515812500.00",
+            "circ_before_burn": "175000000",
+            "burned_tokens": "12250000",
+            "circ_end_month_12": "295750000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "472e21f725951d8e1bc1a3ff67d679264f499107483ee160329f6234e3c2776f",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 237,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 237,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0027830999999999997,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5029,
+                "session_id": "b5e3a10f-576a-4239-8f10-b139ae90916a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    M = Q(700000000)\n    circ = M * Q(\"0.25\")\n    # month 2: no unlocks before month 6\n    circ_before = circ\n    burned = circ_before * Q(\"0.07\")\n    circ = circ_before - burned\n    max_supply = M - burned\n    # month 6 cliff 13%\n    circ += M * Q(\"0.13\")\n    # months 7..12: 1% each (6 months)\n    circ += M * Q(\"0.01\") * 6\n    final = Q(\"0.75\") * max_supply\n    return {\n        \"final\": final,\n        \"circ_before_burn\": circ_before,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 202
+              },
+              "rendered": {
+                "final": "515812500.00",
+                "circ_before_burn": "175000000",
+                "burned_tokens": "12250000",
+                "circ_end_month_12": "295750000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "515812500.00",
+            "circ_before_burn": "175000000",
+            "burned_tokens": "12250000",
+            "circ_end_month_12": "295750000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "99ecb83543ba69ddbd044827ecccf81dc9b16c42297304433c2b3686dd75058e",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 291,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 291,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0033231000000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2733,
+                "session_id": "307641bc-b5a3-4df1-8a89-b49d2379531a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(700000000)\n    circ = max_supply * Q(25) / 100\n    # month 1..2: no unlocks (cliff at start of month 6)\n    circ_before_burn = circ\n    burned = circ_before_burn * Q(7) / 100\n    circ = circ_before_burn - burned\n    max_after = max_supply - burned\n    # month 6 cliff 13%, months 7..12 each 1% (6 months)\n    unlock = max_supply * Q(13) / 100 + 6 * max_supply * Q(1) / 100\n    circ_end = circ + unlock\n    fdv = Q(\"0.75\") * max_after\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 254
+              },
+              "rendered": {
+                "final": "515812500.00",
+                "circ_before_burn": "175000000",
+                "burned_tokens": "12250000",
+                "circ_end_month_12": "295750000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_sync510681d08f1f42ee626",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_sync510681d08f1f42ee626",
+        "final_answer": {
+          "value": "867600000.00"
+        },
+        "steps": [
+          {
+            "slot_id": "circ_before_burn",
+            "value": "180000000"
+          },
+          {
+            "slot_id": "burned_tokens",
+            "value": "14400000"
+          },
+          {
+            "slot_id": "circ_end_month_12",
+            "value": "203600000"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "867600000.00": 5
+        },
+        "circ_before_burn": {
+          "180000000": 5
+        },
+        "burned_tokens": {
+          "14400000": 5
+        },
+        "circ_end_month_12": {
+          "203600000": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "867600000.00",
+            "circ_before_burn": "180000000",
+            "burned_tokens": "14400000",
+            "circ_end_month_12": "203600000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "86300bd75ef6680c733faed9cde06c828861798c7d4e1d2fdd6b341afaba0139",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3093,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 313,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3093,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 313,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3093,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3093
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.015605999999999998,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2936,
+                "session_id": "8fe2bf54-1343-4f2d-ad5e-7c73aa881d6d",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(400000000)\n    circ = max_supply * Q(\"0.45\")\n    # Months 1-2: no unlocks before the burn (cliff is at month 7)\n    circ_before_burn = circ\n    burned = circ_before_burn * Q(\"0.08\")\n    circ = circ_before_burn - burned\n    max_after_burn = max_supply - burned\n    # Vesting is based on the initial maximum supply\n    cliff = max_supply * Q(\"0.07\")\n    monthly = max_supply * Q(\"0.005\")\n    circ = circ + cliff            # month 7\n    circ = circ + monthly * 5      # months 8-12\n    price = Q(\"2.25\")\n    fdv = price * max_after_burn\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 225
+              },
+              "rendered": {
+                "final": "867600000.00",
+                "circ_before_burn": "180000000",
+                "burned_tokens": "14400000",
+                "circ_end_month_12": "203600000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "867600000.00",
+            "circ_before_burn": "180000000",
+            "burned_tokens": "14400000",
+            "circ_end_month_12": "203600000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "24b49644e2a0e7c4cb385c3ce0af38c35b02a3f1d7d5d66f0a1e29ba4a2ffd51",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4093,
+                "output_tokens": 304,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 304,
+                    "cache_read_input_tokens": 4093,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0034533000000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3557,
+                "session_id": "eb0cd604-ee32-4d9f-9195-df76b4f9de41",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(400000000)\n    circ = max_supply * Q(\"0.45\")\n    # months 1-2: no unlocks; burn at end of month 2\n    circ_before_burn = circ\n    burned = circ_before_burn * Q(\"0.08\")\n    circ_after_burn = circ_before_burn - burned\n    max_after = max_supply - burned\n    # month 7 cliff\n    unlock = max_supply * Q(\"0.07\")\n    # months 8-12: 5 further unlocks of 0.5%\n    unlock += 5 * max_supply * Q(\"0.005\")\n    circ_12 = circ_after_burn + unlock\n    fdv = Q(\"2.25\") * max_after\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_12,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 132
+              },
+              "rendered": {
+                "final": "867600000.00",
+                "circ_before_burn": "180000000",
+                "burned_tokens": "14400000",
+                "circ_end_month_12": "203600000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "867600000.00",
+            "circ_before_burn": "180000000",
+            "burned_tokens": "14400000",
+            "circ_end_month_12": "203600000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "c20a6e6458952319f74306a6ffece1664a55f6c09685a2efc6a4f247f11ee571",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4093,
+                "output_tokens": 337,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 337,
+                    "cache_read_input_tokens": 4093,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0037833000000000003,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6314,
+                "session_id": "48b607f0-de6f-4b07-af9d-799aaecd0c03",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(400000000)\n    circ0 = max_supply * Q(\"0.45\")\n    # No unlocks occur in months 1-2, so circulating supply before the burn is the initial amount\n    circ_before_burn = circ0\n    burned = circ_before_burn * Q(\"0.08\")\n    circ_after_burn = circ_before_burn - burned\n    # Unlocks use the initial max supply: cliff at month 7, then 0.5% in months 8-12 (5 months)\n    cliff = max_supply * Q(\"0.07\")\n    monthly = max_supply * Q(\"0.005\")\n    circ_end = circ_after_burn + cliff + monthly * 5\n    remaining_max = max_supply - burned\n    price = Q(\"2.25\")\n    fdv = price * remaining_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 236
+              },
+              "rendered": {
+                "final": "867600000.00",
+                "circ_before_burn": "180000000",
+                "burned_tokens": "14400000",
+                "circ_end_month_12": "203600000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "867600000.00",
+            "circ_before_burn": "180000000",
+            "burned_tokens": "14400000",
+            "circ_end_month_12": "203600000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "dc881281637341428d425dd00db7d82356370cf367d63907385fcca8861878a9",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4093,
+                "output_tokens": 298,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 298,
+                    "cache_read_input_tokens": 4093,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0033933,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2976,
+                "session_id": "a32532a5-6bba-418a-aa95-657c59d5ad30",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(400000000)\n    circ0 = max_supply * Q(\"0.45\")\n    # Before burn at end of month 2: no unlocks yet (cliff at month 7)\n    circ_before = circ0\n    burned = circ_before * Q(\"0.08\")\n    circ_after_burn = circ_before - burned\n    max_after = max_supply - burned\n    # Unlocks: cliff 7% at month 7, then 0.5% in months 8..12 (5 months)\n    unlock = max_supply * (Q(\"0.07\") + 5 * Q(\"0.005\"))\n    circ_end = circ_after_burn + unlock\n    fdv = Q(\"2.25\") * max_after\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 304
+              },
+              "rendered": {
+                "final": "867600000.00",
+                "circ_before_burn": "180000000",
+                "burned_tokens": "14400000",
+                "circ_end_month_12": "203600000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "867600000.00",
+            "circ_before_burn": "180000000",
+            "burned_tokens": "14400000",
+            "circ_end_month_12": "203600000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5fd43b39f8cb0787d16786e42b9f1bcd2776a531eca6c2fed7c6f849994a9b34",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4093,
+                "output_tokens": 336,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 336,
+                    "cache_read_input_tokens": 4093,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0037733,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3652,
+                "session_id": "d4a21a22-7c4f-426a-865b-6e5cdb79885c",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(400000000)\n    circ0 = max_supply * Q(\"0.45\")\n    # No unlocks occur in months 1-2, so circulating supply before the burn is the initial amount.\n    circ_before_burn = circ0\n    burned = circ_before_burn * Q(\"0.08\")\n    circ_after_burn = circ_before_burn - burned\n    max_after_burn = max_supply - burned\n    # Unlocks use the initial max supply: cliff at month 7, then 0.5% in months 8-12 (5 months).\n    cliff = max_supply * Q(\"0.07\")\n    further = max_supply * Q(\"0.005\") * 5\n    circ_end_12 = circ_after_burn + cliff + further\n    fdv = Q(\"2.25\") * max_after_burn\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end_12,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 286
+              },
+              "rendered": {
+                "final": "867600000.00",
+                "circ_before_burn": "180000000",
+                "burned_tokens": "14400000",
+                "circ_end_month_12": "203600000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn097e51e5466f52968d08",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn097e51e5466f52968d08",
+        "final_answer": {
+          "value": "1431670000.00"
+        },
+        "steps": [
+          {
+            "slot_id": "circ_before_burn",
+            "value": "340000000"
+          },
+          {
+            "slot_id": "burned_tokens",
+            "value": "30600000"
+          },
+          {
+            "slot_id": "circ_end_month_12",
+            "value": "354400000"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1431670000.00": 5
+        },
+        "circ_before_burn": {
+          "340000000": 5
+        },
+        "burned_tokens": {
+          "30600000": 5
+        },
+        "circ_end_month_12": {
+          "354400000": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1431670000.00",
+            "circ_before_burn": "340000000",
+            "burned_tokens": "30600000",
+            "circ_end_month_12": "354400000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "f86a1998b781c36a405e30c413322f1326fce31677ae7b3dd5f27f55402bd1ea",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3091,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 283,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3091,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 283,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3091,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3091
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.015297999999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3210,
+                "session_id": "90cde1f8-be9e-437c-bf33-0053ffa56c92",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(500000000)\n    circ = max_supply * Q(\"0.5\")\n    # month 8: cliff 15%\n    circ += max_supply * Q(\"0.15\")\n    # month 9: further 3% unlock, then burn at end of month\n    circ += max_supply * Q(\"0.03\")\n    circ_before_burn = circ\n    burned = circ * Q(\"0.09\")\n    circ -= burned\n    new_max = max_supply - burned\n    # months 10, 11, 12: 3% each of initial max supply\n    circ += 3 * max_supply * Q(\"0.03\")\n    fdv = Q(\"3.05\") * new_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 267
+              },
+              "rendered": {
+                "final": "1431670000.00",
+                "circ_before_burn": "340000000",
+                "burned_tokens": "30600000",
+                "circ_end_month_12": "354400000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1431670000.00",
+            "circ_before_burn": "340000000",
+            "burned_tokens": "30600000",
+            "circ_end_month_12": "354400000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5f159ce00e0e1c182e467213892553ee12d796fbffdb7c02b2daff7699615476",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 499,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 499,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.005403099999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4088,
+                "session_id": "3f7c8c13-e18b-412f-ae22-978756b003f6",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    M = Q(500000000)\n    circ = M * Q(\"0.5\")\n    # month 8 cliff\n    circ += M * Q(\"0.15\")\n    # month 9 unlock\n    circ += M * Q(\"0.03\")\n    circ_before_burn = circ\n    burned = circ * Q(\"0.09\")\n    circ -= burned\n    # months 10-12 unlocks\n    circ += 3 * M * Q(\"0.03\")\n    max_supply = M - burned\n    fdv = max_supply * Q(\"3.05\")\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 194
+              },
+              "rendered": {
+                "final": "1431670000.00",
+                "circ_before_burn": "340000000",
+                "burned_tokens": "30600000",
+                "circ_end_month_12": "354400000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1431670000.00",
+            "circ_before_burn": "340000000",
+            "burned_tokens": "30600000",
+            "circ_end_month_12": "354400000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "d99b57c44e84a27f99e9f4c0f7cd534f58b0009a0a0a3e470c6a1eb9f9239af2",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 503,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 503,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.005443099999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4771,
+                "session_id": "ad5d6a3f-4d67-4718-9b21-c05b303e047c",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    M = Q(500000000)\n    circ = M * Q(\"0.5\")\n    # month 8 cliff\n    circ += M * Q(\"0.15\")\n    # month 9 unlock\n    circ += M * Q(\"0.03\")\n    circ_before_burn = circ\n    burned = circ * Q(\"0.09\")\n    circ -= burned\n    max_supply = M - burned\n    # months 10-12 unlocks\n    circ += 3 * M * Q(\"0.03\")\n    fdv = Q(\"3.05\") * max_supply\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 282
+              },
+              "rendered": {
+                "final": "1431670000.00",
+                "circ_before_burn": "340000000",
+                "burned_tokens": "30600000",
+                "circ_end_month_12": "354400000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1431670000.00",
+            "circ_before_burn": "340000000",
+            "burned_tokens": "30600000",
+            "circ_end_month_12": "354400000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "5da8f670c92b51e5f4802fedd0042ef2e6bd4d6ae58a062a477ba66133dcb284",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 567,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 567,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.006083099999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4372,
+                "session_id": "99f71a18-7014-4d53-9811-9af6c2ecc600",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(500000000)\n    circ = max_supply * Q(\"0.5\")\n    cliff = max_supply * Q(\"0.15\")\n    monthly = max_supply * Q(\"0.03\")\n    price = Q(\"3.05\")\n    # month 8 cliff, month 9 monthly unlock\n    circ_before_burn = circ + cliff + monthly\n    burned = circ_before_burn * Q(\"0.09\")\n    circ_after = circ_before_burn - burned\n    # months 10-12 unlocks\n    circ_end = circ_after + 3 * monthly\n    remaining_max = max_supply - burned\n    fdv = price * remaining_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 263
+              },
+              "rendered": {
+                "final": "1431670000.00",
+                "circ_before_burn": "340000000",
+                "burned_tokens": "30600000",
+                "circ_end_month_12": "354400000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "1431670000.00",
+            "circ_before_burn": "340000000",
+            "burned_tokens": "30600000",
+            "circ_end_month_12": "354400000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "a51378b57d2d2bdfecedd7aec035eff47c025d37263a690d673871bc81524dfc",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 315,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 315,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0035631,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3196,
+                "session_id": "3031b445-8ac8-4e0e-b048-868e297eb440",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(500000000)\n    circ = max_supply * Q(\"0.5\")\n    initial_max = max_supply\n    # month 8 cliff 15%\n    circ_before_burn = circ + initial_max * Q(\"0.15\")  # month 8\n    # month 9 unlock 3%\n    circ_before_burn += initial_max * Q(\"0.03\")\n    burned = circ_before_burn * Q(\"0.09\")\n    circ_after = circ_before_burn - burned\n    # months 10, 11, 12 unlock 3% each\n    circ_end = circ_after + 3 * initial_max * Q(\"0.03\")\n    remaining_max = initial_max - burned\n    fdv = Q(\"3.05\") * remaining_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 283
+              },
+              "rendered": {
+                "final": "1431670000.00",
+                "circ_before_burn": "340000000",
+                "burned_tokens": "30600000",
+                "circ_end_month_12": "354400000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn0debab9d80a4be33b256",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn0debab9d80a4be33b256",
+        "final_answer": {
+          "value": "3022856000.00"
+        },
+        "steps": [
+          {
+            "slot_id": "circ_before_burn",
+            "value": "496000000"
+          },
+          {
+            "slot_id": "burned_tokens",
+            "value": "34720000"
+          },
+          {
+            "slot_id": "circ_end_month_12",
+            "value": "493280000"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "3022856000.00": 5
+        },
+        "circ_before_burn": {
+          "496000000": 5
+        },
+        "burned_tokens": {
+          "34720000": 5
+        },
+        "circ_end_month_12": {
+          "493280000": 5
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "3022856000.00",
+            "circ_before_burn": "496000000",
+            "burned_tokens": "34720000",
+            "circ_end_month_12": "493280000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "3e7f2e08f373eb605e0d32bb1d3aa671f06666d4fb1e7aaa29b538336baa87df",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 3091,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 281,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 3091,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 281,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 3091,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 3091
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.015278,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2691,
+                "session_id": "5f073ac9-bddf-4fc6-8fea-1b37c556e604",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(800000000)\n    circ = max_supply * Q(1, 2)\n    price = Q(\"3.95\")\n    # month 2 cliff 6%, months 3..12 1% each\n    burned = Q(0)\n    circ_before = None\n    for m in range(2, 13):\n        if m == 2:\n            circ += max_supply * Q(\"0.06\")\n        else:\n            circ += max_supply * Q(\"0.01\")\n        if m == 8:\n            circ_before = circ\n            burned = circ * Q(\"0.07\")\n            circ -= burned\n    remaining_max = max_supply - burned\n    fdv = price * remaining_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 127
+              },
+              "rendered": {
+                "final": "3022856000.00",
+                "circ_before_burn": "496000000",
+                "burned_tokens": "34720000",
+                "circ_end_month_12": "493280000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3022856000.00",
+            "circ_before_burn": "496000000",
+            "burned_tokens": "34720000",
+            "circ_end_month_12": "493280000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "9c852bb980fc4be26d31bb9aedfb2a717995f8034b978c33273da943662920cb",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 288,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 288,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0032931,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 3084,
+                "session_id": "c26fe861-caed-4f0d-953b-6db9475967f8",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    M = Q(800000000)\n    circ = M * Q(\"0.5\")\n    # month 2: cliff 6%; months 3..8 unlock 1% each, before burn at end of month 8\n    circ += M * Q(\"0.06\")\n    for m in range(3, 9):\n        circ += M * Q(\"0.01\")\n    circ_before = circ\n    burned = circ_before * Q(\"0.07\")\n    circ = circ_before - burned\n    max_supply = M - burned\n    # months 9..12 unlock 1% of initial max supply each\n    for m in range(9, 13):\n        circ += M * Q(\"0.01\")\n    fdv = Q(\"3.95\") * max_supply\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 375
+              },
+              "rendered": {
+                "final": "3022856000.00",
+                "circ_before_burn": "496000000",
+                "burned_tokens": "34720000",
+                "circ_end_month_12": "493280000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3022856000.00",
+            "circ_before_burn": "496000000",
+            "burned_tokens": "34720000",
+            "circ_end_month_12": "493280000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "d4ec6e63ca04376248a94262fbc563833c39efd4d9668d3679b69d225e6a08ba",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 471,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 471,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.005123099999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4273,
+                "session_id": "bc498468-e56a-4520-8217-fe9d20e51a88",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(800000000)\n    price = Q(\"3.95\")\n    # circulating before burn at end of month 8: 50% + 6% cliff + 6 x 1%\n    circ_before = max_supply * (Q(50) + 6 + 6) / 100\n    burned = circ_before * Q(7) / 100\n    # months 9..12 unlock 1% of initial max supply each\n    later = max_supply * 4 / 100\n    circ_end = circ_before - burned + later\n    remaining_max = max_supply - burned\n    fdv = price * remaining_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ_end,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 371
+              },
+              "rendered": {
+                "final": "3022856000.00",
+                "circ_before_burn": "496000000",
+                "burned_tokens": "34720000",
+                "circ_end_month_12": "493280000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3022856000.00",
+            "circ_before_burn": "496000000",
+            "burned_tokens": "34720000",
+            "circ_end_month_12": "493280000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "a9f4711385e8e9498effe2f26f9141331899cb8630be0dcc90ad2f719b913c89",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 286,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 286,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0032731,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2742,
+                "session_id": "a7e0303d-3f92-4670-a903-5b0df33eb625",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    max_supply = Q(800000000)\n    circ = max_supply * Q(1, 2)\n    price = Q(\"3.95\")\n    # month 2 cliff 6%, months 3..12 1% each\n    burned = Q(0)\n    circ_before_burn = None\n    for m in range(2, 13):\n        if m == 2:\n            circ += max_supply * Q(\"0.06\")\n        else:\n            circ += max_supply * Q(\"0.01\")\n        if m == 8:\n            circ_before_burn = circ\n            burned = circ * Q(\"0.07\")\n            circ -= burned\n    final_max = max_supply - burned\n    fdv = price * final_max\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before_burn,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 403
+              },
+              "rendered": {
+                "final": "3022856000.00",
+                "circ_before_burn": "496000000",
+                "burned_tokens": "34720000",
+                "circ_end_month_12": "493280000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        },
+        {
+          "texts": {
+            "final": "3022856000.00",
+            "circ_before_burn": "496000000",
+            "burned_tokens": "34720000",
+            "circ_end_month_12": "493280000"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "dbe9f1782d266e2999f1644dd340ee50a96843979afd9d5bff9789770cf9c4d8",
+              "cached": false,
+              "model_id": "claude-sonnet-5-5",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 4091,
+                "output_tokens": 276,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 276,
+                    "cache_read_input_tokens": 4091,
+                    "cache_creation_input_tokens": 0,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 0
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.0031731,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 2966,
+                "session_id": "e717892d-ba6c-4403-b166-ad5b401f0e88",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    M = Q(800000000)\n    circ = M * Q(\"0.5\")\n    # month 2 cliff 6%, months 3..8 each 1% before burn\n    circ += M * Q(\"0.06\")\n    for m in range(3, 9):\n        circ += M * Q(\"0.01\")\n    circ_before = circ\n    burned = circ * Q(\"0.07\")\n    circ = circ - burned\n    # months 9..12 unlock 1% each of initial max supply\n    for m in range(9, 13):\n        circ += M * Q(\"0.01\")\n    max_remaining = M - burned\n    fdv = Q(\"3.95\") * max_remaining\n    return {\n        \"final\": fdv,\n        \"circ_before_burn\": circ_before,\n        \"burned_tokens\": burned,\n        \"circ_end_month_12\": circ,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 434
+              },
+              "rendered": {
+                "final": "3022856000.00",
+                "circ_before_burn": "496000000",
+                "burned_tokens": "34720000",
+                "circ_end_month_12": "493280000"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

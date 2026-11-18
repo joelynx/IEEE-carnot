@@ -1,0 +1,85 @@
+{
+ "name": "defensive_interval_ratio_days",
+ "domain_id": "financial_ratios",
+ "topic_id": "liqratio",
+ "difficulty": "intermediate",
+ "params": {
+  "CASH": {
+   "kind": "int",
+   "min": 20000,
+   "max": 200000,
+   "step": 1000
+  },
+  "SEC": {
+   "kind": "int",
+   "min": 5000,
+   "max": 120000,
+   "step": 1000
+  },
+  "AR": {
+   "kind": "int",
+   "min": 10000,
+   "max": 250000,
+   "step": 1000
+  },
+  "INV": {
+   "kind": "int",
+   "min": 10000,
+   "max": 300000,
+   "step": 1000
+  },
+  "OPEX": {
+   "kind": "int",
+   "min": 400000,
+   "max": 2000000,
+   "step": 10000
+  },
+  "DEP": {
+   "kind": "int",
+   "min": 20000,
+   "max": 150000,
+   "step": 5000
+  },
+  "DAYS": {
+   "kind": "choice",
+   "values": [
+    360,
+    365
+   ]
+  }
+ },
+ "question_template": "A firm holds cash {CASH} USD, marketable securities {SEC} USD, accounts receivable {AR} USD, and inventory {INV} USD. Annual operating expenses are {OPEX} USD, of which {DEP} USD is non-cash depreciation. Defensive assets include only cash, marketable securities, and receivables. Daily cash operating expenses are the cash portion of annual operating expenses spread evenly over {DAYS} days. Compute the defensive interval ratio, i.e. the number of days the defensive assets can cover daily cash operating expenses. Use exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "days",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "defensive_assets_total",
+   "description": "Total defensive assets in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "daily_cash_opex",
+   "description": "Daily cash operating expenses in USD per day.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_per_day",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    cash = P[\"CASH\"]\n    sec = P[\"SEC\"]\n    ar = P[\"AR\"]\n    opex = P[\"OPEX\"]\n    dep = P[\"DEP\"]\n    days = P[\"DAYS\"]\n    if dep >= opex:\n        raise ValueError(\"depreciation must be less than operating expenses\")\n    defensive = Fraction(cash + sec + ar)\n    daily = Fraction(opex - dep, days)\n    if daily <= 0:\n        raise ValueError(\"daily cash expenses must be positive\")\n    dir_days = defensive / daily\n    return {\"final\": dir_days, \"defensive_assets_total\": defensive, \"daily_cash_opex\": daily}\n"
+}

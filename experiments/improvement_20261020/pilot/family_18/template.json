@@ -1,0 +1,100 @@
+{
+  "name": "partial_prepayment_fee_offset_cash_cost",
+  "domain_id": "personal_finance",
+  "topic_id": "loanrepay",
+  "difficulty": "intermediate",
+  "params": {
+    "BALANCE": {
+      "kind": "int",
+      "min": 50000,
+      "max": 200000,
+      "step": 5000
+    },
+    "LOAN_RATE": {
+      "kind": "decimal",
+      "min": "3.0",
+      "max": "9.0",
+      "step": "0.5"
+    },
+    "MONTHS": {
+      "kind": "int",
+      "min": 6,
+      "max": 36,
+      "step": 6
+    },
+    "CASH": {
+      "kind": "int",
+      "min": 40000,
+      "max": 150000,
+      "step": 10000
+    },
+    "PREPAY": {
+      "kind": "int",
+      "min": 5000,
+      "max": 50000,
+      "step": 5000
+    },
+    "ALLOWANCE_PCT": {
+      "kind": "int",
+      "min": 5,
+      "max": 20,
+      "step": 5
+    },
+    "FEE_PCT": {
+      "kind": "decimal",
+      "min": "1.0",
+      "max": "3.0",
+      "step": "0.5"
+    },
+    "OFFSET_RATE": {
+      "kind": "decimal",
+      "min": "1.0",
+      "max": "5.0",
+      "step": "0.5"
+    }
+  },
+  "question_template": "Scenario-local loan policy. Loan balance in USD is {BALANCE}. Annual loan rate is {LOAN_RATE} percent, simple interest. Horizon is {MONTHS} months. Available cash in USD is {CASH}. Prepayment at start in USD is {PREPAY}. Fee-free allowance is {ALLOWANCE_PCT} percent of the balance; fee is {FEE_PCT} percent of only the prepayment above the allowance, else zero. The fee comes from cash, not the balance. Remaining cash sits in an offset account for the horizon, earning a credit at {OFFSET_RATE} percent per year, simple interest, months over 12. Loan interest is the post-prepayment balance times the loan rate times months over 12. The offset credit cannot exceed loan interest. Net cash cost is loan interest minus offset credit plus the fee. Report fee, loan interest, offset credit, and net cash cost.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "exact"
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "prepayment_fee_usd",
+      "description": "Report the prepayment fee charged on the amount above the allowance.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "loan_interest_usd",
+      "description": "Report loan interest on the post-prepayment balance over the horizon.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "offset_credit_usd",
+      "description": "Report the offset credit after applying the loan interest cap.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    B = P[\"BALANCE\"]\n    r = P[\"LOAN_RATE\"]\n    m = P[\"MONTHS\"]\n    C = P[\"CASH\"]\n    X = P[\"PREPAY\"]\n    a = P[\"ALLOWANCE_PCT\"]\n    f = P[\"FEE_PCT\"]\n    s = P[\"OFFSET_RATE\"]\n    allowance = B * a / 100\n    excess = X - allowance\n    fee = excess * f / 100 if excess > 0 else 0\n    remaining_cash = C - X - fee\n    if remaining_cash < 0:\n        raise ValueError(\"prepayment plus fee exceeds available cash\")\n    loan_interest = (B - X) * r / 100 * m / 12\n    credit_raw = remaining_cash * s / 100 * m / 12\n    credit = credit_raw if credit_raw < loan_interest else loan_interest\n    net_cost = loan_interest - credit + fee\n    return {\n        \"final\": net_cost,\n        \"prepayment_fee_usd\": fee,\n        \"loan_interest_usd\": loan_interest,\n        \"offset_credit_usd\": credit\n    }"
+}

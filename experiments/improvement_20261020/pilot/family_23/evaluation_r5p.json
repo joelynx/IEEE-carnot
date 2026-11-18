@@ -1,0 +1,1760 @@
+{
+  "config": "r5p",
+  "config_sha256": "cddb8b9ec0ed6913fcc619f8d494bf5f094427110f16ca6d266a6f842695c39d",
+  "system_sha256": "4d3f530d528133106a7f33de773f2958dd40ff1dd39617c26467329e37360bd2",
+  "llm": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-sonnet-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-sonnet-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  },
+  "scores": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 16,
+    "total_slots": 16
+  },
+  "cases": [
+    {
+      "case_id": "t1_syn95331558fead606272af",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn95331558fead606272af",
+          "final_answer": {
+            "value": "10584000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "376000"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "338400"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "4.9"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "4"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "10584000.00": 5
+          },
+          "applicable_baseline": {
+            "376000": 5
+          },
+          "emissions_threshold": {
+            "338400": 5
+          },
+          "stepped_coupon_rate": {
+            "4.9": 5
+          },
+          "stepped_coupon_count": {
+            "4": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "10584000.00",
+              "applicable_baseline": "376000",
+              "emissions_threshold": "338400",
+              "stepped_coupon_rate": "4.9",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "65c45722b3674b0275a4b6f738ebdf0bb95cb03c409f516c25dcd4890cb17053",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3308,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 595,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3308,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 595,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3308,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3308
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.019286,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4773,
+                  "session_id": "115ae871-ee7e-4fbc-b28a-0a9db4abee41",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(36000000)\n    rate = Q(\"4.9\")\n    base = Q(400000)\n    div_share = Q(6)\n    if div_share >= 5:\n        applicable = base * (1 - div_share / 100)\n    else:\n        applicable = base\n    target = applicable * (1 - Q(10) / 100)\n    verified = base * Q(\"70.75\") / 100\n    excess = verified - target\n    if excess > 0:\n        if excess > target * Q(5) / 100:\n            stepup_bp = Q(70)\n        else:\n            stepup_bp = Q(70) / 2\n    else:\n        stepup_bp = Q(0)\n    stepup_pct = stepup_bp / 100\n    new_rate = rate + stepup_pct\n    # coupons 2028..2031 are on/after 30 June 2028\n    n_step = 4\n    n_before = 2\n    total = face * (n_before * rate + n_step * new_rate) / 100\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": n_step,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 196
+                },
+                "rendered": {
+                  "final": "10584000.00",
+                  "applicable_baseline": "376000",
+                  "emissions_threshold": "338400",
+                  "stepped_coupon_rate": "4.9",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10584000.00",
+              "applicable_baseline": "376000",
+              "emissions_threshold": "338400",
+              "stepped_coupon_rate": "4.9",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "007df7ef03303c99af99ac9ba0160a3a02680a38a8ab8cbc8ee67b717771fe3a",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 552,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 552,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0059548,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4274,
+                  "session_id": "1887e4b2-0acb-4882-93a8-959da08d0104",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(36000000)\n    rate = Q(\"4.9\")\n    base = Q(400000)\n    share = Q(6) / 100\n    applicable = base * (1 - share) if share >= Q(5) / 100 else base\n    target = applicable * (1 - Q(10) / 100)\n    emissions = Q(\"70.75\") / 100 * base\n    excess = emissions - target\n    if excess > Q(5) / 100 * target:\n        step = Q(\"0.70\")\n    elif excess > 0:\n        step = Q(\"0.35\")\n    else:\n        step = Q(0)\n    stepped_rate = rate + step\n    # coupons paid 2028..2031 are on or after 30 June 2028\n    n_step = 4\n    n_pre = 2\n    total = face * (n_pre * rate / 100 + n_step * stepped_rate / 100)\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": n_step,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 276
+                },
+                "rendered": {
+                  "final": "10584000.00",
+                  "applicable_baseline": "376000",
+                  "emissions_threshold": "338400",
+                  "stepped_coupon_rate": "4.9",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10584000.00",
+              "applicable_baseline": "376000",
+              "emissions_threshold": "338400",
+              "stepped_coupon_rate": "4.9",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "94beffc4c1035ccb4d11f75098509505884d6a4f54f18577398d4250e18706b2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 572,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 572,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0061548,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4681,
+                  "session_id": "fc86bc51-693b-4df0-9baa-e6e8b5dae404",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(36000000)\n    rate = Q(\"4.9\")\n    baseline = Q(400000)\n    share = Q(6)\n    if share >= 5:\n        applicable = baseline * (1 - share / 100)\n    else:\n        applicable = baseline\n    target = applicable * (1 - Q(10) / 100)\n    emissions = baseline * Q(\"70.75\") / 100\n    excess = emissions - target\n    if excess > Q(\"0.05\") * target:\n        step = Q(\"0.70\")\n    elif excess > 0:\n        step = Q(\"0.35\")\n    else:\n        step = Q(0)\n    stepped_rate = rate + step\n    # coupons 2028..2031 paid on or after 30 June 2028\n    n_stepped = 4\n    n_before = 2\n    total = face * rate / 100 * n_before + face * stepped_rate / 100 * n_stepped\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": n_stepped,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 256
+                },
+                "rendered": {
+                  "final": "10584000.00",
+                  "applicable_baseline": "376000",
+                  "emissions_threshold": "338400",
+                  "stepped_coupon_rate": "4.9",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10584000.00",
+              "applicable_baseline": "376000",
+              "emissions_threshold": "338400",
+              "stepped_coupon_rate": "4.9",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d5988fbade6fdc0421c209ad0d10a56cc4b947bd219640eb304c720ca2ff9ef8",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 601,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 601,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0064448,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4865,
+                  "session_id": "8c7e0396-8ccf-4b3c-a1f8-b349ec56d6cd",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(36000000)\n    rate = Q(\"4.9\")\n    base = Q(400000)\n    share = Q(6)\n    if share >= 5:\n        app_base = base * (1 - share / 100)\n    else:\n        app_base = base\n    target = app_base * (1 - Q(10) / 100)\n    verified = base * Q(\"70.75\") / 100\n    excess = (verified - target) / target\n    if verified <= target:\n        step = Q(0)\n    elif excess > Q(\"0.05\"):\n        step = Q(\"0.70\")\n    else:\n        step = Q(\"0.35\")\n    # coupons 2026..2031; those on or after 30 June 2028: 2028-2031\n    n_step = 4\n    n_total = 6\n    new_rate = rate + step\n    total = face * rate / 100 * (n_total - n_step) + face * new_rate / 100 * n_step\n    return {\n        \"final\": total,\n        \"applicable_baseline\": app_base,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": n_step,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 153
+                },
+                "rendered": {
+                  "final": "10584000.00",
+                  "applicable_baseline": "376000",
+                  "emissions_threshold": "338400",
+                  "stepped_coupon_rate": "4.9",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "10584000.00",
+              "applicable_baseline": "376000",
+              "emissions_threshold": "338400",
+              "stepped_coupon_rate": "4.9",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "54a4345b3b090bcabdc01251f4d6576025a40ee1172101212fd217d77a5da153",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 689,
+                  "output_tokens_details": {
+                    "thinking_tokens": 202
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 689,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0073248,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6456,
+                  "session_id": "40938d40-e3e7-4142-9389-0af53bd670dc",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(36000000)\n    base_rate = Q(\"4.9\")\n    baseline = Q(400000)\n    divest_share = Q(6)\n    # Recalculate baseline only if divested share >= 5 percent\n    if divest_share >= 5:\n        applicable = baseline * (1 - divest_share / 100)\n    else:\n        applicable = baseline\n    target = applicable * (1 - Q(10) / 100)\n    emissions = baseline * Q(\"70.75\") / 100\n    excess = (emissions - target) / target\n    if emissions <= target:\n        stepup_bp = Q(0)\n    elif excess > Q(5) / 100:\n        stepup_bp = Q(70)\n    else:\n        stepup_bp = Q(35)\n    stepped_rate = base_rate + stepup_bp / 100  # percent\n    # Coupons 2026..2031; those paid on or after 30 June 2028: 2028-2031\n    years = list(range(2026, 2032))\n    stepped_count = len([y for y in years if y >= 2028])\n    total = Q(0)\n    for y in years:\n        r = stepped_rate if y >= 2028 else base_rate\n        total += face * r / 100\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 186
+                },
+                "rendered": {
+                  "final": "10584000.00",
+                  "applicable_baseline": "376000",
+                  "emissions_threshold": "338400",
+                  "stepped_coupon_rate": "4.9",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn16f1fd980b45ab2b1eef",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn16f1fd980b45ab2b1eef",
+          "final_answer": {
+            "value": "2760000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "453250"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "407925"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "4.1"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "4"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "2760000.00": 5
+          },
+          "applicable_baseline": {
+            "453250": 5
+          },
+          "emissions_threshold": {
+            "407925": 5
+          },
+          "stepped_coupon_rate": {
+            "4.1": 5
+          },
+          "stepped_coupon_count": {
+            "4": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "2760000.00",
+              "applicable_baseline": "453250",
+              "emissions_threshold": "407925",
+              "stepped_coupon_rate": "4.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "182b7e6db7b8f052de61fa7a0074de7a8b79480fab39a4477b5d33d8679ba5e8",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3310,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 579,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3310,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 579,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3310,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3310
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.019133999999999998,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5078,
+                  "session_id": "69dd5042-da36-4e78-a6a4-bfee46d44833",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(12000000)\n    base = Q(490000)\n    share = Q(\"7.5\")\n    if share >= 5:\n        applicable = base * (1 - share / 100)\n    else:\n        applicable = base\n    target = applicable * (1 - Q(10) / 100)\n    verified = base * Q(\"90.5\") / 100\n    excess = (verified - target) / target\n    base_rate = Q(\"3.3\")\n    if verified <= target:\n        step = Q(0)\n    elif excess > Q(\"0.05\"):\n        step = Q(\"0.8\")\n    else:\n        step = Q(\"0.4\")\n    new_rate = base_rate + step\n    stepped_count = 4\n    early_count = 2\n    total = face * base_rate / 100 * early_count + face * new_rate / 100 * stepped_count\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 124
+                },
+                "rendered": {
+                  "final": "2760000.00",
+                  "applicable_baseline": "453250",
+                  "emissions_threshold": "407925",
+                  "stepped_coupon_rate": "4.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2760000.00",
+              "applicable_baseline": "453250",
+              "emissions_threshold": "407925",
+              "stepped_coupon_rate": "4.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "b1310871d1ba982f02f4051c6fb9f26100ffb331aa64204ba663361811497334",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4310,
+                  "output_tokens": 713,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 713,
+                      "cache_read_input_tokens": 4310,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007565,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5645,
+                  "session_id": "95a35e39-5946-403f-bf9a-4337727893f8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(12000000)\n    base_rate = Q(\"3.3\")\n    baseline = Q(490000)\n    divest = Q(\"7.5\")\n    applicable = baseline * (1 - divest / 100) if divest >= 5 else baseline\n    threshold = applicable * (1 - Q(10) / 100)\n    verified = baseline * Q(\"90.5\") / 100\n    excess = verified - threshold\n    if excess > threshold * Q(5) / 100:\n        step = Q(\"0.8\")\n    elif excess > 0:\n        step = Q(\"0.4\")\n    else:\n        step = Q(0)\n    stepped_rate = base_rate + step\n    years = list(range(2026, 2032))\n    # coupons on 31 Dec; verification 30 Jun 2028 -> coupons from 2028 on are stepped\n    stepped_count = len([y for y in years if y >= 2028])\n    unstepped_count = len(years) - stepped_count\n    total = face * (base_rate / 100) * unstepped_count + face * (stepped_rate / 100) * stepped_count\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": threshold,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 177
+                },
+                "rendered": {
+                  "final": "2760000.00",
+                  "applicable_baseline": "453250",
+                  "emissions_threshold": "407925",
+                  "stepped_coupon_rate": "4.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2760000.00",
+              "applicable_baseline": "453250",
+              "emissions_threshold": "407925",
+              "stepped_coupon_rate": "4.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a8e49e5454e9a25d534320507727df0a5764a9e04e4ee2208848bf16d0b96f0c",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4310,
+                  "output_tokens": 717,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 717,
+                      "cache_read_input_tokens": 4310,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007604999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6006,
+                  "session_id": "f55dbbc5-f7ba-45dc-afdc-31869f6d18f8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(12000000)\n    base_rate = Q(\"3.3\")\n    baseline = Q(490000)\n    share = Q(\"7.5\")\n    if share >= 5:\n        applicable = baseline * (1 - share / 100)\n    else:\n        applicable = baseline\n    threshold = applicable * (1 - Q(10) / 100)\n    verified = baseline * Q(\"90.5\") / 100\n    excess = verified - threshold\n    if excess > threshold * Q(5) / 100:\n        step = Q(80) / 100  # percentage points\n    elif excess > 0:\n        step = Q(40) / 100\n    else:\n        step = Q(0)\n    stepped_rate = base_rate + step\n    stepped_count = 4  # 2028-2031 coupons\n    unstepped_count = 2  # 2026-2027 coupons\n    total = face * (base_rate / 100 * unstepped_count + stepped_rate / 100 * stepped_count)\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": threshold,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 206
+                },
+                "rendered": {
+                  "final": "2760000.00",
+                  "applicable_baseline": "453250",
+                  "emissions_threshold": "407925",
+                  "stepped_coupon_rate": "4.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2760000.00",
+              "applicable_baseline": "453250",
+              "emissions_threshold": "407925",
+              "stepped_coupon_rate": "4.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "e6b1d2664282db777c11d21eef678baaac119b2eb677f06488cc15bdd45b5796",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4310,
+                  "output_tokens": 637,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 637,
+                      "cache_read_input_tokens": 4310,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.006804999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4827,
+                  "session_id": "843c8efd-bcbe-4cfb-bd90-2a00c9936eb2",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(12000000)\n    base = Q(490000)\n    divest = Q(\"0.075\")\n    applicable = base * (1 - divest) if divest >= Q(\"0.05\") else base\n    target = applicable * (1 - Q(\"0.10\"))\n    verified = base * Q(\"0.905\")\n    excess = verified - target\n    if excess > Q(\"0.05\") * target:\n        step = Q(\"0.8\")\n    elif excess > 0:\n        step = Q(\"0.4\")\n    else:\n        step = Q(0)\n    base_rate = Q(\"3.3\")\n    stepped_rate = base_rate + step\n    stepped_count = 4\n    unstepped_count = 2\n    total = face * (base_rate / 100 * unstepped_count + stepped_rate / 100 * stepped_count)\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 149
+                },
+                "rendered": {
+                  "final": "2760000.00",
+                  "applicable_baseline": "453250",
+                  "emissions_threshold": "407925",
+                  "stepped_coupon_rate": "4.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2760000.00",
+              "applicable_baseline": "453250",
+              "emissions_threshold": "407925",
+              "stepped_coupon_rate": "4.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f833be4055c8e3ecd6b86b1066a3b8f7e65ee6b0a1ac395660e4712fd18040fa",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4310,
+                  "output_tokens": 703,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 703,
+                      "cache_read_input_tokens": 4310,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.007464999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5509,
+                  "session_id": "b99a80c7-6df1-4f14-8864-c2b73b7877a9",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(12000000)\n    base_rate = Q(\"3.3\")\n    baseline = Q(490000)\n    share = Q(\"7.5\")\n    applicable = baseline * (1 - share / 100) if share >= 5 else baseline\n    target = applicable * (1 - Q(10) / 100)\n    verified = baseline * Q(\"90.5\") / 100\n    excess = verified - target\n    if excess <= 0:\n        step = Q(0)\n    elif excess > target * Q(5) / 100:\n        step = Q(\"0.8\")\n    else:\n        step = Q(\"0.4\")\n    stepped_rate = base_rate + step\n    # coupons 2026..2031; stepped for those paid on/after 30 Jun 2028 -> 2028..2031\n    n_step = 4\n    n_plain = 2\n    total = face * (n_plain * base_rate + n_step * stepped_rate) / 100\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": Q(n_step),\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 140
+                },
+                "rendered": {
+                  "final": "2760000.00",
+                  "applicable_baseline": "453250",
+                  "emissions_threshold": "407925",
+                  "stepped_coupon_rate": "4.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn600842898122bc3eddf9",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn600842898122bc3eddf9",
+          "final_answer": {
+            "value": "7567000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "440000"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "396000"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "2.35"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "5"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "7567000.00": 5
+          },
+          "applicable_baseline": {
+            "440000": 5
+          },
+          "emissions_threshold": {
+            "396000": 5
+          },
+          "stepped_coupon_rate": {
+            "2.35": 5
+          },
+          "stepped_coupon_count": {
+            "5": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "7567000.00",
+              "applicable_baseline": "440000",
+              "emissions_threshold": "396000",
+              "stepped_coupon_rate": "2.35",
+              "stepped_coupon_count": "5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "de4ec1c73c87abe530c5bc4f9a2bd6e70754bb6eebc8d3906a282b5574dd6afb",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3308,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 434,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3308,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 434,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3308,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3308
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.017676,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4133,
+                  "session_id": "2e9de362-a017-4bf7-b453-d5f09b63cd45",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(46000000)\n    base = Q(440000)\n    divest = Q(2)\n    applicable = base * (1 - divest / 100) if divest >= 5 else base\n    target = applicable * Q(\"0.9\")\n    emissions = base * Q(\"74.25\") / 100\n    excess = (emissions - target) / target\n    base_rate = Q(\"2.35\")\n    if excess > Q(\"0.05\"):\n        step = Q(\"0.20\")\n    elif excess > 0:\n        step = Q(\"0.10\")\n    else:\n        step = Q(0)\n    stepped_rate = base_rate + step\n    # coupons paid 31 Dec 2026..2032; verification 30 Jun 2028 -> coupons 2028..2032 stepped\n    years = list(range(2026, 2033))\n    stepped_count = len([y for y in years if y >= 2028])\n    unstepped_count = len(years) - stepped_count\n    total = face * (base_rate / 100) * unstepped_count + face * (stepped_rate / 100) * stepped_count\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 123
+                },
+                "rendered": {
+                  "final": "7567000.00",
+                  "applicable_baseline": "440000",
+                  "emissions_threshold": "396000",
+                  "stepped_coupon_rate": "2.35",
+                  "stepped_coupon_count": "5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "7567000.00",
+              "applicable_baseline": "440000",
+              "emissions_threshold": "396000",
+              "stepped_coupon_rate": "2.35",
+              "stepped_coupon_count": "5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "9736d8f4bc721800af6cf6f663b6bd3d502a02808c77969d2a984737ea84e7b4",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 577,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 577,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.006204800000000001,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4735,
+                  "session_id": "180ac8d1-7118-4e47-8918-d3d6ce932317",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(46000000)\n    rate = Q(\"2.35\")\n    baseline = Q(440000)\n    divest_share = Q(2)\n    if divest_share >= 5:\n        applicable = baseline * (1 - divest_share / 100)\n    else:\n        applicable = baseline\n    target = applicable * (1 - Q(10) / 100)\n    verified = baseline * Q(\"74.25\") / 100\n    excess = verified - target\n    if excess > target * Q(5) / 100:\n        step = Q(\"0.20\")\n    elif excess > 0:\n        step = Q(\"0.10\")\n    else:\n        step = Q(0)\n    new_rate = rate + step\n    # coupons 2026..2032; 2026 and 2027 precede the verification date\n    total_coupons = 7\n    stepped_count = 5\n    total = face * rate / 100 * (total_coupons - stepped_count) + face * new_rate / 100 * stepped_count\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 110
+                },
+                "rendered": {
+                  "final": "7567000.00",
+                  "applicable_baseline": "440000",
+                  "emissions_threshold": "396000",
+                  "stepped_coupon_rate": "2.35",
+                  "stepped_coupon_count": "5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "7567000.00",
+              "applicable_baseline": "440000",
+              "emissions_threshold": "396000",
+              "stepped_coupon_rate": "2.35",
+              "stepped_coupon_count": "5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "95b5a2315583052ec8a11792b0f1c425109a785c7674781061bc326d52fc43bb",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 633,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 633,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0067648,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4802,
+                  "session_id": "8d924634-962e-4ebc-a178-62bc2fe8f93c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(46000000)\n    base = Q(440000)\n    divest = Q(2)\n    base_rate = Q(\"2.35\")\n    applicable = base\n    if divest >= 5:\n        applicable = base * (1 - divest / 100)\n    target = applicable * Q(\"0.9\")\n    emissions = Q(\"0.7425\") * base\n    excess = emissions - target\n    if excess > Q(\"0.05\") * target:\n        step = Q(\"0.20\")\n    elif excess > 0:\n        step = Q(\"0.10\")\n    else:\n        step = Q(0)\n    new_rate = base_rate + step\n    # coupons 2026..2032; verification 30 Jun 2028 -> coupons from 2028 onward? \n    # 31 Dec 2028 onward: 2028..2032 = 5 coupons; earlier: 2026, 2027\n    stepped_count = 5\n    early_count = 2\n    total = face * (base_rate / 100) * early_count + face * (new_rate / 100) * stepped_count\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 106
+                },
+                "rendered": {
+                  "final": "7567000.00",
+                  "applicable_baseline": "440000",
+                  "emissions_threshold": "396000",
+                  "stepped_coupon_rate": "2.35",
+                  "stepped_coupon_count": "5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "7567000.00",
+              "applicable_baseline": "440000",
+              "emissions_threshold": "396000",
+              "stepped_coupon_rate": "2.35",
+              "stepped_coupon_count": "5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d06549c91095f7293b658e33790be36e412329b2a7d641c30a15c7b167a090dd",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 558,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 558,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0060148,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4640,
+                  "session_id": "357b0a91-41e2-4ca3-b011-68411425361b",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(46000000)\n    rate = Q(\"2.35\")\n    base = Q(440000)\n    divest = Q(2)\n    baseline = base * (1 - divest / 100) if divest >= 5 else base\n    target = baseline * (1 - Q(10) / 100)\n    emissions = Q(\"74.25\") / 100 * base\n    if emissions > target * Q(\"1.05\"):\n        step = Q(\"0.20\")\n    elif emissions > target:\n        step = Q(\"0.10\")\n    else:\n        step = Q(0)\n    new_rate = rate + step\n    years = list(range(2026, 2033))\n    # coupons paid 31 Dec; verification 30 Jun 2028 -> coupons from 2028 on\n    count = len([y for y in years if y >= 2028])\n    total = Q(0)\n    for y in years:\n        r = new_rate if y >= 2028 else rate\n        total += face * r / 100\n    return {\n        \"final\": total,\n        \"applicable_baseline\": baseline,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 116
+                },
+                "rendered": {
+                  "final": "7567000.00",
+                  "applicable_baseline": "440000",
+                  "emissions_threshold": "396000",
+                  "stepped_coupon_rate": "2.35",
+                  "stepped_coupon_count": "5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "7567000.00",
+              "applicable_baseline": "440000",
+              "emissions_threshold": "396000",
+              "stepped_coupon_rate": "2.35",
+              "stepped_coupon_count": "5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "7f5e9ec560fb1591160fcef8b653349ae7241c66ecc2b73018527905c26e26cb",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 652,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 652,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0069548,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4482,
+                  "session_id": "9c914039-4f9f-4938-87ba-03f4bd769cee",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(46000000)\n    base_rate = Q(\"2.35\")\n    orig_baseline = Q(440000)\n    divest_share = Q(2)\n    # recalculation only if divested share >= 5%\n    if divest_share >= 5:\n        baseline = orig_baseline * (1 - divest_share / 100)\n    else:\n        baseline = orig_baseline\n    target = baseline * (1 - Q(10) / 100)\n    emissions = orig_baseline * Q(\"74.25\") / 100\n    excess = emissions - target\n    if excess <= 0:\n        step_bp = Q(0)\n    elif excess > target * Q(5) / 100:\n        step_bp = Q(20)\n    else:\n        step_bp = Q(10)\n    step_pct = step_bp / 100\n    stepped_rate = base_rate + step_pct\n    # coupons 2026..2032; verification 30 June 2028 -> coupons 2028..2032 stepped\n    years = list(range(2026, 2033))\n    total = Q(0)\n    count = 0\n    for y in years:\n        if y >= 2028:\n            total += face * stepped_rate / 100\n            count += 1\n        else:\n            total += face * base_rate / 100\n    return {\n        \"final\": total,\n        \"applicable_baseline\": baseline,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": Q(count),\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 188
+                },
+                "rendered": {
+                  "final": "7567000.00",
+                  "applicable_baseline": "440000",
+                  "emissions_threshold": "396000",
+                  "stepped_coupon_rate": "2.35",
+                  "stepped_coupon_count": "5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn5e6a8c68e48c44d20490",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn5e6a8c68e48c44d20490",
+          "final_answer": {
+            "value": "1860000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "applicable_baseline",
+              "value": "480000"
+            },
+            {
+              "slot_id": "emissions_threshold",
+              "value": "432000"
+            },
+            {
+              "slot_id": "stepped_coupon_rate",
+              "value": "3.1"
+            },
+            {
+              "slot_id": "stepped_coupon_count",
+              "value": "4"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "1860000.00": 5
+          },
+          "applicable_baseline": {
+            "480000": 5
+          },
+          "emissions_threshold": {
+            "432000": 5
+          },
+          "stepped_coupon_rate": {
+            "3.1": 5
+          },
+          "stepped_coupon_count": {
+            "4": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "1860000.00",
+              "applicable_baseline": "480000",
+              "emissions_threshold": "432000",
+              "stepped_coupon_rate": "3.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "9e33c82ff7dcbb20ae17dd408c065856e57d3a8beea525ec7fb923670c0facfe",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3308,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 575,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3308,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 575,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 3308,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3308
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.019086,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4721,
+                  "session_id": "074b9077-0d00-49cf-b131-6678da798cb1",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(10000000)\n    rate = Q(\"3.1\")\n    base = Q(480000)\n    divest = Q(4)\n    baseline = base * (1 - divest / 100) if divest >= 5 else base\n    target = baseline * (1 - Q(10) / 100)\n    emissions = Q(\"89.75\") / 100 * base\n    excess = emissions - target\n    if excess > target * Q(5) / 100:\n        step = Q(\"0.20\")\n    elif excess > 0:\n        step = Q(\"0.10\")\n    else:\n        step = Q(0)\n    stepped_rate = rate + step\n    # coupons 2026..2031; verification 30 Jun 2028 -> coupons 2028..2031 affected\n    n_total = 6\n    n_step = 4\n    n_pre = n_total - n_step\n    total = face * (n_pre * rate + n_step * stepped_rate) / 100\n    return {\n        \"final\": total,\n        \"applicable_baseline\": baseline,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": Q(n_step),\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 135
+                },
+                "rendered": {
+                  "final": "1860000.00",
+                  "applicable_baseline": "480000",
+                  "emissions_threshold": "432000",
+                  "stepped_coupon_rate": "3.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1860000.00",
+              "applicable_baseline": "480000",
+              "emissions_threshold": "432000",
+              "stepped_coupon_rate": "3.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "e0c8514a0ec317fa4b7a8bdd7528c7f1c00b92244dc522381f71c593b326bf79",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 598,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 598,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0064148,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4450,
+                  "session_id": "2b265023-eb4d-45e2-8803-df5ac2d4d0e7",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(10000000)\n    base_rate = Q(\"3.1\")\n    baseline = Q(480000)\n    divest_share = Q(4)\n    if divest_share >= 5:\n        applicable = baseline * (1 - divest_share / 100)\n    else:\n        applicable = baseline\n    target = applicable * (1 - Q(10) / 100)\n    verified = Q(\"89.75\") / 100 * baseline\n    excess = verified - target\n    if excess > Q(5) / 100 * target:\n        step = Q(\"0.20\")\n    elif excess > 0:\n        step = Q(\"0.10\")\n    else:\n        step = Q(0)\n    stepped_rate = base_rate + step\n    # coupons paid 2026..2031; those on/after 30 June 2028: 2028..2031\n    years = list(range(2026, 2032))\n    total = Q(0)\n    count = 0\n    for y in years:\n        if y >= 2028:\n            total += face * stepped_rate / 100\n            count += 1\n        else:\n            total += face * base_rate / 100\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": stepped_rate,\n        \"stepped_coupon_count\": count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 140
+                },
+                "rendered": {
+                  "final": "1860000.00",
+                  "applicable_baseline": "480000",
+                  "emissions_threshold": "432000",
+                  "stepped_coupon_rate": "3.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1860000.00",
+              "applicable_baseline": "480000",
+              "emissions_threshold": "432000",
+              "stepped_coupon_rate": "3.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "79fb23008b7d87a4208771b2af1128c5b87dc4e33351e48f2455fdca4323bde5",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 568,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 568,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0061148,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4498,
+                  "session_id": "8d610b0f-3ed0-4874-8f1f-1bcfe064bf80",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(10000000)\n    base_rate = Q(\"3.1\")  # percent\n    baseline = Q(480000)\n    divest = Q(4)\n    if divest >= 5:\n        applicable = baseline * (1 - divest / 100)\n    else:\n        applicable = baseline\n    target = applicable * (1 - Q(10) / 100)\n    verified = Q(\"89.75\") / 100 * baseline\n    excess = (verified - target) / target\n    if verified <= target:\n        step = Q(0)\n    elif excess > Q(\"0.05\"):\n        step = Q(\"0.20\")  # percent (20 bp)\n    else:\n        step = Q(\"0.10\")\n    new_rate = base_rate + step\n    stepped_count = 4  # coupons on 31 Dec 2028..2031\n    total_coupons = 6\n    unstepped = total_coupons - stepped_count\n    total = face * base_rate / 100 * unstepped + face * new_rate / 100 * stepped_count\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": stepped_count,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 123
+                },
+                "rendered": {
+                  "final": "1860000.00",
+                  "applicable_baseline": "480000",
+                  "emissions_threshold": "432000",
+                  "stepped_coupon_rate": "3.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1860000.00",
+              "applicable_baseline": "480000",
+              "emissions_threshold": "432000",
+              "stepped_coupon_rate": "3.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0a0b4e5a8929d7f16a940d53f4758eb3377b57ddf30c864334504642369d23f6",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 521,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 521,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.005644799999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4873,
+                  "session_id": "57a71d37-3005-4947-a1e5-206a33652e80",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(10000000)\n    rate = Q(\"3.1\")\n    baseline = Q(480000)\n    divest = Q(4)\n    if divest >= 5:\n        applicable = baseline * (1 - divest / 100)\n    else:\n        applicable = baseline\n    target = applicable * (1 - Q(10) / 100)\n    emissions = Q(\"89.75\") / 100 * baseline\n    excess = (emissions - target) / target\n    if emissions <= target:\n        step = Q(0)\n    elif excess > Q(\"0.05\"):\n        step = Q(\"0.20\")\n    else:\n        step = Q(\"0.10\")\n    new_rate = rate + step\n    # coupons 2026..2027 at base rate; 2028..2031 at stepped rate\n    pre = 2\n    post = 4\n    total = face * rate / 100 * pre + face * new_rate / 100 * post\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": post,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 122
+                },
+                "rendered": {
+                  "final": "1860000.00",
+                  "applicable_baseline": "480000",
+                  "emissions_threshold": "432000",
+                  "stepped_coupon_rate": "3.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1860000.00",
+              "applicable_baseline": "480000",
+              "emissions_threshold": "432000",
+              "stepped_coupon_rate": "3.1",
+              "stepped_coupon_count": "4"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "e91e77067aa130f7b4ba7ac687c2c1a188f95d1a3fe7c3ef58f653a753ca497e",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4308,
+                  "output_tokens": 610,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 610,
+                      "cache_read_input_tokens": 4308,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0065347999999999995,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5189,
+                  "session_id": "b9a25615-8d27-4f2a-b63c-0408d0d89cac",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    face = Q(10000000)\n    rate = Q(\"3.1\")\n    base = Q(480000)\n    divest = Q(4)\n    applicable = base * (1 - divest / 100) if divest >= 5 else base\n    target = applicable * (1 - Q(10) / 100)\n    emissions = base * Q(\"89.75\") / 100\n    excess = (emissions - target) / target\n    if emissions <= target:\n        step_bp = Q(0)\n    elif excess > Q(5) / 100:\n        step_bp = Q(20)\n    else:\n        step_bp = Q(10)\n    new_rate = rate + step_bp / 100  # percent\n    # coupons 2026..2031 = 6; those paid on/after 30 Jun 2028: 2028..2031 = 4\n    total_n = 6\n    stepped_n = 4\n    pre_n = total_n - stepped_n\n    total = face * rate / 100 * pre_n + face * new_rate / 100 * stepped_n\n    return {\n        \"final\": total,\n        \"applicable_baseline\": applicable,\n        \"emissions_threshold\": target,\n        \"stepped_coupon_rate\": new_rate,\n        \"stepped_coupon_count\": stepped_n,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 149
+                },
+                "rendered": {
+                  "final": "1860000.00",
+                  "applicable_baseline": "480000",
+                  "emissions_threshold": "432000",
+                  "stepped_coupon_rate": "3.1",
+                  "stepped_coupon_count": "4"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "b93ac6f5daa7ae895263c77a93df6095fb2d9e1b6bd4401a1b795e1172e20f2e"
+}

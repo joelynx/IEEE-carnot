@@ -1,0 +1,112 @@
+{
+ "name": "nwc_peg_collar_price_adjustment",
+ "domain_id": "mergers_and_acquisitions",
+ "topic_id": "due_diligence",
+ "difficulty": "intermediate",
+ "params": {
+  "HEADLINE_PRICE": {
+   "kind": "int",
+   "min": 50,
+   "max": 600,
+   "step": 10
+  },
+  "REVENUE": {
+   "kind": "int",
+   "min": 100,
+   "max": 800,
+   "step": 10
+  },
+  "PEG_PCT": {
+   "kind": "decimal",
+   "min": "6.0",
+   "max": "16.0",
+   "step": "0.5"
+  },
+  "ACTUAL_NWC_K": {
+   "kind": "int",
+   "min": 5000,
+   "max": 100000,
+   "step": 500
+  },
+  "BAND_BP": {
+   "kind": "int",
+   "min": 0,
+   "max": 300,
+   "step": 25
+  }
+ },
+ "question_template": "Use exact arithmetic. A share purchase agreement sets the headline price at {HEADLINE_PRICE} USD million. The net working capital (NWC) peg equals {PEG_PCT} percent of trailing revenue of {REVENUE} USD million. Closing NWC is reported as {ACTUAL_NWC_K} USD thousand. A symmetric collar of {BAND_BP} basis points of the headline price applies around the peg: if closing NWC lies within the collar (boundaries inclusive), the price is unchanged; otherwise the price adjusts dollar for dollar only by the amount by which closing NWC lies outside the collar, upward when closing NWC exceeds the peg and downward when it falls short. Report the peg and the half-width of the collar in USD million, the signed deviation outside the collar in USD million (positive when closing NWC exceeds the peg, zero when inside), and determine the adjusted purchase price in USD million.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "peg_usd_million",
+   "description": "NWC peg converted to USD million from percent of revenue",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "band_usd_million",
+   "description": "Collar half-width in USD million from basis points of headline price",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "excess_outside_band",
+   "description": "Signed closing NWC deviation beyond the collar in USD million, zero if inside",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    price = Q(P[\"HEADLINE_PRICE\"])\n    revenue = Q(P[\"REVENUE\"])\n    peg_pct = Q(P[\"PEG_PCT\"])\n    actual_k = Q(P[\"ACTUAL_NWC_K\"])\n    band_bp = Q(P[\"BAND_BP\"])\n    peg = revenue * peg_pct / 100\n    actual = actual_k / 1000\n    band = price * band_bp / 10000\n    deviation = actual - peg\n    if deviation > band:\n        excess = deviation - band\n    elif deviation < -band:\n        excess = deviation + band\n    else:\n        excess = Q(0)\n    adjusted = price + excess\n    return {\"final\": adjusted, \"peg_usd_million\": peg, \"band_usd_million\": band, \"excess_outside_band\": excess}",
+ "coverage_params": [
+  {
+   "HEADLINE_PRICE": 200,
+   "REVENUE": 300,
+   "PEG_PCT": "10.0",
+   "ACTUAL_NWC_K": 36000,
+   "BAND_BP": 100
+  },
+  {
+   "HEADLINE_PRICE": 150,
+   "REVENUE": 400,
+   "PEG_PCT": "12.5",
+   "ACTUAL_NWC_K": 42000,
+   "BAND_BP": 150
+  },
+  {
+   "HEADLINE_PRICE": 300,
+   "REVENUE": 200,
+   "PEG_PCT": "9.0",
+   "ACTUAL_NWC_K": 19500,
+   "BAND_BP": 100
+  },
+  {
+   "HEADLINE_PRICE": 100,
+   "REVENUE": 250,
+   "PEG_PCT": "10.0",
+   "ACTUAL_NWC_K": 27000,
+   "BAND_BP": 200
+  }
+ ]
+}

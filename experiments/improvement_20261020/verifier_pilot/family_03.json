@@ -1,0 +1,325 @@
+{
+  "family": "family_03",
+  "recipe_sha256": "b73ef930a447a152b60d2befef2d147b0d72eb66b8122bad39a6f1a7474c896a",
+  "source_sha256": "9e8f85b1df67cec823547d53315b1d4d80de851d5b43203971b6c2a99e574a51",
+  "instances_sha256": "3bab9a0952aee08dcf9413eedca5dc8438791ae0f2fdf9eed7b8c3b7c52380bf",
+  "cases": [
+    {
+      "case_id": "t1_syn019aa4a6579c364f81cb",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn019aa4a6579c364f81cb",
+        "final_answer": {
+          "value": "29.1889"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "450"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "40.375"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "1178.5"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": 1,
+        "reason": "supported_existing_candidate",
+        "interpretation": "The question defines post-repurchase equity directly as unlevered assets plus tax shield minus fee minus total debt: 1750 + 117 - 13.5 - 675 = 1178.5. The covenant ratio is 675/1178.5 ≈ 0.573, below the 0.8 cap, so the full 450 is issued. Just after the issue, the net proceeds of 436.5 are still held as cash. Equity at that point is therefore 1178.5 + 436.5 = 1615, and the price is 1615/40 = 40.375. The firm buys back 436.5/40.375 shares, leaving about 29.1889 million. Candidate 1 does not subtract the fee from firm value, which conflicts with the stated definition, so it gives an equity_after of 1192.",
+        "evidence_program": "def solve():\n    A = Q(1750); D0 = Q(225); n0 = Q(40); planned = Q(450)\n    f = Q(\"0.03\"); t = Q(\"0.26\"); cap = Q(\"0.8\")\n    def eq_post(N):\n        # question's definition: A + shield - fee - total debt\n        return A + t*N - f*N - (D0 + N)\n    if (D0 + planned) / eq_post(planned) <= cap:\n        N = planned\n    else:\n        N = (cap*(A - D0) - D0) / (1 + cap*(1 - t + f))\n    net = N - f*N\n    equity_after = eq_post(N)\n    # just after issue, net proceeds still held as cash\n    equity_pre = equity_after + net\n    price = equity_pre / n0\n    shares_after = n0 - net/price\n    return {\"final\": shares_after, \"debt_issued\": N, \"repurchase_price\": price, \"equity_after\": equity_after}\n",
+        "sandbox": {
+          "ok": true,
+          "stage": null,
+          "error": null,
+          "elapsed_ms": 113
+        },
+        "rendered_evidence": {
+          "final": "29.1889",
+          "debt_issued": "450",
+          "repurchase_price": "40.375",
+          "equity_after": "1178.5"
+        },
+        "selected_anonymous_index": 0
+      },
+      "call": {
+        "cache_key": "c5ed7fc481905ffec2cfeb957de737b5050ad4e2fd4085f7f4ac346682c451e7",
+        "cached": false,
+        "model": "claude-opus-5-5",
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 3208,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 1312,
+          "output_tokens_details": {
+            "thinking_tokens": 679
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 3208,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "global",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 1312,
+              "cache_read_input_tokens": 0,
+              "cache_creation_input_tokens": 3208,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 3208
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.051912,
+        "raw_response": "```json\n{\"selected_index\":0,\"interpretation\":\"The question defines post-repurchase equity directly as unlevered assets plus tax shield minus fee minus total debt: 1750 + 117 - 13.5 - 675 = 1178.5. The covenant ratio is 675/1178.5 ≈ 0.573, below the 0.8 cap, so the full 450 is issued. Just after the issue, the net proceeds of 436.5 are still held as cash. Equity at that point is therefore 1178.5 + 436.5 = 1615, and the price is 1615/40 = 40.375. The firm buys back 436.5/40.375 shares, leaving about 29.1889 million. Candidate 1 does not subtract the fee from firm value, which conflicts with the stated definition, so it gives an equity_after of 1192.\",\"evidence_program\":\"def solve():\\n    A = Q(1750); D0 = Q(225); n0 = Q(40); planned = Q(450)\\n    f = Q(\\\"0.03\\\"); t = Q(\\\"0.26\\\"); cap = Q(\\\"0.8\\\")\\n    def eq_post(N):\\n        # question's definition: A + shield - fee - total debt\\n        return A + t*N - f*N - (D0 + N)\\n    if (D0 + planned) / eq_post(planned) <= cap:\\n        N = planned\\n    else:\\n        N = (cap*(A - D0) - D0) / (1 + cap*(1 - t + f))\\n    net = N - f*N\\n    equity_after = eq_post(N)\\n    # just after issue, net proceeds still held as cash\\n    equity_pre = equity_after + net\\n    price = equity_pre / n0\\n    shares_after = n0 - net/price\\n    return {\\\"final\\\": shares_after, \\\"debt_issued\\\": N, \\\"repurchase_price\\\": price, \\\"equity_after\\\": equity_after}\\n\"}\n```"
+      },
+      "candidate_original_indices": [
+        1,
+        0
+      ],
+      "fallback_scores": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "gold_available_only_after_selection": true
+    },
+    {
+      "case_id": "t1_synd0022c62e25c9234720c",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synd0022c62e25c9234720c",
+        "final_answer": {
+          "value": "43.9535"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "350"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "3433/110"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "1371.75"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": null,
+        "reason": "no_complete_disagreement"
+      },
+      "call": null,
+      "candidate_original_indices": [
+        0
+      ],
+      "fallback_scores": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "gold_available_only_after_selection": true
+    },
+    {
+      "case_id": "t1_synde8653648032c8e47f25",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synde8653648032c8e47f25",
+        "final_answer": {
+          "value": "32.7927"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "47000/259"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "33785/2331"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "123100/259"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": 0,
+        "reason": "supported_existing_candidate",
+        "interpretation": "The question defines post-repurchase equity as unlevered assets + tax shield − fee − total debt, and uses that same value for the covenant. The issue is capped where (175 + D) = 0.75 × (625 − 0.825D), giving D = 47000/259. Just after the issue, the net proceeds 0.975D are still held as cash, so pre-repurchase equity is the defined post-repurchase equity plus net proceeds. The price is that pre-repurchase equity divided by 45 million shares. Candidate 1 follows this definition, and its equity after the repurchase (123100/259) equals the stated formula. Candidate 0 leaves 124275/259 after the repurchase, which omits the fee and so contradicts the question's own definition of post-repurchase equity.",
+        "evidence_program": "def solve():\n    A = Q(800); Dex = Q(175); N = Q(45)\n    fee = Q(\"0.025\"); ts = Q(\"0.2\"); cap = Q(\"0.75\"); planned = Q(700)\n    def E_post(x):\n        # question's definition: A + TS - fee - total debt\n        return A + ts*x - fee*x - (Dex + x)\n    if Dex + planned <= cap*E_post(planned):\n        x = planned\n    else:\n        # largest issue that exactly meets the debt/equity cap\n        x = (cap*(A - Dex) - Dex) / (1 - cap*(ts - fee - 1))\n    net = x*(1 - fee)\n    # just after issue, net proceeds still held as cash\n    E_pre = E_post(x) + net\n    price = E_pre / N\n    shares_after = N - net/price\n    return {\"final\": shares_after, \"debt_issued\": x, \"repurchase_price\": price, \"equity_after\": E_pre - net}\n",
+        "sandbox": {
+          "ok": true,
+          "stage": null,
+          "error": null,
+          "elapsed_ms": 99
+        },
+        "rendered_evidence": {
+          "final": "32.7927",
+          "debt_issued": "47000/259",
+          "repurchase_price": "33785/2331",
+          "equity_after": "123100/259"
+        },
+        "selected_anonymous_index": 1
+      },
+      "call": {
+        "cache_key": "d6cf92eecab0520063f90a3e201f70d02e1e1d5c0231f54b10b19adfe6f67c52",
+        "cached": false,
+        "model": "claude-opus-5-5",
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 2790,
+          "cache_read_input_tokens": 752,
+          "output_tokens": 1467,
+          "output_tokens_details": {
+            "thinking_tokens": 830
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 2790,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "global",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 1467,
+              "cache_read_input_tokens": 752,
+              "cache_creation_input_tokens": 2790,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 2790
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.0518184,
+        "raw_response": "{\"selected_index\":1,\"interpretation\":\"The question defines post-repurchase equity as unlevered assets + tax shield − fee − total debt, and uses that same value for the covenant. The issue is capped where (175 + D) = 0.75 × (625 − 0.825D), giving D = 47000/259. Just after the issue, the net proceeds 0.975D are still held as cash, so pre-repurchase equity is the defined post-repurchase equity plus net proceeds. The price is that pre-repurchase equity divided by 45 million shares. Candidate 1 follows this definition, and its equity after the repurchase (123100/259) equals the stated formula. Candidate 0 leaves 124275/259 after the repurchase, which omits the fee and so contradicts the question's own definition of post-repurchase equity.\",\"evidence_program\":\"def solve():\\n    A = Q(800); Dex = Q(175); N = Q(45)\\n    fee = Q(\\\"0.025\\\"); ts = Q(\\\"0.2\\\"); cap = Q(\\\"0.75\\\"); planned = Q(700)\\n    def E_post(x):\\n        # question's definition: A + TS - fee - total debt\\n        return A + ts*x - fee*x - (Dex + x)\\n    if Dex + planned <= cap*E_post(planned):\\n        x = planned\\n    else:\\n        # largest issue that exactly meets the debt/equity cap\\n        x = (cap*(A - Dex) - Dex) / (1 - cap*(ts - fee - 1))\\n    net = x*(1 - fee)\\n    # just after issue, net proceeds still held as cash\\n    E_pre = E_post(x) + net\\n    price = E_pre / N\\n    shares_after = N - net/price\\n    return {\\\"final\\\": shares_after, \\\"debt_issued\\\": x, \\\"repurchase_price\\\": price, \\\"equity_after\\\": E_pre - net}\\n\"}"
+      },
+      "candidate_original_indices": [
+        4,
+        0
+      ],
+      "fallback_scores": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "gold_available_only_after_selection": true
+    },
+    {
+      "case_id": "t1_synaba091ae5ec3c2435792",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synaba091ae5ec3c2435792",
+        "final_answer": {
+          "value": "71.9563"
+        },
+        "steps": [
+          {
+            "slot_id": "debt_issued",
+            "value": "817500/2497"
+          },
+          {
+            "slot_id": "repurchase_price",
+            "value": "807365/44946"
+          },
+          {
+            "slot_id": "equity_after",
+            "value": "3227500/2497"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": null,
+        "reason": "no_complete_disagreement"
+      },
+      "call": null,
+      "candidate_original_indices": [
+        0
+      ],
+      "fallback_scores": {
+        "fac": 1,
+        "matched_slots": 3,
+        "total_slots": 3
+      },
+      "gold_available_only_after_selection": true
+    }
+  ],
+  "counts": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 12,
+    "total_slots": 12,
+    "verifier_calls": 2
+  },
+  "backend": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  }
+}

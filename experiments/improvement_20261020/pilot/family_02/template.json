@@ -1,0 +1,101 @@
+{
+  "name": "target_weight_wacc_capped_shield_flotation",
+  "domain_id": "corporate_finance",
+  "topic_id": "wacc",
+  "difficulty": "intermediate",
+  "params": {
+    "WD": {
+      "kind": "int",
+      "min": 20,
+      "max": 60,
+      "step": 5
+    },
+    "KE": {
+      "kind": "decimal",
+      "min": "8.00",
+      "max": "14.00",
+      "step": "0.25"
+    },
+    "FE": {
+      "kind": "decimal",
+      "min": "2.0",
+      "max": "8.0",
+      "step": "0.5"
+    },
+    "KD": {
+      "kind": "decimal",
+      "min": "4.00",
+      "max": "9.00",
+      "step": "0.25"
+    },
+    "D": {
+      "kind": "int",
+      "min": 100,
+      "max": 400,
+      "step": 20
+    },
+    "EBITDA": {
+      "kind": "int",
+      "min": 30,
+      "max": 120,
+      "step": 5
+    },
+    "CAP": {
+      "kind": "int",
+      "min": 20,
+      "max": 40,
+      "step": 5
+    },
+    "T": {
+      "kind": "int",
+      "min": 20,
+      "max": 30,
+      "step": 1
+    }
+  },
+  "question_template": "A firm computes WACC with target weights: debt is {WD} percent of capital, the rest common equity. The required equity return of {KE} percent is grossed up for a flotation cost of {FE} percent of gross proceeds: ke_f=KE/(1-FE/100). Debt of {D} USD million costs {KD} percent pretax with no flotation cost. Interest deductibility is capped at {CAP} percent of EBITDA of {EBITDA} USD million: interest I=D*KD/100, deductible interest is the lesser of I and the cap, and only that portion earns the shield at the {T} percent tax rate, so the after-tax debt cost is KD*(1-(T/100)*(deductible/I)). WACC applies the target weights to ke_f and this after-tax debt cost. Use exact arithmetic and do not round any intermediate value. What is the WACC in percent?",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "flotation_adjusted_equity_cost_percent",
+      "description": "Exact equity cost after grossing up for flotation costs.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "percent",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "deductible_interest",
+      "description": "Exact annual interest eligible for the tax shield after the EBITDA cap.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "after_tax_debt_cost_percent",
+      "description": "Exact pretax debt cost reduced by the capped effective tax shield.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "percent",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    wd = Q(P[\"WD\"]) / 100\n    we = 1 - wd\n    ke = Q(P[\"KE\"])\n    fe = Q(P[\"FE\"]) / 100\n    kd = Q(P[\"KD\"])\n    d = Q(P[\"D\"])\n    ebitda = Q(P[\"EBITDA\"])\n    cap_rate = Q(P[\"CAP\"]) / 100\n    t = Q(P[\"T\"]) / 100\n    ke_f = ke / (1 - fe)\n    interest = d * kd / 100\n    cap = cap_rate * ebitda\n    deductible = interest if interest < cap else cap\n    kd_at = kd * (1 - t * (deductible / interest))\n    wacc = we * ke_f + wd * kd_at\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": deductible,\n        \"after_tax_debt_cost_percent\": kd_at,\n    }\n"
+}

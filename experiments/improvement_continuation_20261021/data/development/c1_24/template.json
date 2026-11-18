@@ -1,0 +1,112 @@
+{
+ "name": "same_day_cash_deposit_aggregation_reports",
+ "domain_id": "finance_regulation",
+ "topic_id": "aml",
+ "difficulty": "intermediate",
+ "params": {
+  "T": {
+   "kind": "int",
+   "min": 8000,
+   "max": 12000,
+   "step": 500
+  },
+  "A1": {
+   "kind": "int",
+   "min": 3000,
+   "max": 12000,
+   "step": 500
+  },
+  "A2": {
+   "kind": "int",
+   "min": 2000,
+   "max": 9000,
+   "step": 500
+  },
+  "B1": {
+   "kind": "int",
+   "min": 4000,
+   "max": 13000,
+   "step": 500
+  },
+  "C1": {
+   "kind": "int",
+   "min": 5000,
+   "max": 13000,
+   "step": 500
+  }
+ },
+ "question_template": "Apply only this fictional cash-deposit monitoring policy. Reporting threshold: {T} USD; only amounts strictly above it trigger (equality does not). Customer X deposits {A1} USD and {A2} USD on day 1 and {B1} USD on day 2. Customer Y deposits {C1} USD on day 2. Same-customer same-day deposits are aggregated; never across days or customers. If a customer's daily aggregate exceeds the threshold, one report is created at the full aggregate, replacing any individual-deposit report for that customer that day. Otherwise each individual deposit above the threshold is reported separately at its own amount. Total reportable amount is the sum of all report amounts. Report customer X's day 1 aggregate, the day 1 report count and total report count, then the final total reportable amount in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "day1_aggregate",
+   "description": "Customer X aggregated cash deposits on day 1 in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "day1_report_count",
+   "description": "Number of reports generated for day 1 after aggregation replacement",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "total_report_count",
+   "description": "Total number of reports across both days and both customers",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def customer_day(deposits, T):\n    agg = sum(deposits)\n    if agg > T:\n        return 1, agg\n    n = 0\n    amt = 0\n    for d in deposits:\n        if d > T:\n            n += 1\n            amt += d\n    return n, amt\n\ndef solve():\n    T = P[\"T\"]\n    A1 = P[\"A1\"]\n    A2 = P[\"A2\"]\n    B1 = P[\"B1\"]\n    C1 = P[\"C1\"]\n    if min(A1, A2, B1, C1, T) <= 0:\n        raise ValueError(\"amounts and threshold must be positive\")\n    day1_aggregate = A1 + A2\n    n1, amt1 = customer_day([A1, A2], T)\n    n2x, amt2x = customer_day([B1], T)\n    n2y, amt2y = customer_day([C1], T)\n    total_count = n1 + n2x + n2y\n    total_amount = amt1 + amt2x + amt2y\n    return {\n        \"final\": total_amount,\n        \"day1_aggregate\": day1_aggregate,\n        \"day1_report_count\": n1,\n        \"total_report_count\": total_count,\n    }",
+ "coverage_params": [
+  {
+   "T": 10000,
+   "A1": 6000,
+   "A2": 4000,
+   "B1": 12000,
+   "C1": 7000
+  },
+  {
+   "T": 10000,
+   "A1": 11000,
+   "A2": 4500,
+   "B1": 9000,
+   "C1": 10500
+  },
+  {
+   "T": 8000,
+   "A1": 9000,
+   "A2": 8500,
+   "B1": 8000,
+   "C1": 13000
+  },
+  {
+   "T": 12000,
+   "A1": 3000,
+   "A2": 2000,
+   "B1": 4000,
+   "C1": 5000
+  }
+ ]
+}

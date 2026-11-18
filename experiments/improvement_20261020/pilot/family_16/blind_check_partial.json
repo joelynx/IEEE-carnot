@@ -1,0 +1,494 @@
+[
+  {
+    "case_id": "t1_syn68a2abe71d822598bcbf",
+    "verdicts": {
+      "final": true,
+      "year1_net_after_tax": true,
+      "cumulative_end_year2": true,
+      "breakeven_year": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn68a2abe71d822598bcbf",
+        "final_answer": {
+          "value": "1.8087"
+        },
+        "steps": [
+          {
+            "slot_id": "year1_net_after_tax",
+            "value": "-22.12"
+          },
+          {
+            "slot_id": "cumulative_end_year2",
+            "value": "5.23375"
+          },
+          {
+            "slot_id": "breakeven_year",
+            "value": "2"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1.8087": 1
+        },
+        "year1_net_after_tax": {
+          "-22.12": 1
+        },
+        "cumulative_end_year2": {
+          "5.23375": 1
+        },
+        "breakeven_year": {
+          "2": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1.8087",
+            "year1_net_after_tax": "-22.12",
+            "cumulative_end_year2": "5.23375",
+            "breakeven_year": "2"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "de00aedc28e0e134605028271add803487546c762bceaf2b28428b71c2df2713",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1163,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 576,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1163,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 576,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1163,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1163
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05233,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8842,
+                "session_id": "b5187c46-359a-4446-b7d6-b86183166f25",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    savings = Q(\"42.5\")\n    realization = [Q(\"0.4\"), Q(\"0.85\"), Q(1)]\n    integration = [Q(45), Q(\"1.5\"), Q(0)]\n    tax = Q(\"0.21\")\n\n    # after-tax net cash flows per year (tax credit applies to negative pre-tax net)\n    def net_cf(year_idx):\n        r = realization[min(year_idx, 2)]\n        ic = integration[min(year_idx, 2)]\n        return (savings * r - ic) * (1 - tax)\n\n    year1_net = net_cf(0)  # negative if net cost\n\n    cumulative = Q(0)\n    cum_end_year2 = None\n    breakeven_year = None\n    breakeven_time = None\n\n    if year1_net >= 0:\n        breakeven_time = Q(0)\n        breakeven_year = 1\n        cum_end_year2 = year1_net + net_cf(1)\n    else:\n        k = 1\n        while True:\n            cf = net_cf(k - 1)\n            start_balance = cumulative\n            cumulative += cf\n            if k == 2:\n                cum_end_year2 = cumulative\n            if cumulative >= 0 and breakeven_year is None:\n                breakeven_year = k\n                shortfall = -start_balance  # positive deficit at start of year k\n                breakeven_time = (k - 1) + shortfall / cf\n            if breakeven_year is not None and cum_end_year2 is not None:\n                break\n            k += 1\n\n    return {\n        \"final\": breakeven_time,\n        \"year1_net_after_tax\": year1_net,\n        \"cumulative_end_year2\": cum_end_year2,\n        \"breakeven_year\": breakeven_year,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 163
+              },
+              "rendered": {
+                "final": "1.8087",
+                "year1_net_after_tax": "-22.12",
+                "cumulative_end_year2": "5.23375",
+                "breakeven_year": "2"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn51469801d3a644cfacce",
+    "verdicts": {
+      "final": true,
+      "year1_net_after_tax": true,
+      "cumulative_end_year2": true,
+      "breakeven_year": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn51469801d3a644cfacce",
+        "final_answer": {
+          "value": "3.2925"
+        },
+        "steps": [
+          {
+            "slot_id": "year1_net_after_tax",
+            "value": "-27.666"
+          },
+          {
+            "slot_id": "cumulative_end_year2",
+            "value": "-31.176"
+          },
+          {
+            "slot_id": "breakeven_year",
+            "value": "4"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "3.2925": 1
+        },
+        "year1_net_after_tax": {
+          "-27.666": 1
+        },
+        "cumulative_end_year2": {
+          "-31.176": 1
+        },
+        "breakeven_year": {
+          "4": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "3.2925",
+            "year1_net_after_tax": "-27.666",
+            "cumulative_end_year2": "-31.176",
+            "breakeven_year": "4"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "3e06b1dffa1432496ee9fcb2c7ae6042b547b7a41cd95ce03eb5a0d5d13bfd19",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1163,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 504,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1163,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 504,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1163,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1163
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.048729999999999996,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5940,
+                "session_id": "b2ae7bf0-84be-4478-b9c2-d80d8524e0cf",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    savings = Q(\"33.5\")\n    realization = [Q(\"0.45\"), Q(\"0.75\"), Q(1)]\n    integration = [Q(\"53.5\"), Q(30), Q(0)]\n    tax = Q(\"0.28\")\n\n    # After-tax net cash flow per year (same rate applied to negative pre-tax net => tax credit)\n    def net(year):  # year is 1-based\n        r = realization[year - 1] if year <= 3 else Q(1)\n        c = integration[year - 1] if year <= 3 else Q(0)\n        return (savings * r - c) * (1 - tax)\n\n    year1_net = net(1)  # negative if net cost\n    year2_net = net(2)\n    cumulative_end_year2 = year1_net + year2_net\n\n    # Break-even time\n    if year1_net >= 0:\n        breakeven_year = 1\n        breakeven_time = Q(0)\n    else:\n        cum = Q(0)\n        k = 1\n        while True:\n            start = cum\n            cf = net(k)\n            cum = start + cf\n            if cum >= 0:\n                breakeven_year = k\n                shortfall = -start  # positive shortfall at start of year k\n                breakeven_time = (k - 1) + shortfall / cf\n                break\n            k += 1\n\n    return {\n        \"final\": breakeven_time,\n        \"year1_net_after_tax\": year1_net,\n        \"cumulative_end_year2\": cumulative_end_year2,\n        \"breakeven_year\": breakeven_year,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 479
+              },
+              "rendered": {
+                "final": "3.2925",
+                "year1_net_after_tax": "-27.666",
+                "cumulative_end_year2": "-31.176",
+                "breakeven_year": "4"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn7ed9e093f070c4a4392a",
+    "verdicts": {
+      "final": true,
+      "year1_net_after_tax": true,
+      "cumulative_end_year2": true,
+      "breakeven_year": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn7ed9e093f070c4a4392a",
+        "final_answer": {
+          "value": "2.2505"
+        },
+        "steps": [
+          {
+            "slot_id": "year1_net_after_tax",
+            "value": "-29.22075"
+          },
+          {
+            "slot_id": "cumulative_end_year2",
+            "value": "-9.234"
+          },
+          {
+            "slot_id": "breakeven_year",
+            "value": "3"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "2.2505": 1
+        },
+        "year1_net_after_tax": {
+          "-29.22075": 1
+        },
+        "cumulative_end_year2": {
+          "-9.234": 1
+        },
+        "breakeven_year": {
+          "3": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "2.2505",
+            "year1_net_after_tax": "-29.22075",
+            "cumulative_end_year2": "-9.234",
+            "breakeven_year": "3"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "04914322c2c23cf64d415ffa6d6ed0a47c1541b09ab287e33257651eba3f06a3",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1161,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 528,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1161,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 528,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1161,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1161
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.049890000000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8659,
+                "session_id": "09f3ad9a-0efc-4860-8dee-4a7256c8a4ee",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    savings = Q(\"45.5\")\n    realization = {1: Q(\"0.35\"), 2: Q(\"0.85\")}\n    integration = {1: Q(52), 2: Q(14)}\n    tax = Q(\"0.19\")\n\n    def net_cf(year):\n        r = realization.get(year, Q(1))\n        pre_tax = savings * r - integration.get(year, Q(0))\n        return pre_tax * (1 - tax)  # tax credit on negative pre-tax at same rate\n\n    year1_net = net_cf(1)\n    cumulative = Q(0)\n    cumulative_end_year2 = None\n    breakeven_year = None\n    breakeven_time = None\n\n    if year1_net >= 0:\n        breakeven_time = Q(0)\n        breakeven_year = 1\n\n    year = 1\n    while year <= 100:\n        start_balance = cumulative\n        cf = net_cf(year)\n        cumulative = start_balance + cf\n        if year == 2:\n            cumulative_end_year2 = cumulative\n        if breakeven_year is None and cumulative >= 0:\n            breakeven_year = year\n            shortfall = -start_balance  # positive shortfall at start of year k\n            breakeven_time = (year - 1) + shortfall / cf\n        if year >= 2 and breakeven_year is not None:\n            break\n        year += 1\n\n    return {\n        \"final\": breakeven_time,\n        \"year1_net_after_tax\": year1_net,\n        \"cumulative_end_year2\": cumulative_end_year2,\n        \"breakeven_year\": breakeven_year,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 210
+              },
+              "rendered": {
+                "final": "2.2505",
+                "year1_net_after_tax": "-29.22075",
+                "cumulative_end_year2": "-9.234",
+                "breakeven_year": "3"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synd6516d634a2484e0e01b",
+    "verdicts": {
+      "final": true,
+      "year1_net_after_tax": true,
+      "cumulative_end_year2": true,
+      "breakeven_year": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synd6516d634a2484e0e01b",
+        "final_answer": {
+          "value": "2.1020"
+        },
+        "steps": [
+          {
+            "slot_id": "year1_net_after_tax",
+            "value": "-21.252"
+          },
+          {
+            "slot_id": "cumulative_end_year2",
+            "value": "-3.333"
+          },
+          {
+            "slot_id": "breakeven_year",
+            "value": "3"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "2.1020": 1
+        },
+        "year1_net_after_tax": {
+          "-21.252": 1
+        },
+        "cumulative_end_year2": {
+          "-3.333": 1
+        },
+        "breakeven_year": {
+          "3": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "2.1020",
+            "year1_net_after_tax": "-21.252",
+            "cumulative_end_year2": "-3.333",
+            "breakeven_year": "3"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "e30e137a3552256f0c8cc21d20adc3d1ff3deb8df57be9be0184643d4b991f85",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1163,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 547,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1163,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 547,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1163,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1163
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.050879999999999995,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6053,
+                "session_id": "a4d67cc9-f5b4-418b-9f9f-a9daaecd6fdf",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    savings = Q(\"49.5\")\n    realization = [Q(\"0.4\"), Q(\"0.7\"), Q(1), Q(1), Q(1), Q(1), Q(1), Q(1), Q(1), Q(1)]\n    integration = [Q(52), Q(\"7.5\")] + [Q(0)] * 8\n    tax = Q(\"0.34\")\n\n    net = []\n    for r, c in zip(realization, integration):\n        pre_tax = savings * r - c\n        net.append(pre_tax * (1 - tax))  # tax credit if negative at same rate\n\n    year1_net_after_tax = net[0]\n\n    # cumulative balances at end of each year\n    cum = []\n    bal = Q(0)\n    for n in net:\n        bal += n\n        cum.append(bal)\n    cumulative_end_year2 = cum[1]\n\n    # break-even\n    if net[0] >= 0:\n        breakeven_time = Q(0)\n        breakeven_year = 1\n    else:\n        breakeven_year = None\n        start_bal = Q(0)\n        for k, n in enumerate(net, start=1):\n            end_bal = start_bal + n\n            if end_bal >= 0:\n                breakeven_year = k\n                shortfall = -start_bal  # positive shortfall at start of year k\n                breakeven_time = (k - 1) + shortfall / n\n                break\n            start_bal = end_bal\n\n    return {\n        \"final\": breakeven_time,\n        \"year1_net_after_tax\": year1_net_after_tax,\n        \"cumulative_end_year2\": cumulative_end_year2,\n        \"breakeven_year\": breakeven_year,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 228
+              },
+              "rendered": {
+                "final": "2.1020",
+                "year1_net_after_tax": "-21.252",
+                "cumulative_end_year2": "-3.333",
+                "breakeven_year": "3"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

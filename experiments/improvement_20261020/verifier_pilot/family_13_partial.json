@@ -1,0 +1,282 @@
+[
+  {
+    "case_id": "t1_syn977931097d5d55b51bf0",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_syn977931097d5d55b51bf0",
+      "final_answer": {
+        "value": "2636.88"
+      },
+      "steps": [
+        {
+          "slot_id": "withdrawal_gross_sale",
+          "value": "65000/491"
+        },
+        {
+          "slot_id": "post_withdrawal_weight",
+          "value": "3093300/64999"
+        },
+        {
+          "slot_id": "equity_trade",
+          "value": "2913260/4973"
+        }
+      ]
+    },
+    "verdict": {
+      "selected_original_index": 1,
+      "reason": "supported_existing_candidate",
+      "interpretation": "The withdrawal is funded by a gross bond sale G = 130/(1-0.018), and the cash leaves the account. That gives T0 = 2780 - G and an equity weight of about 47.6%, so equity is underweight. The advisor sells bonds with gross amount S and buys equity with the net proceeds (1-c)S; the sale cost cS leaves the account. The target condition is E + (1-c)S = 0.7(T0 - cS), so S = (0.7*T0 - E)/((1-c) + 0.7c). Candidate 0 uses this denominator. Candidate 1 uses 1 - 0.7c, which applies to the equity-sale case, not the bond-sale case.",
+      "evidence_program": "def solve():\n    E = Q(1260)\n    B = Q(1520)\n    w = Q(7, 10)\n    c = Q(18, 1000)\n    W = Q(130)\n    # gross bond sale whose net proceeds equal the withdrawal\n    G = W / (1 - c)\n    T0 = E + B - G\n    weight = E / T0\n    if weight < w:\n        # sell bonds gross S, net (1-c)S buys equity; total falls by c*S\n        # E + (1-c)S = w*(T0 - cS)\n        S = (w * T0 - E) / ((1 - c) + w * c)\n        eq_trade = (1 - c) * S\n    elif weight > w:\n        # sell equity gross S: E - S = w*(T0 - cS)\n        S = (E - w * T0) / (1 - w * c)\n        eq_trade = -S\n    else:\n        S = Q(0)\n        eq_trade = Q(0)\n    total = T0 - c * S\n    return {\n        \"final\": total,\n        \"withdrawal_gross_sale\": G,\n        \"post_withdrawal_weight\": weight * 100,\n        \"equity_trade\": eq_trade,\n    }\n",
+      "sandbox": {
+        "ok": true,
+        "stage": null,
+        "error": null,
+        "elapsed_ms": 84
+      },
+      "rendered_evidence": {
+        "final": "2636.88",
+        "withdrawal_gross_sale": "65000/491",
+        "post_withdrawal_weight": "3093300/64999",
+        "equity_trade": "2913260/4973"
+      },
+      "selected_anonymous_index": 0
+    },
+    "call": {
+      "cache_key": "72806d5dadb700afa5cf5d8e6f1912de4fe4ed98021cb1ae174b6a4e00a813e1",
+      "cached": false,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3147,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 895,
+        "output_tokens_details": {
+          "thinking_tokens": 214
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3147,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "global",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 895,
+            "cache_read_input_tokens": 0,
+            "cache_creation_input_tokens": 3147,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3147
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard",
+        "fallback_credit": null
+      },
+      "cost_equivalent_usd": 0.043084,
+      "raw_response": "{\"selected_index\": 0, \"interpretation\": \"The withdrawal is funded by a gross bond sale G = 130/(1-0.018), and the cash leaves the account. That gives T0 = 2780 - G and an equity weight of about 47.6%, so equity is underweight. The advisor sells bonds with gross amount S and buys equity with the net proceeds (1-c)S; the sale cost cS leaves the account. The target condition is E + (1-c)S = 0.7(T0 - cS), so S = (0.7*T0 - E)/((1-c) + 0.7c). Candidate 0 uses this denominator. Candidate 1 uses 1 - 0.7c, which applies to the equity-sale case, not the bond-sale case.\", \"evidence_program\": \"def solve():\\n    E = Q(1260)\\n    B = Q(1520)\\n    w = Q(7, 10)\\n    c = Q(18, 1000)\\n    W = Q(130)\\n    # gross bond sale whose net proceeds equal the withdrawal\\n    G = W / (1 - c)\\n    T0 = E + B - G\\n    weight = E / T0\\n    if weight < w:\\n        # sell bonds gross S, net (1-c)S buys equity; total falls by c*S\\n        # E + (1-c)S = w*(T0 - cS)\\n        S = (w * T0 - E) / ((1 - c) + w * c)\\n        eq_trade = (1 - c) * S\\n    elif weight > w:\\n        # sell equity gross S: E - S = w*(T0 - cS)\\n        S = (E - w * T0) / (1 - w * c)\\n        eq_trade = -S\\n    else:\\n        S = Q(0)\\n        eq_trade = Q(0)\\n    total = T0 - c * S\\n    return {\\n        \\\"final\\\": total,\\n        \\\"withdrawal_gross_sale\\\": G,\\n        \\\"post_withdrawal_weight\\\": weight * 100,\\n        \\\"equity_trade\\\": eq_trade,\\n    }\\n\"}"
+    },
+    "candidate_original_indices": [
+      1,
+      0
+    ],
+    "fallback_scores": {
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3
+    },
+    "gold_available_only_after_selection": true
+  },
+  {
+    "case_id": "t1_syna3045308b3a65b985541",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_syna3045308b3a65b985541",
+      "final_answer": {
+        "value": "2766.20"
+      },
+      "steps": [
+        {
+          "slot_id": "withdrawal_gross_sale",
+          "value": "55000/249"
+        },
+        {
+          "slot_id": "post_withdrawal_weight",
+          "value": "3012900/68951"
+        },
+        {
+          "slot_id": "equity_trade",
+          "value": "1813670/2497"
+        }
+      ]
+    },
+    "verdict": {
+      "selected_original_index": null,
+      "reason": "no_complete_disagreement"
+    },
+    "call": null,
+    "candidate_original_indices": [
+      0
+    ],
+    "fallback_scores": {
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3
+    },
+    "gold_available_only_after_selection": true
+  },
+  {
+    "case_id": "t1_synfd846944fe271c802294",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_synfd846944fe271c802294",
+      "final_answer": {
+        "value": "3067.31"
+      },
+      "steps": [
+        {
+          "slot_id": "withdrawal_gross_sale",
+          "value": "70000/331"
+        },
+        {
+          "slot_id": "post_withdrawal_weight",
+          "value": "289625/6348"
+        },
+        {
+          "slot_id": "equity_trade",
+          "value": "-142820000/825183"
+        }
+      ]
+    },
+    "verdict": {
+      "selected_original_index": null,
+      "reason": "no_complete_disagreement"
+    },
+    "call": null,
+    "candidate_original_indices": [
+      0
+    ],
+    "fallback_scores": {
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3
+    },
+    "gold_available_only_after_selection": true
+  },
+  {
+    "case_id": "t1_syn21376c609ce5887317cd",
+    "fac": 1,
+    "matched_slots": 3,
+    "total_slots": 3,
+    "row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "carnot-synth-v1",
+      "case_id": "t1_syn21376c609ce5887317cd",
+      "final_answer": {
+        "value": "2536.87"
+      },
+      "steps": [
+        {
+          "slot_id": "withdrawal_gross_sale",
+          "value": "70000/989"
+        },
+        {
+          "slot_id": "post_withdrawal_weight",
+          "value": "9197700/251129"
+        },
+        {
+          "slot_id": "equity_trade",
+          "value": "4206210/19879"
+        }
+      ]
+    },
+    "verdict": {
+      "selected_original_index": 0,
+      "reason": "supported_existing_candidate",
+      "interpretation": "The withdrawal is funded by a gross bond sale G_w = 70/(1-0.011), which leaves a post-withdrawal total T0 = 2610 - G_w. Equity's weight is then about 36.6%, below the 45% target, so the advisor sells bonds and buys equity. For a gross bond sale G, equity becomes E + G(1-c) and the total becomes T0 - cG. Setting E + G(1-c) = w(T0 - cG) gives G = (wT0 - E)/((1-c) + wc). Candidate 1 uses this denominator. Candidate 0 uses (1 - wc), which is the overweight-case formula, so its equity_trade is wrong even though its final total rounds to the same 2536.87.",
+      "evidence_program": "def solve():\n    E = Q(930)\n    B = Q(1680)\n    w = Q(45, 100)\n    c = Q(11, 1000)\n    W = Q(70)\n    # gross bond sale so net proceeds equal the withdrawal\n    Gw = W / (1 - c)\n    T0 = E + B - Gw\n    weight = E / T0\n    if weight < w:\n        # buy equity with net proceeds of a gross bond sale G:\n        # E + G(1-c) = w*(T0 - c*G)\n        G = (w * T0 - E) / ((1 - c) + w * c)\n        trade = G * (1 - c)\n        total = T0 - c * G\n    elif weight > w:\n        # sell equity gross S: E - S = w*(T0 - c*S)\n        S = (E - w * T0) / (1 - w * c)\n        trade = -S\n        total = T0 - c * S\n    else:\n        trade = Q(0)\n        total = T0\n    return {\n        \"final\": total,\n        \"withdrawal_gross_sale\": Gw,\n        \"post_withdrawal_weight\": weight * 100,\n        \"equity_trade\": trade,\n    }\n",
+      "sandbox": {
+        "ok": true,
+        "stage": null,
+        "error": null,
+        "elapsed_ms": 162
+      },
+      "rendered_evidence": {
+        "final": "2536.87",
+        "withdrawal_gross_sale": "70000/989",
+        "post_withdrawal_weight": "9197700/251129",
+        "equity_trade": "4206210/19879"
+      },
+      "selected_anonymous_index": 1
+    },
+    "call": {
+      "cache_key": "0c20163059f3b34f57516c20fbc6dbe2672fd16cdc5c1d7d23c369670d94e155",
+      "cached": false,
+      "model": "claude-opus-5-5",
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2414,
+        "cache_read_input_tokens": 752,
+        "output_tokens": 1075,
+        "output_tokens_details": {
+          "thinking_tokens": 386
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 2414,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "global",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 1075,
+            "cache_read_input_tokens": 752,
+            "cache_creation_input_tokens": 2414,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 2414
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard",
+        "fallback_credit": null
+      },
+      "cost_equivalent_usd": 0.0409704,
+      "raw_response": "{\"selected_index\":1,\"interpretation\":\"The withdrawal is funded by a gross bond sale G_w = 70/(1-0.011), which leaves a post-withdrawal total T0 = 2610 - G_w. Equity's weight is then about 36.6%, below the 45% target, so the advisor sells bonds and buys equity. For a gross bond sale G, equity becomes E + G(1-c) and the total becomes T0 - cG. Setting E + G(1-c) = w(T0 - cG) gives G = (wT0 - E)/((1-c) + wc). Candidate 1 uses this denominator. Candidate 0 uses (1 - wc), which is the overweight-case formula, so its equity_trade is wrong even though its final total rounds to the same 2536.87.\",\"evidence_program\":\"def solve():\\n    E = Q(930)\\n    B = Q(1680)\\n    w = Q(45, 100)\\n    c = Q(11, 1000)\\n    W = Q(70)\\n    # gross bond sale so net proceeds equal the withdrawal\\n    Gw = W / (1 - c)\\n    T0 = E + B - Gw\\n    weight = E / T0\\n    if weight < w:\\n        # buy equity with net proceeds of a gross bond sale G:\\n        # E + G(1-c) = w*(T0 - c*G)\\n        G = (w * T0 - E) / ((1 - c) + w * c)\\n        trade = G * (1 - c)\\n        total = T0 - c * G\\n    elif weight > w:\\n        # sell equity gross S: E - S = w*(T0 - c*S)\\n        S = (E - w * T0) / (1 - w * c)\\n        trade = -S\\n        total = T0 - c * S\\n    else:\\n        trade = Q(0)\\n        total = T0\\n    return {\\n        \\\"final\\\": total,\\n        \\\"withdrawal_gross_sale\\\": Gw,\\n        \\\"post_withdrawal_weight\\\": weight * 100,\\n        \\\"equity_trade\\\": trade,\\n    }\\n\"}"
+    },
+    "candidate_original_indices": [
+      1,
+      0
+    ],
+    "fallback_scores": {
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3
+    },
+    "gold_available_only_after_selection": true
+  }
+]

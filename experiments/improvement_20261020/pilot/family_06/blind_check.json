@@ -1,0 +1,499 @@
+{
+  "family": "family_06",
+  "all_agree": true,
+  "checks": [
+    {
+      "case_id": "t1_syneeddc4e7527ebd3bd778",
+      "verdicts": {
+        "final": true,
+        "gross_cost": true,
+        "uncapped_credit": true,
+        "applied_credit": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syneeddc4e7527ebd3bd778",
+          "final_answer": {
+            "value": "30000.00"
+          },
+          "steps": [
+            {
+              "slot_id": "gross_cost",
+              "value": "30000"
+            },
+            {
+              "slot_id": "uncapped_credit",
+              "value": "500"
+            },
+            {
+              "slot_id": "applied_credit",
+              "value": "0"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "30000.00": 1
+          },
+          "gross_cost": {
+            "30000": 1
+          },
+          "uncapped_credit": {
+            "500": 1
+          },
+          "applied_credit": {
+            "0": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "30000.00",
+              "gross_cost": "30000",
+              "uncapped_credit": "500",
+              "applied_credit": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "9c4ce80d136af569194b53c0d78cbacf5c07f60e94ea7f70263e29aae4ceb9d9",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1121,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 408,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1121,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 408,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1121,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1121
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04309,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4462,
+                  "session_id": "5820c7b9-b702-453a-b33b-8f6b8b164997",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    findings = 25\n    tier1_limit = 25\n    tier1_rate = 1200\n    tier2_rate = 2600\n\n    # Tiered gross cost\n    tier1_count = min(findings, tier1_limit)\n    tier2_count = max(findings - tier1_limit, 0)\n    gross_cost = tier1_count * tier1_rate + tier2_count * tier2_rate  # 30000\n\n    # Early-closure credit before cap/threshold\n    closed_early = 1\n    credit_per_finding = 500\n    uncapped_credit = closed_early * credit_per_finding  # 500\n\n    # Cap at 20% of gross cost, granted only if gross cost >= 45000\n    threshold = 45000\n    cap = Q(\"0.20\") * gross_cost\n    if gross_cost >= threshold:\n        applied_credit = min(uncapped_credit, cap)\n    else:\n        applied_credit = 0\n\n    # Net remediation cost\n    net_cost = gross_cost - applied_credit\n\n    return {\n        \"final\": net_cost,\n        \"gross_cost\": gross_cost,\n        \"uncapped_credit\": uncapped_credit,\n        \"applied_credit\": applied_credit,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 132
+                },
+                "rendered": {
+                  "final": "30000.00",
+                  "gross_cost": "30000",
+                  "uncapped_credit": "500",
+                  "applied_credit": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synf848905010c48abdd66e",
+      "verdicts": {
+        "final": true,
+        "gross_cost": true,
+        "uncapped_credit": true,
+        "applied_credit": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synf848905010c48abdd66e",
+          "final_answer": {
+            "value": "122200.00"
+          },
+          "steps": [
+            {
+              "slot_id": "gross_cost",
+              "value": "122300"
+            },
+            {
+              "slot_id": "uncapped_credit",
+              "value": "100"
+            },
+            {
+              "slot_id": "applied_credit",
+              "value": "100"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "122200.00": 1
+          },
+          "gross_cost": {
+            "122300": 1
+          },
+          "uncapped_credit": {
+            "100": 1
+          },
+          "applied_credit": {
+            "100": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "122200.00",
+              "gross_cost": "122300",
+              "uncapped_credit": "100",
+              "applied_credit": "100"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "9223ae66f491faa1abba715bb8ecc6be4006230a30387d2e4c00af454fab444e",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1120,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 360,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1120,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 360,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1120,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1120
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04067,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3931,
+                  "session_id": "a4ef9551-4cc7-4f4a-80c4-d5af7699ff48",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    findings = 60\n    tier1_limit = 29\n    tier1_rate = 850\n    tier2_rate = 3150\n\n    tier1_count = min(findings, tier1_limit)\n    tier2_count = max(findings - tier1_limit, 0)\n    gross_cost = tier1_count * tier1_rate + tier2_count * tier2_rate  # gross cost before credit\n\n    closed_early = 1\n    credit_per_finding = 100\n    uncapped_credit = closed_early * credit_per_finding  # credit before cap/threshold\n\n    cap = Q(\"0.05\") * gross_cost\n    threshold = 34000\n    if gross_cost >= threshold:\n        applied_credit = min(uncapped_credit, cap)\n    else:\n        applied_credit = 0\n\n    net_cost = gross_cost - applied_credit  # final net remediation cost\n\n    return {\n        \"final\": net_cost,\n        \"gross_cost\": gross_cost,\n        \"uncapped_credit\": uncapped_credit,\n        \"applied_credit\": applied_credit,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 133
+                },
+                "rendered": {
+                  "final": "122200.00",
+                  "gross_cost": "122300",
+                  "uncapped_credit": "100",
+                  "applied_credit": "100"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn780951f9ca775f94da77",
+      "verdicts": {
+        "final": true,
+        "gross_cost": true,
+        "uncapped_credit": true,
+        "applied_credit": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn780951f9ca775f94da77",
+          "final_answer": {
+            "value": "52175.00"
+          },
+          "steps": [
+            {
+              "slot_id": "gross_cost",
+              "value": "57800"
+            },
+            {
+              "slot_id": "uncapped_credit",
+              "value": "5625"
+            },
+            {
+              "slot_id": "applied_credit",
+              "value": "5625"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "52175.00": 1
+          },
+          "gross_cost": {
+            "57800": 1
+          },
+          "uncapped_credit": {
+            "5625": 1
+          },
+          "applied_credit": {
+            "5625": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "52175.00",
+              "gross_cost": "57800",
+              "uncapped_credit": "5625",
+              "applied_credit": "5625"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f9b2dca12d23ee82ea52d3921f3a33c172536d21aee57c9c157d327e9a0ca872",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1121,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 354,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1121,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 354,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1121,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1121
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04039,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6107,
+                  "session_id": "fc4b20d5-8129-49c4-aea7-c01ac8b6f188",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    findings = 38\n    tier1_cap = 18\n    tier1_rate = 1600\n    tier2_rate = 1450\n    tier1_count = min(findings, tier1_cap)\n    tier2_count = max(findings - tier1_cap, 0)\n    # gross tiered cost before credit\n    gross_cost = tier1_count * tier1_rate + tier2_count * tier2_rate\n    # uncapped early-closure credit\n    uncapped_credit = 15 * 375\n    # cap at 40% of gross, threshold gating at 38000\n    cap = Q(40, 100) * gross_cost\n    if gross_cost >= 38000:\n        applied_credit = min(uncapped_credit, cap)\n    else:\n        applied_credit = 0\n    # net remediation cost\n    net_cost = gross_cost - applied_credit\n    return {\n        \"final\": net_cost,\n        \"gross_cost\": gross_cost,\n        \"uncapped_credit\": uncapped_credit,\n        \"applied_credit\": applied_credit,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 241
+                },
+                "rendered": {
+                  "final": "52175.00",
+                  "gross_cost": "57800",
+                  "uncapped_credit": "5625",
+                  "applied_credit": "5625"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synd5f378da218788d1020f",
+      "verdicts": {
+        "final": true,
+        "gross_cost": true,
+        "uncapped_credit": true,
+        "applied_credit": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synd5f378da218788d1020f",
+          "final_answer": {
+            "value": "27050.00"
+          },
+          "steps": [
+            {
+              "slot_id": "gross_cost",
+              "value": "27050"
+            },
+            {
+              "slot_id": "uncapped_credit",
+              "value": "700"
+            },
+            {
+              "slot_id": "applied_credit",
+              "value": "0"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "27050.00": 1
+          },
+          "gross_cost": {
+            "27050": 1
+          },
+          "uncapped_credit": {
+            "700": 1
+          },
+          "applied_credit": {
+            "0": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "27050.00",
+              "gross_cost": "27050",
+              "uncapped_credit": "700",
+              "applied_credit": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "603baf699397e343a1ca8c12e8b2344bb11ca4da73fd3f409dc0c922d1e2d2e6",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1120,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 383,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1120,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 383,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1120,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1120
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.041819999999999996,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4440,
+                  "session_id": "04011bfc-e9ef-4350-a555-fed604c6a751",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    findings = 32\n    tier1_limit = 27\n    tier1_rate = 650\n    tier2_rate = 1900\n\n    # Tiered gross cost\n    tier1_count = min(findings, tier1_limit)\n    tier2_count = max(findings - tier1_limit, 0)\n    gross_cost = tier1_count * tier1_rate + tier2_count * tier2_rate\n\n    # Early-closure credit (uncapped)\n    early_closed = 4\n    credit_per_finding = 175\n    uncapped_credit = early_closed * credit_per_finding\n\n    # Cap at 20% of gross, only if gross >= 30000\n    cap = Q(20, 100) * gross_cost\n    if gross_cost >= 30000:\n        applied_credit = min(uncapped_credit, cap)\n    else:\n        applied_credit = 0\n\n    # Net remediation cost\n    net_cost = gross_cost - applied_credit\n\n    return {\n        \"final\": net_cost,\n        \"gross_cost\": gross_cost,\n        \"uncapped_credit\": uncapped_credit,\n        \"applied_credit\": applied_credit,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 178
+                },
+                "rendered": {
+                  "final": "27050.00",
+                  "gross_cost": "27050",
+                  "uncapped_credit": "700",
+                  "applied_credit": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "e85cabdf9f8e5b023a3326d5e816f8b1d9736e75fbb6e834ee1b20a7dfeaedb0"
+}

@@ -1,0 +1,499 @@
+{
+  "family": "family_18",
+  "all_agree": true,
+  "checks": [
+    {
+      "case_id": "t1_synf3c21362d8ebd97ab5f9",
+      "verdicts": {
+        "final": true,
+        "prepayment_fee_usd": true,
+        "loan_interest_usd": true,
+        "offset_credit_usd": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synf3c21362d8ebd97ab5f9",
+          "final_answer": {
+            "value": "12150"
+          },
+          "steps": [
+            {
+              "slot_id": "prepayment_fee_usd",
+              "value": "0"
+            },
+            {
+              "slot_id": "loan_interest_usd",
+              "value": "15750"
+            },
+            {
+              "slot_id": "offset_credit_usd",
+              "value": "3600"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "12150": 1
+          },
+          "prepayment_fee_usd": {
+            "0": 1
+          },
+          "loan_interest_usd": {
+            "15750": 1
+          },
+          "offset_credit_usd": {
+            "3600": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "12150",
+              "prepayment_fee_usd": "0",
+              "loan_interest_usd": "15750",
+              "offset_credit_usd": "3600"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "651171b188c989875c994fe554c1e418dcbe8152c65f7a9a637fa7cdc854bf23",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1136,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 392,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1136,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 392,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1136,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1136
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04259,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4546,
+                  "session_id": "30e29af0-03d7-49e8-a8e0-faf4b8d67184",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    balance = Q(180000)\n    loan_rate = Q(\"0.045\")\n    months = Q(24)\n    cash = Q(50000)\n    prepay = Q(5000)\n    allowance = Q(\"0.15\") * balance  # 27000\n    # Fee on prepayment above allowance only\n    excess = prepay - allowance if prepay > allowance else Q(0)\n    fee = Q(\"0.02\") * excess\n    # Post-prepayment balance and loan interest (simple)\n    post_balance = balance - prepay\n    loan_interest = post_balance * loan_rate * months / 12\n    # Remaining cash in offset (fee paid from cash)\n    remaining_cash = cash - prepay - fee\n    offset_raw = remaining_cash * Q(\"0.04\") * months / 12\n    offset_credit = offset_raw if offset_raw < loan_interest else loan_interest\n    net_cost = loan_interest - offset_credit + fee\n    return {\n        \"final\": net_cost,\n        \"prepayment_fee_usd\": fee,\n        \"loan_interest_usd\": loan_interest,\n        \"offset_credit_usd\": offset_credit,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 353
+                },
+                "rendered": {
+                  "final": "12150",
+                  "prepayment_fee_usd": "0",
+                  "loan_interest_usd": "15750",
+                  "offset_credit_usd": "3600"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn7ee70b6ab11de9910ec8",
+      "verdicts": {
+        "final": true,
+        "prepayment_fee_usd": true,
+        "loan_interest_usd": true,
+        "offset_credit_usd": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn7ee70b6ab11de9910ec8",
+          "final_answer": {
+            "value": "7435.125"
+          },
+          "steps": [
+            {
+              "slot_id": "prepayment_fee_usd",
+              "value": "450"
+            },
+            {
+              "slot_id": "loan_interest_usd",
+              "value": "9000"
+            },
+            {
+              "slot_id": "offset_credit_usd",
+              "value": "2014.875"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "7435.125": 1
+          },
+          "prepayment_fee_usd": {
+            "450": 1
+          },
+          "loan_interest_usd": {
+            "9000": 1
+          },
+          "offset_credit_usd": {
+            "2014.875": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "7435.125",
+              "prepayment_fee_usd": "450",
+              "loan_interest_usd": "9000",
+              "offset_credit_usd": "2014.875"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "3285eb4a672261135a4ef9f0f66987e44449bfab7bf2960bd26ff02734731616",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1136,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 486,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1136,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 486,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1136,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1136
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04729,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5211,
+                  "session_id": "97a567b1-9fd7-47ec-b145-f638231c0e28",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    balance = 150000\n    loan_rate = Q(\"0.05\")\n    months = 18\n    cash = 120000\n    prepayment = 30000\n    allowance = Q(\"0.10\") * balance  # 15000\n    fee_rate = Q(\"0.03\")\n\n    # Fee on prepayment above allowance only\n    excess = max(prepayment - allowance, 0)\n    prepayment_fee_usd = fee_rate * excess  # 450\n\n    # Post-prepayment balance and loan interest\n    post_balance = balance - prepayment  # 120000\n    loan_interest_usd = post_balance * loan_rate * Q(months, 12)  # 9000\n\n    # Remaining cash after prepayment and fee goes into offset\n    remaining_cash = cash - prepayment - prepayment_fee_usd\n    offset_rate = Q(\"0.015\")\n    offset_credit_raw = remaining_cash * offset_rate * Q(months, 12)\n    offset_credit_usd = min(offset_credit_raw, loan_interest_usd)\n\n    # Net cash cost\n    net_cash_cost = loan_interest_usd - offset_credit_usd + prepayment_fee_usd\n\n    return {\n        \"final\": net_cash_cost,\n        \"prepayment_fee_usd\": prepayment_fee_usd,\n        \"loan_interest_usd\": loan_interest_usd,\n        \"offset_credit_usd\": offset_credit_usd,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 214
+                },
+                "rendered": {
+                  "final": "7435.125",
+                  "prepayment_fee_usd": "450",
+                  "loan_interest_usd": "9000",
+                  "offset_credit_usd": "2014.875"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn464c37c97512a88b3d41",
+      "verdicts": {
+        "final": true,
+        "prepayment_fee_usd": true,
+        "loan_interest_usd": true,
+        "offset_credit_usd": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn464c37c97512a88b3d41",
+          "final_answer": {
+            "value": "35178.375"
+          },
+          "steps": [
+            {
+              "slot_id": "prepayment_fee_usd",
+              "value": "75"
+            },
+            {
+              "slot_id": "loan_interest_usd",
+              "value": "39375"
+            },
+            {
+              "slot_id": "offset_credit_usd",
+              "value": "4271.625"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "35178.375": 1
+          },
+          "prepayment_fee_usd": {
+            "75": 1
+          },
+          "loan_interest_usd": {
+            "39375": 1
+          },
+          "offset_credit_usd": {
+            "4271.625": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "35178.375",
+              "prepayment_fee_usd": "75",
+              "loan_interest_usd": "39375",
+              "offset_credit_usd": "4271.625"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "6aecb2bcf597b24a069bdac139ab9bcbca9593eb31a82952a9139084f99d8cd7",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1140,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 413,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1140,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 413,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1140,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1140
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04372,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5034,
+                  "session_id": "28ecf17c-18e3-45a8-8f6b-9be1b80609bf",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    balance = 200000\n    loan_rate = Q(\"0.075\")\n    months = 36\n    cash = 120000\n    prepay = 25000\n    allowance = Q(\"0.10\") * balance  # 20000\n    fee_rate = Q(\"0.015\")\n    offset_rate = Q(\"0.015\")\n\n    # Fee on prepayment above allowance\n    excess = max(prepay - allowance, 0)\n    fee = fee_rate * excess\n\n    # Post-prepayment balance and loan interest (simple)\n    post_balance = balance - prepay\n    loan_interest = post_balance * loan_rate * Q(months, 12)\n\n    # Remaining cash after prepayment and fee, sits in offset\n    remaining_cash = cash - prepay - fee\n    offset_credit_raw = remaining_cash * offset_rate * Q(months, 12)\n    offset_credit = min(offset_credit_raw, loan_interest)\n\n    # Net cash cost\n    net_cost = loan_interest - offset_credit + fee\n\n    return {\n        \"final\": net_cost,\n        \"prepayment_fee_usd\": fee,\n        \"loan_interest_usd\": loan_interest,\n        \"offset_credit_usd\": offset_credit,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 139
+                },
+                "rendered": {
+                  "final": "35178.375",
+                  "prepayment_fee_usd": "75",
+                  "loan_interest_usd": "39375",
+                  "offset_credit_usd": "4271.625"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn8bfb325f226a6247b5fe",
+      "verdicts": {
+        "final": true,
+        "prepayment_fee_usd": true,
+        "loan_interest_usd": true,
+        "offset_credit_usd": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn8bfb325f226a6247b5fe",
+          "final_answer": {
+            "value": "32176.9"
+          },
+          "steps": [
+            {
+              "slot_id": "prepayment_fee_usd",
+              "value": "730"
+            },
+            {
+              "slot_id": "loan_interest_usd",
+              "value": "31875"
+            },
+            {
+              "slot_id": "offset_credit_usd",
+              "value": "428.1"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "32176.9": 1
+          },
+          "prepayment_fee_usd": {
+            "730": 1
+          },
+          "loan_interest_usd": {
+            "31875": 1
+          },
+          "offset_credit_usd": {
+            "428.1": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "32176.9",
+              "prepayment_fee_usd": "730",
+              "loan_interest_usd": "31875",
+              "offset_credit_usd": "428.1"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "b30896179166b1750da4bb2af637418a0098e574ef1e43cfe086377e93282efa",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1136,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 413,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1136,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 413,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1136,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1136
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04364,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4640,
+                  "session_id": "abbe721b-dcb0-42bf-803c-095e1fa3c340",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    balance = Q(170000)\n    loan_rate = Q(\"0.085\")\n    months = Q(36)\n    cash = Q(60000)\n    prepay = Q(45000)\n\n    # Fee: 2% of prepayment above 5% allowance of balance\n    allowance = Q(\"0.05\") * balance\n    excess = prepay - allowance if prepay > allowance else Q(0)\n    fee = Q(\"0.02\") * excess\n\n    # Post-prepayment balance and loan interest (simple, months/12)\n    post_balance = balance - prepay\n    loan_interest = post_balance * loan_rate * months / 12\n\n    # Remaining cash (after prepayment and fee) in offset at 1% simple\n    remaining_cash = cash - prepay - fee\n    offset_credit_raw = remaining_cash * Q(\"0.01\") * months / 12\n    offset_credit = min(offset_credit_raw, loan_interest)\n\n    # Net cash cost\n    net_cost = loan_interest - offset_credit + fee\n\n    return {\n        \"final\": net_cost,\n        \"prepayment_fee_usd\": fee,\n        \"loan_interest_usd\": loan_interest,\n        \"offset_credit_usd\": offset_credit,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 225
+                },
+                "rendered": {
+                  "final": "32176.9",
+                  "prepayment_fee_usd": "730",
+                  "loan_interest_usd": "31875",
+                  "offset_credit_usd": "428.1"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "753b849af40297b0a2013f2ce5b46a48442c9e65785f88d10349e0517f3519e1"
+}

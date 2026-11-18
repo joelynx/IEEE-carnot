@@ -1,0 +1,602 @@
+[
+  {
+    "case_id": "t1_syn292edc5787fc8dfd12c8",
+    "verdicts": {
+      "final": true,
+      "gross_variable_fee": true,
+      "refund_credit": true,
+      "rebate_applied": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn292edc5787fc8dfd12c8",
+        "final_answer": {
+          "value": "1341.20"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_variable_fee",
+            "value": "1551"
+          },
+          {
+            "slot_id": "refund_credit",
+            "value": "70.5"
+          },
+          {
+            "slot_id": "rebate_applied",
+            "value": "148.05"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1341.20": 1
+        },
+        "gross_variable_fee": {
+          "1551": 1
+        },
+        "refund_credit": {
+          "70.5": 1
+        },
+        "rebate_applied": {
+          "148.05": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1341.20",
+            "gross_variable_fee": "1551",
+            "refund_credit": "70.5",
+            "rebate_applied": "148.05"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "6a31c3d5a2c650362379d4de0b250bc15085d444c6687db812c0c3129106b1cf",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1139,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 512,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1139,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 512,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1139,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1139
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04865,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5432,
+                "session_id": "b52cff7e-8534-430a-9162-57d74a584f11",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross_volume = Q(55000)\n    breakpoint = Q(46000)\n    rate1 = Q(\"0.03\")\n    rate2 = Q(\"0.019\")\n    refunds = Q(2500)\n    surcharge_rate = Q(\"0.0035\")\n    rebate_rate = Q(\"0.10\")\n    rebate_cap = Q(250)\n\n    # Gross variable fee: marginal tiers\n    tier1 = min(gross_volume, breakpoint) * rate1\n    tier2 = max(gross_volume - breakpoint, Q(0)) * rate2\n    gross_variable_fee = tier1 + tier2\n\n    # Blended rate and refund credit\n    blended_rate = gross_variable_fee / gross_volume\n    refund_credit = refunds * blended_rate\n\n    # Surcharge on refunds (never credited)\n    surcharge = refunds * surcharge_rate\n\n    # Loyalty rebate on net variable fee (excluding surcharge), capped\n    net_variable_fee = gross_variable_fee - refund_credit\n    rebate_applied = min(rebate_rate * net_variable_fee, rebate_cap)\n\n    # Net monthly fee\n    net_monthly_fee = gross_variable_fee - refund_credit + surcharge - rebate_applied\n\n    return {\n        \"final\": net_monthly_fee,\n        \"gross_variable_fee\": gross_variable_fee,\n        \"refund_credit\": refund_credit,\n        \"rebate_applied\": rebate_applied,\n    }\n",
+              "sandbox": {
+                "ok": false,
+                "stage": "policy",
+                "error": "line 3: name 'breakpoint' is not allowed",
+                "elapsed_ms": 133
+              }
+            },
+            {
+              "attempt": 1,
+              "cache_key": "6e3cd09b605768221cacf515a1c02e2c6f9a8b02d225082bd1973e1bc27a8919",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1708,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 521,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1708,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 521,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1708,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1708
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.060480000000000006,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6905,
+                "session_id": "c02db1fd-1631-4054-9d54-70797e20f65a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross_volume = Q(55000)\n    tier_breakpoint = Q(46000)\n    rate1 = Q(\"0.03\")\n    rate2 = Q(\"0.019\")\n    refunds = Q(2500)\n    surcharge_rate = Q(\"0.0035\")\n    rebate_rate = Q(\"0.10\")\n    rebate_cap = Q(250)\n\n    # Gross variable fee: marginal tiers\n    tier1 = min(gross_volume, tier_breakpoint) * rate1\n    tier2 = max(gross_volume - tier_breakpoint, Q(0)) * rate2\n    gross_variable_fee = tier1 + tier2\n\n    # Blended rate and refund credit\n    blended_rate = gross_variable_fee / gross_volume\n    refund_credit = refunds * blended_rate\n\n    # Surcharge on refunds (never credited)\n    surcharge = refunds * surcharge_rate\n\n    # Loyalty rebate on net variable fee (excluding surcharge), capped\n    net_variable_fee = gross_variable_fee - refund_credit\n    rebate_applied = min(rebate_rate * net_variable_fee, rebate_cap)\n\n    # Net monthly fee\n    net_monthly_fee = gross_variable_fee - refund_credit + surcharge - rebate_applied\n\n    return {\n        \"final\": net_monthly_fee,\n        \"gross_variable_fee\": gross_variable_fee,\n        \"refund_credit\": refund_credit,\n        \"rebate_applied\": rebate_applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 221
+              },
+              "rendered": {
+                "final": "1341.20",
+                "gross_variable_fee": "1551",
+                "refund_credit": "70.5",
+                "rebate_applied": "148.05"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synedf2c99b91beb16a9323",
+    "verdicts": {
+      "final": true,
+      "gross_variable_fee": true,
+      "refund_credit": true,
+      "rebate_applied": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synedf2c99b91beb16a9323",
+        "final_answer": {
+          "value": "1275.42"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_variable_fee",
+            "value": "1513"
+          },
+          {
+            "slot_id": "refund_credit",
+            "value": "1513/11"
+          },
+          {
+            "slot_id": "rebate_applied",
+            "value": "6052/55"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1275.42": 1
+        },
+        "gross_variable_fee": {
+          "1513": 1
+        },
+        "refund_credit": {
+          "1513/11": 1
+        },
+        "rebate_applied": {
+          "6052/55": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1275.42",
+            "gross_variable_fee": "1513",
+            "refund_credit": "1513/11",
+            "rebate_applied": "6052/55"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "999e807bf6c4cb48bf27356bd95099fe237f25e7ea9a87d543c0077ceffab64a",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1141,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 516,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1141,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 516,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1141,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1141
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.048889999999999996,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5824,
+                "session_id": "d06f8f81-6ebf-409c-bf67-4392008c92d2",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross_volume = 55000\n    breakpoint_vol = 23000\n    tier1_rate = Q(\"0.031\")\n    tier2_rate = Q(\"0.025\")\n    refunds = 5000\n    surcharge_rate = Q(\"0.002\")\n    rebate_rate = Q(\"0.08\")\n    rebate_cap = 350\n\n    # Gross variable fee across marginal tiers\n    tier1_vol = min(gross_volume, breakpoint_vol)\n    tier2_vol = max(gross_volume - breakpoint_vol, 0)\n    gross_variable_fee = tier1_vol * tier1_rate + tier2_vol * tier2_rate\n\n    # Blended rate and refund credit\n    blended_rate = gross_variable_fee / gross_volume\n    refund_credit = refunds * blended_rate\n\n    # Surcharge on refunds (never credited)\n    surcharge = refunds * surcharge_rate\n\n    # Loyalty rebate on net variable fee, capped\n    net_variable_fee = gross_variable_fee - refund_credit\n    rebate_applied = min(rebate_rate * net_variable_fee, rebate_cap)\n\n    # Net monthly fee\n    net_monthly_fee = gross_variable_fee - refund_credit + surcharge - rebate_applied\n\n    return {\n        \"final\": net_monthly_fee,\n        \"gross_variable_fee\": gross_variable_fee,\n        \"refund_credit\": refund_credit,\n        \"rebate_applied\": rebate_applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 321
+              },
+              "rendered": {
+                "final": "1275.42",
+                "gross_variable_fee": "1513",
+                "refund_credit": "1513/11",
+                "rebate_applied": "6052/55"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synf29c5621c3d0906231a6",
+    "verdicts": {
+      "final": true,
+      "gross_variable_fee": true,
+      "refund_credit": true,
+      "rebate_applied": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synf29c5621c3d0906231a6",
+        "final_answer": {
+          "value": "780.84"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_variable_fee",
+            "value": "1007"
+          },
+          {
+            "slot_id": "refund_credit",
+            "value": "73511/435"
+          },
+          {
+            "slot_id": "rebate_applied",
+            "value": "546801/7250"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "780.84": 1
+        },
+        "gross_variable_fee": {
+          "1007": 1
+        },
+        "refund_credit": {
+          "73511/435": 1
+        },
+        "rebate_applied": {
+          "546801/7250": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "780.84",
+            "gross_variable_fee": "1007",
+            "refund_credit": "73511/435",
+            "rebate_applied": "546801/7250"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b537338690afc704d51860df164be54f7ab91b5eb234b813b947e7f442be1248",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1141,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 518,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1141,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 518,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1141,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1141
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04899,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5380,
+                "session_id": "1a7d7b9d-6508-457c-b5fc-85c0a50ce8a7",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross_volume = Q(43500)\n    breakpoint = Q(28000)\n    tier1_rate = Q(\"0.026\")\n    tier2_rate = Q(\"0.018\")\n    refunds = Q(7300)\n    surcharge_rate = Q(\"0.0025\")\n    rebate_rate = Q(\"0.09\")\n    rebate_cap = Q(525)\n\n    # Gross variable fee: marginal tiers\n    tier1_volume = min(gross_volume, breakpoint)\n    tier2_volume = max(gross_volume - breakpoint, Q(0))\n    gross_variable_fee = tier1_volume * tier1_rate + tier2_volume * tier2_rate\n\n    # Blended rate and refund credit\n    blended_rate = gross_variable_fee / gross_volume\n    refund_credit = refunds * blended_rate\n\n    # Surcharge on refunds (never credited)\n    surcharge = refunds * surcharge_rate\n\n    # Net variable fee (excluding surcharge) and capped rebate\n    net_variable_fee = gross_variable_fee - refund_credit\n    rebate_applied = min(rebate_rate * net_variable_fee, rebate_cap)\n\n    # Net monthly fee\n    net_fee = gross_variable_fee - refund_credit + surcharge - rebate_applied\n\n    return {\n        \"final\": net_fee,\n        \"gross_variable_fee\": gross_variable_fee,\n        \"refund_credit\": refund_credit,\n        \"rebate_applied\": rebate_applied,\n    }\n",
+              "sandbox": {
+                "ok": false,
+                "stage": "policy",
+                "error": "line 3: name 'breakpoint' is not allowed",
+                "elapsed_ms": 143
+              }
+            },
+            {
+              "attempt": 1,
+              "cache_key": "b7fc3d9225a441a68cfa6c6935afdf9c022d842f84b34a60f52217fe65839ee3",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1716,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 527,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1716,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 527,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1716,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1716
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.06094000000000001,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5196,
+                "session_id": "9d90285a-da53-4299-a311-9fcf917e4490",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross_volume = Q(43500)\n    tier_breakpoint = Q(28000)\n    tier1_rate = Q(\"0.026\")\n    tier2_rate = Q(\"0.018\")\n    refunds = Q(7300)\n    surcharge_rate = Q(\"0.0025\")\n    rebate_rate = Q(\"0.09\")\n    rebate_cap = Q(525)\n\n    # Gross variable fee: marginal tiers\n    tier1_volume = min(gross_volume, tier_breakpoint)\n    tier2_volume = max(gross_volume - tier_breakpoint, Q(0))\n    gross_variable_fee = tier1_volume * tier1_rate + tier2_volume * tier2_rate\n\n    # Blended rate and refund credit\n    blended_rate = gross_variable_fee / gross_volume\n    refund_credit = refunds * blended_rate\n\n    # Surcharge on refunds (never credited)\n    surcharge = refunds * surcharge_rate\n\n    # Net variable fee (excluding surcharge) and capped rebate\n    net_variable_fee = gross_variable_fee - refund_credit\n    rebate_applied = min(rebate_rate * net_variable_fee, rebate_cap)\n\n    # Net monthly fee\n    net_fee = gross_variable_fee - refund_credit + surcharge - rebate_applied\n\n    return {\n        \"final\": net_fee,\n        \"gross_variable_fee\": gross_variable_fee,\n        \"refund_credit\": refund_credit,\n        \"rebate_applied\": rebate_applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 195
+              },
+              "rendered": {
+                "final": "780.84",
+                "gross_variable_fee": "1007",
+                "refund_credit": "73511/435",
+                "rebate_applied": "546801/7250"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn08660a026337272ee59c",
+    "verdicts": {
+      "final": true,
+      "gross_variable_fee": true,
+      "refund_credit": true,
+      "rebate_applied": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn08660a026337272ee59c",
+        "final_answer": {
+          "value": "1251.54"
+        },
+        "steps": [
+          {
+            "slot_id": "gross_variable_fee",
+            "value": "1480"
+          },
+          {
+            "slot_id": "refund_credit",
+            "value": "29.6"
+          },
+          {
+            "slot_id": "rebate_applied",
+            "value": "203.056"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1251.54": 1
+        },
+        "gross_variable_fee": {
+          "1480": 1
+        },
+        "refund_credit": {
+          "29.6": 1
+        },
+        "rebate_applied": {
+          "203.056": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1251.54",
+            "gross_variable_fee": "1480",
+            "refund_credit": "29.6",
+            "rebate_applied": "203.056"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "d59038caa024a706884933ef881adb2a27b897be041cce6f3fecc6eb51ddcc17",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1141,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 526,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1141,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 526,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1141,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1141
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04939,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5377,
+                "session_id": "17f4e1a6-c20b-42b5-b215-475e14110693",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross_volume = Q(70000)\n    breakpoint_vol = Q(10000)\n    tier1_rate = Q(\"0.034\")\n    tier2_rate = Q(\"0.019\")\n    refunds = Q(1400)\n    surcharge_rate = Q(\"0.003\")\n    rebate_rate = Q(\"0.14\")\n    rebate_cap = Q(400)\n\n    # Gross variable fee: marginal tiers\n    tier1_vol = min(gross_volume, breakpoint_vol)\n    tier2_vol = max(gross_volume - breakpoint_vol, Q(0))\n    gross_variable_fee = tier1_vol * tier1_rate + tier2_vol * tier2_rate\n\n    # Blended rate and refund credit\n    blended_rate = gross_variable_fee / gross_volume\n    refund_credit = refunds * blended_rate\n\n    # Surcharge on refunds (never credited)\n    surcharge = refunds * surcharge_rate\n\n    # Rebate on net variable fee (excluding surcharge), capped\n    net_variable_fee = gross_variable_fee - refund_credit\n    rebate_applied = min(rebate_rate * net_variable_fee, rebate_cap)\n\n    # Net monthly fee\n    net_fee = gross_variable_fee - refund_credit + surcharge - rebate_applied\n\n    return {\n        \"final\": net_fee,\n        \"gross_variable_fee\": gross_variable_fee,\n        \"refund_credit\": refund_credit,\n        \"rebate_applied\": rebate_applied,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 273
+              },
+              "rendered": {
+                "final": "1251.54",
+                "gross_variable_fee": "1480",
+                "refund_credit": "29.6",
+                "rebate_applied": "203.056"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

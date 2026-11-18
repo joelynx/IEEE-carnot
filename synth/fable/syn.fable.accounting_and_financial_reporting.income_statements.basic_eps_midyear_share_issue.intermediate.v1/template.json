@@ -1,0 +1,83 @@
+{
+ "name": "basic_eps_midyear_share_issue",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "income_statements",
+ "difficulty": "intermediate",
+ "params": {
+  "NET_INCOME": {
+   "kind": "int",
+   "min": 500000,
+   "max": 5000000,
+   "step": 1000
+  },
+  "PREF_DIV": {
+   "kind": "int",
+   "min": 0,
+   "max": 400000,
+   "step": 5000
+  },
+  "OPENING_SHARES": {
+   "kind": "int",
+   "min": 200000,
+   "max": 2000000,
+   "step": 10000
+  },
+  "NEW_SHARES": {
+   "kind": "int",
+   "min": 20000,
+   "max": 500000,
+   "step": 5000
+  },
+  "ISSUE_MONTH": {
+   "kind": "int",
+   "min": 2,
+   "max": 12,
+   "step": 1
+  }
+ },
+ "question_template": "A company reports net income of {NET_INCOME} USD for a 12-month year and declares preferred dividends of {PREF_DIV} USD, which reduce income available to common shareholders. It had {OPENING_SHARES} common shares outstanding on January 1 and issued {NEW_SHARES} additional shares for cash at the start of month {ISSUE_MONTH} (month 1 is January), so the new shares are outstanding for the remaining months of the year. Weight each share block by months outstanding over 12, with no other share changes and no dilutive securities. Use exact arithmetic and compute basic earnings per share.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_per_count",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "income_to_common_trace",
+   "description": "Exact net income after preferred dividends.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "new_share_weight_trace",
+   "description": "Exact fraction of year new shares outstanding.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "weighted_average_shares_trace",
+   "description": "Exact weighted average common shares for the year.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    ni = P[\"NET_INCOME\"]\n    pref = P[\"PREF_DIV\"]\n    if pref >= ni:\n        raise ValueError(\"preferred dividends must be below net income\")\n    income_common = ni - pref\n    months = 13 - P[\"ISSUE_MONTH\"]\n    weight = Fraction(months, 12)\n    wavg = P[\"OPENING_SHARES\"] + P[\"NEW_SHARES\"] * weight\n    eps = Fraction(income_common) / wavg\n    return {\n        \"final\": eps,\n        \"income_to_common_trace\": income_common,\n        \"new_share_weight_trace\": weight,\n        \"weighted_average_shares_trace\": wavg,\n    }\n"
+}

@@ -1,0 +1,101 @@
+{
+  "name": "collar_mixed_consideration_with_assumed_debt_and_earnout",
+  "domain_id": "mergers_and_acquisitions",
+  "topic_id": "deal_structure",
+  "difficulty": "advanced",
+  "params": {
+    "CASH": {
+      "kind": "decimal",
+      "min": "10.0",
+      "max": "30.0",
+      "step": "0.5"
+    },
+    "RATIO": {
+      "kind": "decimal",
+      "min": "0.40",
+      "max": "1.20",
+      "step": "0.05"
+    },
+    "LOWER": {
+      "kind": "int",
+      "min": 40,
+      "max": 50,
+      "step": 1
+    },
+    "UPPER": {
+      "kind": "int",
+      "min": 56,
+      "max": 70,
+      "step": 1
+    },
+    "PRICE": {
+      "kind": "int",
+      "min": 35,
+      "max": 75,
+      "step": 1
+    },
+    "SHARES": {
+      "kind": "int",
+      "min": 20,
+      "max": 60,
+      "step": 1
+    },
+    "DEBT": {
+      "kind": "int",
+      "min": 100,
+      "max": 400,
+      "step": 10
+    },
+    "EBITDA": {
+      "kind": "int",
+      "min": 60,
+      "max": 240,
+      "step": 5
+    }
+  },
+  "question_template": "Use exact arithmetic. Acquirer A offers each Target T share {CASH} USD in cash plus {RATIO} A shares, subject to a collar: if A's closing price is at least {LOWER} USD and at most {UPPER} USD, the exchange ratio of {RATIO} is fixed; if the closing price is strictly below {LOWER} USD, the ratio adjusts so the stock component per T share is worth {RATIO} times {LOWER} USD; if strictly above {UPPER} USD, the ratio adjusts so the stock component per T share is worth {RATIO} times {UPPER} USD. A's closing price is {PRICE} USD. T has {SHARES} million fully diluted shares, and A assumes T's net debt of {DEBT} million USD at closing. A contingent earnout is paid in cash exactly one year after closing: it equals 50 percent of T's first-year EBITDA in excess of a 100 million USD hurdle, capped at 60 million USD, and is zero if EBITDA does not exceed the hurdle. First-year EBITDA is {EBITDA} million USD. Discount the earnout to closing at 8 percent per year with annual compounding. Total transaction value at closing equals equity consideration (cash plus stock value across all T shares) plus assumed net debt plus the discounted earnout. Report the total transaction value in million USD.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "effective_exchange_ratio",
+      "description": "Exchange ratio actually applied after the collar adjustment.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "ratio",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "equity_consideration",
+      "description": "Cash plus stock value across all target shares at closing.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "earnout_present_value",
+      "description": "Capped earnout discounted one year back to closing.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    cash = Fraction(P[\"CASH\"])\n    ratio = Fraction(P[\"RATIO\"])\n    lower = Fraction(P[\"LOWER\"])\n    upper = Fraction(P[\"UPPER\"])\n    price = Fraction(P[\"PRICE\"])\n    shares = Fraction(P[\"SHARES\"])\n    debt = Fraction(P[\"DEBT\"])\n    ebitda = Fraction(P[\"EBITDA\"])\n    if upper <= lower:\n        raise ValueError(\"collar upper bound must exceed lower bound\")\n    if price < lower:\n        eff = ratio * lower / price\n    elif price > upper:\n        eff = ratio * upper / price\n    else:\n        eff = ratio\n    per_share = cash + eff * price\n    equity = shares * per_share\n    excess = ebitda - Fraction(100)\n    if excess <= 0:\n        earnout = Fraction(0)\n    else:\n        earnout = min(Fraction(1, 2) * excess, Fraction(60))\n    pv_earnout = earnout / Fraction(108, 100)\n    total = equity + debt + pv_earnout\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv_earnout,\n    }\n"
+}

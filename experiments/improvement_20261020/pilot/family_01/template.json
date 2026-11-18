@@ -1,0 +1,106 @@
+{
+  "name": "sequential_diluted_eps_contingent_shares",
+  "domain_id": "accounting_and_financial_reporting",
+  "topic_id": "income_statements",
+  "difficulty": "advanced",
+  "params": {
+    "NI": {
+      "kind": "int",
+      "min": 800000,
+      "max": 3000000,
+      "step": 50000
+    },
+    "ISSUE": {
+      "kind": "int",
+      "min": 60000,
+      "max": 360000,
+      "step": 60000
+    },
+    "M": {
+      "kind": "int",
+      "min": 2,
+      "max": 12,
+      "step": 1
+    },
+    "REV": {
+      "kind": "int",
+      "min": 4000000,
+      "max": 6000000,
+      "step": 250000
+    },
+    "MKT": {
+      "kind": "int",
+      "min": 15,
+      "max": 30,
+      "step": 1
+    },
+    "CPN": {
+      "kind": "int",
+      "min": 5,
+      "max": 12,
+      "step": 1
+    },
+    "CONV": {
+      "kind": "int",
+      "min": 50000,
+      "max": 250000,
+      "step": 50000
+    }
+  },
+  "question_template": "For a 12-month year, a company has net income {NI} USD, preferred dividends 60000 USD and 1000000 ordinary shares outstanding on day one, and issues {ISSUE} shares at the start of month {M}, weighted by whole months from month {M} through 12 over 12. Basic EPS is net income less preferred dividends over weighted shares. Potential shares: (1) 100000 shares issuable for no consideration if year-end revenue is at least 5000000 USD; actual revenue is {REV} USD. If met, they are unissued, excluded from basic EPS and included in diluted EPS all year with no earnings adjustment; otherwise excluded. (2) 200000 options, exercise price 20 USD, average market price {MKT} USD; treasury stock method applies only if market price exceeds exercise price, else no incremental shares. (3) Convertible bonds outstanding all year, face 2000000 USD, coupon {CPN} percent, convertible into {CONV} shares with full-year conversion; tax rate 25 percent. Sequential test: include the zero-incremental instruments (contingent shares and options) first, then the bonds only if their after-tax interest add-back per conversion share is strictly below diluted EPS computed with all prior inclusions. Compute diluted EPS; do not round intermediates.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 4
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "weighted_shares",
+      "description": "Exact weighted average ordinary shares for basic EPS.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "basic_eps",
+      "description": "Exact basic EPS after preferred dividends.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "option_incremental_shares",
+      "description": "Exact incremental shares from options under the treasury stock method.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "bond_incremental_eps",
+      "description": "Exact after-tax interest add-back per bond conversion share.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    NI = Fraction(P[\"NI\"])\n    ISSUE = Fraction(P[\"ISSUE\"])\n    M = int(P[\"M\"])\n    REV = Fraction(P[\"REV\"])\n    MKT = Fraction(P[\"MKT\"])\n    CPN = Fraction(P[\"CPN\"])\n    CONV = Fraction(P[\"CONV\"])\n    pref = Fraction(60000)\n    was = Fraction(1000000) + ISSUE * Fraction(13 - M) / Fraction(12)\n    earnings = NI - pref\n    basic = earnings / was\n    cont = Fraction(100000) if REV >= Fraction(5000000) else Fraction(0)\n    if MKT > Fraction(20):\n        opt_inc = Fraction(200000) * (MKT - Fraction(20)) / MKT\n    else:\n        opt_inc = Fraction(0)\n    run_num = earnings\n    run_den = was + cont + opt_inc\n    running = run_num / run_den\n    addback = Fraction(2000000) * CPN / Fraction(100) * Fraction(3, 4)\n    bond_inc_eps = addback / CONV\n    if bond_inc_eps < running:\n        diluted = (run_num + addback) / (run_den + CONV)\n    else:\n        diluted = running\n    return {\n        \"final\": diluted,\n        \"weighted_shares\": was,\n        \"basic_eps\": basic,\n        \"option_incremental_shares\": opt_inc,\n        \"bond_incremental_eps\": bond_inc_eps\n    }"
+}

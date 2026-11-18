@@ -1,0 +1,229 @@
+{
+ "family": "c1_48",
+ "template_sha256": "ee7ba43f3040f84767f08664859a164597ab1f414e428543f12754ef231c81a0",
+ "draws_sha256": "c97a91f59a7c6b1d54703b9d4751510ada881e3bf62f88d882d0d841a5d856b9",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "b5f13bec121b2a528560f2a26e81fe62b52d94c53105258b34805b806320e7cc",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1683,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 516,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1683,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 516,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1683,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1683
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0596305
+  }
+ ],
+ "program": "def solve():\n    open_bal = Q(P[\"OPEN_BAL\"])\n    m1 = int(P[\"M1_DAYS\"])\n    m2 = int(P[\"M2_DAYS\"])\n    promo = Q(P[\"PROMO_RATE\"]) / 100\n    std = Q(P[\"STD_RATE\"]) / 100\n    promo_days = int(P[\"PROMO_DAYS\"])\n    deposit = Q(P[\"DEPOSIT\"])\n    dep_day = int(P[\"DEP_DAY\"])\n\n    def rate_for(abs_day):\n        return promo if abs_day <= promo_days else std\n\n    # Month one: day-by-day ledger, interest accrued but not credited until month end\n    balance = open_bal\n    accrued1 = Q(0)\n    for d in range(1, m1 + 1):\n        accrued1 += balance * rate_for(d) / 365\n    interest_month_one = accrued1\n    balance += interest_month_one\n    balance_start_month_two = balance\n\n    # Month two\n    accrued2 = Q(0)\n    for d in range(1, m2 + 1):\n        if d == dep_day:\n            balance += deposit\n        abs_day = m1 + d\n        accrued2 += balance * rate_for(abs_day) / 365\n    interest_month_two = accrued2\n    balance += interest_month_two\n\n    return {\n        \"final\": balance,\n        \"interest_month_one\": interest_month_one,\n        \"balance_start_month_two\": balance_start_month_two,\n        \"interest_month_two\": interest_month_two,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_OPEN_BAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_M1_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_M2_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PROMO_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_STD_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PROMO_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DEPOSIT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DEP_DAY",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_OPEN_BAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_M1_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_M2_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PROMO_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_STD_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PROMO_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DEPOSIT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DEP_DAY",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

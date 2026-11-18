@@ -1,0 +1,539 @@
+{
+ "family": "c1_43",
+ "draws_sha256": "9e4fe566c5dcdd804c82d64ae2ea4bf849bae52094a0ef9fe99f0fb22f4b3cf8",
+ "checks": [
+  {
+   "case_id": "t1_synd13b4c19205fa8c537d5",
+   "verdicts": {
+    "final": true,
+    "current_operating_income": true,
+    "final_year_gain_bp": true,
+    "final_year_margin_pct": true,
+    "cumulative_operating_income": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synd13b4c19205fa8c537d5",
+     "final_answer": {
+      "value": "-178.53"
+     },
+     "steps": [
+      {
+       "slot_id": "current_operating_income",
+       "value": "5227.50"
+      },
+      {
+       "slot_id": "final_year_gain_bp",
+       "value": "110.00"
+      },
+      {
+       "slot_id": "final_year_margin_pct",
+       "value": "43.60"
+      },
+      {
+       "slot_id": "cumulative_operating_income",
+       "value": "31069.20"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-178.53": 1
+     },
+     "current_operating_income": {
+      "5227.50": 1
+     },
+     "final_year_gain_bp": {
+      "110.00": 1
+     },
+     "final_year_margin_pct": {
+      "43.60": 1
+     },
+     "cumulative_operating_income": {
+      "31069.20": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-178.53",
+       "current_operating_income": "5227.50",
+       "final_year_gain_bp": "110.00",
+       "final_year_margin_pct": "43.60",
+       "cumulative_operating_income": "31069.20"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "9c3804df1d1985ef7de6e08ada344c8d425fdc480b20a27b893c1784bfc4dfb7",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1215,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 430,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1215,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 430,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1215,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1215
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046001,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4607,
+         "session_id": "b7bc1bda-28ed-4ff5-9408-89d2ee659811",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    revenue = Q(\"12.3\") * 1000  # USD millions\n    cogs_pct = Q(\"40.5\") / 100\n    opex_pct = Q(\"17\") / 100\n    margin = 1 - cogs_pct - opex_pct\n    current_oi = revenue * margin\n    gain_bp = Q(110)\n    cap_bp = Q(200)\n    growth = Q(\"-1\") / 100\n    years = 6\n    mode = \"once\"\n    cumulative = Q(0)\n    final_oi = None\n    final_gain = None\n    final_margin = None\n    for t in range(1, years + 1):\n        g = gain_bp if mode == \"once\" else gain_bp * t\n        g = min(g, cap_bp)\n        m = margin + g / 10000\n        rev_t = revenue * (1 + growth) ** t\n        oi_t = rev_t * m\n        cumulative += oi_t\n        if t == years:\n            final_oi = oi_t\n            final_gain = g\n            final_margin = m\n    return {\n        \"final\": final_oi - current_oi,\n        \"current_operating_income\": current_oi,\n        \"final_year_gain_bp\": final_gain,\n        \"final_year_margin_pct\": final_margin * 100,\n        \"cumulative_operating_income\": cumulative,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 169
+        },
+        "rendered": {
+         "final": "-178.53",
+         "current_operating_income": "5227.50",
+         "final_year_gain_bp": "110.00",
+         "final_year_margin_pct": "43.60",
+         "cumulative_operating_income": "31069.20"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn59e55e23031283582649",
+   "verdicts": {
+    "final": true,
+    "current_operating_income": true,
+    "final_year_gain_bp": true,
+    "final_year_margin_pct": true,
+    "cumulative_operating_income": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn59e55e23031283582649",
+     "final_answer": {
+      "value": "960.18"
+     },
+     "steps": [
+      {
+       "slot_id": "current_operating_income",
+       "value": "2425.50"
+      },
+      {
+       "slot_id": "final_year_gain_bp",
+       "value": "325.00"
+      },
+      {
+       "slot_id": "final_year_margin_pct",
+       "value": "34.75"
+      },
+      {
+       "slot_id": "cumulative_operating_income",
+       "value": "18177.50"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "960.18": 1
+     },
+     "current_operating_income": {
+      "2425.50": 1
+     },
+     "final_year_gain_bp": {
+      "325.00": 1
+     },
+     "final_year_margin_pct": {
+      "34.75": 1
+     },
+     "cumulative_operating_income": {
+      "18177.50": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "960.18",
+       "current_operating_income": "2425.50",
+       "final_year_gain_bp": "325.00",
+       "final_year_margin_pct": "34.75",
+       "cumulative_operating_income": "18177.50"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "8195c08675f2a58eb5ea17a605b96015e418a7112b674b732ec3c9e9f171ae91",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1217,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 422,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1217,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 422,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1217,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1217
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.045641,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4609,
+         "session_id": "7d4a1dae-0db9-44a1-a5db-e9f523d6301c",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    revenue0 = Q(\"7.7\") * 1000  # USD millions\n    cogs_pct = Q(\"0.43\")\n    opex_pct = Q(\"0.255\")\n    margin0 = 1 - cogs_pct - opex_pct\n    current_oi = revenue0 * margin0\n    gain_bp = 105\n    cap_bp = 325\n    growth = Q(\"0.04\")\n    final_year = 6\n    cum_oi = 0\n    final_gain = None\n    final_margin = None\n    final_oi = None\n    for t in range(1, final_year + 1):\n        g = min(t * gain_bp, cap_bp)\n        margin_t = margin0 + Q(g, 10000)\n        rev_t = revenue0 * (1 + growth) ** t\n        oi_t = rev_t * margin_t\n        cum_oi += oi_t\n        if t == final_year:\n            final_gain = g\n            final_margin = margin_t\n            final_oi = oi_t\n    return {\n        \"final\": final_oi - current_oi,\n        \"current_operating_income\": current_oi,\n        \"final_year_gain_bp\": final_gain,\n        \"final_year_margin_pct\": final_margin * 100,\n        \"cumulative_operating_income\": cum_oi,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 244
+        },
+        "rendered": {
+         "final": "960.18",
+         "current_operating_income": "2425.50",
+         "final_year_gain_bp": "325.00",
+         "final_year_margin_pct": "34.75",
+         "cumulative_operating_income": "18177.50"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn5e9347655f3cccc188df",
+   "verdicts": {
+    "final": true,
+    "current_operating_income": true,
+    "final_year_gain_bp": true,
+    "final_year_margin_pct": true,
+    "cumulative_operating_income": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn5e9347655f3cccc188df",
+     "final_answer": {
+      "value": "-243.22"
+     },
+     "steps": [
+      {
+       "slot_id": "current_operating_income",
+       "value": "3224.00"
+      },
+      {
+       "slot_id": "final_year_gain_bp",
+       "value": "325.00"
+      },
+      {
+       "slot_id": "final_year_margin_pct",
+       "value": "34.25"
+      },
+      {
+       "slot_id": "cumulative_operating_income",
+       "value": "15874.42"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-243.22": 1
+     },
+     "current_operating_income": {
+      "3224.00": 1
+     },
+     "final_year_gain_bp": {
+      "325.00": 1
+     },
+     "final_year_margin_pct": {
+      "34.25": 1
+     },
+     "cumulative_operating_income": {
+      "15874.42": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-243.22",
+       "current_operating_income": "3224.00",
+       "final_year_gain_bp": "325.00",
+       "final_year_margin_pct": "34.25",
+       "cumulative_operating_income": "15874.42"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "b15ce4de17f6a774948809e66a55e3e627c058a5d0a097368a09ed1c150da3dd",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1217,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 449,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1217,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 449,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1217,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1217
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046991000000000005,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5016,
+         "session_id": "16c7088f-2c3e-4b48-a00e-4273f4b3a88d",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    revenue0 = Q(\"10.4\") * 1000  # USD millions\n    cogs_pct = Q(\"0.51\")\n    opex_pct = Q(\"0.18\")\n    margin0 = 1 - cogs_pct - opex_pct\n    current_oi = revenue0 * margin0\n    gain_bp = Q(175)\n    cap_bp = Q(325)\n    growth = Q(\"-0.035\")\n    years = 5\n    cumulative_oi = Q(0)\n    final_gain_bp = Q(0)\n    final_margin = Q(0)\n    final_oi = Q(0)\n    for t in range(1, years + 1):\n        g = min(gain_bp * t, cap_bp)\n        margin_t = margin0 + g / 10000\n        rev_t = revenue0 * (1 + growth) ** t\n        oi_t = rev_t * margin_t\n        cumulative_oi += oi_t\n        if t == years:\n            final_gain_bp = g\n            final_margin = margin_t\n            final_oi = oi_t\n    return {\n        \"final\": final_oi - current_oi,\n        \"current_operating_income\": current_oi,\n        \"final_year_gain_bp\": final_gain_bp,\n        \"final_year_margin_pct\": final_margin * 100,\n        \"cumulative_operating_income\": cumulative_oi,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 335
+        },
+        "rendered": {
+         "final": "-243.22",
+         "current_operating_income": "3224.00",
+         "final_year_gain_bp": "325.00",
+         "final_year_margin_pct": "34.25",
+         "cumulative_operating_income": "15874.42"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn35e7785e2ebbd950924a",
+   "verdicts": {
+    "final": true,
+    "current_operating_income": true,
+    "final_year_gain_bp": true,
+    "final_year_margin_pct": true,
+    "cumulative_operating_income": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn35e7785e2ebbd950924a",
+     "final_answer": {
+      "value": "1948.83"
+     },
+     "steps": [
+      {
+       "slot_id": "current_operating_income",
+       "value": "2700.00"
+      },
+      {
+       "slot_id": "final_year_gain_bp",
+       "value": "450.00"
+      },
+      {
+       "slot_id": "final_year_margin_pct",
+       "value": "29.50"
+      },
+      {
+       "slot_id": "cumulative_operating_income",
+       "value": "23766.58"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "1948.83": 1
+     },
+     "current_operating_income": {
+      "2700.00": 1
+     },
+     "final_year_gain_bp": {
+      "450.00": 1
+     },
+     "final_year_margin_pct": {
+      "29.50": 1
+     },
+     "cumulative_operating_income": {
+      "23766.58": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "1948.83",
+       "current_operating_income": "2700.00",
+       "final_year_gain_bp": "450.00",
+       "final_year_margin_pct": "29.50",
+       "cumulative_operating_income": "23766.58"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "c4e0b05a8eea56bdd4923dea54582e9d6d36e1e95eb74c46867b4b6385a1fa9e",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1221,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 427,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1221,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 427,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1221,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1221
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.045971,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4675,
+         "session_id": "3b9e4b90-7be9-4c40-a197-758d12cd516b",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    revenue0 = Q(\"10.8\") * 1000  # USD millions\n    cogs_pct = Q(\"0.545\")\n    opex_pct = Q(\"0.205\")\n    margin0 = 1 - cogs_pct - opex_pct\n    current_oi = revenue0 * margin0\n    gain_bp = Q(275)\n    cap_bp = Q(450)\n    growth = Q(\"0.065\")\n    years = 6\n    cumulative_oi = Q(0)\n    final_oi = None\n    final_gain = None\n    final_margin = None\n    for t in range(1, years + 1):\n        g = min(gain_bp * t, cap_bp)\n        margin_t = margin0 + g / 10000\n        rev_t = revenue0 * (1 + growth) ** t\n        oi_t = rev_t * margin_t\n        cumulative_oi += oi_t\n        if t == years:\n            final_oi = oi_t\n            final_gain = g\n            final_margin = margin_t\n    return {\n        \"final\": final_oi - current_oi,\n        \"current_operating_income\": current_oi,\n        \"final_year_gain_bp\": final_gain,\n        \"final_year_margin_pct\": final_margin * 100,\n        \"cumulative_operating_income\": cumulative_oi,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 439
+        },
+        "rendered": {
+         "final": "1948.83",
+         "current_operating_income": "2700.00",
+         "final_year_gain_bp": "450.00",
+         "final_year_margin_pct": "29.50",
+         "cumulative_operating_income": "23766.58"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

@@ -1,0 +1,156 @@
+{
+ "name": "triangular_loop_inverse_quote_pip_spread_compounded",
+ "domain_id": "financial_markets",
+ "topic_id": "forex_trading",
+ "difficulty": "advanced",
+ "params": {
+  "NOTIONAL": {
+   "kind": "int",
+   "min": 100000,
+   "max": 1000000,
+   "step": 50000
+  },
+  "EURUSD": {
+   "kind": "decimal",
+   "min": "1.0500",
+   "max": "1.1500",
+   "step": "0.0025"
+  },
+  "EURGBP_INV": {
+   "kind": "decimal",
+   "min": "1.1400",
+   "max": "1.2000",
+   "step": "0.0025"
+  },
+  "GBPUSD_MID": {
+   "kind": "decimal",
+   "min": "1.1900",
+   "max": "1.3900",
+   "step": "0.0025"
+  },
+  "SPREAD_PIPS": {
+   "kind": "int",
+   "min": 0,
+   "max": 40,
+   "step": 2
+  },
+  "FEE_BPS": {
+   "kind": "decimal",
+   "min": "0.0",
+   "max": "5.0",
+   "step": "0.5"
+  },
+  "MAX_LOOPS": {
+   "kind": "int",
+   "min": 1,
+   "max": 5,
+   "step": 1
+  },
+  "HURDLE_BPS": {
+   "kind": "int",
+   "min": 0,
+   "max": 20,
+   "step": 5
+  }
+ },
+ "question_template": "A trader starts with USD {NOTIONAL} and runs the loop USD->EUR->GBP->USD. EUR/USD is quoted directly at {EURUSD} USD per EUR, no spread. The EUR-GBP leg is quoted inversely as {EURGBP_INV} EUR per GBP, no spread. GBP/USD has mid {GBPUSD_MID} USD per GBP and a bid-ask width of {SPREAD_PIPS} pips centred on the mid (one pip = USD 0.0001 per GBP); GBP is sold at the bid. A fee of {FEE_BPS} basis points on each of the three trades is deducted from that trade's proceeds in the currency received. Nothing is rounded. The implied cross rate is the USD-per-GBP rate from the first two quotes alone, ignoring fees and spread. A loop's net profit is ending USD minus starting USD, in basis points of that loop's starting balance. The loop runs up to {MAX_LOOPS} times, each reinvesting the previous loop's entire ending USD balance; after each loop, trading continues only if that loop's net profit is at least {HURDLE_BPS} basis points. Report the cumulative net profit over all executed loops in basis points of the original USD {NOTIONAL} (negative for a loss), the implied cross rate, one loop's net profit in basis points, the ending USD balance after the last executed loop, and whether one loop is profitable (net profit above zero).",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "basis_point",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "implied_cross_rate",
+   "description": "USD per GBP implied by the direct and inverse quotes, before fees",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "single_loop_profit_bps",
+   "description": "Net profit of one loop in basis points of its starting balance",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "basis_point",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "ending_usd_balance",
+   "description": "USD balance held after the last executed loop",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "loop_profitable",
+   "description": "Whether a single loop earns strictly positive net profit",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "profitable",
+     "unprofitable"
+    ]
+   }
+  }
+ ],
+ "program": "from fractions import Fraction\n\ndef solve():\n    N = Fraction(P[\"NOTIONAL\"])\n    A = Fraction(P[\"EURUSD\"])\n    B = Fraction(P[\"EURGBP_INV\"])\n    M = Fraction(P[\"GBPUSD_MID\"])\n    S = Fraction(P[\"SPREAD_PIPS\"])\n    f = Fraction(P[\"FEE_BPS\"]) / 10000\n    R = int(P[\"MAX_LOOPS\"])\n    H = Fraction(P[\"HURDLE_BPS\"])\n    if N <= 0 or A <= 0 or B <= 0 or R < 1:\n        raise ValueError(\"inputs must be positive and at least one loop\")\n    pip = Fraction(1, 10000)\n    bid = M - (S / 2) * pip\n    if bid <= 0:\n        raise ValueError(\"bid must be positive\")\n    implied = A * B\n    keep = 1 - f\n    eur = (N / A) * keep\n    gbp = (eur / B) * keep\n    usd_after_one = gbp * bid * keep\n    g = usd_after_one / N\n    loop_bps = (g - 1) * 10000\n    loops = R if loop_bps >= H else 1\n    ending = N * (g ** loops)\n    total_bps = (ending - N) / N * 10000\n    profitable = \"profitable\" if loop_bps > 0 else \"unprofitable\"\n    return {\n        \"final\": total_bps,\n        \"implied_cross_rate\": implied,\n        \"single_loop_profit_bps\": loop_bps,\n        \"ending_usd_balance\": ending,\n        \"loop_profitable\": profitable,\n    }\n",
+ "coverage_params": [
+  {
+   "NOTIONAL": 500000,
+   "EURUSD": "1.1000",
+   "EURGBP_INV": "1.1500",
+   "GBPUSD_MID": "1.2700",
+   "SPREAD_PIPS": 10,
+   "FEE_BPS": "1.0",
+   "MAX_LOOPS": 4,
+   "HURDLE_BPS": 10
+  },
+  {
+   "NOTIONAL": 250000,
+   "EURUSD": "1.1000",
+   "EURGBP_INV": "1.1500",
+   "GBPUSD_MID": "1.2675",
+   "SPREAD_PIPS": 10,
+   "FEE_BPS": "1.0",
+   "MAX_LOOPS": 5,
+   "HURDLE_BPS": 5
+  },
+  {
+   "NOTIONAL": 1000000,
+   "EURUSD": "1.1000",
+   "EURGBP_INV": "1.1500",
+   "GBPUSD_MID": "1.2600",
+   "SPREAD_PIPS": 20,
+   "FEE_BPS": "2.0",
+   "MAX_LOOPS": 3,
+   "HURDLE_BPS": 0
+  },
+  {
+   "NOTIONAL": 100000,
+   "EURUSD": "1.1000",
+   "EURGBP_INV": "1.1500",
+   "GBPUSD_MID": "1.2650",
+   "SPREAD_PIPS": 0,
+   "FEE_BPS": "0.0",
+   "MAX_LOOPS": 2,
+   "HURDLE_BPS": 0
+  }
+ ]
+}

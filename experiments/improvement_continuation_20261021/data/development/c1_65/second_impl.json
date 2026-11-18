@@ -1,0 +1,199 @@
+{
+ "family": "c1_65",
+ "template_sha256": "46b3a9042d8870a0c17fec76f88b02e75e157dae5656284250f5d646f8bfb4ff",
+ "draws_sha256": "95fe4e145dd54418dbeb28e4c9004193d68bf5952478687e26e5f0dd6cae7bc3",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "53cb4214eea6e8e18250c55f5ad8d987eb59c38f2584ac9dc382073046f43a4f",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1550,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 399,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1550,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 399,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1550,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1550
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0511205
+  }
+ ],
+ "program": "def solve():\n    headline = Fraction(P[\"HEADLINE_PRICE\"])\n    revenue = Fraction(P[\"REVENUE\"])\n    peg_pct = Fraction(P[\"PEG_PCT\"])\n    actual_k = Fraction(P[\"ACTUAL_NWC_K\"])\n    band_bp = Fraction(P[\"BAND_BP\"])\n\n    # Peg in USD million: percent of trailing revenue\n    peg = revenue * peg_pct / 100\n\n    # Collar half-width in USD million: basis points of headline price\n    band = headline * band_bp / 10000\n\n    # Closing NWC converted from USD thousand to USD million\n    actual = actual_k / 1000\n\n    lower = peg - band\n    upper = peg + band\n\n    # Enumerate the three cases explicitly\n    if actual > upper:\n        excess = actual - upper\n    elif actual < lower:\n        excess = actual - lower  # negative\n    else:\n        excess = Fraction(0)\n\n    adjusted = headline + excess\n\n    return {\n        \"final\": adjusted,\n        \"peg_usd_million\": peg,\n        \"band_usd_million\": band,\n        \"excess_outside_band\": excess,\n    }\n",
+ "result": {
+  "compared": 28,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_HEADLINE_PRICE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_REVENUE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PEG_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ACTUAL_NWC_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BAND_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_HEADLINE_PRICE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_REVENUE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PEG_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ACTUAL_NWC_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BAND_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

@@ -1,0 +1,539 @@
+{
+  "family": "family_19",
+  "all_agree": true,
+  "checks": [
+    {
+      "case_id": "t1_synf263b8db7b132ffba2fd",
+      "verdicts": {
+        "final": true,
+        "projected_balance_usd": true,
+        "inflated_target_usd": true,
+        "shortfall_usd": true,
+        "topup_factor": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synf263b8db7b132ffba2fd",
+          "final_answer": {
+            "value": "8949.85"
+          },
+          "steps": [
+            {
+              "slot_id": "projected_balance_usd",
+              "value": "119629.3352608723515625"
+            },
+            {
+              "slot_id": "inflated_target_usd",
+              "value": "137842.2801179136"
+            },
+            {
+              "slot_id": "shortfall_usd",
+              "value": "18212.9448570412484375"
+            },
+            {
+              "slot_id": "topup_factor",
+              "value": "2.035"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "8949.85": 1
+          },
+          "projected_balance_usd": {
+            "119629.3352608723515625": 1
+          },
+          "inflated_target_usd": {
+            "137842.2801179136": 1
+          },
+          "shortfall_usd": {
+            "18212.9448570412484375": 1
+          },
+          "topup_factor": {
+            "2.035": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "8949.85",
+              "projected_balance_usd": "119629.3352608723515625",
+              "inflated_target_usd": "137842.2801179136",
+              "shortfall_usd": "18212.9448570412484375",
+              "topup_factor": "2.035"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "2ee9a98bb99f354764c507002ea30037d833ec1182edade1a7157da225d5bfe1",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1345,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 550,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1345,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 550,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1345,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1345
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.054669999999999996,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6618,
+                  "session_id": "39f966f3-2b2e-49e2-964d-e0b2e6a697a1",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    r = Q(\"0.035\")\n    g = Q(\"0.04\")\n    infl = Q(\"0.02\")\n    years = 7\n    first_deposit = Q(14500)\n    withdrawal_year = 5\n    withdrawal = Q(6500)\n    target_today = Q(120000)\n\n    # Project balance year by year: interest credited, then deposit added, then withdrawal (year 5)\n    balance = Q(0)\n    deposit = first_deposit\n    for year in range(1, years + 1):\n        balance = balance * (1 + r)\n        if year > 1:\n            deposit = deposit * (1 + g)\n        balance += deposit\n        if year == withdrawal_year:\n            balance -= withdrawal\n    projected_balance = balance  # end of year 7, after withdrawal already taken\n\n    # Inflated target over all 7 years\n    inflated_target = target_today * (1 + infl) ** years\n\n    # Nonnegative shortfall\n    shortfall = max(inflated_target - projected_balance, Q(0))\n\n    # Top-up factor: deposits at end of years 6..7, compounded to end of year 7\n    topup_factor = sum((1 + r) ** (years - t) for t in range(withdrawal_year + 1, years + 1))\n\n    # Required extra annual deposit\n    extra_deposit = shortfall / topup_factor if shortfall > 0 else Q(0)\n\n    return {\n        \"final\": extra_deposit,\n        \"projected_balance_usd\": projected_balance,\n        \"inflated_target_usd\": inflated_target,\n        \"shortfall_usd\": shortfall,\n        \"topup_factor\": topup_factor,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 184
+                },
+                "rendered": {
+                  "final": "8949.85",
+                  "projected_balance_usd": "119629.3352608723515625",
+                  "inflated_target_usd": "137842.2801179136",
+                  "shortfall_usd": "18212.9448570412484375",
+                  "topup_factor": "2.035"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn6e98738bb3478bc37925",
+      "verdicts": {
+        "final": true,
+        "projected_balance_usd": true,
+        "inflated_target_usd": true,
+        "shortfall_usd": true,
+        "topup_factor": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn6e98738bb3478bc37925",
+          "final_answer": {
+            "value": "32551.34"
+          },
+          "steps": [
+            {
+              "slot_id": "projected_balance_usd",
+              "value": "77539.8405030297984"
+            },
+            {
+              "slot_id": "inflated_target_usd",
+              "value": "268505.538538748226165771484375"
+            },
+            {
+              "slot_id": "shortfall_usd",
+              "value": "190965.698035718427765771484375"
+            },
+            {
+              "slot_id": "topup_factor",
+              "value": "5.86660096"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "32551.34": 1
+          },
+          "projected_balance_usd": {
+            "77539.8405030297984": 1
+          },
+          "inflated_target_usd": {
+            "268505.538538748226165771484375": 1
+          },
+          "shortfall_usd": {
+            "190965.698035718427765771484375": 1
+          },
+          "topup_factor": {
+            "5.86660096": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "32551.34",
+              "projected_balance_usd": "77539.8405030297984",
+              "inflated_target_usd": "268505.538538748226165771484375",
+              "shortfall_usd": "190965.698035718427765771484375",
+              "topup_factor": "5.86660096"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "bcebfeb567af5cf51e43b084ccbd215bf8e0719ae9d5ff6966893a07a282c4d2",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1343,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 468,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1343,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 468,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1343,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1343
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.050530000000000005,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5057,
+                  "session_id": "537ccbc5-c4f8-4bfd-8319-36e1e6fda559",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    rate = Q(\"0.08\")\n    growth = Q(\"0.02\")\n    infl = Q(\"0.025\")\n    years = 9\n    withdraw_year = 4\n    withdrawal = Q(6500)\n    first_deposit = Q(6500)\n\n    balance = Q(0)\n    deposit = first_deposit\n    for year in range(1, years + 1):\n        balance = balance * (1 + rate)  # interest credited before deposit\n        balance += deposit\n        if year == withdraw_year:\n            balance -= withdrawal  # one-time withdrawal after deposit\n        deposit = deposit * (1 + growth)\n    projected_balance = balance\n\n    inflated_target = Q(215000) * (1 + infl) ** years\n\n    shortfall = max(inflated_target - projected_balance, Q(0))\n\n    # Level top-up deposits at end of years 5..9, compounded to end of year 9\n    topup_factor = sum((1 + rate) ** (years - t) for t in range(withdraw_year + 1, years + 1))\n\n    extra_deposit = shortfall / topup_factor if shortfall > 0 else Q(0)\n\n    return {\n        \"final\": extra_deposit,\n        \"projected_balance_usd\": projected_balance,\n        \"inflated_target_usd\": inflated_target,\n        \"shortfall_usd\": shortfall,\n        \"topup_factor\": topup_factor,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 145
+                },
+                "rendered": {
+                  "final": "32551.34",
+                  "projected_balance_usd": "77539.8405030297984",
+                  "inflated_target_usd": "268505.538538748226165771484375",
+                  "shortfall_usd": "190965.698035718427765771484375",
+                  "topup_factor": "5.86660096"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syncea5c613ab2ec8a9a80f",
+      "verdicts": {
+        "final": true,
+        "projected_balance_usd": true,
+        "inflated_target_usd": true,
+        "shortfall_usd": true,
+        "topup_factor": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syncea5c613ab2ec8a9a80f",
+          "final_answer": {
+            "value": "35570.93"
+          },
+          "steps": [
+            {
+              "slot_id": "projected_balance_usd",
+              "value": "56734.85754604199695"
+            },
+            {
+              "slot_id": "inflated_target_usd",
+              "value": "286822.21646935461888"
+            },
+            {
+              "slot_id": "shortfall_usd",
+              "value": "230087.35892331262193"
+            },
+            {
+              "slot_id": "topup_factor",
+              "value": "6.4684098843"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "35570.93": 1
+          },
+          "projected_balance_usd": {
+            "56734.85754604199695": 1
+          },
+          "inflated_target_usd": {
+            "286822.21646935461888": 1
+          },
+          "shortfall_usd": {
+            "230087.35892331262193": 1
+          },
+          "topup_factor": {
+            "6.4684098843": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "35570.93",
+              "projected_balance_usd": "56734.85754604199695",
+              "inflated_target_usd": "286822.21646935461888",
+              "shortfall_usd": "230087.35892331262193",
+              "topup_factor": "6.4684098843"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "5f9b6c7fd2376818e6cc6510560eee28711c91115e66ad579d59010f7571aac1",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1341,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 519,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1341,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 519,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1341,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1341
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.053040000000000004,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 6027,
+                  "session_id": "333480ef-335c-4b5a-9608-7b43f56fec51",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    r = Q(\"0.03\")          # annual return\n    g = Q(\"0.03\")          # deposit growth\n    infl = Q(\"0.02\")\n    years = 9\n    first_dep = Q(5500)\n    withdraw_year = 3\n    withdraw_amt = Q(5000)\n\n    # Project balance: interest credited at year end, then deposit, then withdrawal (year 3)\n    balance = Q(0)\n    for t in range(1, years + 1):\n        balance = balance * (1 + r)\n        deposit = first_dep * (1 + g) ** (t - 1)\n        balance += deposit\n        if t == withdraw_year:\n            balance -= withdraw_amt\n    projected_balance = balance  # end of year 9\n\n    # Inflated target over 9 years\n    inflated_target = Q(240000) * (1 + infl) ** years\n\n    # Nonnegative shortfall\n    shortfall = max(inflated_target - projected_balance, Q(0))\n\n    # Top-up factor: deposits at end of years 4..9, compounded to end of year 9\n    topup_factor = sum((1 + r) ** (years - t) for t in range(withdraw_year + 1, years + 1))\n\n    extra_deposit = shortfall / topup_factor if shortfall > 0 else Q(0)\n\n    return {\n        \"final\": extra_deposit,\n        \"projected_balance_usd\": projected_balance,\n        \"inflated_target_usd\": inflated_target,\n        \"shortfall_usd\": shortfall,\n        \"topup_factor\": topup_factor,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 140
+                },
+                "rendered": {
+                  "final": "35570.93",
+                  "projected_balance_usd": "56734.85754604199695",
+                  "inflated_target_usd": "286822.21646935461888",
+                  "shortfall_usd": "230087.35892331262193",
+                  "topup_factor": "6.4684098843"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn8680f7552058e63960a8",
+      "verdicts": {
+        "final": true,
+        "projected_balance_usd": true,
+        "inflated_target_usd": true,
+        "shortfall_usd": true,
+        "topup_factor": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn8680f7552058e63960a8",
+          "final_answer": {
+            "value": "11769.42"
+          },
+          "steps": [
+            {
+              "slot_id": "projected_balance_usd",
+              "value": "114756.169518969860076904296875"
+            },
+            {
+              "slot_id": "inflated_target_usd",
+              "value": "237703.9118989776403968"
+            },
+            {
+              "slot_id": "shortfall_usd",
+              "value": "122947.742380007780319895703125"
+            },
+            {
+              "slot_id": "topup_factor",
+              "value": "10.446371007489013671875"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "11769.42": 1
+          },
+          "projected_balance_usd": {
+            "114756.169518969860076904296875": 1
+          },
+          "inflated_target_usd": {
+            "237703.9118989776403968": 1
+          },
+          "shortfall_usd": {
+            "122947.742380007780319895703125": 1
+          },
+          "topup_factor": {
+            "10.446371007489013671875": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "11769.42",
+              "projected_balance_usd": "114756.169518969860076904296875",
+              "inflated_target_usd": "237703.9118989776403968",
+              "shortfall_usd": "122947.742380007780319895703125",
+              "topup_factor": "10.446371007489013671875"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "1361c612d0f33616422cf61ade7d20c00c3f31046fbd339504b45844dffb4a60",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1345,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 456,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1345,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 456,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1345,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1345
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04997,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5396,
+                  "session_id": "e59885fa-054b-44f0-a53f-8cc509f7a3ee",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    r = Q(\"0.075\")\n    g = Q(\"0.05\")\n    infl = Q(\"0.02\")\n    years = 10\n    withdraw_year = 2\n    withdraw = Q(3500)\n    deposit = Q(7000)\n    balance = Q(0)\n    # Simulate: interest credited at year end, then deposit, then withdrawal (year 2 only)\n    for y in range(1, years + 1):\n        balance = balance * (1 + r)\n        balance = balance + deposit\n        if y == withdraw_year:\n            balance = balance - withdraw\n        deposit = deposit * (1 + g)\n    projected_balance = balance\n\n    inflated_target = Q(195000) * (1 + infl) ** years\n    shortfall = max(inflated_target - projected_balance, Q(0))\n\n    # Top-up deposits from year after withdrawal through year 10\n    topup_factor = sum((1 + r) ** (years - y) for y in range(withdraw_year + 1, years + 1))\n\n    extra_deposit = shortfall / topup_factor if shortfall > 0 else Q(0)\n\n    return {\n        \"final\": extra_deposit,\n        \"projected_balance_usd\": projected_balance,\n        \"inflated_target_usd\": inflated_target,\n        \"shortfall_usd\": shortfall,\n        \"topup_factor\": topup_factor,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 174
+                },
+                "rendered": {
+                  "final": "11769.42",
+                  "projected_balance_usd": "114756.169518969860076904296875",
+                  "inflated_target_usd": "237703.9118989776403968",
+                  "shortfall_usd": "122947.742380007780319895703125",
+                  "topup_factor": "10.446371007489013671875"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "6609d5676184ee5b79c676f3f6f4db3ebf8bd6cec6087abe1652dd70bd370432"
+}

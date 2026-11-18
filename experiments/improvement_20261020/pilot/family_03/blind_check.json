@@ -1,0 +1,499 @@
+{
+  "family": "family_03",
+  "all_agree": true,
+  "checks": [
+    {
+      "case_id": "t1_syn019aa4a6579c364f81cb",
+      "verdicts": {
+        "final": true,
+        "debt_issued": true,
+        "repurchase_price": true,
+        "equity_after": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn019aa4a6579c364f81cb",
+          "final_answer": {
+            "value": "29.1889"
+          },
+          "steps": [
+            {
+              "slot_id": "debt_issued",
+              "value": "450"
+            },
+            {
+              "slot_id": "repurchase_price",
+              "value": "40.375"
+            },
+            {
+              "slot_id": "equity_after",
+              "value": "1178.5"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "29.1889": 1
+          },
+          "debt_issued": {
+            "450": 1
+          },
+          "repurchase_price": {
+            "40.375": 1
+          },
+          "equity_after": {
+            "1178.5": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "29.1889",
+              "debt_issued": "450",
+              "repurchase_price": "40.375",
+              "equity_after": "1178.5"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "15aa5eac94a87561b2320d0846b5ec251f2454641ffcd1b72380841a76756bf6",
+                "cached": true,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1205,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 910,
+                  "output_tokens_details": {
+                    "thinking_tokens": 312
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1205,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 910,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1205,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1205
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.06986999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 10765,
+                  "session_id": "68f266b6-3810-4b0f-b510-d702fdb41f97",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V_U = Q(1750)          # unlevered asset value, USD million\n    D_old = Q(225)         # existing debt\n    N0 = Q(40)             # original shares, millions\n    D_plan = Q(450)        # planned new debt\n    fee_rate = Q(\"0.03\")\n    ts_rate = Q(\"0.26\")\n    cap = Q(\"0.8\")\n\n    # post-repurchase equity as function of new debt D:\n    # E(D) = V_U + ts_rate*D - fee_rate*D - (D_old + D)\n    def equity_after_fn(D):\n        return V_U + ts_rate * D - fee_rate * D - (D_old + D)\n\n    # covenant: (D_old + D) / E(D) <= cap ; largest D meeting it exactly\n    # D_old + D = cap*(V_U - D_old) + cap*(ts_rate - fee_rate - 1)*D\n    D_max = (cap * (V_U - D_old) - D_old) / (1 - cap * (ts_rate - fee_rate - 1))\n    debt_issued = D_plan if D_plan <= D_max else D_max\n\n    net_proceeds = debt_issued * (1 - fee_rate)\n    equity_after = equity_after_fn(debt_issued)          # after repurchase\n    equity_with_cash = equity_after + net_proceeds        # just after issue, cash held\n    repurchase_price = equity_with_cash / N0              # USD per share\n\n    shares_repurchased = net_proceeds / repurchase_price\n    shares_after = N0 - shares_repurchased                # millions\n\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": debt_issued,\n        \"repurchase_price\": repurchase_price,\n        \"equity_after\": equity_after,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 148
+                },
+                "rendered": {
+                  "final": "29.1889",
+                  "debt_issued": "450",
+                  "repurchase_price": "40.375",
+                  "equity_after": "1178.5"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synd0022c62e25c9234720c",
+      "verdicts": {
+        "final": true,
+        "debt_issued": true,
+        "repurchase_price": true,
+        "equity_after": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synd0022c62e25c9234720c",
+          "final_answer": {
+            "value": "43.9535"
+          },
+          "steps": [
+            {
+              "slot_id": "debt_issued",
+              "value": "350"
+            },
+            {
+              "slot_id": "repurchase_price",
+              "value": "3433/110"
+            },
+            {
+              "slot_id": "equity_after",
+              "value": "1371.75"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "43.9535": 1
+          },
+          "debt_issued": {
+            "350": 1
+          },
+          "repurchase_price": {
+            "3433/110": 1
+          },
+          "equity_after": {
+            "1371.75": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "43.9535",
+              "debt_issued": "350",
+              "repurchase_price": "3433/110",
+              "equity_after": "1371.75"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d5ae8bc6e09358aeba58fc10eb854825c700f8935b24f42f60cdb857fb1ccaa2",
+                "cached": true,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1207,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 962,
+                  "output_tokens_details": {
+                    "thinking_tokens": 360
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1207,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 962,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1207,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1207
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.07250999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 11005,
+                  "session_id": "50308e54-7830-430e-b39d-0a0ae30bcebf",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V_U = Q(1800)          # unlevered asset value\n    D_old = Q(150)         # existing debt\n    shares0 = Q(55)        # original share count (millions)\n    D_plan = Q(350)        # planned new debt\n    fee_rate = Q(\"0.015\")\n    ts_rate = Q(\"0.22\")\n    cap = Q(\"0.45\")\n\n    def equity_after_fn(D):\n        # post-repurchase equity = V_U + tax shield - fee - total debt\n        return V_U + ts_rate * D - fee_rate * D - (D_old + D)\n\n    # Covenant check on planned issue\n    if (D_old + D_plan) / equity_after_fn(D_plan) > cap:\n        # solve (D_old + D) = cap * (V_U + (ts - fee)*D - D_old - D)\n        # D_old + D = cap*(V_U - D_old) + cap*(ts - fee - 1)*D\n        k = ts_rate - fee_rate - 1\n        D_issued = (cap * (V_U - D_old) - D_old) / (1 - cap * k)\n    else:\n        D_issued = D_plan\n\n    fee = fee_rate * D_issued\n    net_proceeds = D_issued - fee\n    equity_after = equity_after_fn(D_issued)          # after repurchase\n    equity_with_cash = equity_after + net_proceeds    # before repurchase, cash held\n    repurchase_price = equity_with_cash / shares0     # USD per share\n    shares_retired = net_proceeds / repurchase_price\n    shares_after = shares0 - shares_retired\n\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": D_issued,\n        \"repurchase_price\": repurchase_price,\n        \"equity_after\": equity_after,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 223
+                },
+                "rendered": {
+                  "final": "43.9535",
+                  "debt_issued": "350",
+                  "repurchase_price": "3433/110",
+                  "equity_after": "1371.75"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synde8653648032c8e47f25",
+      "verdicts": {
+        "final": true,
+        "debt_issued": true,
+        "repurchase_price": true,
+        "equity_after": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synde8653648032c8e47f25",
+          "final_answer": {
+            "value": "32.7927"
+          },
+          "steps": [
+            {
+              "slot_id": "debt_issued",
+              "value": "47000/259"
+            },
+            {
+              "slot_id": "repurchase_price",
+              "value": "33785/2331"
+            },
+            {
+              "slot_id": "equity_after",
+              "value": "123100/259"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "32.7927": 1
+          },
+          "debt_issued": {
+            "47000/259": 1
+          },
+          "repurchase_price": {
+            "33785/2331": 1
+          },
+          "equity_after": {
+            "123100/259": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "32.7927",
+              "debt_issued": "47000/259",
+              "repurchase_price": "33785/2331",
+              "equity_after": "123100/259"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "654ba299805305fac300945f1bdce5be17b3ddd1a422c06a2ec05724b5752220",
+                "cached": true,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1206,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 917,
+                  "output_tokens_details": {
+                    "thinking_tokens": 278
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1206,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 917,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1206,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1206
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.07024,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 10908,
+                  "session_id": "d0c9442e-1b22-4a13-bdb1-8750c31dcb98",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V_u = Q(800)\n    D_old = Q(175)\n    shares = Q(45)\n    D_plan = Q(700)\n    fee_rate = Q(\"0.025\")\n    ts_rate = Q(\"0.20\")\n    cap = Q(\"0.75\")\n\n    # Post-repurchase equity as a function of new debt D:\n    # E(D) = V_u + ts*D - fee*D - (D_old + D)\n    def equity_post(D):\n        return V_u + ts_rate * D - fee_rate * D - (D_old + D)\n\n    # Covenant: (D_old + D) / E(D) <= cap. Solve for max D meeting limit exactly.\n    # D_old + D = cap * (V_u - D_old + (ts - fee - 1) * D)\n    # D * (1 - cap*(ts - fee - 1)) = cap*(V_u - D_old) - D_old\n    k = ts_rate - fee_rate - 1\n    D_max = (cap * (V_u - D_old) - D_old) / (1 - cap * k)\n\n    # Check whether planned issue breaches covenant\n    if (D_old + D_plan) / equity_post(D_plan) > cap:\n        debt_issued = D_max\n    else:\n        debt_issued = D_plan\n\n    net_proceeds = debt_issued * (1 - fee_rate)\n    equity_after = equity_post(debt_issued)  # equity remaining after repurchase\n\n    # Self-consistent price: equity just after issue (cash still held) / original shares\n    repurchase_price = (equity_after + net_proceeds) / shares\n\n    shares_repurchased = net_proceeds / repurchase_price\n    shares_after = shares - shares_repurchased  # in millions\n\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": debt_issued,\n        \"repurchase_price\": repurchase_price,\n        \"equity_after\": equity_after,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 413
+                },
+                "rendered": {
+                  "final": "32.7927",
+                  "debt_issued": "47000/259",
+                  "repurchase_price": "33785/2331",
+                  "equity_after": "123100/259"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synaba091ae5ec3c2435792",
+      "verdicts": {
+        "final": true,
+        "debt_issued": true,
+        "repurchase_price": true,
+        "equity_after": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synaba091ae5ec3c2435792",
+          "final_answer": {
+            "value": "71.9563"
+          },
+          "steps": [
+            {
+              "slot_id": "debt_issued",
+              "value": "817500/2497"
+            },
+            {
+              "slot_id": "repurchase_price",
+              "value": "807365/44946"
+            },
+            {
+              "slot_id": "equity_after",
+              "value": "3227500/2497"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "71.9563": 1
+          },
+          "debt_issued": {
+            "817500/2497": 1
+          },
+          "repurchase_price": {
+            "807365/44946": 1
+          },
+          "equity_after": {
+            "3227500/2497": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "71.9563",
+              "debt_issued": "817500/2497",
+              "repurchase_price": "807365/44946",
+              "equity_after": "3227500/2497"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "6f8710a5eacfaac7662d7d176500adc2c1657d38445a926aa3867f428f6216f2",
+                "cached": true,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1205,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 865,
+                  "output_tokens_details": {
+                    "thinking_tokens": 311
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1205,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 865,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1205,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1205
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.06761999999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 9826,
+                  "session_id": "84de9373-e718-4638-aeeb-cfbfa31d7e0c",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V_U = Q(1650)\n    D0 = Q(125)\n    shares0 = Q(90)\n    planned = Q(550)\n    fee_rate = Q(\"0.01\")\n    ts_rate = Q(\"0.30\")\n    cap = Q(\"0.35\")\n\n    # Equity after repurchase as function of new debt D: V_U + ts - fee - (D0 + D)\n    def equity_after_fn(D):\n        return V_U + ts_rate * D - fee_rate * D - D0 - D\n\n    # Check covenant with planned issue\n    if (D0 + planned) / equity_after_fn(planned) > cap:\n        # Solve D0 + D = cap * (V_U + ts*D - fee*D - D0 - D) exactly (linear)\n        # D0 + D = cap*(V_U - D0) + cap*(ts - fee - 1)*D\n        debt_issued = (cap * (V_U - D0) - D0) / (1 - cap * (ts_rate - fee_rate - 1))\n    else:\n        debt_issued = planned\n\n    net_proceeds = debt_issued * (1 - fee_rate)\n    equity_after = equity_after_fn(debt_issued)\n\n    # Self-consistent price: equity with cash still held / original shares\n    repurchase_price = (equity_after + net_proceeds) / shares0\n\n    shares_repurchased = net_proceeds / repurchase_price\n    shares_after = shares0 - shares_repurchased\n\n    return {\n        \"final\": shares_after,\n        \"debt_issued\": debt_issued,\n        \"repurchase_price\": repurchase_price,\n        \"equity_after\": equity_after,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 381
+                },
+                "rendered": {
+                  "final": "71.9563",
+                  "debt_issued": "817500/2497",
+                  "repurchase_price": "807365/44946",
+                  "equity_after": "3227500/2497"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "3bab9a0952aee08dcf9413eedca5dc8438791ae0f2fdf9eed7b8c3b7c52380bf"
+}

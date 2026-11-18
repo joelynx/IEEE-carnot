@@ -1,0 +1,189 @@
+{
+ "family": "c1_08",
+ "template_sha256": "d073ec97493d97e89b0eb8ecc30a4d61feb1a43b0a16d70340732a7e4fbff17c",
+ "draws_sha256": "741094cc8755c48551a822bfa9e54777bbf9a37f6d99dd5d2c7ade93c15d78a8",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "4d54257494579640cdb8857944d43c10d32cb1b94188517b66dfff2a1a55d60f",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1528,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 547,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1528,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 547,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1528,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1528
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0580805
+  }
+ ],
+ "program": "def solve():\n    capex = Q(P[\"CAPEX\"])\n    eq_ratio = Q(P[\"EQUITY_RATIO\"]) / 100\n    base_ni = Q(P[\"NET_INCOME\"])\n    adj_pct = Q(P[\"ADJ\"]) / 100\n\n    # Equity required: equity share of the capital budget\n    equity_required = capex * eq_ratio\n\n    # Adjusted net income: base plus the signed one-time item (fraction of base)\n    one_time_item = base_ni * adj_pct\n    adjusted_ni = base_ni + one_time_item\n\n    # Signed surplus: what is left after funding the equity portion internally\n    signed_surplus = adjusted_ni - equity_required\n\n    # Residual policy: enumerate the two cases explicitly\n    if signed_surplus > 0:\n        dividend = signed_surplus\n        equity_issued = Q(0)\n    elif signed_surplus < 0:\n        dividend = Q(0)\n        equity_issued = -signed_surplus\n    else:\n        dividend = Q(0)\n        equity_issued = Q(0)\n\n    # Consistency check: sources must equal uses of equity funds\n    # adjusted_ni + equity_issued == equity_required + dividend\n    if adjusted_ni + equity_issued != equity_required + dividend:\n        raise ValueError(\"Residual policy ledger does not balance\")\n\n    return {\n        \"final\": dividend,\n        \"equity_required\": equity_required,\n        \"adjusted_net_income\": adjusted_ni,\n        \"signed_surplus\": signed_surplus,\n        \"equity_issued\": equity_issued,\n    }\n",
+ "result": {
+  "compared": 26,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CAPEX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_EQUITY_RATIO",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_NET_INCOME",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ADJ",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CAPEX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_EQUITY_RATIO",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NET_INCOME",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ADJ",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

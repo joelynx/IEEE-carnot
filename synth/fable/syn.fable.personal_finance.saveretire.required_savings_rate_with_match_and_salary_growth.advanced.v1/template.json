@@ -1,0 +1,122 @@
+{
+ "name": "required_savings_rate_with_match_and_salary_growth",
+ "domain_id": "personal_finance",
+ "topic_id": "saveretire",
+ "difficulty": "advanced",
+ "params": {
+  "AGE": {
+   "kind": "int",
+   "min": 25,
+   "max": 45,
+   "step": 1
+  },
+  "RET_AGE": {
+   "kind": "int",
+   "min": 55,
+   "max": 67,
+   "step": 1
+  },
+  "SALARY": {
+   "kind": "int",
+   "min": 40000,
+   "max": 150000,
+   "step": 5000
+  },
+  "GROWTH": {
+   "kind": "decimal",
+   "min": "1.0",
+   "max": "4.0",
+   "step": "0.5"
+  },
+  "SAVINGS": {
+   "kind": "int",
+   "min": 0,
+   "max": 200000,
+   "step": 10000
+  },
+  "RETURN": {
+   "kind": "decimal",
+   "min": "3.0",
+   "max": "8.0",
+   "step": "0.5"
+  },
+  "MATCH": {
+   "kind": "decimal",
+   "min": "0.0",
+   "max": "6.0",
+   "step": "1.0"
+  },
+  "REPL": {
+   "kind": "int",
+   "min": 50,
+   "max": 80,
+   "step": 5
+  },
+  "WDR": {
+   "kind": "decimal",
+   "min": "3.0",
+   "max": "5.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local retirement saving-rate rule. Age is {AGE}, retirement age is {RET_AGE}; contribution years N equal the difference. Salary in year t is S={SALARY} USD times (1+g)^(t-1), g={GROWTH} percent. Current savings B={SAVINGS} USD and all contributions earn r={RETURN} percent per year, compounded annually. At the end of each year t the employee contributes a fixed percent of that year's salary and the employer adds m={MATCH} percent of the same salary; both then compound for N-t years. Target nest egg at retirement is {REPL} percent of year-N salary divided by withdrawal rate w={WDR} percent. Find the employee percent at which compounded savings plus contributions exactly equal the target; if negative, report zero. Use exact arithmetic and round only the final value half up to two decimals.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "year_n_salary_usd",
+   "description": "Salary in the final contribution year in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_per_year",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "target_nest_egg_usd",
+   "description": "Target nest egg at retirement in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "savings_future_value_usd",
+   "description": "Compounded current savings at retirement in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "combined_required_percent",
+   "description": "Signed combined employee plus employer percent of salary needed.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    N = P[\"RET_AGE\"] - P[\"AGE\"]\n    if N < 1:\n        raise ValueError(\"retirement age must exceed current age\")\n    S = Q(P[\"SALARY\"])\n    g = Q(P[\"GROWTH\"]) / 100\n    r = Q(P[\"RETURN\"]) / 100\n    B = Q(P[\"SAVINGS\"])\n    m = Q(P[\"MATCH\"])\n    rep = Q(P[\"REPL\"]) / 100\n    w = Q(P[\"WDR\"]) / 100\n    final_salary = S * (1 + g) ** (N - 1)\n    target = rep * final_salary / w\n    fv_savings = B * (1 + r) ** N\n    factor = sum((1 + g) ** (t - 1) * (1 + r) ** (N - t) for t in range(1, N + 1))\n    combined = (target - fv_savings) / (S * factor) * 100\n    employee = combined - m\n    if employee < 0:\n        employee = Q(0)\n    return {\n        \"final\": employee,\n        \"year_n_salary_usd\": final_salary,\n        \"target_nest_egg_usd\": target,\n        \"savings_future_value_usd\": fv_savings,\n        \"combined_required_percent\": combined,\n    }\n"
+}

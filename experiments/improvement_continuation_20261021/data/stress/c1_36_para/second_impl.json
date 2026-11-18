@@ -1,0 +1,199 @@
+{
+ "family": "c1_36_para",
+ "template_sha256": "0119b2fdf4db7ad63c45c5d023f41484d11ba9672fa29dae1e54f8b0ca810744",
+ "draws_sha256": "cdf658c7ebd52e2fbce6f00eeea1f499f55c130500468416c0858f34300eb162",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "99adce71d3388bc0080e41be4cec3c5877612daa07787d1c2920070ccfa000f3",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1713,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1037,
+    "output_tokens_details": {
+     "thinking_tokens": 364
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1713,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1037,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1713,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1713
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0862805
+  }
+ ],
+ "program": "def solve():\n    y1 = P[\"Y1\"] / 100\n    y2 = P[\"Y2\"] / 100\n    y3 = P[\"Y3\"] / 100\n    face = P[\"FACE\"]\n    spread = P[\"SPREAD_BP\"]\n\n    # Bootstrap via discount factors: par bond with coupon c maturing at n\n    # satisfies c * sum(d_1..d_{n-1}) + (1 + c) * d_n = 1.\n    dfs = []\n    pars = [y1, y2, y3]\n    for n, c in enumerate(pars, start=1):\n        annuity = sum(dfs)  # discount factors for years 1..n-1\n        d_n = (1 - c * annuity) / (1 + c)\n        if d_n <= 0:\n            raise ValueError(\"Par yields inconsistent with positive discount factors\")\n        dfs.append(d_n)\n    d1, d2, d3 = dfs\n\n    # Effective annual zero rates from discount factors\n    z2 = sqrt(1 / d2) - 1\n    z3 = exp(-ln(d3) / 3) - 1\n\n    # Forward 2y1y: (1+z2)^2 (1+f) = (1+z3)^3  ->  1+f = d2/d3\n    f = d2 / d3 - 1\n\n    # Bond coupon rate: three-year par yield plus spread, floored at zero\n    c = y3 + Q(spread, 10000)\n    if c < 0:\n        c = Q(0)\n\n    # Cash-flow ledger discounted at zero rates (equivalently discount factors)\n    cashflows = [\n        (1, face * c),\n        (2, face * c),\n        (3, face * c + face),\n    ]\n    price = 0\n    for t, cf in cashflows:\n        price += cf * dfs[t - 1]\n\n    return {\n        \"final\": price,\n        \"two_year_zero_rate\": z2 * 100,\n        \"three_year_zero_rate\": z3 * 100,\n        \"forward_rate_2y1y\": f * 100,\n    }\n",
+ "result": {
+  "compared": 28,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Y1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Y2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Y3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SPREAD_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FACE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Y1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Y2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Y3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SPREAD_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FACE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

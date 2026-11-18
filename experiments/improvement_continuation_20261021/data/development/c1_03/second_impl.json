@@ -1,0 +1,224 @@
+{
+ "family": "c1_03",
+ "template_sha256": "e53c057c80dcd45a9a8f981857ec35960c5feee52009fce851a473da88c61a98",
+ "draws_sha256": "bb0c2d885a2c13a7c9e45bd8b7cf3d4ea7bde38cbf33a8f17a0b50060d129d68",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "84302013dcd019063656efbf08b4286c78e3adc4673c3f85d8e29b872fbcabce",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1745,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 683,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1745,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 683,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1745,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1745
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.06922049999999999
+  }
+ ],
+ "program": "def solve():\n    NI = P[\"NI\"]\n    DEP = P[\"DEP\"]\n    DIV = P[\"DIV\"]\n    COST = P[\"COST\"]\n    PROCEEDS = P[\"PROCEEDS\"]\n    LOAN = P[\"LOAN\"]\n    CLOSE_MONTHS = P[\"CLOSE_MONTHS\"]\n    WC_CHG = P[\"WC_CHG\"]\n\n    # Equipment sale: book value after 60% depreciation\n    accumulated_dep = COST * Q(60, 100)\n    book_value = COST - accumulated_dep\n    gain = PROCEEDS - book_value  # negative if loss\n\n    # Interest on the loan, 8% for the full year\n    interest_expense = LOAN * Q(8, 100)\n    monthly_interest = interest_expense / 12\n    payable_open = monthly_interest * 2\n    payable_close = monthly_interest * CLOSE_MONTHS\n    payable_increase = payable_close - payable_open\n    interest_paid = interest_expense - payable_increase\n\n    # Operating cash flow ledger under the stated policy\n    ledger = []\n    ledger.append(NI)                 # start from net income\n    ledger.append(DEP)                # non-cash depreciation added back\n    ledger.append(-gain)              # remove gain (adds back a loss)\n    ledger.append(interest_expense)   # interest classified as financing: add back full expense\n    ledger.append(-DIV)               # dividend income classified as investing: remove\n    ledger.append(-WC_CHG)            # increase in NOWC reduces operating cash\n    operating_cf = sum(ledger, Q(0))\n\n    # Investing: full sale proceeds plus dividends received in cash\n    investing_cf = PROCEEDS + DIV\n\n    return {\n        \"final\": operating_cf,\n        \"gain_on_sale\": gain,\n        \"interest_expense\": interest_expense,\n        \"interest_paid_financing\": interest_paid,\n        \"investing_cash_flow\": investing_cf,\n    }\n",
+ "result": {
+  "compared": 33,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_NI",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DEP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DIV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COST",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PROCEEDS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_LOAN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CLOSE_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_WC_CHG",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NI",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DEP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DIV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COST",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PROCEEDS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_LOAN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CLOSE_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_WC_CHG",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

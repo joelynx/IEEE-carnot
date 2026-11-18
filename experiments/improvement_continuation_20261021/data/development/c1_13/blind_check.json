@@ -1,0 +1,519 @@
+{
+ "family": "c1_13",
+ "draws_sha256": "415b5c24b29a9b153fb952a8a3ec5875a1d300c355f55ce1dc4f8c09844806f3",
+ "checks": [
+  {
+   "case_id": "t1_syn92aced0910cc952e219d",
+   "verdicts": {
+    "final": true,
+    "quarterly_rate": true,
+    "stage_one_pv": true,
+    "terminal_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn92aced0910cc952e219d",
+     "final_answer": {
+      "value": "50.76"
+     },
+     "steps": [
+      {
+       "slot_id": "quarterly_rate",
+       "value": "1.347517"
+      },
+      {
+       "slot_id": "stage_one_pv",
+       "value": "6.1392"
+      },
+      {
+       "slot_id": "terminal_value",
+       "value": "51.70"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "50.76": 1
+     },
+     "quarterly_rate": {
+      "1.347517": 1
+     },
+     "stage_one_pv": {
+      "6.1392": 1
+     },
+     "terminal_value": {
+      "51.70": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "50.76",
+       "quarterly_rate": "1.347517",
+       "stage_one_pv": "6.1392",
+       "terminal_value": "51.70"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "95a73feeb38bb04dc02a1dfe08b9a1f16089dc0e054937171fe24142098f1695",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1299,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 501,
+         "output_tokens_details": {
+          "thinking_tokens": 210
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1299,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 501,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1299,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1299
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.051231,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5639,
+         "session_id": "2d9ddad4-9edc-4841-a7ae-c94e150659f1",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    d0 = Q(\"0.65\")\n    g1 = Q(\"-0.0125\")\n    n = 11\n    g_annual = Q(\"0.01\")\n    g_q = g_annual / 4  # nominal convention\n    r_annual = Q(\"0.055\")\n    q = (1 + r_annual) ** Q(1, 4) - 1\n\n    pv = 0\n    d = d0\n    for k in range(1, n + 1):\n        d = d * (1 + g1)\n        pv += d / (1 + q) ** k\n    d_last = d\n    d_next = d_last * (1 + g_q)\n    tv = d_next / (q - g_q)\n    price = pv + tv / (1 + q) ** n\n    return {\n        \"final\": price,\n        \"quarterly_rate\": q * 100,\n        \"stage_one_pv\": pv,\n        \"terminal_value\": tv,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 154
+        },
+        "rendered": {
+         "final": "50.76",
+         "quarterly_rate": "1.347517",
+         "stage_one_pv": "6.1392",
+         "terminal_value": "51.70"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "quarterly_rate:inexact",
+         "stage_one_pv:inexact",
+         "terminal_value:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn1112ce535b7cced275b8",
+   "verdicts": {
+    "final": true,
+    "quarterly_rate": true,
+    "stage_one_pv": true,
+    "terminal_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn1112ce535b7cced275b8",
+     "final_answer": {
+      "value": "147.63"
+     },
+     "steps": [
+      {
+       "slot_id": "quarterly_rate",
+       "value": "1.347517"
+      },
+      {
+       "slot_id": "stage_one_pv",
+       "value": "13.0790"
+      },
+      {
+       "slot_id": "terminal_value",
+       "value": "155.90"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "147.63": 1
+     },
+     "quarterly_rate": {
+      "1.347517": 1
+     },
+     "stage_one_pv": {
+      "13.0790": 1
+     },
+     "terminal_value": {
+      "155.90": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "147.63",
+       "quarterly_rate": "1.347517",
+       "stage_one_pv": "13.0790",
+       "terminal_value": "155.90"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "0463d3a08e5f39868b2e434e460b53eaee6eb5210a0afd3e05c64e2b7f959b75",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1298,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 328,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1298,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 328,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1298,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1298
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.042561,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3782,
+         "session_id": "0d8a7b68-6f68-4b59-9d23-84069b4f6a9f",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    D0 = Q(\"1.25\")\n    n = 11\n    g1 = Q(\"0.005\")  # 50 bp per quarter\n    g_annual = Q(\"0.02\")\n    r_annual = Q(\"0.055\")\n\n    r_q = (1 + r_annual) ** Q(1, 4) - 1\n    g_q = (1 + g_annual) ** Q(1, 4) - 1\n\n    pv1 = Q(0)\n    d = D0\n    for t in range(1, n + 1):\n        d = d * (1 + g1)\n        pv1 += d / (1 + r_q) ** t\n    d_n = d\n    d_next = d_n * (1 + g_q)\n    tv = d_next / (r_q - g_q)\n    price = pv1 + tv / (1 + r_q) ** n\n\n    return {\n        \"final\": price,\n        \"quarterly_rate\": r_q * 100,\n        \"stage_one_pv\": pv1,\n        \"terminal_value\": tv,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 234
+        },
+        "rendered": {
+         "final": "147.63",
+         "quarterly_rate": "1.347517",
+         "stage_one_pv": "13.0790",
+         "terminal_value": "155.90"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "quarterly_rate:inexact",
+         "stage_one_pv:inexact",
+         "terminal_value:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn7149241882583f8eab91",
+   "verdicts": {
+    "final": true,
+    "quarterly_rate": true,
+    "stage_one_pv": true,
+    "terminal_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn7149241882583f8eab91",
+     "final_answer": {
+      "value": "31.18"
+     },
+     "steps": [
+      {
+       "slot_id": "quarterly_rate",
+       "value": "1.942655"
+      },
+      {
+       "slot_id": "stage_one_pv",
+       "value": "3.0340"
+      },
+      {
+       "slot_id": "terminal_value",
+       "value": "31.59"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "31.18": 1
+     },
+     "quarterly_rate": {
+      "1.942655": 1
+     },
+     "stage_one_pv": {
+      "3.0340": 1
+     },
+     "terminal_value": {
+      "31.59": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "31.18",
+       "quarterly_rate": "1.942655",
+       "stage_one_pv": "3.0340",
+       "terminal_value": "31.59"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "e30bf837b927aca44ede27ac01acb181d91d856c3af689169da594c5ebd85b2c",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1296,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 306,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1296,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 306,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1296,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1296
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.041421,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3813,
+         "session_id": "29427184-422e-40f3-97e1-a890d4558fee",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    d0 = Q(\"0.55\")\n    n = 6\n    g1 = Q(\"-0.005\")\n    g_annual = Q(\"0.01\")\n    r_annual = Q(\"0.08\")\n    r_q = (1 + r_annual) ** Q(1, 4) - 1\n    g_q = (1 + g_annual) ** Q(1, 4) - 1\n    pv1 = 0\n    d = d0\n    for t in range(1, n + 1):\n        d = d * (1 + g1)\n        pv1 += d / (1 + r_q) ** t\n    d_next = d * (1 + g_q)\n    tv = d_next / (r_q - g_q)\n    price = pv1 + tv / (1 + r_q) ** n\n    return {\n        \"final\": price,\n        \"quarterly_rate\": r_q * 100,\n        \"stage_one_pv\": pv1,\n        \"terminal_value\": tv,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 97
+        },
+        "rendered": {
+         "final": "31.18",
+         "quarterly_rate": "1.942655",
+         "stage_one_pv": "3.0340",
+         "terminal_value": "31.59"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "quarterly_rate:inexact",
+         "stage_one_pv:inexact",
+         "terminal_value:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn4bdbf50d3525cf8c3680",
+   "verdicts": {
+    "final": true,
+    "quarterly_rate": true,
+    "stage_one_pv": true,
+    "terminal_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn4bdbf50d3525cf8c3680",
+     "final_answer": {
+      "value": "128.17"
+     },
+     "steps": [
+      {
+       "slot_id": "quarterly_rate",
+       "value": "0.985341"
+      },
+      {
+       "slot_id": "stage_one_pv",
+       "value": "5.2824"
+      },
+      {
+       "slot_id": "terminal_value",
+       "value": "130.34"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "128.17": 1
+     },
+     "quarterly_rate": {
+      "0.985341": 1
+     },
+     "stage_one_pv": {
+      "5.2824": 1
+     },
+     "terminal_value": {
+      "130.34": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "128.17",
+       "quarterly_rate": "0.985341",
+       "stage_one_pv": "5.2824",
+       "terminal_value": "130.34"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "77c97ca74fc05c140a6861313932dc86c8f601e4d6e509066bb6a4f038d83723",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1296,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 292,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1296,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 292,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1296,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1296
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.040721,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 6815,
+         "session_id": "1bd70fd0-6ea4-4fb8-bdaa-f47713ce754c",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    d0 = Q(\"0.85\")\n    g1 = Q(\"0.02\")\n    n = 6\n    g_annual = Q(\"0.01\")\n    r_annual = Q(\"0.04\")\n    q = (1 + r_annual) ** Q(1, 4) - 1\n    gq = (1 + g_annual) ** Q(1, 4) - 1\n    pv1 = 0\n    d = d0\n    for t in range(1, n + 1):\n        d = d * (1 + g1)\n        pv1 += d / (1 + q) ** t\n    d_next = d * (1 + gq)\n    tv = d_next / (q - gq)\n    price = pv1 + tv / (1 + q) ** n\n    return {\n        \"final\": price,\n        \"quarterly_rate\": q * 100,\n        \"stage_one_pv\": pv1,\n        \"terminal_value\": tv,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 123
+        },
+        "rendered": {
+         "final": "128.17",
+         "quarterly_rate": "0.985341",
+         "stage_one_pv": "5.2824",
+         "terminal_value": "130.34"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "quarterly_rate:inexact",
+         "stage_one_pv:inexact",
+         "terminal_value:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

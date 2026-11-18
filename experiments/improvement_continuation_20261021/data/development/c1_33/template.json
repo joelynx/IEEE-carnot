@@ -1,0 +1,123 @@
+{
+ "name": "dividend_reinvestment_price_vs_total_return",
+ "domain_id": "financial_markets",
+ "topic_id": "stock_market_analysis",
+ "difficulty": "intermediate",
+ "params": {
+  "N": {
+   "kind": "int",
+   "min": 100,
+   "max": 1000,
+   "step": 50
+  },
+  "P0": {
+   "kind": "decimal",
+   "min": "20.00",
+   "max": "80.00",
+   "step": "0.50"
+  },
+  "PEX": {
+   "kind": "decimal",
+   "min": "18.00",
+   "max": "85.00",
+   "step": "0.50"
+  },
+  "D": {
+   "kind": "decimal",
+   "min": "0.25",
+   "max": "3.00",
+   "step": "0.25"
+  },
+  "P1": {
+   "kind": "decimal",
+   "min": "15.00",
+   "max": "90.00",
+   "step": "0.50"
+  },
+  "MODE": {
+   "kind": "choice",
+   "values": [
+    "fractional",
+    "whole"
+   ]
+  }
+ },
+ "question_template": "An investor buys {N} shares at USD {P0} each. During the holding period one cash dividend of USD {D} per share is paid, and the full dividend cash is reinvested on the ex-dividend date at USD {PEX} per share. Reinvestment rule: {MODE} shares. Under \"fractional\" the cash buys an exact fractional share count; under \"whole\" it buys the largest whole number of shares and the leftover cash is held uninvested at zero interest and counted in ending value. The ending share price is USD {P1}. Price return is the percent change from USD {P0} to USD {P1}, ignoring dividends. Total return is ending value (all shares held times USD {P1}, plus any leftover cash) divided by initial cost, minus one, in percent. The dividend contribution is total return minus price return, in percentage points; report it.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "shares_held_end",
+   "description": "Total number of shares held after reinvestment at the ex-dividend price",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "price_return",
+   "description": "Holding-period price return ignoring dividends, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "total_return",
+   "description": "Holding-period total return including reinvested dividend, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    n = Q(P[\"N\"])\n    p0 = Q(P[\"P0\"])\n    pex = Q(P[\"PEX\"])\n    d = Q(P[\"D\"])\n    p1 = Q(P[\"P1\"])\n    mode = P[\"MODE\"]\n    if p0 <= 0 or pex <= 0:\n        raise ValueError(\"prices must be positive\")\n    cost = n * p0\n    cash = n * d\n    if mode == \"fractional\":\n        bought = cash / pex\n        leftover = Q(0)\n    elif mode == \"whole\":\n        bought = Q(math.floor(cash / pex))\n        leftover = cash - bought * pex\n    else:\n        raise ValueError(\"unknown mode\")\n    shares_end = n + bought\n    end_value = shares_end * p1 + leftover\n    price_return = (p1 / p0 - 1) * 100\n    total_return = (end_value / cost - 1) * 100\n    contribution = total_return - price_return\n    return {\n        \"final\": contribution,\n        \"shares_held_end\": shares_end,\n        \"price_return\": price_return,\n        \"total_return\": total_return,\n    }",
+ "coverage_params": [
+  {
+   "N": 200,
+   "P0": "50.00",
+   "PEX": "48.00",
+   "D": "1.00",
+   "P1": "55.00",
+   "MODE": "fractional"
+  },
+  {
+   "N": 300,
+   "P0": "60.00",
+   "PEX": "58.50",
+   "D": "1.50",
+   "P1": "45.00",
+   "MODE": "whole"
+  },
+  {
+   "N": 100,
+   "P0": "40.00",
+   "PEX": "41.00",
+   "D": "0.25",
+   "P1": "42.50",
+   "MODE": "whole"
+  },
+  {
+   "N": 500,
+   "P0": "30.00",
+   "PEX": "27.00",
+   "D": "2.00",
+   "P1": "30.00",
+   "MODE": "fractional"
+  }
+ ]
+}

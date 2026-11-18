@@ -1,0 +1,89 @@
+{
+  "name": "synergy_ramp_integration_cost_after_tax_breakeven_time",
+  "domain_id": "mergers_and_acquisitions",
+  "topic_id": "synergies_and_cost_savings",
+  "difficulty": "intermediate",
+  "params": {
+    "RUN_RATE": {
+      "kind": "decimal",
+      "min": "20",
+      "max": "60",
+      "step": "0.5"
+    },
+    "RAMP1": {
+      "kind": "int",
+      "min": 20,
+      "max": 50,
+      "step": 5
+    },
+    "RAMP2": {
+      "kind": "int",
+      "min": 60,
+      "max": 90,
+      "step": 5
+    },
+    "COST1": {
+      "kind": "decimal",
+      "min": "25",
+      "max": "60",
+      "step": "0.5"
+    },
+    "COST2": {
+      "kind": "decimal",
+      "min": "0",
+      "max": "30",
+      "step": "0.5"
+    },
+    "TAX": {
+      "kind": "int",
+      "min": 15,
+      "max": 35,
+      "step": 1
+    }
+  },
+  "question_template": "Use exact arithmetic. A merger yields run-rate pre-tax cost savings of {RUN_RATE} USD million per year, realized {RAMP1} percent in year 1, {RAMP2} percent in year 2 and fully from year 3 onward. Integration costs are {COST1} USD million in year 1 and {COST2} USD million in year 2, none later. Tax rate is {TAX} percent. Each year's after-tax net cash flow equals realized savings minus integration cost, times one minus the tax-rate ratio; a negative pre-tax net gets a tax credit at the same rate. Cumulative net cash starts at zero and accrues evenly within each year. Break-even time is 0 if year-1 net cash flow is non-negative; otherwise, if the cumulative balance first reaches zero or more during year k, it equals k minus 1 plus the shortfall at the start of year k divided by year k's net cash flow. Find break-even time in years.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "years",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 4
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "year1_net_after_tax",
+      "description": "After-tax net cash flow in year 1, negative if a net cost.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "cumulative_end_year2",
+      "description": "Cumulative after-tax net cash at the end of year 2.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd_million",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "breakeven_year",
+      "description": "Year in which cumulative balance first reaches zero or more.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    S = Q(P[\"RUN_RATE\"])\n    r1 = Q(P[\"RAMP1\"]) / 100\n    r2 = Q(P[\"RAMP2\"]) / 100\n    c1 = Q(P[\"COST1\"])\n    c2 = Q(P[\"COST2\"])\n    t = Q(P[\"TAX\"]) / 100\n    k = 1 - t\n    f1 = (S * r1 - c1) * k\n    f2 = (S * r2 - c2) * k\n    f3 = S * k\n    cum = Q(0)\n    be_year = None\n    be_time = None\n    cum_end_y2 = None\n    for y in range(1, 200):\n        flow = f1 if y == 1 else (f2 if y == 2 else f3)\n        start = cum\n        cum = cum + flow\n        if y == 2:\n            cum_end_y2 = cum\n        if be_year is None and cum >= 0:\n            be_year = y\n            if y == 1:\n                be_time = Q(0)\n            else:\n                be_time = Q(y - 1) + (-start) / flow\n        if be_year is not None and cum_end_y2 is not None:\n            break\n    if be_year is None:\n        raise ValueError(\"no break-even\")\n    return {\n        \"final\": be_time,\n        \"year1_net_after_tax\": f1,\n        \"cumulative_end_year2\": cum_end_y2,\n        \"breakeven_year\": Q(be_year),\n    }\n"
+}

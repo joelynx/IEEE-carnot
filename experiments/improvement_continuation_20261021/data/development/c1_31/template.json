@@ -1,0 +1,153 @@
+{
+ "name": "cyber_insurance_recovery_tiered_coinsurance_sublimit",
+ "domain_id": "finance_regulation",
+ "topic_id": "security",
+ "difficulty": "advanced",
+ "params": {
+  "LOSS": {
+   "kind": "int",
+   "min": 300000,
+   "max": 2000000,
+   "step": 50000
+  },
+  "RECOVERY": {
+   "kind": "int",
+   "min": 0,
+   "max": 500000,
+   "step": 50000
+  },
+  "FEE_PCT": {
+   "kind": "int",
+   "min": 0,
+   "max": 40,
+   "step": 5
+  },
+  "DEDUCTIBLE": {
+   "kind": "int",
+   "min": 25000,
+   "max": 200000,
+   "step": 25000
+  },
+  "TIER_BREAK": {
+   "kind": "int",
+   "min": 200000,
+   "max": 800000,
+   "step": 100000
+  },
+  "COINS_LOW": {
+   "kind": "int",
+   "min": 60,
+   "max": 100,
+   "step": 10
+  },
+  "COINS_HIGH": {
+   "kind": "int",
+   "min": 30,
+   "max": 90,
+   "step": 10
+  },
+  "SUBLIMIT": {
+   "kind": "int",
+   "min": 100000,
+   "max": 1000000,
+   "step": 50000
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local cyber policy. Gross cyber loss is {LOSS} USD. The firm later recovers {RECOVERY} USD gross from the attacker, paying a recovery fee of {FEE_PCT} percent of that gross amount. Net recovery (gross recovery minus fee) is subtracted from the gross loss before any policy term applies, giving the insured loss; if net recovery exceeds the gross loss the claim is invalid. Terms apply in order: (1) subtract a deductible of {DEDUCTIBLE} USD, floored at zero; (2) marginal coinsurance on that remainder: the insurer pays {COINS_LOW} percent of the first {TIER_BREAK} USD and {COINS_HIGH} percent of any excess; (3) cap the payment at a sublimit of {SUBLIMIT} USD. Retained loss equals gross loss minus net recovery minus the insurer's payment, reported as a positive magnitude. The no-recovery benchmark applies the same three terms to the gross loss with zero recovery and zero fee. Report net recovery, the insurer's payment, the retained loss, and the benchmark insurer payment. Final answer: the signed change in retained loss, retained loss with recovery minus benchmark retained loss, in USD (negative when recovery lowers the retained loss).",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "net_recovery",
+   "description": "Gross attacker recovery after deducting the recovery fee, in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "insurer_payment",
+   "description": "Insurer payment with recovery after deductible, marginal coinsurance tiers and sublimit",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "retained_loss",
+   "description": "Firm's retained loss with recovery, reported as a positive magnitude in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "benchmark_payment",
+   "description": "Insurer payment under the no-recovery benchmark after all three terms",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "from fractions import Fraction\n\ndef insurer_pay(insured_loss, deductible, tier_break, coins_low, coins_high, sublimit):\n    after_ded = max(insured_loss - deductible, Fraction(0))\n    low_part = min(after_ded, tier_break)\n    high_part = after_ded - low_part\n    pay = low_part * Fraction(coins_low, 100) + high_part * Fraction(coins_high, 100)\n    return min(pay, Fraction(sublimit))\n\ndef solve():\n    L = Fraction(P[\"LOSS\"])\n    R = Fraction(P[\"RECOVERY\"])\n    f = Fraction(P[\"FEE_PCT\"])\n    D = Fraction(P[\"DEDUCTIBLE\"])\n    T = Fraction(P[\"TIER_BREAK\"])\n    cl = P[\"COINS_LOW\"]\n    ch = P[\"COINS_HIGH\"]\n    S = P[\"SUBLIMIT\"]\n    net_rec = R * (Fraction(100) - f) / Fraction(100)\n    if net_rec > L:\n        raise ValueError(\"net recovery exceeds gross loss; claim invalid\")\n    insured_loss = L - net_rec\n    pay1 = insurer_pay(insured_loss, D, T, cl, ch, S)\n    pay0 = insurer_pay(L, D, T, cl, ch, S)\n    retained1 = L - net_rec - pay1\n    retained0 = L - pay0\n    change = retained1 - retained0\n    return {\n        \"final\": change,\n        \"net_recovery\": net_rec,\n        \"insurer_payment\": pay1,\n        \"retained_loss\": retained1,\n        \"benchmark_payment\": pay0\n    }\n",
+ "coverage_params": [
+  {
+   "LOSS": 2000000,
+   "RECOVERY": 200000,
+   "FEE_PCT": 10,
+   "DEDUCTIBLE": 50000,
+   "TIER_BREAK": 300000,
+   "COINS_LOW": 80,
+   "COINS_HIGH": 60,
+   "SUBLIMIT": 200000
+  },
+  {
+   "LOSS": 600000,
+   "RECOVERY": 300000,
+   "FEE_PCT": 20,
+   "DEDUCTIBLE": 100000,
+   "TIER_BREAK": 300000,
+   "COINS_LOW": 90,
+   "COINS_HIGH": 50,
+   "SUBLIMIT": 800000
+  },
+  {
+   "LOSS": 800000,
+   "RECOVERY": 0,
+   "FEE_PCT": 0,
+   "DEDUCTIBLE": 50000,
+   "TIER_BREAK": 400000,
+   "COINS_LOW": 70,
+   "COINS_HIGH": 40,
+   "SUBLIMIT": 500000
+  },
+  {
+   "LOSS": 300000,
+   "RECOVERY": 500000,
+   "FEE_PCT": 30,
+   "DEDUCTIBLE": 100000,
+   "TIER_BREAK": 200000,
+   "COINS_LOW": 100,
+   "COINS_HIGH": 30,
+   "SUBLIMIT": 100000
+  }
+ ]
+}

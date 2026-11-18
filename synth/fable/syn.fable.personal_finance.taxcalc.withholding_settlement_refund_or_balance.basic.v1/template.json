@@ -1,0 +1,49 @@
+{
+ "name": "withholding_settlement_refund_or_balance",
+ "domain_id": "personal_finance",
+ "topic_id": "taxcalc",
+ "difficulty": "basic",
+ "params": {
+  "INC": {
+   "kind": "int",
+   "min": 20000,
+   "max": 150000,
+   "step": 500
+  },
+  "RATE": {
+   "kind": "decimal",
+   "min": "0.10",
+   "max": "0.35",
+   "step": "0.01"
+  },
+  "WH": {
+   "kind": "int",
+   "min": 2000,
+   "max": 50000,
+   "step": 100
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local tax policy. Taxable income in USD is {INC}. Flat tax ratio is {RATE}. Tax withheld during the year in USD is {WH}. Tax liability equals taxable income times the ratio. Year-end settlement equals withheld minus liability; a positive value is a refund due, a negative value is a balance owed. Use exact arithmetic and round only the final settlement half up to two decimals. Report the tax liability.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "tax_liability_usd",
+   "description": "Tax liability before any withholding credit.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    inc = P[\"INC\"]\n    rate = P[\"RATE\"]\n    wh = P[\"WH\"]\n    liability = inc * rate\n    settlement = wh - liability\n    return {\"final\": settlement, \"tax_liability_usd\": liability}\n"
+}

@@ -1,0 +1,400 @@
+{
+  "family": "family_09",
+  "recipe_sha256": "b73ef930a447a152b60d2befef2d147b0d72eb66b8122bad39a6f1a7474c896a",
+  "source_sha256": "22a24c911ea6012ccc41c95ec7d271d9995b5a34b17a3f65354976d0427cfbcb",
+  "instances_sha256": "03826ffb31bd76bff4a6a6f26367cd1e0e8a572746a908c99c1440eafd061768",
+  "cases": [
+    {
+      "case_id": "t1_syn0b529d0937fb315a5b49",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn0b529d0937fb315a5b49",
+        "final_answer": {
+          "value": "1528.25"
+        },
+        "steps": [
+          {
+            "slot_id": "principal_after_year2",
+            "value": "675"
+          },
+          {
+            "slot_id": "pv_year3_at_year2",
+            "value": "143100/211"
+          },
+          {
+            "slot_id": "call_decision",
+            "value": "no_call"
+          },
+          {
+            "slot_id": "year2_total_received",
+            "value": "517.5"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": 0,
+        "reason": "supported_existing_candidate",
+        "interpretation": "The phrase 'from year 2 onward the rate changes by 50 basis points' describes a single +50 bp reset: the coupon rate is 6.0% in both year 2 and year 3. It does not say the rate steps up by another 50 bp each year, so candidate 1's 6.5% year-3 rate is not supported. Outstanding principal is 1500 in year 1, 1125 in year 2 and 675 in year 3. Year-3 cash flow is 675 × 1.06 = 715.5, worth 715.5/1.055 = 143100/211 ≈ 678.20 at the end of year 2. The call payment is 1.04 × 675 = 702, which is not below 678.20, so the issuer does not call. Year-2 receipt is 67.5 + 450 = 517.5. Each year-k flow is discounted by 1.055^(k − 0.25).",
+        "evidence_program": "def solve():\n    face = Q(1500)\n    y = Q(\"0.055\")\n    t = Q(90, 360)\n    p1 = face * Q(\"0.25\")\n    p2 = face * Q(\"0.30\")\n    out1 = face\n    out2 = face - p1\n    out3 = face - p1 - p2\n    # single 50bp reset: 6% applies in years 2 and 3\n    r1 = Q(\"0.055\")\n    r23 = r1 + Q(\"0.005\")\n    cf1 = out1 * r1 + p1\n    cf2 = out2 * r23 + p2\n    cf3 = out3 * r23 + out3\n    pv3 = cf3 / (1 + y)\n    callpay = Q(\"1.04\") * out3\n    call = callpay < pv3\n    y2 = cf2 + (callpay if call else Q(0))\n    price = cf1 / (1 + y) ** (1 - t) + y2 / (1 + y) ** (2 - t)\n    if not call:\n        price += cf3 / (1 + y) ** (3 - t)\n    return {\"final\": price, \"principal_after_year2\": out3, \"pv_year3_at_year2\": pv3, \"call_decision\": \"call\" if call else \"no_call\", \"year2_total_received\": y2}\n",
+        "sandbox": {
+          "ok": true,
+          "stage": null,
+          "error": null,
+          "elapsed_ms": 181
+        },
+        "rendered_evidence": {
+          "final": "1528.25",
+          "principal_after_year2": "675",
+          "pv_year3_at_year2": "143100/211",
+          "call_decision": "no_call",
+          "year2_total_received": "517.5"
+        },
+        "selected_anonymous_index": 0
+      },
+      "call": {
+        "cache_key": "959e71dcf65ef9a95a331cfd297065816aba8419f12ae30f2425b228b6c7da5e",
+        "cached": false,
+        "model": "claude-opus-5-5",
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 3653,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 1092,
+          "output_tokens_details": {
+            "thinking_tokens": 315
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 3653,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "global",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 1092,
+              "cache_read_input_tokens": 0,
+              "cache_creation_input_tokens": 3653,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 3653
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.051072000000000006,
+        "raw_response": "{\"selected_index\": 0, \"interpretation\": \"The phrase 'from year 2 onward the rate changes by 50 basis points' describes a single +50 bp reset: the coupon rate is 6.0% in both year 2 and year 3. It does not say the rate steps up by another 50 bp each year, so candidate 1's 6.5% year-3 rate is not supported. Outstanding principal is 1500 in year 1, 1125 in year 2 and 675 in year 3. Year-3 cash flow is 675 × 1.06 = 715.5, worth 715.5/1.055 = 143100/211 ≈ 678.20 at the end of year 2. The call payment is 1.04 × 675 = 702, which is not below 678.20, so the issuer does not call. Year-2 receipt is 67.5 + 450 = 517.5. Each year-k flow is discounted by 1.055^(k − 0.25).\", \"evidence_program\": \"def solve():\\n    face = Q(1500)\\n    y = Q(\\\"0.055\\\")\\n    t = Q(90, 360)\\n    p1 = face * Q(\\\"0.25\\\")\\n    p2 = face * Q(\\\"0.30\\\")\\n    out1 = face\\n    out2 = face - p1\\n    out3 = face - p1 - p2\\n    # single 50bp reset: 6% applies in years 2 and 3\\n    r1 = Q(\\\"0.055\\\")\\n    r23 = r1 + Q(\\\"0.005\\\")\\n    cf1 = out1 * r1 + p1\\n    cf2 = out2 * r23 + p2\\n    cf3 = out3 * r23 + out3\\n    pv3 = cf3 / (1 + y)\\n    callpay = Q(\\\"1.04\\\") * out3\\n    call = callpay < pv3\\n    y2 = cf2 + (callpay if call else Q(0))\\n    price = cf1 / (1 + y) ** (1 - t) + y2 / (1 + y) ** (2 - t)\\n    if not call:\\n        price += cf3 / (1 + y) ** (3 - t)\\n    return {\\\"final\\\": price, \\\"principal_after_year2\\\": out3, \\\"pv_year3_at_year2\\\": pv3, \\\"call_decision\\\": \\\"call\\\" if call else \\\"no_call\\\", \\\"year2_total_received\\\": y2}\\n\"}"
+      },
+      "candidate_original_indices": [
+        0,
+        1
+      ],
+      "fallback_scores": {
+        "fac": 1,
+        "matched_slots": 4,
+        "total_slots": 4
+      },
+      "gold_available_only_after_selection": true
+    },
+    {
+      "case_id": "t1_syn30f0228fd1157020e7f3",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn30f0228fd1157020e7f3",
+        "final_answer": {
+          "value": "2709.10"
+        },
+        "steps": [
+          {
+            "slot_id": "principal_after_year2",
+            "value": "875"
+          },
+          {
+            "slot_id": "pv_year3_at_year2",
+            "value": "184625/204"
+          },
+          {
+            "slot_id": "call_decision",
+            "value": "call"
+          },
+          {
+            "slot_id": "year2_total_received",
+            "value": "1718.75"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": null,
+        "reason": "no_complete_disagreement"
+      },
+      "call": null,
+      "candidate_original_indices": [
+        0
+      ],
+      "fallback_scores": {
+        "fac": 1,
+        "matched_slots": 4,
+        "total_slots": 4
+      },
+      "gold_available_only_after_selection": true
+    },
+    {
+      "case_id": "t1_synd3f1679bf5d5f2426a93",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synd3f1679bf5d5f2426a93",
+        "final_answer": {
+          "value": "942.43"
+        },
+        "steps": [
+          {
+            "slot_id": "principal_after_year2",
+            "value": "500"
+          },
+          {
+            "slot_id": "pv_year3_at_year2",
+            "value": "51250/107"
+          },
+          {
+            "slot_id": "call_decision",
+            "value": "no_call"
+          },
+          {
+            "slot_id": "year2_total_received",
+            "value": "217.5"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": 1,
+        "reason": "supported_existing_candidate",
+        "interpretation": "The disputed term is the year-3 coupon rate. 'From year 2 onward the rate changes by -100 basis points' reads most naturally as a single level shift. The rate is 3.5% in year 1 and 2.5% in years 2 and 3. A cut repeated every year would normally be worded 'each year'. Outstanding principal is 1000, then 700, then 500, so the coupons are 35, 17.5 and 12.5. The year-3 payment is 512.5, worth 512.5/1.07 = 51250/107 (about 478.97) at the end of year 2. The call payment of 505 is not strictly less than that value, so the issuer does not call. The year-2 receipt is therefore 217.5. Each year-k cash flow is discounted at 1.07^(k - 1/3).",
+        "evidence_program": "def solve():\n    face = Q(1000)\n    y = Q(\"0.07\")\n    frac = Q(120, 360)\n    p1 = face * Q(\"0.30\")\n    p2 = face * Q(\"0.20\")\n    bal1 = face - p1\n    bal2 = bal1 - p2\n    # one-time -100bp cut applying from year 2 onward: 2.5% in years 2 and 3\n    r1 = Q(\"0.035\")\n    r2 = r1 - Q(\"0.01\")\n    r3 = r2\n    cf1 = r1 * face + p1\n    cf2 = r2 * bal1 + p2\n    cf3 = r3 * bal2 + bal2\n    pv3 = cf3 / (1 + y)\n    callpay = Q(\"1.01\") * bal2\n    call = callpay < pv3\n    price = cf1 / (1 + y) ** (1 - frac) + cf2 / (1 + y) ** (2 - frac)\n    if call:\n        price += callpay / (1 + y) ** (2 - frac)\n    else:\n        price += cf3 / (1 + y) ** (3 - frac)\n    return {\n        \"final\": price,\n        \"principal_after_year2\": bal2,\n        \"pv_year3_at_year2\": pv3,\n        \"call_decision\": \"call\" if call else \"no_call\",\n        \"year2_total_received\": cf2 + (callpay if call else Q(0)),\n    }\n",
+        "sandbox": {
+          "ok": true,
+          "stage": null,
+          "error": null,
+          "elapsed_ms": 100
+        },
+        "rendered_evidence": {
+          "final": "942.43",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "51250/107",
+          "call_decision": "no_call",
+          "year2_total_received": "217.5"
+        },
+        "selected_anonymous_index": 0
+      },
+      "call": {
+        "cache_key": "0cf208ae02a5d10565ba2e240a280965536f576577aee5e32aa6dc13822068a2",
+        "cached": false,
+        "model": "claude-opus-5-5",
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 2920,
+          "cache_read_input_tokens": 752,
+          "output_tokens": 1216,
+          "output_tokens_details": {
+            "thinking_tokens": 406
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 2920,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "global",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 1216,
+              "cache_read_input_tokens": 752,
+              "cache_creation_input_tokens": 2920,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 2920
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.0478384,
+        "raw_response": "{\"selected_index\": 0, \"interpretation\": \"The disputed term is the year-3 coupon rate. 'From year 2 onward the rate changes by -100 basis points' reads most naturally as a single level shift. The rate is 3.5% in year 1 and 2.5% in years 2 and 3. A cut repeated every year would normally be worded 'each year'. Outstanding principal is 1000, then 700, then 500, so the coupons are 35, 17.5 and 12.5. The year-3 payment is 512.5, worth 512.5/1.07 = 51250/107 (about 478.97) at the end of year 2. The call payment of 505 is not strictly less than that value, so the issuer does not call. The year-2 receipt is therefore 217.5. Each year-k cash flow is discounted at 1.07^(k - 1/3).\", \"evidence_program\": \"def solve():\\n    face = Q(1000)\\n    y = Q(\\\"0.07\\\")\\n    frac = Q(120, 360)\\n    p1 = face * Q(\\\"0.30\\\")\\n    p2 = face * Q(\\\"0.20\\\")\\n    bal1 = face - p1\\n    bal2 = bal1 - p2\\n    # one-time -100bp cut applying from year 2 onward: 2.5% in years 2 and 3\\n    r1 = Q(\\\"0.035\\\")\\n    r2 = r1 - Q(\\\"0.01\\\")\\n    r3 = r2\\n    cf1 = r1 * face + p1\\n    cf2 = r2 * bal1 + p2\\n    cf3 = r3 * bal2 + bal2\\n    pv3 = cf3 / (1 + y)\\n    callpay = Q(\\\"1.01\\\") * bal2\\n    call = callpay < pv3\\n    price = cf1 / (1 + y) ** (1 - frac) + cf2 / (1 + y) ** (2 - frac)\\n    if call:\\n        price += callpay / (1 + y) ** (2 - frac)\\n    else:\\n        price += cf3 / (1 + y) ** (3 - frac)\\n    return {\\n        \\\"final\\\": price,\\n        \\\"principal_after_year2\\\": bal2,\\n        \\\"pv_year3_at_year2\\\": pv3,\\n        \\\"call_decision\\\": \\\"call\\\" if call else \\\"no_call\\\",\\n        \\\"year2_total_received\\\": cf2 + (callpay if call else Q(0)),\\n    }\\n\"}"
+      },
+      "candidate_original_indices": [
+        1,
+        0
+      ],
+      "fallback_scores": {
+        "fac": 1,
+        "matched_slots": 4,
+        "total_slots": 4
+      },
+      "gold_available_only_after_selection": true
+    },
+    {
+      "case_id": "t1_synbca3bbaeb9cd75eb431c",
+      "fac": 1,
+      "matched_slots": 4,
+      "total_slots": 4,
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synbca3bbaeb9cd75eb431c",
+        "final_answer": {
+          "value": "2084.56"
+        },
+        "steps": [
+          {
+            "slot_id": "principal_after_year2",
+            "value": "500"
+          },
+          {
+            "slot_id": "pv_year3_at_year2",
+            "value": "21100/43"
+          },
+          {
+            "slot_id": "call_decision",
+            "value": "no_call"
+          },
+          {
+            "slot_id": "year2_total_received",
+            "value": "871.5"
+          }
+        ]
+      },
+      "verdict": {
+        "selected_original_index": 3,
+        "reason": "supported_existing_candidate",
+        "interpretation": "The phrase 'from year 2 onward the rate changes by -100 basis points' is read as one cut. The rate is 6.5% in year 1 and 5.5% in year 2 and year 3. The wording has no 'each year', so it does not support a cumulative step-down to 4.5% in year 3, which is what Candidate 0 assumes. Principal outstanding after year 2 is 2000 − 700 − 800 = 500. The year-3 payment is 0.055 × 500 + 500 = 527.5, worth 527.5 / 1.075 = 21100/43 ≈ 490.70 at the end of year 2. The call price is 1.03 × 500 = 515, which is not strictly less than 490.70, so the bond is not called. The year-2 receipt is 0.055 × 1300 + 800 = 871.5. All three scheduled payments are discounted at 1.075^(k − 330/360).",
+        "evidence_program": "def solve():\n    face = Q(2000)\n    y = Q(\"0.075\")\n    t = Q(330, 360)\n    i1 = face * Q(\"0.35\")\n    i2 = face * Q(\"0.40\")\n    out2 = face - i1\n    out3 = out2 - i2\n    r1 = Q(\"0.065\")\n    r_later = r1 - Q(\"0.01\")  # single -100bp change applying from year 2 onward\n    cf1 = r1 * face + i1\n    cf2 = r_later * out2 + i2\n    cf3 = r_later * out3 + out3\n    pv3_at2 = cf3 / (1 + y)\n    call_pay = Q(\"1.03\") * out3\n    called = call_pay < pv3_at2\n    d = lambda k: (1 + y) ** (k - t)\n    if called:\n        y2 = cf2 + call_pay\n        price = cf1 / d(1) + y2 / d(2)\n    else:\n        y2 = cf2\n        price = cf1 / d(1) + cf2 / d(2) + cf3 / d(3)\n    return {\"final\": price, \"principal_after_year2\": out3, \"pv_year3_at_year2\": pv3_at2, \"call_decision\": \"call\" if called else \"no_call\", \"year2_total_received\": y2}\n",
+        "sandbox": {
+          "ok": true,
+          "stage": null,
+          "error": null,
+          "elapsed_ms": 84
+        },
+        "rendered_evidence": {
+          "final": "2084.56",
+          "principal_after_year2": "500",
+          "pv_year3_at_year2": "21100/43",
+          "call_decision": "no_call",
+          "year2_total_received": "871.5"
+        },
+        "selected_anonymous_index": 1
+      },
+      "call": {
+        "cache_key": "d17e5ee75d26d3d542521ed12ccb07a35026ad046e60e924877055fef950c8c3",
+        "cached": false,
+        "model": "claude-opus-5-5",
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 2836,
+          "cache_read_input_tokens": 752,
+          "output_tokens": 1140,
+          "output_tokens_details": {
+            "thinking_tokens": 340
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 2836,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "global",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 1140,
+              "cache_read_input_tokens": 752,
+              "cache_creation_input_tokens": 2836,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 2836
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.045646400000000004,
+        "raw_response": "{\"selected_index\": 1, \"interpretation\": \"The phrase 'from year 2 onward the rate changes by -100 basis points' is read as one cut. The rate is 6.5% in year 1 and 5.5% in year 2 and year 3. The wording has no 'each year', so it does not support a cumulative step-down to 4.5% in year 3, which is what Candidate 0 assumes. Principal outstanding after year 2 is 2000 − 700 − 800 = 500. The year-3 payment is 0.055 × 500 + 500 = 527.5, worth 527.5 / 1.075 = 21100/43 ≈ 490.70 at the end of year 2. The call price is 1.03 × 500 = 515, which is not strictly less than 490.70, so the bond is not called. The year-2 receipt is 0.055 × 1300 + 800 = 871.5. All three scheduled payments are discounted at 1.075^(k − 330/360).\", \"evidence_program\": \"def solve():\\n    face = Q(2000)\\n    y = Q(\\\"0.075\\\")\\n    t = Q(330, 360)\\n    i1 = face * Q(\\\"0.35\\\")\\n    i2 = face * Q(\\\"0.40\\\")\\n    out2 = face - i1\\n    out3 = out2 - i2\\n    r1 = Q(\\\"0.065\\\")\\n    r_later = r1 - Q(\\\"0.01\\\")  # single -100bp change applying from year 2 onward\\n    cf1 = r1 * face + i1\\n    cf2 = r_later * out2 + i2\\n    cf3 = r_later * out3 + out3\\n    pv3_at2 = cf3 / (1 + y)\\n    call_pay = Q(\\\"1.03\\\") * out3\\n    called = call_pay < pv3_at2\\n    d = lambda k: (1 + y) ** (k - t)\\n    if called:\\n        y2 = cf2 + call_pay\\n        price = cf1 / d(1) + y2 / d(2)\\n    else:\\n        y2 = cf2\\n        price = cf1 / d(1) + cf2 / d(2) + cf3 / d(3)\\n    return {\\\"final\\\": price, \\\"principal_after_year2\\\": out3, \\\"pv_year3_at_year2\\\": pv3_at2, \\\"call_decision\\\": \\\"call\\\" if called else \\\"no_call\\\", \\\"year2_total_received\\\": y2}\\n\"}"
+      },
+      "candidate_original_indices": [
+        0,
+        3
+      ],
+      "fallback_scores": {
+        "fac": 0,
+        "matched_slots": 3,
+        "total_slots": 4
+      },
+      "gold_available_only_after_selection": true
+    }
+  ],
+  "counts": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 16,
+    "total_slots": 16,
+    "verifier_calls": 3
+  },
+  "backend": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  }
+}

@@ -1,0 +1,228 @@
+{
+ "family": "c1_04_para",
+ "template_sha256": "e788f4d21edee93093f121810a1a9a200009b941f74f26f93ad6cdc604641fb5",
+ "draws_sha256": "c74f41057ffd4a820e40c83856a0044335532fd1c28a680d998b44a7d8bf2f64",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "3c0554f7980e7bc193292816f18d74ec2eade330c131771c6db5aeea7c726e45",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1816,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1084,
+    "output_tokens_details": {
+     "thinking_tokens": 448
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1816,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1084,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1816,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1816
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0906905
+  }
+ ],
+ "program": "def solve():\n    cogs = Q(P[\"COGS\"])\n    inv_o, inv_c = Q(P[\"INV_OPEN\"]), Q(P[\"INV_CLOSE\"])\n    ap_o, ap_c = Q(P[\"AP_OPEN\"]), Q(P[\"AP_CLOSE\"])\n    adv_o, adv_c = Q(P[\"ADV_OPEN\"]), Q(P[\"ADV_CLOSE\"])\n    share = Q(P[\"SHARE_SETTLE\"])\n\n    # Inventory ledger: opening + purchases - COGS = closing\n    purchases = inv_c - cogs * 0 + cogs - inv_o  # = COGS + closing - opening\n    purchases = cogs + inv_c - inv_o\n\n    # Payables ledger: opening + purchases(on credit) - share settlements - cash settlements = closing\n    cash_settle_payables = ap_o + purchases - share - ap_c\n    payables_change = ap_c - ap_o\n\n    # Advances ledger: opening + cash advances paid - advances applied = closing\n    # Advances applied against purchases reduce the payable without cash, so net cash effect\n    # of advances is the change in the advance balance (cash out to build the balance).\n    cash_advances_net = adv_c - adv_o\n\n    cash_paid = cash_settle_payables + cash_advances_net\n\n    # Net supplier working capital\n    nwc_open = inv_o + adv_o - ap_o\n    nwc_close = inv_c + adv_c - ap_c\n    net_wc_change = nwc_close - nwc_open\n\n    if cash_paid < 0:\n        raise ValueError(\"Implied cash paid to suppliers is negative; data inconsistent\")\n\n    return {\n        \"final\": cash_paid,\n        \"purchases\": purchases,\n        \"payables_change\": payables_change,\n        \"net_wc_change\": net_wc_change,\n    }\n",
+ "result": {
+  "compared": 33,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COGS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_AP_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_AP_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ADV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ADV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SHARE_SETTLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COGS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_AP_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_AP_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ADV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ADV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SHARE_SETTLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

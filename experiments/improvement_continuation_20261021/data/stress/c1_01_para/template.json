@@ -1,0 +1,132 @@
+{
+ "name": "year_end_prepaid_insurance_and_accrued_loan_interest_para",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "balance_sheets",
+ "difficulty": "intermediate",
+ "params": {
+  "PREMIUM": {
+   "kind": "decimal",
+   "min": "2400.00",
+   "max": "36000.00",
+   "step": "120.00"
+  },
+  "POLICY_MONTHS": {
+   "kind": "choice",
+   "values": [
+    6,
+    12,
+    18,
+    24
+   ]
+  },
+  "START_MONTH": {
+   "kind": "int",
+   "min": 3,
+   "max": 11,
+   "step": 1
+  },
+  "PRINCIPAL": {
+   "kind": "int",
+   "min": 50000,
+   "max": 600000,
+   "step": 10000
+  },
+  "RATE": {
+   "kind": "decimal",
+   "min": "3.00",
+   "max": "12.00",
+   "step": "0.25"
+  },
+  "LOAN_MONTH": {
+   "kind": "int",
+   "min": 2,
+   "max": 10,
+   "step": 1
+  },
+  "PAY_INTERVAL": {
+   "kind": "choice",
+   "values": [
+    3,
+    4,
+    6
+   ]
+  }
+ },
+ "question_template": "A firm's fiscal year runs 1 January through 31 December (January is month 1). On the first day of month {START_MONTH} it pays {PREMIUM} USD cash for insurance covering exactly {POLICY_MONTHS} months from that day. Insurance expense is spread evenly over each month of coverage; coverage still unused at 31 December is reported as a prepaid asset. On the first day of month {LOAN_MONTH} it borrows {PRINCIPAL} USD at {RATE} percent a year. Each month, interest of one-twelfth of the annual rate accrues on the whole principal; it is settled in cash in arrears at the close of every {PAY_INTERVAL}-month period measured from the drawdown date, and a payment falling on 31 December is made that day. Interest accrued but unpaid at 31 December is an accrued liability. Determine the fiscal year's total recognized expense for insurance together with loan interest, irrespective of cash actually paid.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "prepaid_insurance_asset",
+   "description": "Unexpired insurance premium carried as prepaid asset at 31 December",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "accrued_interest_liability",
+   "description": "Interest accrued but unpaid at 31 December",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "insurance_expense",
+   "description": "Insurance expense recognized in the fiscal year",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    premium = Q(P[\"PREMIUM\"])\n    pm = int(P[\"POLICY_MONTHS\"])\n    start = int(P[\"START_MONTH\"])\n    principal = Q(P[\"PRINCIPAL\"])\n    rate = Q(P[\"RATE\"])\n    lm = int(P[\"LOAN_MONTH\"])\n    interval = int(P[\"PAY_INTERVAL\"])\n    if pm <= 0 or interval <= 0:\n        raise ValueError(\"policy length and payment interval must be positive\")\n    months_in_year = 13 - start\n    months_covered = min(months_in_year, pm)\n    insurance_expense = premium * Q(months_covered) / Q(pm)\n    prepaid = premium - insurance_expense\n    loan_months = 13 - lm\n    monthly_interest = principal * rate / Q(1200)\n    interest_expense = monthly_interest * Q(loan_months)\n    unpaid_months = loan_months % interval\n    accrued = monthly_interest * Q(unpaid_months)\n    total_expense = insurance_expense + interest_expense\n    return {\n        \"final\": total_expense,\n        \"prepaid_insurance_asset\": prepaid,\n        \"accrued_interest_liability\": accrued,\n        \"insurance_expense\": insurance_expense,\n    }\n",
+ "coverage_params": [
+  {
+   "PREMIUM": "7200.00",
+   "POLICY_MONTHS": 6,
+   "START_MONTH": 4,
+   "PRINCIPAL": 200000,
+   "RATE": "6.00",
+   "LOAN_MONTH": 7,
+   "PAY_INTERVAL": 3
+  },
+  {
+   "PREMIUM": "12000.00",
+   "POLICY_MONTHS": 12,
+   "START_MONTH": 7,
+   "PRINCIPAL": 300000,
+   "RATE": "8.50",
+   "LOAN_MONTH": 5,
+   "PAY_INTERVAL": 3
+  },
+  {
+   "PREMIUM": "24000.00",
+   "POLICY_MONTHS": 24,
+   "START_MONTH": 9,
+   "PRINCIPAL": 500000,
+   "RATE": "4.75",
+   "LOAN_MONTH": 2,
+   "PAY_INTERVAL": 6
+  }
+ ]
+}

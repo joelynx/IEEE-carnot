@@ -1,0 +1,20 @@
+{
+ "at": "2026-10-22T12:31:05.292528+00:00",
+ "frozen_before_fresh_calls": true,
+ "authorization": "User replied \"Approved.\" on 22 Oct 2026 to the listed next steps; interpreted as Gate 5 only. The benefit study has no design and is not executed.",
+ "definition": "G5 = G1 on tuning-noex forced-novel in S and in H: P loses zero final answers versus R4a. Scored on the full 2,314-case panel; the 580 tuning-eval cases reuse identical cached requests (same identities and exemplars), so the decisive new evidence is the 1,734 remaining cases, reported separately. G2-G4 are reported as diagnostics. Same 290 templates: no new independent template units.",
+ "preregistration_sha256": "44406db95ebd953eea4b3d48f0e8d532cb5f72e439c1c8d059ce5c9970cee15f",
+ "panel_sha256": "1af4da0fad6af12916815ba5fbbd1ea277028b6f432e6d039190f6b5bdea67c9",
+ "code": {
+  "carnot/improvement_validation_v2.py": "e7fe40d135aed6b5a25bd435237a33a9432df0ce880d6375c9444a2fa12bcd2a",
+  "carnot/safeguard_s2_v1.py": "db5b149a06cfe7e74f80d192b162e61d36ff8a85dda2f7d175bb6d420608b5e9"
+ },
+ "commands": [
+  "python -m carnot.improvement_validation_v2 generate --panel experiments/safeguard_s2_20261022/tuning-noex.json --mode S --run-dir experiments/safeguard_s2_20261022/tuning_noex_S --arm R4a=r4:700 --arm R4b=r4:710 --arm P=p:720 --concurrency 3",
+  "python -m carnot.improvement_validation_v2 generate --panel experiments/safeguard_s2_20261022/tuning-noex.json --mode H --run-dir experiments/safeguard_s2_20261022/tuning_noex_H --arm R4a=r4:700 --arm R4b=r4:710 --arm P=p:720 --concurrency 3"
+ ],
+ "projected_fresh_calls": "about 26,000 (S) plus a few hundred (H)",
+ "fresh_call_cap": 30000,
+ "analysis_command": "python -m carnot.safeguard_s2_v1 --run S=experiments/safeguard_s2_20261022/tuning_noex_S --run H=experiments/safeguard_s2_20261022/tuning_noex_H --exclude-panel experiments/improvement_continuation_20261021/regression/panels/tuning-eval.json --out experiments/safeguard_s2_20261022/gate5_report.json",
+ "note": "Code hashes refreshed after adding the subset option, before any Gate 5 call."
+}

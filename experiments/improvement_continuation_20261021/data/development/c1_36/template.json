@@ -1,0 +1,116 @@
+{
+ "name": "par_yield_bootstrap_forward_and_offpar_price",
+ "domain_id": "financial_markets",
+ "topic_id": "bond_pricing",
+ "difficulty": "advanced",
+ "params": {
+  "Y1": {
+   "kind": "decimal",
+   "min": "0.50",
+   "max": "8.00",
+   "step": "0.25"
+  },
+  "Y2": {
+   "kind": "decimal",
+   "min": "0.50",
+   "max": "8.00",
+   "step": "0.25"
+  },
+  "Y3": {
+   "kind": "decimal",
+   "min": "0.50",
+   "max": "8.00",
+   "step": "0.25"
+  },
+  "SPREAD_BP": {
+   "kind": "int",
+   "min": -400,
+   "max": 400,
+   "step": 25
+  },
+  "FACE": {
+   "kind": "int",
+   "min": 1000,
+   "max": 5000,
+   "step": 500
+  }
+ },
+ "question_template": "Annual-coupon par yields are observed for one, two and three years: {Y1} percent, {Y2} percent and {Y3} percent. A par yield is the coupon rate (percent of face) at which a bond paying that coupon at each year end, plus face at maturity, is worth exactly face value when every cash flow is discounted with the zero curve. Zero rates are effective annual: a cash flow at year t is discounted by (1 + z_t)^t, and the three zero rates are the unique values consistent with all three par yields (bootstrap from the shortest maturity). The one-year forward rate starting in two years is the rate f with (1 + z_2)^2 (1 + f) = (1 + z_3)^3.\n\nA separate three-year bond with face USD {FACE} pays an annual coupon at year end at a rate equal to the three-year par yield plus {SPREAD_BP} basis points (one basis point is 0.01 percentage point); if that sum is negative the coupon rate is set to zero. Its face is repaid with the final coupon. Price it by discounting each cash flow at the bootstrapped zero rates. Report the two-year and three-year zero rates and the forward rate in percent, and the bond price in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "two_year_zero_rate",
+   "description": "Bootstrapped effective annual two-year zero rate in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "three_year_zero_rate",
+   "description": "Bootstrapped effective annual three-year zero rate in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "forward_rate_2y1y",
+   "description": "One-year forward rate starting in two years, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def nth_root(x, n):\n    from decimal import Decimal, getcontext\n    getcontext().prec = 60\n    d = Decimal(x.numerator) / Decimal(x.denominator)\n    return d ** (Decimal(1) / Decimal(n))\n\ndef solve():\n    y1 = Q(P[\"Y1\"]) / 100\n    y2 = Q(P[\"Y2\"]) / 100\n    y3 = Q(P[\"Y3\"]) / 100\n    face = Q(P[\"FACE\"])\n    spread = Q(P[\"SPREAD_BP\"]) / 10000\n    c = y3 + spread\n    if c < 0:\n        c = Q(0)\n    d1 = 1 / (1 + y1)\n    d2 = (1 - y2 * d1) / (1 + y2)\n    if d2 <= 0:\n        raise ValueError(\"two-year discount factor not positive\")\n    d3 = (1 - y3 * (d1 + d2)) / (1 + y3)\n    if d3 <= 0:\n        raise ValueError(\"three-year discount factor not positive\")\n    z2 = (1 / nth_root(d2, 2) - 1) * 100\n    z3 = (1 / nth_root(d3, 3) - 1) * 100\n    fwd = (d2 / d3 - 1) * 100\n    price = face * (c * (d1 + d2 + d3) + d3)\n    return {\"final\": price, \"two_year_zero_rate\": z2, \"three_year_zero_rate\": z3, \"forward_rate_2y1y\": fwd}\n",
+ "coverage_params": [
+  {
+   "Y1": "2.00",
+   "Y2": "3.00",
+   "Y3": "4.00",
+   "SPREAD_BP": 150,
+   "FACE": 2000
+  },
+  {
+   "Y1": "6.00",
+   "Y2": "5.00",
+   "Y3": "4.25",
+   "SPREAD_BP": -200,
+   "FACE": 3500
+  },
+  {
+   "Y1": "1.50",
+   "Y2": "2.25",
+   "Y3": "3.00",
+   "SPREAD_BP": 0,
+   "FACE": 1000
+  },
+  {
+   "Y1": "0.75",
+   "Y2": "0.75",
+   "Y3": "0.50",
+   "SPREAD_BP": -300,
+   "FACE": 5000
+  }
+ ]
+}

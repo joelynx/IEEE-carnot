@@ -1,0 +1,494 @@
+[
+  {
+    "case_id": "t1_syn2ea6f4c1d449eeca8d9b",
+    "verdicts": {
+      "final": true,
+      "initial_net_equity_usd_million": true,
+      "initial_dta_deduction_usd_million": true,
+      "binding_constraint": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn2ea6f4c1d449eeca8d9b",
+        "final_answer": {
+          "value": "104.8411"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_net_equity_usd_million",
+            "value": "39.82"
+          },
+          {
+            "slot_id": "initial_dta_deduction_usd_million",
+            "value": "22.18"
+          },
+          {
+            "slot_id": "binding_constraint",
+            "value": "leverage"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "104.8411": 1
+        },
+        "initial_net_equity_usd_million": {
+          "39.82": 1
+        },
+        "initial_dta_deduction_usd_million": {
+          "22.18": 1
+        },
+        "binding_constraint": {
+          "leverage": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "104.8411",
+            "initial_net_equity_usd_million": "39.82",
+            "initial_dta_deduction_usd_million": "22.18",
+            "binding_constraint": "leverage"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "1d0ff4652ca4aa4a81e85b0c8bdcacbfae6abeae26c7f3a1d0c174b65cc0a8e1",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1260,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 1281,
+                "output_tokens_details": {
+                  "thinking_tokens": 525
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1260,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1281,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1260,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1260
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.08952,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 13814,
+                "session_id": "6e38b75d-2503-441a-bdb2-69b679d37b47",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross = Q(90)\n    intang = Q(28)\n    dta = Q(29)\n    thr_pct = Q(\"0.11\")\n    rwa0 = Q(1250)\n    lev0 = Q(3800)\n    rwa_min = Q(\"0.095\")\n    lev_min = Q(\"0.04\")\n    rwa_add = Q(\"0.2\")\n\n    def dta_deduction(X):\n        base = gross + X - intang\n        return max(Q(0), dta - thr_pct * base)\n\n    def net_equity(X):\n        return gross + X - intang - dta_deduction(X)\n\n    initial_ded = dta_deduction(Q(0))\n    initial_net = net_equity(Q(0))\n\n    # kink where DTA deduction hits zero\n    kink = max(Q(0), (dta - thr_pct * (gross - intang)) / thr_pct)\n\n    def min_X_for(req_ratio, base_amt, add_coef):\n        # need net_equity(X) >= req_ratio * (base_amt + add_coef * X)\n        if net_equity(Q(0)) >= req_ratio * base_amt:\n            return Q(0)\n        # regime 1 (deduction positive): slope 1 + thr_pct\n        slope1 = 1 + thr_pct\n        X1 = (req_ratio * base_amt - initial_net) / (slope1 - req_ratio * add_coef)\n        if X1 <= kink:\n            return X1\n        # regime 2 (deduction zero): net = gross + X - intang\n        X2 = (req_ratio * base_amt - (gross - intang)) / (1 - req_ratio * add_coef)\n        return X2\n\n    X_rwa = min_X_for(rwa_min, rwa0, rwa_add)\n    X_lev = min_X_for(lev_min, lev0, Q(1))\n\n    X = max(X_rwa, X_lev)\n    if X == 0:\n        binding = \"none\"\n    elif X_rwa >= X_lev:\n        binding = \"rwa\"\n    else:\n        binding = \"leverage\"\n\n    return {\n        \"final\": X,\n        \"initial_net_equity_usd_million\": initial_net,\n        \"initial_dta_deduction_usd_million\": initial_ded,\n        \"binding_constraint\": binding,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 152
+              },
+              "rendered": {
+                "final": "104.8411",
+                "initial_net_equity_usd_million": "39.82",
+                "initial_dta_deduction_usd_million": "22.18",
+                "binding_constraint": "leverage"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syndf5a7ff0aa2333b584e5",
+    "verdicts": {
+      "final": true,
+      "initial_net_equity_usd_million": true,
+      "initial_dta_deduction_usd_million": true,
+      "binding_constraint": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syndf5a7ff0aa2333b584e5",
+        "final_answer": {
+          "value": "67.8945"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_net_equity_usd_million",
+            "value": "104.97"
+          },
+          {
+            "slot_id": "initial_dta_deduction_usd_million",
+            "value": "28.03"
+          },
+          {
+            "slot_id": "binding_constraint",
+            "value": "leverage"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "67.8945": 1
+        },
+        "initial_net_equity_usd_million": {
+          "104.97": 1
+        },
+        "initial_dta_deduction_usd_million": {
+          "28.03": 1
+        },
+        "binding_constraint": {
+          "leverage": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "67.8945",
+            "initial_net_equity_usd_million": "104.97",
+            "initial_dta_deduction_usd_million": "28.03",
+            "binding_constraint": "leverage"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "bbb85d76b7b061f01f6a86df636d3b56a8448293a890c154c816efd333584793",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1260,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 1245,
+                "output_tokens_details": {
+                  "thinking_tokens": 509
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1260,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1245,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1260,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1260
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.08771999999999999,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 13592,
+                "session_id": "be73ee87-d184-4b12-950c-2666e3efaa6a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross = Q(140)\n    intangibles = Q(7)\n    dta = Q(40)\n    dta_pct = Q(\"0.09\")\n    rwa0 = Q(1100)\n    lev0 = Q(3700)\n    rwa_min = Q(\"0.09\")\n    lev_min = Q(\"0.0475\")\n    rwa_add = Q(\"0.20\")\n\n    def dta_deduction(x):\n        base = gross + x - intangibles\n        d = dta - dta_pct * base\n        return d if d > 0 else Q(0)\n\n    def net_equity(x):\n        return gross + x - intangibles - dta_deduction(x)\n\n    initial_dta_deduction = dta_deduction(Q(0))\n    initial_net = net_equity(Q(0))\n\n    # X where DTA deduction hits zero\n    x_switch = dta / dta_pct - (gross - intangibles)\n\n    def min_x(req0, req_slope):\n        # smallest X >= 0 with net_equity(X) >= req0 + req_slope*X (net is increasing faster than req)\n        if net_equity(Q(0)) >= req0:\n            return Q(0)\n        # regime 1: deduction positive -> net = initial_net + (1+dta_pct)X\n        x1 = (req0 - initial_net) / ((1 + dta_pct) - req_slope)\n        if x1 <= x_switch:\n            return x1\n        # regime 2: deduction zero -> net = gross - intangibles + X\n        return (req0 - (gross - intangibles)) / (1 - req_slope)\n\n    x_rwa = min_x(rwa_min * rwa0, rwa_min * rwa_add)\n    x_lev = min_x(lev_min * lev0, lev_min)\n\n    final_x = max(x_rwa, x_lev)\n    if final_x == 0:\n        binding = \"none\"\n    elif x_rwa >= x_lev:\n        binding = \"rwa\"\n    else:\n        binding = \"leverage\"\n\n    return {\n        \"final\": final_x,\n        \"initial_net_equity_usd_million\": initial_net,\n        \"initial_dta_deduction_usd_million\": initial_dta_deduction,\n        \"binding_constraint\": binding,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 293
+              },
+              "rendered": {
+                "final": "67.8945",
+                "initial_net_equity_usd_million": "104.97",
+                "initial_dta_deduction_usd_million": "28.03",
+                "binding_constraint": "leverage"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn199a9b2ef7267ca764c7",
+    "verdicts": {
+      "final": true,
+      "initial_net_equity_usd_million": true,
+      "initial_dta_deduction_usd_million": true,
+      "binding_constraint": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn199a9b2ef7267ca764c7",
+        "final_answer": {
+          "value": "141.4369"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_net_equity_usd_million",
+            "value": "39.32"
+          },
+          {
+            "slot_id": "initial_dta_deduction_usd_million",
+            "value": "14.68"
+          },
+          {
+            "slot_id": "binding_constraint",
+            "value": "leverage"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "141.4369": 1
+        },
+        "initial_net_equity_usd_million": {
+          "39.32": 1
+        },
+        "initial_dta_deduction_usd_million": {
+          "14.68": 1
+        },
+        "binding_constraint": {
+          "leverage": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "141.4369",
+            "initial_net_equity_usd_million": "39.32",
+            "initial_dta_deduction_usd_million": "14.68",
+            "binding_constraint": "leverage"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "39bcda6feb4a70ac66c6e351dedc0115190096a1ca03dfa0d1b1f933bcfd6e21",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1259,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 1276,
+                "output_tokens_details": {
+                  "thinking_tokens": 515
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1259,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1276,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1259,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1259
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.08925,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 14944,
+                "session_id": "b3802dd3-77b4-43c9-81dc-32f0ce4f451a",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross = Q(60)\n    intang = Q(6)\n    dta = Q(19)\n    rwa0 = Q(950)\n    lev0 = Q(3700)\n    dta_thr = Q(\"0.08\")\n    rwa_min = Q(\"0.085\")\n    lev_min = Q(\"0.05\")\n    rwa_add = Q(\"0.2\")\n\n    def dta_ded(X):\n        return max(Q(0), dta - dta_thr * (gross + X - intang))\n\n    def net(X):\n        return gross + X - intang - dta_ded(X)\n\n    initial_dta_deduction = dta_ded(Q(0))\n    initial_net = net(Q(0))\n\n    def min_x(req_base, req_slope):\n        # smallest X >= 0 with net(X) >= req_base + req_slope*X\n        if net(Q(0)) >= req_base:\n            return Q(0)\n        # region 1: deduction positive -> net = a1 + b1*X\n        a1 = gross - intang - dta + dta_thr * (gross - intang)\n        b1 = 1 + dta_thr\n        x1 = (req_base - a1) / (b1 - req_slope)\n        if dta_ded(x1) > 0 or dta - dta_thr * (gross + x1 - intang) >= 0:\n            if net(x1) >= req_base + req_slope * x1:\n                return x1\n        # region 2: deduction zero -> net = gross - intang + X\n        a2 = gross - intang\n        x2 = (req_base - a2) / (1 - req_slope)\n        return x2\n\n    x_rwa = min_x(rwa_min * rwa0, rwa_min * rwa_add)   # RWA constraint minimum X\n    x_lev = min_x(lev_min * lev0, lev_min)             # leverage constraint minimum X\n    x_final = max(x_rwa, x_lev)\n\n    if x_final == 0:\n        binding = \"none\"\n    elif x_rwa >= x_lev:\n        binding = \"rwa\"\n    else:\n        binding = \"leverage\"\n\n    return {\n        \"final\": x_final,\n        \"initial_net_equity_usd_million\": initial_net,\n        \"initial_dta_deduction_usd_million\": initial_dta_deduction,\n        \"binding_constraint\": binding,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 524
+              },
+              "rendered": {
+                "final": "141.4369",
+                "initial_net_equity_usd_million": "39.32",
+                "initial_dta_deduction_usd_million": "14.68",
+                "binding_constraint": "leverage"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synea43d2afe3272ebe634f",
+    "verdicts": {
+      "final": true,
+      "initial_net_equity_usd_million": true,
+      "initial_dta_deduction_usd_million": true,
+      "binding_constraint": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synea43d2afe3272ebe634f",
+        "final_answer": {
+          "value": "73.6711"
+        },
+        "steps": [
+          {
+            "slot_id": "initial_net_equity_usd_million",
+            "value": "37.12"
+          },
+          {
+            "slot_id": "initial_dta_deduction_usd_million",
+            "value": "20.88"
+          },
+          {
+            "slot_id": "binding_constraint",
+            "value": "rwa"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "73.6711": 1
+        },
+        "initial_net_equity_usd_million": {
+          "37.12": 1
+        },
+        "initial_dta_deduction_usd_million": {
+          "20.88": 1
+        },
+        "binding_constraint": {
+          "rwa": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "73.6711",
+            "initial_net_equity_usd_million": "37.12",
+            "initial_dta_deduction_usd_million": "20.88",
+            "binding_constraint": "rwa"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "daf3a76f7c362a385896081529b4d89e864fbf90cf231f47e465c9125a6f1b32",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1260,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 1268,
+                "output_tokens_details": {
+                  "thinking_tokens": 525
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1260,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 1268,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1260,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1260
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.08887,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 14148,
+                "session_id": "7951c3b1-2ea0-4fa8-b02d-fed1edaf4781",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    gross = Q(80)\n    intang = Q(22)\n    dta = Q(29)\n    thr_pct = Q(\"0.14\")\n    rwa0 = Q(1600)\n    lev0 = Q(2600)\n    rwa_min = Q(\"0.075\")\n    lev_min = Q(\"0.03\")\n    rwa_add = Q(\"0.2\")\n\n    # Before injection\n    base = gross - intang\n    dta_ded0 = max(Q(0), dta - thr_pct * base)\n    net0 = gross - intang - dta_ded0\n\n    def net_equity(X):\n        ded = max(Q(0), dta - thr_pct * (base + X))\n        return gross + X - intang - ded\n\n    # Point where DTA deduction hits zero\n    X_zero = max(Q(0), (dta - thr_pct * base) / thr_pct)\n\n    def min_x(req_level_fn):\n        # required X such that net_equity(X) >= req_level_fn(X); solve piecewise linear\n        if net_equity(Q(0)) >= req_level_fn(Q(0)):\n            return Q(0)\n        # regime 1: deduction positive -> net = net0 + (1+thr)X\n        # req = a + b X  (linear): get a, b\n        a = req_level_fn(Q(0))\n        b = req_level_fn(Q(1)) - a\n        x1 = (a - net0) / ((1 + thr_pct) - b)\n        if x1 <= X_zero:\n            return x1\n        # regime 2: deduction zero -> net = base + X\n        return (a - base) / (1 - b)\n\n    x_rwa = min_x(lambda X: rwa_min * (rwa0 + rwa_add * X))\n    x_lev = min_x(lambda X: lev_min * (lev0 + X))\n\n    X = max(x_rwa, x_lev)\n    if X == 0:\n        binding = \"none\"\n    elif x_rwa >= x_lev:\n        binding = \"rwa\"\n    else:\n        binding = \"leverage\"\n\n    return {\n        \"final\": X,\n        \"initial_net_equity_usd_million\": net0,\n        \"initial_dta_deduction_usd_million\": dta_ded0,\n        \"binding_constraint\": binding,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 307
+              },
+              "rendered": {
+                "final": "73.6711",
+                "initial_net_equity_usd_million": "37.12",
+                "initial_dta_deduction_usd_million": "20.88",
+                "binding_constraint": "rwa"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

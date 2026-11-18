@@ -1,0 +1,229 @@
+{
+ "family": "c1_14",
+ "template_sha256": "fb451f103d1f4980ddea24a4526cb68194b566e14a64b1d7e753a471144fcebe",
+ "draws_sha256": "78bbadc474606bffdd23ddc02dfae5ce51b0309cf26c94b68e927f12ff25f1c7",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "d4d95a3e3429a60bc06ad0c337a69d46ae7d380df5f77e30afcd762d80894d2a",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1886,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 655,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1886,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 655,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1886,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1886
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0706405
+  }
+ ],
+ "program": "def solve():\n    VU = Q(P[\"VU\"])\n    EBIT0 = Q(P[\"EBIT0\"])\n    REV = Q(P[\"REV\"])\n    TAX = Q(P[\"TAX\"]) / 100\n    STEP = Q(P[\"STEP\"])\n    R0 = Q(P[\"R0\"]) / 100\n    DC = Q(P[\"DC\"]) / 100\n    MULT = Q(P[\"MULT\"])\n\n    adj_ebit = EBIT0 + REV\n    threshold = MULT * adj_ebit\n\n    # Enumerate every grid level explicitly\n    levels = []\n    for k in range(0, 5):\n        debt = k * STEP\n        if k == 0:\n            rate = Q(0)\n            interest = Q(0)\n            admissible = True\n        else:\n            rate = R0 + Q(k - 1) / 100\n            interest = debt * rate\n            admissible = interest <= adj_ebit\n        excess = debt - threshold\n        if excess < 0:\n            excess = Q(0)\n        value = VU + TAX * debt - DC * excess\n        levels.append((k, debt, admissible, value))\n\n    admissible_levels = [lv for lv in levels if lv[2]]\n    highest_adm_debt = max(lv[1] for lv in admissible_levels)\n\n    # Choose highest value; ties to the lower debt (scan ascending, replace only on strict improvement)\n    chosen = None\n    for lv in admissible_levels:\n        if chosen is None or lv[3] > chosen[3]:\n            chosen = lv\n\n    chosen_debt = chosen[1]\n    chosen_value = chosen[3]\n    equity = chosen_value - chosen_debt\n\n    return {\n        \"final\": equity,\n        \"adjusted_ebit\": adj_ebit,\n        \"highest_admissible_debt\": highest_adm_debt,\n        \"chosen_debt\": chosen_debt,\n        \"chosen_firm_value\": chosen_value,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_VU",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_EBIT0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_REV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TAX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_STEP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DC",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MULT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_VU",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_EBIT0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_REV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_TAX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_STEP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DC",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MULT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

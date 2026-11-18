@@ -1,0 +1,60 @@
+{
+ "name": "rental_property_annual_cash_roi",
+ "domain_id": "investment_analysis",
+ "topic_id": "roi",
+ "difficulty": "basic",
+ "params": {
+  "PRICE": {
+   "kind": "int",
+   "min": 80000,
+   "max": 400000,
+   "step": 5000
+  },
+  "RENT": {
+   "kind": "int",
+   "min": 500,
+   "max": 3500,
+   "step": 50
+  },
+  "EXPENSES": {
+   "kind": "int",
+   "min": 1000,
+   "max": 20000,
+   "step": 100
+  }
+ },
+ "question_template": "A rental property is bought outright for USD {PRICE} with no financing. It earns monthly rent of USD {RENT} for all 12 months of the year and incurs annual operating expenses of USD {EXPENSES} for taxes, insurance and maintenance. Assume no vacancy and ignore any price appreciation. Compute annual net operating income = 12 x monthly rent - annual expenses, then the annual cash ROI = net operating income / purchase price x 100 percent. Use exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "annual_gross_rent_trace",
+   "description": "Total rent collected over twelve months.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "net_operating_income_trace",
+   "description": "Annual rent less annual operating expenses.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    price = Q(P[\"PRICE\"])\n    rent = Q(P[\"RENT\"])\n    expenses = Q(P[\"EXPENSES\"])\n    gross_rent = 12 * rent\n    noi = gross_rent - expenses\n    roi = noi / price * 100\n    return {\"final\": roi, \"annual_gross_rent_trace\": gross_rent, \"net_operating_income_trace\": noi}\n"
+}

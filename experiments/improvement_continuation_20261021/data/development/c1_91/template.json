@@ -1,0 +1,155 @@
+{
+ "name": "sroi_multi_year_dropoff_attribution_basis",
+ "domain_id": "sustainable_finance",
+ "topic_id": "social_impact_investing",
+ "difficulty": "intermediate",
+ "params": {
+  "INV": {
+   "kind": "decimal",
+   "min": "1.0",
+   "max": "10.0",
+   "step": "0.5"
+  },
+  "B": {
+   "kind": "decimal",
+   "min": "1.5",
+   "max": "12.0",
+   "step": "0.5"
+  },
+  "DROP": {
+   "kind": "int",
+   "min": 0,
+   "max": 25,
+   "step": 5
+  },
+  "V": {
+   "kind": "int",
+   "min": 800,
+   "max": 3000,
+   "step": 50
+  },
+  "DW": {
+   "kind": "int",
+   "min": 10,
+   "max": 50,
+   "step": 5
+  },
+  "ATTR": {
+   "kind": "int",
+   "min": 20,
+   "max": 80,
+   "step": 10
+  },
+  "ATTR_MODE": {
+   "kind": "choice",
+   "values": [
+    "the_programme",
+    "other_actors"
+   ]
+  },
+  "BASIS": {
+   "kind": "choice",
+   "values": [
+    "cumulative",
+    "first_year"
+   ]
+  }
+ },
+ "question_template": "A fund invests {INV} USD million in a job-readiness programme and measures SROI over four years. Year 1 serves {B} thousand beneficiaries; each later year's active count is the prior year's count reduced by {DROP} percent. Each active beneficiary generates {V} USD of outcome value per year. Deadweight of {DW} percent of gross value is removed first. The quoted {ATTR} percent attribution is the share of deadweight-adjusted value attributable to {ATTR_MODE}; if quoted for other_actors, the programme's share is the remainder. Net attributable value is deadweight-adjusted value times the programme's share. SROI equals net attributable value on the {BASIS} basis divided by the investment, both in USD millions: cumulative uses the four-year total, first_year uses year 1 only. Report the SROI ratio.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "ratio",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "gross_cumulative_value",
+   "description": "Four-year total gross outcome value before deadweight and attribution, in USD millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "programme_attribution_share",
+   "description": "Fraction of deadweight-adjusted value credited to the programme after reading the quote",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "net_first_year_value",
+   "description": "Year 1 net attributable value in USD millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "net_cumulative_value",
+   "description": "Four-year total net attributable value in USD millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    inv = P[\"INV\"]\n    b_thousand = P[\"B\"]\n    drop = P[\"DROP\"]\n    v = P[\"V\"]\n    dw = P[\"DW\"]\n    attr = P[\"ATTR\"]\n    mode = P[\"ATTR_MODE\"]\n    basis = P[\"BASIS\"]\n    if inv <= 0:\n        raise ValueError(\"investment must be positive\")\n    if mode == \"the_programme\":\n        share = attr / 100\n    elif mode == \"other_actors\":\n        share = 1 - attr / 100\n    else:\n        raise ValueError(\"unknown attribution mode\")\n    if share <= 0 or share > 1:\n        raise ValueError(\"programme share must lie in (0, 1]\")\n    retain = 1 - drop / 100\n    if retain < 0:\n        raise ValueError(\"drop-off cannot exceed 100 percent\")\n    dw_factor = 1 - dw / 100\n    count = b_thousand\n    gross_years = []\n    for t in range(4):\n        gross_usd_million = v * count * 1000 / 1000000\n        gross_years.append(gross_usd_million)\n        count = count * retain\n    gross_cum = gross_years[0] + gross_years[1] + gross_years[2] + gross_years[3]\n    net_years = [g * dw_factor * share for g in gross_years]\n    net_y1 = net_years[0]\n    net_cum = net_years[0] + net_years[1] + net_years[2] + net_years[3]\n    if basis == \"cumulative\":\n        chosen = net_cum\n    elif basis == \"first_year\":\n        chosen = net_y1\n    else:\n        raise ValueError(\"unknown basis\")\n    sroi = chosen / inv\n    return {\n        \"final\": sroi,\n        \"gross_cumulative_value\": gross_cum,\n        \"programme_attribution_share\": share,\n        \"net_first_year_value\": net_y1,\n        \"net_cumulative_value\": net_cum,\n    }\n",
+ "coverage_params": [
+  {
+   "INV": "4.0",
+   "B": "6.0",
+   "DROP": 10,
+   "V": 1500,
+   "DW": 30,
+   "ATTR": 60,
+   "ATTR_MODE": "the_programme",
+   "BASIS": "cumulative"
+  },
+  {
+   "INV": "2.5",
+   "B": "3.5",
+   "DROP": 0,
+   "V": 2000,
+   "DW": 20,
+   "ATTR": 30,
+   "ATTR_MODE": "other_actors",
+   "BASIS": "first_year"
+  },
+  {
+   "INV": "8.0",
+   "B": "12.0",
+   "DROP": 25,
+   "V": 900,
+   "DW": 50,
+   "ATTR": 80,
+   "ATTR_MODE": "other_actors",
+   "BASIS": "cumulative"
+  },
+  {
+   "INV": "1.0",
+   "B": "1.5",
+   "DROP": 0,
+   "V": 3000,
+   "DW": 10,
+   "ATTR": 20,
+   "ATTR_MODE": "the_programme",
+   "BASIS": "first_year"
+  }
+ ]
+}

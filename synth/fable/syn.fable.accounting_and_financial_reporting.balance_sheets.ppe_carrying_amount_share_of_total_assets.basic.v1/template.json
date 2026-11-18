@@ -1,0 +1,49 @@
+{
+ "name": "ppe_carrying_amount_share_of_total_assets",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "balance_sheets",
+ "difficulty": "basic",
+ "params": {
+  "COST": {
+   "kind": "int",
+   "min": 60000,
+   "max": 400000,
+   "step": 1000
+  },
+  "ACC_DEP": {
+   "kind": "int",
+   "min": 10000,
+   "max": 300000,
+   "step": 1000
+  },
+  "TOTAL_ASSETS": {
+   "kind": "int",
+   "min": 150000,
+   "max": 900000,
+   "step": 1000
+  }
+ },
+ "question_template": "A balance sheet shows property, plant and equipment at historical cost of {COST} USD with accumulated depreciation of {ACC_DEP} USD. Total assets are {TOTAL_ASSETS} USD and already include the equipment at its carrying amount. Using carrying amount = cost minus accumulated depreciation, compute the carrying amount of property, plant and equipment as a percentage of total assets, in percentage points. Use exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "ppe_carrying_amount",
+   "description": "Equipment cost less accumulated depreciation.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    cost = P[\"COST\"]\n    acc_dep = P[\"ACC_DEP\"]\n    total_assets = P[\"TOTAL_ASSETS\"]\n    if acc_dep >= cost:\n        raise ValueError(\"accumulated depreciation must be below cost\")\n    carrying = cost - acc_dep\n    if carrying > total_assets:\n        raise ValueError(\"carrying amount cannot exceed total assets\")\n    share = Fraction(carrying, total_assets) * 100\n    return {\"final\": share, \"ppe_carrying_amount\": carrying}\n"
+}

@@ -1,0 +1,113 @@
+{
+ "name": "residual_dividend_signed_surplus",
+ "domain_id": "corporate_finance",
+ "topic_id": "div_policies",
+ "difficulty": "intermediate",
+ "params": {
+  "CAPEX": {
+   "kind": "int",
+   "min": 20,
+   "max": 200,
+   "step": 5
+  },
+  "EQUITY_RATIO": {
+   "kind": "int",
+   "min": 30,
+   "max": 80,
+   "step": 5
+  },
+  "NET_INCOME": {
+   "kind": "int",
+   "min": 10,
+   "max": 120,
+   "step": 5
+  },
+  "ADJ": {
+   "kind": "int",
+   "min": -40,
+   "max": 40,
+   "step": 5
+  }
+ },
+ "question_template": "Use exact arithmetic. A firm follows a strict residual dividend policy. Next year's capital budget is {CAPEX} USD million and the target equity ratio is {EQUITY_RATIO} percent of the capital budget, so the equity required equals the capital budget times that ratio. Base net income is {NET_INCOME} USD million, and a one-time after-tax item changes it by {ADJ} percent of base net income (a negative value is a loss, a positive value is a gain), giving adjusted net income. The signed surplus equals adjusted net income minus the equity required; a negative surplus means a shortfall. Any positive surplus is paid out entirely as dividends. If the surplus is negative, the firm issues new equity for the full shortfall and pays a zero dividend. Report the total dividend paid in USD million.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "equity_required",
+   "description": "Equity portion of the capital budget at the target equity ratio",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "adjusted_net_income",
+   "description": "Net income after the signed one-time after-tax item",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "signed_surplus",
+   "description": "Adjusted net income minus equity required; negative means shortfall",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "equity_issued",
+   "description": "New equity raised to cover any shortfall; zero if no shortfall",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    capex = Q(P[\"CAPEX\"])\n    er = Q(P[\"EQUITY_RATIO\"]) / 100\n    ni = Q(P[\"NET_INCOME\"])\n    adj = Q(P[\"ADJ\"]) / 100\n    equity_required = capex * er\n    adjusted_ni = ni * (1 + adj)\n    surplus = adjusted_ni - equity_required\n    if surplus >= 0:\n        dividend = surplus\n        issued = Q(0)\n    else:\n        dividend = Q(0)\n        issued = -surplus\n    return {\n        \"final\": dividend,\n        \"equity_required\": equity_required,\n        \"adjusted_net_income\": adjusted_ni,\n        \"signed_surplus\": surplus,\n        \"equity_issued\": issued,\n    }",
+ "coverage_params": [
+  {
+   "CAPEX": 100,
+   "EQUITY_RATIO": 40,
+   "NET_INCOME": 80,
+   "ADJ": 25
+  },
+  {
+   "CAPEX": 200,
+   "EQUITY_RATIO": 80,
+   "NET_INCOME": 100,
+   "ADJ": -20
+  },
+  {
+   "CAPEX": 100,
+   "EQUITY_RATIO": 50,
+   "NET_INCOME": 50,
+   "ADJ": 0
+  },
+  {
+   "CAPEX": 60,
+   "EQUITY_RATIO": 30,
+   "NET_INCOME": 30,
+   "ADJ": -40
+  }
+ ]
+}

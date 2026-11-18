@@ -1,0 +1,228 @@
+{
+ "family": "c1_04",
+ "template_sha256": "b5620b44cc0ebca33d8a6cf27b944e76a61e575d86d97512029fb772440a176c",
+ "draws_sha256": "57b3f20fa30d59a13c23a701d9581bfffe5b1ccb6cc4e74e3e8567b1eaa672c6",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "a7d49963676b645cdd807cc1e00e6ec7ba46653dd47a6f629919302660368885",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1815,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1160,
+    "output_tokens_details": {
+     "thinking_tokens": 548
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1815,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1160,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1815,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1815
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0944705
+  }
+ ],
+ "program": "def solve():\n    cogs = P[\"COGS\"]\n    inv_o, inv_c = P[\"INV_OPEN\"], P[\"INV_CLOSE\"]\n    ap_o, ap_c = P[\"AP_OPEN\"], P[\"AP_CLOSE\"]\n    adv_o, adv_c = P[\"ADV_OPEN\"], P[\"ADV_CLOSE\"]\n    share = P[\"SHARE_SETTLE\"]\n\n    # Inventory ledger: opening + purchases - COGS = closing\n    purchases = cogs + inv_c - inv_o\n\n    # Payables and advances ledgers (advances applied against purchases cancels out)\n    # Payables: ap_o + purchases - share - applied - cash_on_payables = ap_c\n    # Advances: adv_o + advances_paid - applied = adv_c\n    # Treat \"applied\" as an arbitrary quantity; it nets to zero in total cash paid.\n    applied = 0\n    cash_on_payables = ap_o + purchases - share - applied - ap_c\n    advances_paid = adv_c - adv_o + applied\n    cash_paid = cash_on_payables + advances_paid\n\n    payables_change = ap_c - ap_o\n    net_wc_open = inv_o + adv_o - ap_o\n    net_wc_close = inv_c + adv_c - ap_c\n    net_wc_change = net_wc_close - net_wc_open\n\n    # Consistency check with the working-capital identity\n    assert cash_paid == cogs + net_wc_change - share\n\n    if cash_paid < 0:\n        raise ValueError(\"Implied cash paid to suppliers is negative; data inconsistent\")\n\n    return {\n        \"final\": cash_paid,\n        \"purchases\": purchases,\n        \"payables_change\": payables_change,\n        \"net_wc_change\": net_wc_change,\n    }\n",
+ "result": {
+  "compared": 33,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COGS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_AP_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_AP_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ADV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ADV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SHARE_SETTLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COGS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_AP_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_AP_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ADV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ADV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SHARE_SETTLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

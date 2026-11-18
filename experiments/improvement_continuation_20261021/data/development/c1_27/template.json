@@ -1,0 +1,123 @@
+{
+ "name": "key_rotation_compromise_exposure_cost",
+ "domain_id": "finance_regulation",
+ "topic_id": "security",
+ "difficulty": "intermediate",
+ "params": {
+  "N": {
+   "kind": "int",
+   "min": 2,
+   "max": 10,
+   "step": 1
+  },
+  "C": {
+   "kind": "int",
+   "min": 1,
+   "max": 40,
+   "step": 1
+  },
+  "R": {
+   "kind": "int",
+   "min": 10000,
+   "max": 20000,
+   "step": 100
+  },
+  "D": {
+   "kind": "int",
+   "min": -200,
+   "max": 300,
+   "step": 10
+  },
+  "C_CENTS": {
+   "kind": "decimal",
+   "min": "0.50",
+   "max": "5.00",
+   "step": "0.25"
+  },
+  "S": {
+   "kind": "int",
+   "min": -500,
+   "max": 1500,
+   "step": 50
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local key-rotation policy. Day 1 starts with a fresh key active. The key rotates at the end of every {N}-th day (end of day {N}, 2x{N}, ...); records on a rotation day use the outgoing key, and the new key covers the next day onward. The active key is compromised on day {C}, exposing every record encrypted with it from the day after its last rotation through day {C} inclusive. Day 1 has {R} records; each later day has {D} more than the prior day (negative means fewer). Cost per exposed record is {C_CENTS} US cents. A regulatory adjustment of {S} basis points of the base exposure cost is then added (negative reduces it). Report exposure window days, exposed records, base cost in USD, and total exposure cost in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "exposure_days",
+   "description": "Number of days in the exposure window including the compromise day",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "days",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "exposed_records",
+   "description": "Total records encrypted during the exposure window",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "base_cost_usd",
+   "description": "Exposure cost in USD before the basis-point adjustment",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    N = P[\"N\"]\n    C = P[\"C\"]\n    R = P[\"R\"]\n    D = P[\"D\"]\n    cents = Fraction(str(P[\"C_CENTS\"]))\n    S = P[\"S\"]\n    last_rotation = ((C - 1) // N) * N\n    days = C - last_rotation\n    records = 0\n    for d in range(last_rotation + 1, C + 1):\n        daily = R + D * (d - 1)\n        if daily < 0:\n            raise ValueError(\"negative daily record volume in window\")\n        records += daily\n    base_cost = Fraction(records) * cents / 100\n    total = base_cost * (1 + Fraction(S, 10000))\n    return {\"final\": total, \"exposure_days\": Fraction(days), \"exposed_records\": Fraction(records), \"base_cost_usd\": base_cost}",
+ "coverage_params": [
+  {
+   "N": 5,
+   "C": 15,
+   "R": 12000,
+   "D": 100,
+   "C_CENTS": "1.25",
+   "S": 250
+  },
+  {
+   "N": 4,
+   "C": 1,
+   "R": 15000,
+   "D": -200,
+   "C_CENTS": "0.75",
+   "S": -300
+  },
+  {
+   "N": 7,
+   "C": 10,
+   "R": 10000,
+   "D": 0,
+   "C_CENTS": "2.00",
+   "S": 0
+  },
+  {
+   "N": 3,
+   "C": 40,
+   "R": 20000,
+   "D": 300,
+   "C_CENTS": "5.00",
+   "S": 1500
+  }
+ ]
+}

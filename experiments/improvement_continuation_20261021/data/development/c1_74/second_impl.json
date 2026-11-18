@@ -1,0 +1,204 @@
+{
+ "family": "c1_74",
+ "template_sha256": "c10d2b667f012c7ba9f3205faecea2ff4d9460d72016014f663f7c242f397f9a",
+ "draws_sha256": "decc377047010fde05afdbcde3aeb46eb35b4c768923fc21aba029806c23e60f",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "39b345d14a507c7d197c0e1249a68187ec9e25b7aa0ba3260cab78b550b16a96",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1586,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 553,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1586,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 553,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1586,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1586
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.059540499999999996
+  }
+ ],
+ "program": "def solve():\n    bal0 = Q(P[\"BAL\"])\n    pmt = Q(P[\"PMT\"])\n    rate_bp = Q(P[\"RATE_BP\"])\n    def_pct = Q(P[\"DEF_PCT\"])\n    fee = Q(P[\"FEE\"])\n    n = int(P[\"N\"])\n\n    # Regular monthly rate as a fraction and in percent\n    annual_rate = rate_bp / 10000\n    monthly_rate = annual_rate / 12\n    monthly_rate_pct = monthly_rate * 100\n\n    # Deferral interest: simple, uncompounded, on the month-1 opening balance, for 2 months\n    deferral_interest = bal0 * (def_pct / 100) * 2\n    capitalized_amount = deferral_interest + fee\n\n    # Balance at end of month 2 after single capitalization\n    balance = bal0 + capitalized_amount\n\n    # Resumed payments from month 3: closed-form after k payments\n    # B_k = B_0*(1+r)^k - PMT * ((1+r)^k - 1)/r\n    def balance_after(k):\n        g = (1 + monthly_rate) ** k\n        if monthly_rate == 0:\n            return balance - pmt * k\n        return balance * g - pmt * (g - 1) / monthly_rate\n\n    balance_after_first = balance_after(1)\n    balance_after_n = balance_after(n)\n\n    return {\n        \"final\": balance_after_n,\n        \"monthly_rate_pct\": monthly_rate_pct,\n        \"capitalized_amount\": capitalized_amount,\n        \"balance_after_first_resumed\": balance_after_first,\n    }\n",
+ "result": {
+  "compared": 29,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_RATE_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DEF_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PMT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FEE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_RATE_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DEF_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PMT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

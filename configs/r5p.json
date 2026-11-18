@@ -1,0 +1,24 @@
+{
+  "name": "r5p",
+  "description": "Experimental R5-P: R4 with an isolated semantic system-prompt repair on the novel route only. Not promoted.",
+  "model": "claude-sonnet-5-5",
+  "effort": "low",
+  "system_prompt": "carnot/prompts/pot_system_v1.txt",
+  "exemplars": "exemplars/r0_exemplars.json",
+  "n_samples": 1,
+  "max_retries": 2,
+  "sandbox": {"backend": "wsl", "timeout": 5},
+  "routing": {
+    "rule": "novel_vs_train_v1",
+    "novel": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "n_samples": 5,
+      "unit_hints": "v2",
+      "echo_notes": true,
+      "system_prompt": "carnot/prompts/pot_system_v2.txt"
+    }
+  },
+  "unit_hints": "v2",
+  "echo_notes": true
+}

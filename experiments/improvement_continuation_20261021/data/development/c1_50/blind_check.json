@@ -1,0 +1,539 @@
+{
+ "family": "c1_50",
+ "draws_sha256": "7d17d51e16e9a08ac2a01e587270c3c32e9d66fd67c65b526ce8c04594819daf",
+ "checks": [
+  {
+   "case_id": "t1_syn32239138b406f8191d51",
+   "verdicts": {
+    "final": true,
+    "disallowed_loss": true,
+    "adjusted_lot_basis": true,
+    "net_result": true,
+    "year_deduction": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn32239138b406f8191d51",
+     "final_answer": {
+      "value": "518.75"
+     },
+     "steps": [
+      {
+       "slot_id": "disallowed_loss",
+       "value": "535"
+      },
+      {
+       "slot_id": "adjusted_lot_basis",
+       "value": "2880"
+      },
+      {
+       "slot_id": "net_result",
+       "value": "-1718.75"
+      },
+      {
+       "slot_id": "year_deduction",
+       "value": "1200"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "518.75": 1
+     },
+     "disallowed_loss": {
+      "535": 1
+     },
+     "adjusted_lot_basis": {
+      "2880": 1
+     },
+     "net_result": {
+      "-1718.75": 1
+     },
+     "year_deduction": {
+      "1200": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "518.75",
+       "disallowed_loss": "535",
+       "adjusted_lot_basis": "2880",
+       "net_result": "-1718.75",
+       "year_deduction": "1200"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f7eae0af061635f4ca648cac8f05b1142f88c77903f44d553148bec85ff58fc7",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1204,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 376,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1204,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 376,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1204,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1204
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.043080999999999994,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4622,
+         "session_id": "631dfced-d671-4ff8-acb5-c3792d5539a8",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    n1 = 25; buy1 = Q(\"106\"); sell1 = Q(\"79.25\")\n    n2 = 20; buy2 = Q(\"117.25\"); sell2 = Q(\"64.75\")\n    days = 30\n    per_share = sell1 - buy1  # negative = loss\n    first_total = per_share * n1\n    disallowed = Q(0)\n    if per_share < 0 and days <= 30:\n        disallowed = -per_share * min(n1, n2)\n    allowed_first = first_total + disallowed\n    adjusted_basis = buy2 * n2 + disallowed\n    second = sell2 * n2 - adjusted_basis\n    net = allowed_first + second\n    if net < 0:\n        loss = -net\n        deduction = min(loss, Q(1200))\n        carry = loss - deduction\n    else:\n        deduction = Q(0); carry = Q(0)\n    return {\n        \"final\": carry,\n        \"disallowed_loss\": disallowed,\n        \"adjusted_lot_basis\": adjusted_basis,\n        \"net_result\": net,\n        \"year_deduction\": deduction,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 71
+        },
+        "rendered": {
+         "final": "518.75",
+         "disallowed_loss": "535",
+         "adjusted_lot_basis": "2880",
+         "net_result": "-1718.75",
+         "year_deduction": "1200"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syne02914cd120790f9fe7e",
+   "verdicts": {
+    "final": true,
+    "disallowed_loss": true,
+    "adjusted_lot_basis": true,
+    "net_result": true,
+    "year_deduction": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syne02914cd120790f9fe7e",
+     "final_answer": {
+      "value": "0"
+     },
+     "steps": [
+      {
+       "slot_id": "disallowed_loss",
+       "value": "0"
+      },
+      {
+       "slot_id": "adjusted_lot_basis",
+       "value": "4905"
+      },
+      {
+       "slot_id": "net_result",
+       "value": "790"
+      },
+      {
+       "slot_id": "year_deduction",
+       "value": "0"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "0": 1
+     },
+     "disallowed_loss": {
+      "0": 1
+     },
+     "adjusted_lot_basis": {
+      "4905": 1
+     },
+     "net_result": {
+      "790": 1
+     },
+     "year_deduction": {
+      "0": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "0",
+       "disallowed_loss": "0",
+       "adjusted_lot_basis": "4905",
+       "net_result": "790",
+       "year_deduction": "0"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f1e23fb48dfa9ff204e8b1a584693b6252e583e13b275095c8f4dcf8ead90d02",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1204,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 464,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1204,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 464,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1204,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1204
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.047480999999999995,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5377,
+         "session_id": "7cfec0c8-2feb-48ea-a487-41b5e1fa33b0",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    shares1 = 20\n    buy1 = Q(\"82.75\")\n    sell1 = Q(\"114\")\n    shares2 = 60\n    buy2 = Q(\"81.75\")\n    sell2 = Q(\"84.5\")\n    days = 30\n    cap = Q(\"1900\")\n\n    first_result = (sell1 - buy1) * shares1\n    disallowed = Q(0)\n    if first_result < 0 and days <= 30:\n        disallowed = -(sell1 - buy1) * min(shares1, shares2)\n    adjusted_basis = buy2 * shares2 + disallowed\n    allowed_first = first_result + disallowed\n    second_result = sell2 * shares2 - adjusted_basis\n    net = allowed_first + second_result\n    if net < 0:\n        loss = -net\n        deduction = min(loss, cap)\n        carry = loss - deduction\n    else:\n        deduction = Q(0)\n        carry = Q(0)\n    return {\n        \"final\": carry,\n        \"disallowed_loss\": disallowed,\n        \"adjusted_lot_basis\": adjusted_basis,\n        \"net_result\": net,\n        \"year_deduction\": deduction,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 125
+        },
+        "rendered": {
+         "final": "0",
+         "disallowed_loss": "0",
+         "adjusted_lot_basis": "4905",
+         "net_result": "790",
+         "year_deduction": "0"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn6f55e337a46a495ba258",
+   "verdicts": {
+    "final": true,
+    "disallowed_loss": true,
+    "adjusted_lot_basis": true,
+    "net_result": true,
+    "year_deduction": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn6f55e337a46a495ba258",
+     "final_answer": {
+      "value": "0"
+     },
+     "steps": [
+      {
+       "slot_id": "disallowed_loss",
+       "value": "0"
+      },
+      {
+       "slot_id": "adjusted_lot_basis",
+       "value": "3341.25"
+      },
+      {
+       "slot_id": "net_result",
+       "value": "2551.25"
+      },
+      {
+       "slot_id": "year_deduction",
+       "value": "0"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "0": 1
+     },
+     "disallowed_loss": {
+      "0": 1
+     },
+     "adjusted_lot_basis": {
+      "3341.25": 1
+     },
+     "net_result": {
+      "2551.25": 1
+     },
+     "year_deduction": {
+      "0": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "0",
+       "disallowed_loss": "0",
+       "adjusted_lot_basis": "3341.25",
+       "net_result": "2551.25",
+       "year_deduction": "0"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "8009c398f277871c5684369c4c559699b5e6896a401cb3f89eb7c454203f70b9",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1206,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 480,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1206,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 480,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1206,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1206
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.048321,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5916,
+         "session_id": "5ee2a5fe-1060-4568-a5c3-2ec49d408ea0",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    n1 = 40; buy1 = Q(\"85.5\"); sell1 = Q(\"101.5\")\n    n2 = 55; buy2 = Q(\"60.75\"); sell2 = Q(\"95.5\")\n    days = 30\n    first = n1 * (sell1 - buy1)\n    per_share_loss = buy1 - sell1\n    disallowed = Q(0)\n    if first < 0 and days <= 30:\n        disallowed = per_share_loss * min(n1, n2)\n    allowed_first = first + disallowed\n    adjusted_basis = n2 * buy2 + disallowed\n    second = n2 * sell2 - adjusted_basis\n    net = allowed_first + second\n    if net < 0:\n        loss = -net\n        deduction = min(loss, Q(2400))\n        carry = loss - deduction\n    else:\n        deduction = Q(0)\n        carry = Q(0)\n    return {\n        \"final\": carry,\n        \"disallowed_loss\": disallowed,\n        \"adjusted_lot_basis\": adjusted_basis,\n        \"net_result\": net,\n        \"year_deduction\": deduction,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 281
+        },
+        "rendered": {
+         "final": "0",
+         "disallowed_loss": "0",
+         "adjusted_lot_basis": "3341.25",
+         "net_result": "2551.25",
+         "year_deduction": "0"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn5d88205c5a9866142bbd",
+   "verdicts": {
+    "final": true,
+    "disallowed_loss": true,
+    "adjusted_lot_basis": true,
+    "net_result": true,
+    "year_deduction": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn5d88205c5a9866142bbd",
+     "final_answer": {
+      "value": "401.25"
+     },
+     "steps": [
+      {
+       "slot_id": "disallowed_loss",
+       "value": "0"
+      },
+      {
+       "slot_id": "adjusted_lot_basis",
+       "value": "5128.75"
+      },
+      {
+       "slot_id": "net_result",
+       "value": "-2601.25"
+      },
+      {
+       "slot_id": "year_deduction",
+       "value": "2200"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "401.25": 1
+     },
+     "disallowed_loss": {
+      "0": 1
+     },
+     "adjusted_lot_basis": {
+      "5128.75": 1
+     },
+     "net_result": {
+      "-2601.25": 1
+     },
+     "year_deduction": {
+      "2200": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "401.25",
+       "disallowed_loss": "0",
+       "adjusted_lot_basis": "5128.75",
+       "net_result": "-2601.25",
+       "year_deduction": "2200"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "b203f7823351619b31c5bad80da8ccc30c9c24c32433dfe984bcd32ee598da64",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1202,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 408,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1202,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 408,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1202,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1202
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.044641,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4644,
+         "session_id": "9f0ee0e3-cf90-43d2-8949-6900fb1031bf",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    shares1 = 20\n    buy1 = Q(\"120\")\n    sell1 = Q(\"91\")\n    days = 60\n    shares2 = 55\n    buy2 = Q(\"93.25\")\n    sell2 = Q(\"56.5\")\n    cap = Q(\"2200\")\n\n    first_result = (sell1 - buy1) * shares1  # signed\n    per_share_loss = buy1 - sell1\n    disallowed = Q(0)\n    if first_result < 0 and days <= 30:\n        disallowed = per_share_loss * min(shares1, shares2)\n    adjusted_basis = buy2 * shares2 + disallowed\n    allowed_first = first_result + disallowed\n    second_result = sell2 * shares2 - adjusted_basis\n    net = allowed_first + second_result\n    if net < 0:\n        loss = -net\n        deduction = min(loss, cap)\n        carry = loss - deduction\n    else:\n        deduction = Q(0)\n        carry = Q(0)\n    return {\n        \"final\": carry,\n        \"disallowed_loss\": disallowed,\n        \"adjusted_lot_basis\": adjusted_basis,\n        \"net_result\": net,\n        \"year_deduction\": deduction,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 120
+        },
+        "rendered": {
+         "final": "401.25",
+         "disallowed_loss": "0",
+         "adjusted_lot_basis": "5128.75",
+         "net_result": "-2601.25",
+         "year_deduction": "2200"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

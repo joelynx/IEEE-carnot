@@ -1,0 +1,101 @@
+{
+  "name": "tiered_remediation_cost_capped_credit",
+  "domain_id": "finance_regulation",
+  "topic_id": "compliance",
+  "difficulty": "intermediate",
+  "params": {
+    "F": {
+      "kind": "int",
+      "min": 20,
+      "max": 60,
+      "step": 1
+    },
+    "B": {
+      "kind": "int",
+      "min": 10,
+      "max": 30,
+      "step": 1
+    },
+    "C1": {
+      "kind": "decimal",
+      "min": "500",
+      "max": "2000",
+      "step": "50"
+    },
+    "C2": {
+      "kind": "decimal",
+      "min": "800",
+      "max": "3500",
+      "step": "50"
+    },
+    "E": {
+      "kind": "int",
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    "K": {
+      "kind": "decimal",
+      "min": "100",
+      "max": "600",
+      "step": "25"
+    },
+    "P": {
+      "kind": "decimal",
+      "min": "5",
+      "max": "40",
+      "step": "5"
+    },
+    "M": {
+      "kind": "decimal",
+      "min": "20000",
+      "max": "60000",
+      "step": "1000"
+    }
+  },
+  "question_template": "Apply only this fictional scenario-local compliance policy. A firm has {F} open audit findings. Remediation cost is tiered: each of the first {B} findings costs {C1} USD; each finding beyond the first {B} costs {C2} USD. If the firm has {B} or fewer findings, only the first tier applies. Gross cost is the sum of both tiers. An early-closure credit of {K} USD per finding is earned for the {E} findings closed early, giving an uncapped credit. The applied credit is the uncapped credit capped at {P} percent of gross cost, and it is granted only when gross cost is at least {M} USD; if gross cost is below {M} USD the applied credit is zero. Net remediation cost equals gross cost minus the applied credit. Report gross cost, uncapped credit, applied credit, and net cost.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "gross_cost",
+      "description": "Gross tiered remediation cost before any credit.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "uncapped_credit",
+      "description": "Early-closure credit before applying cap or threshold.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "applied_credit",
+      "description": "Credit actually applied after cap and threshold gating.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    F = P[\"F\"]\n    B = P[\"B\"]\n    C1 = P[\"C1\"]\n    C2 = P[\"C2\"]\n    E = P[\"E\"]\n    K = P[\"K\"]\n    Pc = P[\"P\"]\n    M = P[\"M\"]\n    tier1_count = F if F <= B else B\n    tier2_count = F - tier1_count\n    gross = tier1_count * C1 + tier2_count * C2\n    uncapped = E * K\n    cap = gross * Pc / 100\n    if gross >= M:\n        applied = uncapped if uncapped <= cap else cap\n    else:\n        applied = 0\n    net = gross - applied\n    return {\n        \"final\": net,\n        \"gross_cost\": gross,\n        \"uncapped_credit\": uncapped,\n        \"applied_credit\": applied\n    }\n"
+}

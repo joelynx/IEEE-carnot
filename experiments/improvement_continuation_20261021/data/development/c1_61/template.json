@@ -1,0 +1,106 @@
+{
+ "name": "monthly_quote_to_continuous_with_floor_deposit_value",
+ "domain_id": "investment_analysis",
+ "topic_id": "ci",
+ "difficulty": "advanced",
+ "params": {
+  "NOMINAL_BP": {
+   "kind": "int",
+   "min": 100,
+   "max": 1200,
+   "step": 25
+  },
+  "MIN_PCT": {
+   "kind": "decimal",
+   "min": "0.00",
+   "max": "6.00",
+   "step": "0.25"
+  },
+  "DEPOSIT": {
+   "kind": "int",
+   "min": 1000,
+   "max": 50000,
+   "step": 500
+  },
+  "MONTHS": {
+   "kind": "int",
+   "min": 6,
+   "max": 60,
+   "step": 3
+  }
+ },
+ "question_template": "A bank quotes a deposit account's nominal annual rate as {NOMINAL_BP} basis points, compounded monthly (12 equal periods per year, each crediting one twelfth of the nominal rate). Convert this quote to the equivalent continuously compounded annual rate, meaning the rate c such that exp(c) equals the account's one-year growth factor under the quote. The account terms set a minimum continuously compounded annual rate of {MIN_PCT} percent: if the converted continuous rate is below this minimum, the bank credits the minimum continuous rate instead; otherwise it credits the converted rate. The effective annual rate is the one-year growth factor under the credited continuous rate minus one. Report the credited continuous rate in percent, the effective annual rate in percent, and the gap (effective annual rate minus credited continuous rate) in basis points, where 1 percentage point equals 100 basis points. A single deposit of USD {DEPOSIT} is then left in the account for {MONTHS} months, growing continuously at the credited continuous rate for exactly {MONTHS}/12 years with no fees or taxes. Report the deposit's ending value in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "credited_continuous_rate_pct",
+   "description": "Continuously compounded annual rate actually credited after the minimum check, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 6
+    }
+   }
+  },
+  {
+   "slot_id": "effective_annual_rate_pct",
+   "description": "Effective annual rate implied by the credited continuous rate, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 6
+    }
+   }
+  },
+  {
+   "slot_id": "gap_bp",
+   "description": "Effective annual rate minus credited continuous rate, in basis points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "basis_point",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    nominal_bp = Q(P[\"NOMINAL_BP\"])\n    min_pct = Q(P[\"MIN_PCT\"])\n    deposit = Q(P[\"DEPOSIT\"])\n    months = Q(P[\"MONTHS\"])\n    if nominal_bp <= 0 or deposit <= 0 or months <= 0:\n        raise ValueError(\"nominal rate, deposit and horizon must be positive\")\n    m = 12\n    r_nom = nominal_bp / 10000\n    converted_cont = m * ln(1 + r_nom / m)\n    r_min = min_pct / 100\n    if converted_cont < r_min:\n        credited = r_min\n    else:\n        credited = converted_cont\n    ear = exp(credited) - 1\n    gap_bp = (ear - credited) * 10000\n    years = months / 12\n    value = deposit * exp(credited * years)\n    return {\n        \"final\": value,\n        \"credited_continuous_rate_pct\": credited * 100,\n        \"effective_annual_rate_pct\": ear * 100,\n        \"gap_bp\": gap_bp,\n    }",
+ "coverage_params": [
+  {
+   "NOMINAL_BP": 600,
+   "MIN_PCT": "2.00",
+   "DEPOSIT": 10000,
+   "MONTHS": 18
+  },
+  {
+   "NOMINAL_BP": 300,
+   "MIN_PCT": "3.00",
+   "DEPOSIT": 25000,
+   "MONTHS": 24
+  },
+  {
+   "NOMINAL_BP": 1200,
+   "MIN_PCT": "0.00",
+   "DEPOSIT": 5000,
+   "MONTHS": 60
+  },
+  {
+   "NOMINAL_BP": 100,
+   "MIN_PCT": "5.00",
+   "DEPOSIT": 15000,
+   "MONTHS": 6
+  }
+ ]
+}

@@ -1,0 +1,144 @@
+{
+ "name": "amortizing_step_coupon_call_settlement_price_orig",
+ "domain_id": "financial_markets",
+ "topic_id": "bond_pricing",
+ "difficulty": "advanced",
+ "params": {
+  "FACE": {
+   "kind": "int",
+   "min": 1000,
+   "max": 5000,
+   "step": 500
+  },
+  "A1_PCT": {
+   "kind": "int",
+   "min": 20,
+   "max": 40,
+   "step": 5
+  },
+  "A2_PCT": {
+   "kind": "int",
+   "min": 20,
+   "max": 40,
+   "step": 5
+  },
+  "C1_PCT": {
+   "kind": "decimal",
+   "min": "3.0",
+   "max": "7.0",
+   "step": "0.5"
+  },
+  "STEP_BP": {
+   "kind": "int",
+   "min": -100,
+   "max": 150,
+   "step": 50
+  },
+  "Y_PCT": {
+   "kind": "decimal",
+   "min": "2.0",
+   "max": "8.0",
+   "step": "0.5"
+  },
+  "CALL_PCT": {
+   "kind": "decimal",
+   "min": "100.0",
+   "max": "104.0",
+   "step": "0.5"
+  },
+  "DAYS": {
+   "kind": "int",
+   "min": 30,
+   "max": 330,
+   "step": 30
+  }
+ },
+ "question_template": "An amortizing bond is issued with face value USD {FACE}. Principal is repaid in three installments at the ends of years 1, 2 and 3: {A1_PCT} percent of face at year 1, {A2_PCT} percent of face at year 2, and the remaining balance at year 3. Each year-end coupon equals the coupon rate times the principal outstanding during that year. The year-1 coupon rate is {C1_PCT} percent; from year 2 onward the rate changes by {STEP_BP} basis points (negative means a cut). The issuer may call the bond at the end of year 2, immediately after the year-2 coupon and installment are paid, by paying {CALL_PCT} percent of the principal still outstanding. Assume the issuer calls only if that call payment is strictly less than the present value, at the end of year 2, of the year-3 coupon plus final principal discounted one year at the effective annual yield of {Y_PCT} percent. An investor settles {DAYS} days after issue and uses a 360-day year, so a year-k cash flow is discounted by (1+y)^(k - days/360) with the same yield y. Compute the investor's dirty price at settlement: the present value of all cash flows actually received, namely the year-1 and year-2 scheduled payments, then the call payment if the bond is called or the year-3 payment otherwise.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "principal_after_year2",
+   "description": "Principal still outstanding after the year-2 installment.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "pv_year3_at_year2",
+   "description": "Value at end of year 2 of the year-3 coupon plus final principal.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "call_decision",
+   "description": "Whether the issuer calls at the end of year 2.",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "call",
+     "no_call"
+    ]
+   }
+  },
+  {
+   "slot_id": "year2_total_received",
+   "description": "Total cash the investor receives at the end of year 2.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "from fractions import Fraction\nfrom decimal import Decimal\n\ndef to_dec(fr):\n    fr = Fraction(fr)\n    return Decimal(fr.numerator) / Decimal(fr.denominator)\n\ndef solve():\n    F = Fraction(P[\"FACE\"])\n    a1 = Fraction(P[\"A1_PCT\"], 100)\n    a2 = Fraction(P[\"A2_PCT\"], 100)\n    c1 = Fraction(str(P[\"C1_PCT\"])) / 100\n    c2 = c1 + Fraction(P[\"STEP_BP\"], 10000)\n    y = Fraction(str(P[\"Y_PCT\"])) / 100\n    call_rate = Fraction(str(P[\"CALL_PCT\"])) / 100\n    frac = Fraction(P[\"DAYS\"], 360)\n    if c2 <= 0:\n        raise ValueError(\"coupon rate from year 2 must be positive\")\n    P0 = F\n    P1 = F - a1 * F\n    P2 = P1 - a2 * F\n    if P2 <= 0:\n        raise ValueError(\"no principal left for year 3\")\n    cf1 = c1 * P0 + a1 * F\n    cf2 = c2 * P1 + a2 * F\n    cf3 = c2 * P2 + P2\n    pv3_at2 = cf3 / (1 + y)\n    call_amt = call_rate * P2\n    called = call_amt < pv3_at2\n    year2_total = cf2 + (call_amt if called else Fraction(0))\n    base = to_dec(1 + y)\n    def pv(cf, t):\n        return to_dec(cf) / (base ** to_dec(t))\n    price = pv(cf1, 1 - frac) + pv(year2_total, 2 - frac)\n    if not called:\n        price = price + pv(cf3, 3 - frac)\n    return {\n        \"final\": price,\n        \"principal_after_year2\": P2,\n        \"pv_year3_at_year2\": pv3_at2,\n        \"call_decision\": \"call\" if called else \"no_call\",\n        \"year2_total_received\": year2_total\n    }\n",
+ "coverage_params": [
+  {
+   "FACE": 1000,
+   "A1_PCT": 20,
+   "A2_PCT": 20,
+   "C1_PCT": "3.0",
+   "STEP_BP": -100,
+   "Y_PCT": "8.0",
+   "CALL_PCT": "104.0",
+   "DAYS": 30
+  },
+  {
+   "FACE": 5000,
+   "A1_PCT": 40,
+   "A2_PCT": 40,
+   "C1_PCT": "7.0",
+   "STEP_BP": 150,
+   "Y_PCT": "2.0",
+   "CALL_PCT": "100.0",
+   "DAYS": 330
+  },
+  {
+   "FACE": 3000,
+   "A1_PCT": 30,
+   "A2_PCT": 25,
+   "C1_PCT": "5.0",
+   "STEP_BP": 0,
+   "Y_PCT": "5.0",
+   "CALL_PCT": "102.0",
+   "DAYS": 180
+  }
+ ]
+}

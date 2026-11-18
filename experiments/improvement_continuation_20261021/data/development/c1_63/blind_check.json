@@ -1,0 +1,499 @@
+{
+ "family": "c1_63",
+ "draws_sha256": "18e650bc1946e8d55e7ad9bf31ed49d8ca18ea8d188762683d5602dec920ab44",
+ "checks": [
+  {
+   "case_id": "t1_syn3d62aafd3a8bfcbe1efa",
+   "verdicts": {
+    "final": true,
+    "npv_a": true,
+    "npv_b": true,
+    "eaa_larger": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn3d62aafd3a8bfcbe1efa",
+     "final_answer": {
+      "value": "project_a"
+     },
+     "steps": [
+      {
+       "slot_id": "npv_a",
+       "value": "2112.62"
+      },
+      {
+       "slot_id": "npv_b",
+       "value": "-8664.74"
+      },
+      {
+       "slot_id": "eaa_larger",
+       "value": "775.77"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "project_a": 1
+     },
+     "npv_a": {
+      "2112.62": 1
+     },
+     "npv_b": {
+      "-8664.74": 1
+     },
+     "eaa_larger": {
+      "775.77": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "project_a",
+       "npv_a": "2112.62",
+       "npv_b": "-8664.74",
+       "eaa_larger": "775.77"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f63f8e77aea34f9e0d0a50d97a47747c7ee3d9f49546f3ae99a989ed85abcf9d",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1252,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 381,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1252,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 381,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1252,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1252
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.044291,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4373,
+         "session_id": "7178dad1-3db4-48c1-a5fe-10f6b5e75c51",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    r = Q(\"0.05\")\n    # Project A\n    npv_a = -7000 + sum(3600 / (1 + r) ** t for t in range(1, 4)) + (-800) / (1 + r) ** 3\n    # Project B: +500 cost increase -> annual outflow of 500\n    cf_b = -500\n    npv_b = -6500 + sum(cf_b / (1 + r) ** t for t in range(1, 6))\n    af_a = (1 - (1 + r) ** -3) / r\n    af_b = (1 - (1 + r) ** -5) / r\n    eaa_a = npv_a / af_a\n    eaa_b = npv_b / af_b\n    eaa_larger = eaa_a if eaa_a >= eaa_b else eaa_b\n    if npv_a <= 0 and npv_b <= 0:\n        final = \"neither\"\n    elif eaa_a >= eaa_b:\n        final = \"project_a\"\n    else:\n        final = \"project_b\"\n    return {\"final\": final, \"npv_a\": npv_a, \"npv_b\": npv_b, \"eaa_larger\": eaa_larger}\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 176
+        },
+        "rendered": {
+         "final": "project_a",
+         "npv_a": "2112.62",
+         "npv_b": "-8664.74",
+         "eaa_larger": "775.77"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syne3428cd75a9373a5ce0c",
+   "verdicts": {
+    "final": true,
+    "npv_a": true,
+    "npv_b": true,
+    "eaa_larger": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syne3428cd75a9373a5ce0c",
+     "final_answer": {
+      "value": "project_a"
+     },
+     "steps": [
+      {
+       "slot_id": "npv_a",
+       "value": "7195.39"
+      },
+      {
+       "slot_id": "npv_b",
+       "value": "2572.50"
+      },
+      {
+       "slot_id": "eaa_larger",
+       "value": "2220.99"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "project_a": 1
+     },
+     "npv_a": {
+      "7195.39": 1
+     },
+     "npv_b": {
+      "2572.50": 1
+     },
+     "eaa_larger": {
+      "2220.99": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "project_a",
+       "npv_a": "7195.39",
+       "npv_b": "2572.50",
+       "eaa_larger": "2220.99"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "bd1f5241ded5af0c01b2f71fe0fe6d2c689613c18c71662f2905b8ab7f0d01fc",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1254,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 457,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1254,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 457,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1254,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1254
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.04813099999999999,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5369,
+         "session_id": "eec69df0-3327-44f4-a578-4c9f325e8997",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    r = Q(\"0.09\")\n    # Project A\n    n_a = 4\n    pv_a = sum(Q(3700) / (1 + r) ** t for t in range(1, n_a + 1))\n    pv_a += Q(1000) / (1 + r) ** n_a\n    npv_a = pv_a - 5500\n    # Project B: cost change -2200 => inflow 2200\n    n_b = 7\n    inflow_b = -Q(-2200)\n    pv_b = sum(inflow_b / (1 + r) ** t for t in range(1, n_b + 1))\n    npv_b = pv_b - 8500\n    # annuity factors\n    af_a = (1 - (1 + r) ** (-n_a)) / r\n    af_b = (1 - (1 + r) ** (-n_b)) / r\n    eaa_a = npv_a / af_a\n    eaa_b = npv_b / af_b\n    eaa_larger = eaa_a if eaa_a >= eaa_b else eaa_b\n    if npv_a <= 0 and npv_b <= 0:\n        final = \"neither\"\n    elif eaa_a >= eaa_b:\n        final = \"project_a\"\n    else:\n        final = \"project_b\"\n    return {\"final\": final, \"npv_a\": npv_a, \"npv_b\": npv_b, \"eaa_larger\": eaa_larger}\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 255
+        },
+        "rendered": {
+         "final": "project_a",
+         "npv_a": "7195.39",
+         "npv_b": "2572.50",
+         "eaa_larger": "2220.99"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn9e561425ad0466d81999",
+   "verdicts": {
+    "final": true,
+    "npv_a": true,
+    "npv_b": true,
+    "eaa_larger": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn9e561425ad0466d81999",
+     "final_answer": {
+      "value": "neither"
+     },
+     "steps": [
+      {
+       "slot_id": "npv_a",
+       "value": "-1547.64"
+      },
+      {
+       "slot_id": "npv_b",
+       "value": "-7735.54"
+      },
+      {
+       "slot_id": "eaa_larger",
+       "value": "-355.35"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "neither": 1
+     },
+     "npv_a": {
+      "-1547.64": 1
+     },
+     "npv_b": {
+      "-7735.54": 1
+     },
+     "eaa_larger": {
+      "-355.35": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "neither",
+       "npv_a": "-1547.64",
+       "npv_b": "-7735.54",
+       "eaa_larger": "-355.35"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "eb44da314e14aaafcc7c82e27031a413464ca12d6012e7cec9c9f9a6b52a799d",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1253,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 485,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1253,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 485,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1253,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1253
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.049511,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5238,
+         "session_id": "7f39d24f-27c2-4da4-ae89-7c90d15f3576",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    r = Q(\"0.10\")\n    # Project A\n    cost_a = 9500\n    rev_a = 1800\n    n_a = 6\n    term_a = 200\n    npv_a = -cost_a\n    for t in range(1, n_a + 1):\n        npv_a += rev_a / (1 + r) ** t\n    npv_a += term_a / (1 + r) ** n_a\n    # Project B: +1000 means cost increase -> outflow\n    cost_b = 6000\n    delta_cost_b = 1000\n    cf_b = -delta_cost_b\n    n_b = 2\n    npv_b = -cost_b\n    for t in range(1, n_b + 1):\n        npv_b += cf_b / (1 + r) ** t\n    af_a = (1 - (1 + r) ** (-n_a)) / r\n    af_b = (1 - (1 + r) ** (-n_b)) / r\n    eaa_a = npv_a / af_a\n    eaa_b = npv_b / af_b\n    eaa_larger = eaa_a if eaa_a >= eaa_b else eaa_b\n    if npv_a <= 0 and npv_b <= 0:\n        final = \"neither\"\n    elif eaa_a >= eaa_b:\n        final = \"project_a\"\n    else:\n        final = \"project_b\"\n    return {\"final\": final, \"npv_a\": npv_a, \"npv_b\": npv_b, \"eaa_larger\": eaa_larger}\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 202
+        },
+        "rendered": {
+         "final": "neither",
+         "npv_a": "-1547.64",
+         "npv_b": "-7735.54",
+         "eaa_larger": "-355.35"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_synf8db77be85c70d0237f3",
+   "verdicts": {
+    "final": true,
+    "npv_a": true,
+    "npv_b": true,
+    "eaa_larger": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synf8db77be85c70d0237f3",
+     "final_answer": {
+      "value": "project_a"
+     },
+     "steps": [
+      {
+       "slot_id": "npv_a",
+       "value": "3662.72"
+      },
+      {
+       "slot_id": "npv_b",
+       "value": "-5019.63"
+      },
+      {
+       "slot_id": "eaa_larger",
+       "value": "1524.97"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "project_a": 1
+     },
+     "npv_a": {
+      "3662.72": 1
+     },
+     "npv_b": {
+      "-5019.63": 1
+     },
+     "eaa_larger": {
+      "1524.97": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "project_a",
+       "npv_a": "3662.72",
+       "npv_b": "-5019.63",
+       "eaa_larger": "1524.97"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f0843080ea6f894fe49c603fc99c5c46774c1988dfa7c3ac419cc20b9257351e",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1253,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 268,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1253,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 268,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1253,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1253
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.038661,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3502,
+         "session_id": "31c6ab8f-2383-4225-8657-78607ae2334a",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    r = Q(\"0.12\")\n    n = 3\n    af = (1 - (1 + r) ** (-n)) / r\n    npv_a = -5500 + 3400 * af + 1400 / (1 + r) ** 3\n    npv_b = -5500 + 200 * af\n    eaa_a = npv_a / af\n    eaa_b = npv_b / af\n    eaa_larger = max(eaa_a, eaa_b)\n    if npv_a <= 0 and npv_b <= 0:\n        final = \"neither\"\n    elif eaa_a >= eaa_b:\n        final = \"project_a\"\n    else:\n        final = \"project_b\"\n    return {\"final\": final, \"npv_a\": npv_a, \"npv_b\": npv_b, \"eaa_larger\": eaa_larger}\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 317
+        },
+        "rendered": {
+         "final": "project_a",
+         "npv_a": "3662.72",
+         "npv_b": "-5019.63",
+         "eaa_larger": "1524.97"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

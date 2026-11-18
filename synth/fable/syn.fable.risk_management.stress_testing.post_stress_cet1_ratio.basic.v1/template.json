@@ -1,0 +1,49 @@
+{
+ "name": "post_stress_cet1_ratio",
+ "domain_id": "risk_management",
+ "topic_id": "stress_testing",
+ "difficulty": "basic",
+ "params": {
+  "K": {
+   "kind": "int",
+   "min": 800,
+   "max": 2000,
+   "step": 10
+  },
+  "R": {
+   "kind": "int",
+   "min": 8000,
+   "max": 20000,
+   "step": 100
+  },
+  "L": {
+   "kind": "int",
+   "min": 50,
+   "max": 600,
+   "step": 10
+  }
+ },
+ "question_template": "Use exact arithmetic. A bank's common equity tier 1 capital is K={K} USD million and its risk-weighted assets are R={R} USD million. A stress scenario produces a one-off loss of L={L} USD million that reduces capital in full while risk-weighted assets are unchanged. Compute the post-stress CET1 ratio as a percentage of risk-weighted assets without intermediate rounding, then round only the final value half up to 2 decimal places.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "post_stress_capital",
+   "description": "Exact capital remaining after the stress loss.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    K = P[\"K\"]\n    R = P[\"R\"]\n    L = P[\"L\"]\n    if R <= 0:\n        raise ValueError(\"risk-weighted assets must be positive\")\n    post_capital = Fraction(K) - Fraction(L)\n    if post_capital <= 0:\n        raise ValueError(\"stress loss wipes out capital\")\n    ratio_pct = post_capital / Fraction(R) * 100\n    return {\"final\": ratio_pct, \"post_stress_capital\": post_capital}\n"
+}

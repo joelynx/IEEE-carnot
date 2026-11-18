@@ -1,0 +1,146 @@
+{
+ "name": "dca_versus_lump_sum_commission_waiver_gain",
+ "domain_id": "personal_finance",
+ "topic_id": "personalinvest",
+ "difficulty": "advanced",
+ "params": {
+  "M": {
+   "kind": "int",
+   "min": 100,
+   "max": 1000,
+   "step": 50
+  },
+  "P1": {
+   "kind": "decimal",
+   "min": "5.00",
+   "max": "60.00",
+   "step": "0.25"
+  },
+  "P2": {
+   "kind": "decimal",
+   "min": "5.00",
+   "max": "60.00",
+   "step": "0.25"
+  },
+  "P3": {
+   "kind": "decimal",
+   "min": "5.00",
+   "max": "60.00",
+   "step": "0.25"
+  },
+  "P4": {
+   "kind": "decimal",
+   "min": "5.00",
+   "max": "60.00",
+   "step": "0.25"
+  },
+  "PF": {
+   "kind": "decimal",
+   "min": "5.00",
+   "max": "60.00",
+   "step": "0.25"
+  },
+  "FEE": {
+   "kind": "decimal",
+   "min": "0.00",
+   "max": "10.00",
+   "step": "0.50"
+  },
+  "WAIVE": {
+   "kind": "int",
+   "min": 200,
+   "max": 2000,
+   "step": 100
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local investment comparison. An investor commits {M} USD per month for four months. Under dollar-cost averaging, each monthly amount is used to buy shares at that month's price: month 1 at {P1}, month 2 at {P2}, month 3 at {P3}, month 4 at {P4} USD per share. Under the lump-sum alternative, the entire four-month total is used in a single purchase at the month-1 price. A flat commission of {FEE} USD is deducted from the cash of each purchase before shares are bought, but it is waived for any single purchase whose cash before commission is at least {WAIVE} USD, equality included. Shares are fractional. The dollar-cost-averaging average cost per share equals the total cash committed over the four months, including any commission, divided by the total shares bought. At the final price of {PF} USD per share, the gain of dollar-cost averaging relative to the lump sum is the market value of the dollar-cost-averaging shares minus the market value of the lump-sum shares; it is signed and may be negative. Report total dollar-cost-averaging shares, the dollar-cost-averaging average cost per share, lump-sum shares, and the signed gain in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "dca_shares",
+   "description": "Total shares bought across the four monthly purchases",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "dca_avg_cost",
+   "description": "Average cost per share under dollar-cost averaging including commission",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_per_count",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "ls_shares",
+   "description": "Shares bought by the single lump-sum purchase at month-1 price",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def net_cash(cash, fee, waive):\n    if cash >= waive:\n        return cash\n    return cash - fee\n\ndef solve():\n    m = P[\"M\"]\n    prices = [P[\"P1\"], P[\"P2\"], P[\"P3\"], P[\"P4\"]]\n    pf = P[\"PF\"]\n    fee = P[\"FEE\"]\n    waive = P[\"WAIVE\"]\n    if fee >= m:\n        raise ValueError(\"commission must be smaller than the monthly contribution\")\n    dca_shares = 0\n    for p in prices:\n        dca_shares = dca_shares + net_cash(m, fee, waive) / p\n    total_cash = 4 * m\n    dca_avg_cost = total_cash / dca_shares\n    ls_shares = net_cash(total_cash, fee, waive) / prices[0]\n    gain = (dca_shares - ls_shares) * pf\n    return {\n        \"final\": gain,\n        \"dca_shares\": dca_shares,\n        \"dca_avg_cost\": dca_avg_cost,\n        \"ls_shares\": ls_shares\n    }",
+ "coverage_params": [
+  {
+   "M": 500,
+   "P1": "25.00",
+   "P2": "20.00",
+   "P3": "16.00",
+   "P4": "20.00",
+   "PF": "22.00",
+   "FEE": "5.00",
+   "WAIVE": 500
+  },
+  {
+   "M": 300,
+   "P1": "20.00",
+   "P2": "22.00",
+   "P3": "24.00",
+   "P4": "26.00",
+   "PF": "28.00",
+   "FEE": "5.00",
+   "WAIVE": 1000
+  },
+  {
+   "M": 100,
+   "P1": "10.00",
+   "P2": "12.00",
+   "P3": "9.00",
+   "P4": "11.00",
+   "PF": "10.00",
+   "FEE": "0.00",
+   "WAIVE": 2000
+  },
+  {
+   "M": 250,
+   "P1": "50.00",
+   "P2": "40.00",
+   "P3": "45.00",
+   "P4": "55.00",
+   "PF": "50.00",
+   "FEE": "10.00",
+   "WAIVE": 2000
+  }
+ ]
+}

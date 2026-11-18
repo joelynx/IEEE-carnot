@@ -1,0 +1,142 @@
+{
+ "name": "leverage_ratio_ccf_exposure_shortfall",
+ "domain_id": "finance_regulation",
+ "topic_id": "basel",
+ "difficulty": "advanced",
+ "params": {
+  "GROSS_T1": {
+   "kind": "int",
+   "min": 200,
+   "max": 600,
+   "step": 10
+  },
+  "GOODWILL": {
+   "kind": "int",
+   "min": 0,
+   "max": 150,
+   "step": 5
+  },
+  "DTA": {
+   "kind": "int",
+   "min": 0,
+   "max": 80,
+   "step": 5
+  },
+  "DTA_THRESH_PCT": {
+   "kind": "int",
+   "min": 5,
+   "max": 15,
+   "step": 5
+  },
+  "ON_BS": {
+   "kind": "int",
+   "min": 4000,
+   "max": 12000,
+   "step": 500
+  },
+  "UNDRAWN": {
+   "kind": "int",
+   "min": 500,
+   "max": 3000,
+   "step": 100
+  },
+  "CCF_PCT": {
+   "kind": "int",
+   "min": 20,
+   "max": 75,
+   "step": 5
+  },
+  "MIN_PCT": {
+   "kind": "decimal",
+   "min": "3.0",
+   "max": "5.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "Apply only this fictional scenario-local leverage rule. Gross Tier 1 capital before deductions is {GROSS_T1} USD million. Goodwill of {GOODWILL} USD million is deducted in full. Deferred tax assets of {DTA} USD million are deducted only for the amount above {DTA_THRESH_PCT} percent of gross Tier 1 capital; if not above that threshold, no DTA deduction applies. On-balance-sheet assets of {ON_BS} USD million enter the exposure measure in full; undrawn commitments of {UNDRAWN} USD million enter at {CCF_PCT} percent of notional. The exposure measure is their sum. The leverage ratio in percent is Tier 1 capital after deductions divided by the exposure measure, times 100. The minimum ratio is {MIN_PCT} percent. The capital shortfall is the additional Tier 1 capital in USD million that brings the ratio exactly to the minimum with the exposure measure unchanged; if the ratio already meets or exceeds the minimum, the shortfall is 0. If Tier 1 capital after deductions is zero or negative the case is invalid. Keep all values exact. Report Tier 1 capital after deductions, the exposure measure, the leverage ratio in percent, and finally the capital shortfall.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "tier1_after_deductions",
+   "description": "Tier 1 capital after goodwill and excess deferred tax asset deductions, USD million",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "exposure_measure",
+   "description": "On-balance-sheet assets plus credit-converted undrawn commitments, USD million",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "leverage_ratio_percent",
+   "description": "Tier 1 after deductions relative to exposure measure, in percentage points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    gross_t1 = Q(P[\"GROSS_T1\"])\n    goodwill = Q(P[\"GOODWILL\"])\n    dta = Q(P[\"DTA\"])\n    thresh_pct = Q(P[\"DTA_THRESH_PCT\"])\n    on_bs = Q(P[\"ON_BS\"])\n    undrawn = Q(P[\"UNDRAWN\"])\n    ccf_pct = Q(P[\"CCF_PCT\"])\n    min_pct = Q(P[\"MIN_PCT\"])\n\n    dta_threshold = gross_t1 * thresh_pct / Q(100)\n    dta_deduction = dta - dta_threshold\n    if dta_deduction < 0:\n        dta_deduction = Q(0)\n    tier1_after = gross_t1 - goodwill - dta_deduction\n    if tier1_after <= 0:\n        raise ValueError(\"Tier 1 capital after deductions is not positive\")\n\n    exposure = on_bs + undrawn * ccf_pct / Q(100)\n    leverage_pct = tier1_after / exposure * Q(100)\n\n    required_t1 = exposure * min_pct / Q(100)\n    shortfall = required_t1 - tier1_after\n    if shortfall < 0:\n        shortfall = Q(0)\n\n    return {\n        \"final\": shortfall,\n        \"tier1_after_deductions\": tier1_after,\n        \"exposure_measure\": exposure,\n        \"leverage_ratio_percent\": leverage_pct,\n    }",
+ "coverage_params": [
+  {
+   "GROSS_T1": 600,
+   "GOODWILL": 10,
+   "DTA": 20,
+   "DTA_THRESH_PCT": 10,
+   "ON_BS": 4000,
+   "UNDRAWN": 500,
+   "CCF_PCT": 20,
+   "MIN_PCT": "3.0"
+  },
+  {
+   "GROSS_T1": 200,
+   "GOODWILL": 60,
+   "DTA": 80,
+   "DTA_THRESH_PCT": 5,
+   "ON_BS": 12000,
+   "UNDRAWN": 3000,
+   "CCF_PCT": 75,
+   "MIN_PCT": "5.0"
+  },
+  {
+   "GROSS_T1": 400,
+   "GOODWILL": 0,
+   "DTA": 40,
+   "DTA_THRESH_PCT": 10,
+   "ON_BS": 8000,
+   "UNDRAWN": 2000,
+   "CCF_PCT": 50,
+   "MIN_PCT": "4.5"
+  },
+  {
+   "GROSS_T1": 200,
+   "GOODWILL": 150,
+   "DTA": 80,
+   "DTA_THRESH_PCT": 5,
+   "ON_BS": 6000,
+   "UNDRAWN": 1000,
+   "CCF_PCT": 40,
+   "MIN_PCT": "3.5"
+  }
+ ]
+}

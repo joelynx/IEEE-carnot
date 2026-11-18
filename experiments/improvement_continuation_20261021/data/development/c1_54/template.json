@@ -1,0 +1,142 @@
+{
+ "name": "neobank_user_contribution_payback",
+ "domain_id": "fintech",
+ "topic_id": "digital_banking",
+ "difficulty": "advanced",
+ "params": {
+  "CAC": {
+   "kind": "int",
+   "min": 40,
+   "max": 120,
+   "step": 5
+  },
+  "SPEND": {
+   "kind": "int",
+   "min": 300,
+   "max": 1500,
+   "step": 50
+  },
+  "IC_RATE": {
+   "kind": "decimal",
+   "min": "0.80",
+   "max": "1.60",
+   "step": "0.05"
+  },
+  "D0": {
+   "kind": "int",
+   "min": 500,
+   "max": 3000,
+   "step": 100
+  },
+  "NIM": {
+   "kind": "decimal",
+   "min": "2.00",
+   "max": "5.00",
+   "step": "0.25"
+  },
+  "G": {
+   "kind": "int",
+   "min": -200,
+   "max": 300,
+   "step": 50
+  },
+  "S": {
+   "kind": "decimal",
+   "min": "3.0",
+   "max": "8.0",
+   "step": "0.5"
+  },
+  "N": {
+   "kind": "int",
+   "min": 6,
+   "max": 18,
+   "step": 1
+  }
+ },
+ "question_template": "A fictional neobank models one user. An acquisition cost of {CAC} USD is paid once, at month 0, before month 1 begins; it is not part of any monthly contribution but is included in cumulative contribution from month 0 onward. In every month the user spends {SPEND} USD on the card and the bank earns interchange equal to {IC_RATE} percent of that spend. The user's deposit balance is {D0} USD at the beginning of month 1. Net interest income for a month accrues on the balance at the beginning of that month at an annual net interest margin of {NIM} percent divided by 12. At the end of every month the balance changes by a net deposit inflow of {G} USD (negative means outflow); the change is persistent, carrying into all later months, and the balance is floored at zero. Monthly servicing cost is {S} USD. Monthly contribution for a month equals interchange plus net interest income minus servicing cost for that month. Cumulative contribution after month t equals minus the acquisition cost plus the sum of monthly contributions for months 1 through t. The payback month is the first month t in 1 through {N} whose cumulative contribution is at least zero; it is 0 if no such month exists. What is the cumulative contribution after month {N} in USD?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "balance_begin_month_n",
+   "description": "Deposit balance at the beginning of the final month N, after floor",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "contribution_month_n",
+   "description": "Monthly contribution flow for month N alone, excluding acquisition cost",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "payback_month",
+   "description": "First month with cumulative contribution at least zero, or 0 if none",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    cac = P[\"CAC\"]\n    spend = P[\"SPEND\"]\n    ic = P[\"IC_RATE\"]\n    d0 = P[\"D0\"]\n    nim = P[\"NIM\"]\n    g = P[\"G\"]\n    s = P[\"S\"]\n    n = P[\"N\"]\n    if n < 1:\n        raise ValueError(\"horizon must be at least one month\")\n    bal = d0\n    cum = -cac\n    payback = 0\n    contrib_n = 0\n    bal_n = 0\n    for t in range(1, n + 1):\n        if t == n:\n            bal_n = bal\n        interchange = spend * ic / 100\n        nii = bal * nim / 100 / 12\n        c = interchange + nii - s\n        cum = cum + c\n        if payback == 0 and cum >= 0:\n            payback = t\n        if t == n:\n            contrib_n = c\n        bal = bal + g\n        if bal < 0:\n            bal = 0\n    return {\n        \"final\": cum,\n        \"balance_begin_month_n\": bal_n,\n        \"contribution_month_n\": contrib_n,\n        \"payback_month\": payback,\n    }\n",
+ "coverage_params": [
+  {
+   "CAC": 80,
+   "SPEND": 800,
+   "IC_RATE": "1.20",
+   "D0": 1500,
+   "NIM": "3.50",
+   "G": 100,
+   "S": "5.0",
+   "N": 12
+  },
+  {
+   "CAC": 60,
+   "SPEND": 600,
+   "IC_RATE": "1.00",
+   "D0": 600,
+   "NIM": "4.00",
+   "G": -200,
+   "S": "4.0",
+   "N": 10
+  },
+  {
+   "CAC": 120,
+   "SPEND": 300,
+   "IC_RATE": "0.80",
+   "D0": 500,
+   "NIM": "2.00",
+   "G": 50,
+   "S": "8.0",
+   "N": 6
+  },
+  {
+   "CAC": 40,
+   "SPEND": 1500,
+   "IC_RATE": "1.60",
+   "D0": 3000,
+   "NIM": "5.00",
+   "G": 0,
+   "S": "3.0",
+   "N": 6
+  }
+ ]
+}

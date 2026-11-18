@@ -1,0 +1,159 @@
+{
+ "name": "capped_margin_program_year_n_oi_increase",
+ "domain_id": "financial_ratios",
+ "topic_id": "profitratio",
+ "difficulty": "intermediate",
+ "params": {
+  "REVENUE_BN": {
+   "kind": "decimal",
+   "min": "2.0",
+   "max": "20.0",
+   "step": "0.1"
+  },
+  "COGS_PCT": {
+   "kind": "decimal",
+   "min": "40.0",
+   "max": "65.0",
+   "step": "0.5"
+  },
+  "OPEX_PCT": {
+   "kind": "decimal",
+   "min": "15.0",
+   "max": "30.0",
+   "step": "0.5"
+  },
+  "IMPROVE_BP": {
+   "kind": "int",
+   "min": 25,
+   "max": 300,
+   "step": 5
+  },
+  "MODE": {
+   "kind": "choice",
+   "values": [
+    "once",
+    "each_year"
+   ]
+  },
+  "CAP_BP": {
+   "kind": "int",
+   "min": 100,
+   "max": 600,
+   "step": 25
+  },
+  "GROWTH_PCT": {
+   "kind": "decimal",
+   "min": "-5.0",
+   "max": "10.0",
+   "step": "0.5"
+  },
+  "YEARS": {
+   "kind": "int",
+   "min": 3,
+   "max": 6,
+   "step": 1
+  }
+ },
+ "question_template": "Current revenue is {REVENUE_BN} USD billion. Cost of goods sold is {COGS_PCT} percent of revenue and operating expenses are {OPEX_PCT} percent of revenue; operating income is revenue minus both, and operating margin is operating income over revenue. A program lifts the margin by {IMPROVE_BP} basis points above the current margin. Mode {MODE}: 'once' applies the full gain from year 1 and holds it flat; 'each_year' adds another {IMPROVE_BP} basis points every year, so year t carries t times that gain. The cumulative gain in any year is capped at {CAP_BP} basis points. Revenue grows {GROWTH_PCT} percent per year compounded with year 1 one growth step after the current year. Report in USD millions the increase in year {YEARS} operating income over current operating income, not the multi-year cumulative gain.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "current_operating_income",
+   "description": "Current-year operating income in USD millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "final_year_gain_bp",
+   "description": "Capped cumulative margin gain applied in the final year, basis points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "basis_point",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "final_year_margin_pct",
+   "description": "Operating margin in the final year, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "cumulative_operating_income",
+   "description": "Total operating income summed over years one through the final year, USD millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    rev_bn = Fraction(P[\"REVENUE_BN\"])\n    cogs_pct = Fraction(P[\"COGS_PCT\"])\n    opex_pct = Fraction(P[\"OPEX_PCT\"])\n    improve_bp = Fraction(P[\"IMPROVE_BP\"])\n    mode = P[\"MODE\"]\n    cap_bp = Fraction(P[\"CAP_BP\"])\n    growth = Fraction(P[\"GROWTH_PCT\"]) / 100\n    years = int(P[\"YEARS\"])\n    if mode not in (\"once\", \"each_year\"):\n        raise ValueError(\"unknown mode\")\n    if years < 1:\n        raise ValueError(\"years must be at least 1\")\n    rev0 = rev_bn * 1000  # USD millions\n    margin0 = 100 - cogs_pct - opex_pct  # percent\n    oi0 = rev0 * margin0 / 100\n    cumulative = Fraction(0)\n    oi_t = oi0\n    margin_t = margin0\n    gain_t = Fraction(0)\n    for t in range(1, years + 1):\n        rev_t = rev0 * (1 + growth) ** t\n        raw_gain = improve_bp if mode == \"once\" else improve_bp * t\n        gain_t = min(raw_gain, cap_bp)\n        margin_t = margin0 + gain_t / 100\n        oi_t = rev_t * margin_t / 100\n        cumulative += oi_t\n    final = oi_t - oi0\n    return {\n        \"final\": final,\n        \"current_operating_income\": oi0,\n        \"final_year_gain_bp\": gain_t,\n        \"final_year_margin_pct\": margin_t,\n        \"cumulative_operating_income\": cumulative,\n    }",
+ "coverage_params": [
+  {
+   "REVENUE_BN": "8.0",
+   "COGS_PCT": "55.0",
+   "OPEX_PCT": "25.0",
+   "IMPROVE_BP": 150,
+   "MODE": "once",
+   "CAP_BP": 400,
+   "GROWTH_PCT": "5.0",
+   "YEARS": 4
+  },
+  {
+   "REVENUE_BN": "12.5",
+   "COGS_PCT": "60.0",
+   "OPEX_PCT": "20.5",
+   "IMPROVE_BP": 100,
+   "MODE": "each_year",
+   "CAP_BP": 250,
+   "GROWTH_PCT": "-3.0",
+   "YEARS": 5
+  },
+  {
+   "REVENUE_BN": "5.0",
+   "COGS_PCT": "50.0",
+   "OPEX_PCT": "28.0",
+   "IMPROVE_BP": 100,
+   "MODE": "each_year",
+   "CAP_BP": 400,
+   "GROWTH_PCT": "0.0",
+   "YEARS": 4
+  },
+  {
+   "REVENUE_BN": "15.0",
+   "COGS_PCT": "45.0",
+   "OPEX_PCT": "30.0",
+   "IMPROVE_BP": 300,
+   "MODE": "once",
+   "CAP_BP": 200,
+   "GROWTH_PCT": "8.0",
+   "YEARS": 3
+  }
+ ]
+}

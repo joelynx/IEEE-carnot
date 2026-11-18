@@ -1,0 +1,494 @@
+[
+  {
+    "case_id": "t1_syn31fdd8783c1bd91c3260",
+    "verdicts": {
+      "final": true,
+      "flotation_adjusted_equity_cost_percent": true,
+      "deductible_interest": true,
+      "after_tax_debt_cost_percent": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn31fdd8783c1bd91c3260",
+        "final_answer": {
+          "value": "11.47"
+        },
+        "steps": [
+          {
+            "slot_id": "flotation_adjusted_equity_cost_percent",
+            "value": "2500/189"
+          },
+          {
+            "slot_id": "deductible_interest",
+            "value": "11.25"
+          },
+          {
+            "slot_id": "after_tax_debt_cost_percent",
+            "value": "4.4375"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "11.47": 1
+        },
+        "flotation_adjusted_equity_cost_percent": {
+          "2500/189": 1
+        },
+        "deductible_interest": {
+          "11.25": 1
+        },
+        "after_tax_debt_cost_percent": {
+          "4.4375": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "11.47",
+            "flotation_adjusted_equity_cost_percent": "2500/189",
+            "deductible_interest": "11.25",
+            "after_tax_debt_cost_percent": "4.4375"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "c3bc1ee024df81d228a11b5e83c040f404e00701b0496225c3bd7830b5d49cf1",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 2221,
+                "cache_read_input_tokens": 0,
+                "output_tokens": 446,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 2221,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 446,
+                    "cache_read_input_tokens": 0,
+                    "cache_creation_input_tokens": 2221,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 2221
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.06674,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 5191,
+                "session_id": "cec71215-73ad-4694-97b9-91178479cd4b",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    wd = Q(\"0.20\")           # debt weight\n    we = 1 - wd              # equity weight\n    KE = Q(\"12.5\")           # required equity return, percent\n    FE = Q(\"5.5\")            # flotation cost, percent of gross proceeds\n    D = Q(180)               # debt, USD million\n    KD = Q(\"6.25\")           # pretax debt cost, percent\n    EBITDA = Q(115)          # USD million\n    cap_pct = Q(\"0.30\")      # interest deductibility cap as fraction of EBITDA\n    T = Q(29)                # tax rate, percent\n\n    # Flotation-adjusted equity cost\n    ke_f = KE / (1 - FE / 100)\n\n    # Interest and deductible portion\n    interest = D * KD / 100\n    cap = cap_pct * EBITDA\n    deductible = min(interest, cap)\n\n    # After-tax debt cost with capped shield\n    kd_after = KD * (1 - (T / 100) * (deductible / interest))\n\n    # WACC\n    wacc = we * ke_f + wd * kd_after\n\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": deductible,\n        \"after_tax_debt_cost_percent\": kd_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 152
+              },
+              "rendered": {
+                "final": "11.47",
+                "flotation_adjusted_equity_cost_percent": "2500/189",
+                "deductible_interest": "11.25",
+                "after_tax_debt_cost_percent": "4.4375"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn2f01bf679025a2077d4b",
+    "verdicts": {
+      "final": true,
+      "flotation_adjusted_equity_cost_percent": true,
+      "deductible_interest": true,
+      "after_tax_debt_cost_percent": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn2f01bf679025a2077d4b",
+        "final_answer": {
+          "value": "10.40"
+        },
+        "steps": [
+          {
+            "slot_id": "flotation_adjusted_equity_cost_percent",
+            "value": "550/49"
+          },
+          {
+            "slot_id": "deductible_interest",
+            "value": "9"
+          },
+          {
+            "slot_id": "after_tax_debt_cost_percent",
+            "value": "7.11"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "10.40": 1
+        },
+        "flotation_adjusted_equity_cost_percent": {
+          "550/49": 1
+        },
+        "deductible_interest": {
+          "9": 1
+        },
+        "after_tax_debt_cost_percent": {
+          "7.11": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "10.40",
+            "flotation_adjusted_equity_cost_percent": "550/49",
+            "deductible_interest": "9",
+            "after_tax_debt_cost_percent": "7.11"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "15eed39229cfe2d0d9548350a5a4033d217685a4d6d3a0a0677991cee324e186",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1215,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 440,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1215,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 440,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1215,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1215
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04657,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4966,
+                "session_id": "287e81cb-3cea-4617-a4d9-2a619d3c8707",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    wd = Q(\"0.20\")           # debt weight\n    we = 1 - wd              # equity weight\n    KE = Q(11)               # required equity return, percent\n    FE = Q(2)                # flotation cost, percent of gross proceeds\n    D = Q(100)               # debt, USD million\n    KD = Q(9)                # pretax debt cost, percent\n    EBITDA = Q(55)           # USD million\n    T = Q(21)                # tax rate, percent\n\n    # Flotation-adjusted equity cost (percent)\n    ke_f = KE / (1 - FE / 100)\n\n    # Interest and deductible portion under the EBITDA cap (USD million)\n    interest = D * KD / 100\n    cap = Q(\"0.20\") * EBITDA\n    deductible = min(interest, cap)\n\n    # After-tax debt cost with effective shield only on deductible portion (percent)\n    kd_after = KD * (1 - (T / 100) * (deductible / interest))\n\n    # WACC (percent)\n    wacc = we * ke_f + wd * kd_after\n\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": deductible,\n        \"after_tax_debt_cost_percent\": kd_after,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 160
+              },
+              "rendered": {
+                "final": "10.40",
+                "flotation_adjusted_equity_cost_percent": "550/49",
+                "deductible_interest": "9",
+                "after_tax_debt_cost_percent": "7.11"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syncf03e6ce8e288130e027",
+    "verdicts": {
+      "final": true,
+      "flotation_adjusted_equity_cost_percent": true,
+      "deductible_interest": true,
+      "after_tax_debt_cost_percent": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syncf03e6ce8e288130e027",
+        "final_answer": {
+          "value": "9.31"
+        },
+        "steps": [
+          {
+            "slot_id": "flotation_adjusted_equity_cost_percent",
+            "value": "1300/93"
+          },
+          {
+            "slot_id": "deductible_interest",
+            "value": "9.5"
+          },
+          {
+            "slot_id": "after_tax_debt_cost_percent",
+            "value": "3.61"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "9.31": 1
+        },
+        "flotation_adjusted_equity_cost_percent": {
+          "1300/93": 1
+        },
+        "deductible_interest": {
+          "9.5": 1
+        },
+        "after_tax_debt_cost_percent": {
+          "3.61": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "9.31",
+            "flotation_adjusted_equity_cost_percent": "1300/93",
+            "deductible_interest": "9.5",
+            "after_tax_debt_cost_percent": "3.61"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "0bf6c65f3300f392c81eb3e1ad086126f46078cdf9e526e532efd50634ada510",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1217,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 352,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1217,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 352,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1217,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1217
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04221,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4345,
+                "session_id": "3cdcb4dc-d32a-4e14-8439-c78d312f6f72",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    wd = Q(\"0.45\")\n    we = 1 - wd\n    KE = Q(13)\n    FE = Q(7)\n    D = Q(200)\n    KD = Q(\"4.75\")\n    EBITDA = Q(95)\n    T = Q(24)\n\n    # Flotation-adjusted equity cost (percent)\n    ke_f = KE / (1 - FE / 100)\n\n    # Interest and deductible interest (usd_million)\n    I = D * KD / 100\n    cap = Q(\"0.30\") * EBITDA\n    deductible = min(I, cap)\n\n    # After-tax debt cost (percent) with capped shield\n    kd_at = KD * (1 - (T / 100) * (deductible / I))\n\n    # WACC (percent)\n    wacc = we * ke_f + wd * kd_at\n\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": deductible,\n        \"after_tax_debt_cost_percent\": kd_at,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 358
+              },
+              "rendered": {
+                "final": "9.31",
+                "flotation_adjusted_equity_cost_percent": "1300/93",
+                "deductible_interest": "9.5",
+                "after_tax_debt_cost_percent": "3.61"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syna9483b86628300174475",
+    "verdicts": {
+      "final": true,
+      "flotation_adjusted_equity_cost_percent": true,
+      "deductible_interest": true,
+      "after_tax_debt_cost_percent": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syna9483b86628300174475",
+        "final_answer": {
+          "value": "8.05"
+        },
+        "steps": [
+          {
+            "slot_id": "flotation_adjusted_equity_cost_percent",
+            "value": "450/49"
+          },
+          {
+            "slot_id": "deductible_interest",
+            "value": "25.65"
+          },
+          {
+            "slot_id": "after_tax_debt_cost_percent",
+            "value": "5.4"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "8.05": 1
+        },
+        "flotation_adjusted_equity_cost_percent": {
+          "450/49": 1
+        },
+        "deductible_interest": {
+          "25.65": 1
+        },
+        "after_tax_debt_cost_percent": {
+          "5.4": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "8.05",
+            "flotation_adjusted_equity_cost_percent": "450/49",
+            "deductible_interest": "25.65",
+            "after_tax_debt_cost_percent": "5.4"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "6bb9b49c84de074da2a4a086165d5b519e79c8a939de8dec6739e1ef769b8dc9",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1217,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 349,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1217,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 349,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1217,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1217
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.04206,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 4143,
+                "session_id": "96a57b80-7d74-4539-9fa5-7135d10c0050",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    wd = Q(\"0.30\")\n    we = 1 - wd\n    KE = Q(9)\n    FE = Q(2)\n    D = Q(380)\n    KD = Q(\"6.75\")\n    EBITDA = Q(110)\n    T = Q(20)\n\n    # Flotation-adjusted equity cost (percent)\n    ke_f = KE / (1 - FE / 100)\n\n    # Interest and deductible interest (USD million)\n    interest = D * KD / 100\n    cap = Q(\"0.25\") * EBITDA\n    deductible = min(interest, cap)\n\n    # After-tax debt cost (percent)\n    kd_at = KD * (1 - (T / 100) * (deductible / interest))\n\n    # WACC (percent)\n    wacc = we * ke_f + wd * kd_at\n\n    return {\n        \"final\": wacc,\n        \"flotation_adjusted_equity_cost_percent\": ke_f,\n        \"deductible_interest\": deductible,\n        \"after_tax_debt_cost_percent\": kd_at,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 390
+              },
+              "rendered": {
+                "final": "8.05",
+                "flotation_adjusted_equity_cost_percent": "450/49",
+                "deductible_interest": "25.65",
+                "after_tax_debt_cost_percent": "5.4"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

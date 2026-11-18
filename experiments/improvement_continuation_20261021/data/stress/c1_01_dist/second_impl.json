@@ -1,0 +1,214 @@
+{
+ "family": "c1_01_dist",
+ "template_sha256": "bf0ba2b58bb245d3a891ff95451cb09979fa6ea6ba2effea622cf712cd004fc4",
+ "draws_sha256": "4666a1e27a9f68cbb9b6b48cdc5a8035e8e72bb99e2eeb8c2460831aa810052f",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "2c041cab27476a3196ba75cef2cdde4a65af121ed402fe5d19527bb0a4006f85",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1718,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 620,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1718,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 620,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1718,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1718
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0655305
+  }
+ ],
+ "program": "def solve():\n    premium = Q(P[\"PREMIUM\"])\n    policy_months = int(P[\"POLICY_MONTHS\"])\n    start_month = int(P[\"START_MONTH\"])\n    principal = Q(P[\"PRINCIPAL\"])\n    rate = Q(P[\"RATE\"])\n    loan_month = int(P[\"LOAN_MONTH\"])\n    pay_interval = int(P[\"PAY_INTERVAL\"])\n\n    # --- Insurance: month-by-month ledger of coverage used in the fiscal year ---\n    monthly_premium = premium / policy_months\n    insurance_expense = Q(0)\n    prepaid = premium\n    for m in range(start_month, 13):\n        used = m - start_month + 1  # months of coverage consumed by end of month m\n        if used <= policy_months:\n            insurance_expense += monthly_premium\n            prepaid -= monthly_premium\n    # prepaid left at 31 Dec: coverage months not yet used\n    # (ledger above already reduced it)\n\n    # --- Loan interest: month-by-month accrual and periodic cash payment ---\n    monthly_interest = principal * (rate / 100) / 12\n    interest_expense = Q(0)\n    accrued = Q(0)\n    months_since_draw = 0\n    for m in range(loan_month, 13):\n        interest_expense += monthly_interest\n        accrued += monthly_interest\n        months_since_draw += 1\n        if months_since_draw % pay_interval == 0:\n            # payment at end of this month (including 31 Dec)\n            accrued -= monthly_interest * pay_interval\n\n    total = insurance_expense + interest_expense\n\n    return {\n        \"final\": total,\n        \"prepaid_insurance_asset\": prepaid,\n        \"accrued_interest_liability\": accrued,\n        \"insurance_expense\": insurance_expense,\n    }\n",
+ "result": {
+  "compared": 31,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PREMIUM",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_POLICY_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_START_MONTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PRINCIPAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_LOAN_MONTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PAY_INTERVAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PREMIUM",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_POLICY_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_START_MONTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PRINCIPAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_LOAN_MONTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PAY_INTERVAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

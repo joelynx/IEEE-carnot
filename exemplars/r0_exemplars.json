@@ -1,0 +1,624 @@
+{
+ "config": "r0",
+ "llm": {
+  "backend": "claude-code-cli",
+  "cli_version": "2.1.296 (Claude Code)",
+  "model": "claude-sonnet-5-5",
+  "effort": "low",
+  "flags_version": "v1",
+  "flags": [
+   "-p",
+   "--safe-mode",
+   "--model",
+   "claude-sonnet-5-5",
+   "--effort",
+   "low",
+   "--system-prompt-file",
+   "<system-prompt-file>",
+   "--tools",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--permission-prompts",
+   "none",
+   "--max-turns",
+   "1",
+   "--no-session-persistence",
+   "--output-format",
+   "json"
+  ],
+  "auth_method": "claude.ai",
+  "subscription_type": "team"
+ },
+ "system_prompt_sha256": "02fa773273f0247d44636c412bef4ffb3ebf0a28c5d44b3c04fd1dc0a27f866d",
+ "exemplars": [
+  {
+   "category": "A",
+   "role": "primary",
+   "case_id": "t1_6wpp47myxxckeg2giwjji",
+   "template_id": "fp.corporate_finance.wacc.standard_wacc.basic.v1",
+   "question": {
+    "answer_spec": {
+     "rounding": {
+      "decimal_places": 2,
+      "mode": "half_up"
+     },
+     "type": "decimal",
+     "unit": "percent"
+    },
+    "case_id": "t1_6wpp47myxxckeg2giwjji",
+    "dataset_version": "task1-v4",
+    "question": "A company has market-value common equity E of 80 USD million and market-value interest-bearing debt D of 10 USD million. Its annual nominal cost of equity ke is 9.25 percent, its annual nominal pretax cost of debt kd is 4.5 percent, and its corporate tax rate T is 25 percent. Let V=E+D, wE=E/V, wD=D/V, and WACC=wE*ke+wD*kd*(1-T/100). Apply the tax shield only to debt. Use exact arithmetic from the disclosed inputs and do not round any intermediate value.\n\nAnswer format: use exact arithmetic through all intermediate steps, round only the final value half up to 2 decimal digits, and return only the numeric value interpreted in `percent` with no unit label or additional text.",
+    "schema_version": "finreason.task1.question/2.0.0",
+    "trace_spec": {
+     "slots": [
+      {
+       "description": "Exact total market-value capital.",
+       "position": 1,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "usd_million"
+       },
+       "slot_id": "total_capital"
+      },
+      {
+       "description": "Exact common-equity capital weight.",
+       "position": 2,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "ratio"
+       },
+       "slot_id": "equity_weight"
+      },
+      {
+       "description": "Exact annual after-tax debt cost percentage.",
+       "position": 3,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "percent"
+       },
+       "slot_id": "after_tax_debt_cost_percent"
+      }
+     ]
+    }
+   },
+   "program": "def solve():\n    E = Q(80)\n    D = Q(10)\n    ke = Q(\"9.25\")\n    kd = Q(\"4.5\")\n    T = Q(25)\n    V = E + D\n    wE = E / V\n    wD = D / V\n    atkd = kd * (1 - T / 100)\n    wacc = wE * ke + wD * atkd\n    return {\n        \"final\": wacc,\n        \"total_capital\": V,\n        \"equity_weight\": wE,\n        \"after_tax_debt_cost_percent\": atkd,\n    }\n"
+  },
+  {
+   "category": "A",
+   "role": "backup",
+   "case_id": "t1_37g2yk63q7sle7lciqzhk",
+   "template_id": "fp.risk_management.var.time_horizon.intermediate.v1",
+   "question": {
+    "answer_spec": {
+     "rounding": {
+      "decimal_places": 2,
+      "mode": "half_up"
+     },
+     "type": "decimal",
+     "unit": "usd"
+    },
+    "case_id": "t1_37g2yk63q7sle7lciqzhk",
+    "dataset_version": "task1-v4",
+    "question": "Use exact arithmetic. Portfolio value is V=36000.5 USD; daily volatility is s=2.8 percent; the participant-visible exact time-scaling scenario multiplier is t=2.2; and the participant-visible exact scenario z multiplier is z=1.5. All case values lie in V from 20000 through 100000, s from 2 through 6, t from 17/10 through 63/20, and z from 7/5 through 41/20. Treat t and z as supplied exact data: do not compute a square root, a normal quantile, or a confidence level. Compute VaR=V*(s/100)*t*z in USD with no intermediate rounding, then round only the final VaR half up to 2 decimal places.\n\nAnswer format: use exact arithmetic through all intermediate steps, round only the final value half up to 2 decimal digits, and return only the numeric value interpreted in `usd` with no unit label or additional text.",
+    "schema_version": "finreason.task1.question/2.0.0",
+    "trace_spec": {
+     "slots": [
+      {
+       "description": "Exact daily volatility ratio used by the VaR calculation.",
+       "position": 1,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "ratio"
+       },
+       "slot_id": "volatility_ratio_trace"
+      },
+      {
+       "description": "Exact volatility ratio after applying supplied time and z multipliers.",
+       "position": 2,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "ratio"
+       },
+       "slot_id": "scaled_volatility_trace"
+      }
+     ]
+    }
+   },
+   "program": "def solve():\n    V = Q(\"36000.5\")\n    s = Q(28, 10)\n    t = Q(\"2.2\")\n    z = Q(\"1.5\")\n    ratio = s / 100\n    scaled = ratio * t * z\n    var = V * scaled\n    return {\n        \"final\": var,\n        \"volatility_ratio_trace\": ratio,\n        \"scaled_volatility_trace\": scaled,\n    }\n"
+  },
+  {
+   "category": "B",
+   "role": "primary",
+   "case_id": "t1_ewxvgjppivedjdphepr3e",
+   "template_id": "fp.personal_finance.saveretire.early_retirement_bridge.advanced.v1",
+   "question": {
+    "answer_spec": {
+     "allowed_values": [
+      "false",
+      "true"
+     ],
+     "type": "enum"
+    },
+    "case_id": "t1_ewxvgjppivedjdphepr3e",
+    "dataset_version": "task1-v4",
+    "question": "Apply only this fictional scenario-local early-retirement bridge policy. Liquid savings in USD are 500. Annual spending in USD per year is 100. Positive integer bridge years are 5. Annual other income in USD per year is 0. Contingency ratio is 0. Net annual need is the larger of spending minus other income and zero. Base bridge need equals net annual need times bridge years. Contingency equals base need times the ratio. Required capital equals base need plus contingency. Funding gap equals required capital minus savings. The plan is funded when savings are at least required capital, including equality. Report net annual need, required capital, and funding gap.\n\nAnswer format: return exactly the lowercase token `true` or `false` and no additional text.",
+    "schema_version": "finreason.task1.question/2.0.0",
+    "trace_spec": {
+     "slots": [
+      {
+       "description": "Report net annual need.",
+       "position": 1,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "usd_per_year"
+       },
+       "slot_id": "net_annual_need"
+      },
+      {
+       "description": "Report required capital.",
+       "position": 2,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "required_capital_usd"
+      },
+      {
+       "description": "Report signed funding gap.",
+       "position": 3,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "funding_gap_usd"
+      }
+     ]
+    }
+   },
+   "program": "def solve():\n    savings = Q(500)\n    spending = Q(100)\n    years = 5\n    other = Q(0)\n    ratio = Q(0)\n    net = max(spending - other, Q(0))\n    base = net * years\n    cont = base * ratio\n    req = base + cont\n    gap = req - savings\n    funded = savings >= req\n    return {\n        \"final\": funded,\n        \"net_annual_need\": net,\n        \"required_capital_usd\": req,\n        \"funding_gap_usd\": gap,\n    }\n"
+  },
+  {
+   "category": "B",
+   "role": "backup",
+   "case_id": "t1_7uqc4247qkx3r6swzncqw",
+   "template_id": "fp.finance_regulation.security.disclosure_threshold.basic.v1",
+   "question": {
+    "answer_spec": {
+     "allowed_values": [
+      "false",
+      "true"
+     ],
+     "type": "enum"
+    },
+    "case_id": "t1_7uqc4247qkx3r6swzncqw",
+    "dataset_version": "task1-v4",
+    "question": "Apply only this fictional scenario-local securities policy. Ownership percent is 1. Disclosure threshold percent is 0.01. Compute signed margin as ownership minus threshold. Disclosure is required exactly when ownership is at least the threshold, including equality. Report margin and final Boolean.\n\nAnswer format: return exactly the lowercase token `true` or `false` and no additional text.",
+    "schema_version": "finreason.task1.question/2.0.0",
+    "trace_spec": {
+     "slots": [
+      {
+       "description": "Report signed ownership margin.",
+       "position": 1,
+       "result_spec": {
+        "rounding": {
+         "mode": "exact"
+        },
+        "type": "decimal",
+        "unit": "percent"
+       },
+       "slot_id": "ownership_margin_percent"
+      }
+     ]
+    }
+   },
+   "program": "def solve():\n    ownership = Q(1)\n    threshold = Q(\"0.01\")\n    margin = ownership - threshold\n    return {\n        \"final\": ownership >= threshold,\n        \"ownership_margin_percent\": margin,\n    }\n"
+  },
+  {
+   "category": "C",
+   "role": "primary",
+   "case_id": "t1_4d5gk53f7ye4yqabbgaec",
+   "template_id": "fp.investment_analysis.irr.bond_coupon_reinvestment.intermediate.v1",
+   "question": {
+    "answer_spec": {
+     "rounding": {
+      "decimal_places": 2,
+      "mode": "half_up"
+     },
+     "type": "decimal",
+     "unit": "percent"
+    },
+    "case_id": "t1_4d5gk53f7ye4yqabbgaec",
+    "dataset_version": "task1-v4",
+    "question": "An investor pays 9700 USD at time 0 for a one-year 10000 USD par bond. Its 9 percent nominal annual coupon is paid in two equal semiannual coupons. The first coupon is received after six months and immediately reinvested for the remaining six months at a simple annual rate of 3 percent. At maturity the investor receives the 10000 USD par value, the second semiannual coupon, and the accumulated first coupon. There are no other cash flows. Compute the one-year effective terminal-value IRR as a percentage.\n\nAnswer format: use exact arithmetic through all intermediate steps, round only the final value half up to 2 decimal digits, and return only the numeric value interpreted in `percent` with no unit label or additional text.",
+    "schema_version": "finreason.task1.question/2.0.0",
+    "trace_spec": {
+     "slots": [
+      {
+       "description": "Amount of each semiannual coupon.",
+       "position": 1,
+       "result_spec": {
+        "rounding": {
+         "decimal_places": 2,
+         "mode": "half_up"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "semiannual_coupon_trace"
+      },
+      {
+       "description": "Maturity value of the first coupon.",
+       "position": 2,
+       "result_spec": {
+        "rounding": {
+         "decimal_places": 2,
+         "mode": "half_up"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "reinvested_first_coupon_trace"
+      },
+      {
+       "description": "Total maturity cash including both coupons and par.",
+       "position": 3,
+       "result_spec": {
+        "rounding": {
+         "decimal_places": 2,
+         "mode": "half_up"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "terminal_cash_trace"
+      }
+     ]
+    }
+   },
+   "program": "def solve():\n    coupon = Q(10000) * Q(\"0.09\") / 2\n    reinv = coupon * (1 + Q(\"0.03\") / 2)\n    terminal = 10000 + coupon + reinv\n    irr = (terminal / 9700 - 1) * 100\n    return {\n        \"final\": irr,\n        \"semiannual_coupon_trace\": coupon,\n        \"reinvested_first_coupon_trace\": reinv,\n        \"terminal_cash_trace\": terminal,\n    }\n"
+  },
+  {
+   "category": "C",
+   "role": "backup",
+   "case_id": "t1_buafuyadq545moxwfdpkc",
+   "template_id": "fp.investment_analysis.irr.after_tax_net_sale_cost.intermediate.v1",
+   "question": {
+    "answer_spec": {
+     "rounding": {
+      "decimal_places": 2,
+      "mode": "half_up"
+     },
+     "type": "decimal",
+     "unit": "percent"
+    },
+    "case_id": "t1_buafuyadq545moxwfdpkc",
+    "dataset_version": "task1-v4",
+    "question": "An investment costs 20000 USD at time 0, and that amount remains its tax basis. Exactly one year later it is sold for 36000 USD. Selling cost of 1500 USD is paid first. Capital-gains tax equals 20 percent of the strictly positive net gain, defined as sale price minus selling cost minus tax basis. The after-tax net sale proceeds are the only terminal cash flow. Compute the effective after-tax annual IRR as a percentage.\n\nAnswer format: use exact arithmetic through all intermediate steps, round only the final value half up to 2 decimal digits, and return only the numeric value interpreted in `percent` with no unit label or additional text.",
+    "schema_version": "finreason.task1.question/2.0.0",
+    "trace_spec": {
+     "slots": [
+      {
+       "description": "Sale proceeds after selling cost.",
+       "position": 1,
+       "result_spec": {
+        "rounding": {
+         "decimal_places": 2,
+         "mode": "half_up"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "net_sale_proceeds_trace"
+      },
+      {
+       "description": "Gain subject to capital-gains tax.",
+       "position": 2,
+       "result_spec": {
+        "rounding": {
+         "decimal_places": 2,
+         "mode": "half_up"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "taxable_gain_trace"
+      },
+      {
+       "description": "Terminal net sale proceeds after tax.",
+       "position": 3,
+       "result_spec": {
+        "rounding": {
+         "decimal_places": 2,
+         "mode": "half_up"
+        },
+        "type": "decimal",
+        "unit": "usd"
+       },
+       "slot_id": "after_tax_proceeds_trace"
+      }
+     ]
+    }
+   },
+   "program": "def solve():\n    net = Q(36000) - Q(1500)\n    gain = net - Q(20000)\n    tax = Q(\"0.2\") * gain if gain > 0 else Q(0)\n    after = net - tax\n    irr = (after / Q(20000) - 1) * 100\n    return {\n        \"final\": irr,\n        \"net_sale_proceeds_trace\": net,\n        \"taxable_gain_trace\": gain if gain > 0 else Q(0),\n        \"after_tax_proceeds_trace\": after,\n    }\n"
+  }
+ ],
+ "bootstrap_log": [
+  {
+   "category": "A",
+   "case_id": "t1_6wpp47myxxckeg2giwjji",
+   "verified": true,
+   "attempts": 1,
+   "usage": [
+    {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 1088,
+     "cache_read_input_tokens": 815,
+     "output_tokens": 180,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 1088,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "not_available",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 180,
+       "cache_read_input_tokens": 815,
+       "cache_creation_input_tokens": 1088,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 1088
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    }
+   ]
+  },
+  {
+   "category": "A",
+   "case_id": "t1_37g2yk63q7sle7lciqzhk",
+   "verified": true,
+   "attempts": 1,
+   "usage": [
+    {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 1088,
+     "cache_read_input_tokens": 815,
+     "output_tokens": 139,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 1088,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "not_available",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 139,
+       "cache_read_input_tokens": 815,
+       "cache_creation_input_tokens": 1088,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 1088
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    }
+   ]
+  },
+  {
+   "category": "B",
+   "case_id": "t1_ewxvgjppivedjdphepr3e",
+   "verified": true,
+   "attempts": 1,
+   "usage": [
+    {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 982,
+     "cache_read_input_tokens": 815,
+     "output_tokens": 172,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 982,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "not_available",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 172,
+       "cache_read_input_tokens": 815,
+       "cache_creation_input_tokens": 982,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 982
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    }
+   ]
+  },
+  {
+   "category": "B",
+   "case_id": "t1_7uqc4247qkx3r6swzncqw",
+   "verified": true,
+   "attempts": 1,
+   "usage": [
+    {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 812,
+     "cache_read_input_tokens": 815,
+     "output_tokens": 84,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 812,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "not_available",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 84,
+       "cache_read_input_tokens": 815,
+       "cache_creation_input_tokens": 812,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 812
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    }
+   ]
+  },
+  {
+   "category": "C",
+   "case_id": "t1_4d5gk53f7ye4yqabbgaec",
+   "verified": true,
+   "attempts": 1,
+   "usage": [
+    {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 1079,
+     "cache_read_input_tokens": 815,
+     "output_tokens": 299,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 1079,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "not_available",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 299,
+       "cache_read_input_tokens": 815,
+       "cache_creation_input_tokens": 1079,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 1079
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    }
+   ]
+  },
+  {
+   "category": "C",
+   "case_id": "t1_buafuyadq545moxwfdpkc",
+   "verified": true,
+   "attempts": 1,
+   "usage": [
+    {
+     "input_tokens": 2,
+     "cache_creation_input_tokens": 1061,
+     "cache_read_input_tokens": 815,
+     "output_tokens": 261,
+     "output_tokens_details": {
+      "thinking_tokens": 0
+     },
+     "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+     },
+     "service_tier": "standard",
+     "cache_creation": {
+      "ephemeral_1h_input_tokens": 1061,
+      "ephemeral_5m_input_tokens": 0
+     },
+     "inference_geo": "not_available",
+     "iterations": [
+      {
+       "input_tokens": 2,
+       "output_tokens": 261,
+       "cache_read_input_tokens": 815,
+       "cache_creation_input_tokens": 1061,
+       "cache_creation": {
+        "ephemeral_5m_input_tokens": 0,
+        "ephemeral_1h_input_tokens": 1061
+       },
+       "type": "message"
+      }
+     ],
+     "speed": "standard",
+     "fallback_credit": null
+    }
+   ]
+  }
+ ]
+}

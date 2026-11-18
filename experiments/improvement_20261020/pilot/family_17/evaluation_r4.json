@@ -1,0 +1,1692 @@
+{
+  "config": "r4",
+  "config_sha256": "86dd678177c8357e6d5f06a5226ecc58e427eae497f7fe65c9fe23cfc120a01d",
+  "system_sha256": "02fa773273f0247d44636c412bef4ffb3ebf0a28c5d44b3c04fd1dc0a27f866d",
+  "llm": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-sonnet-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-sonnet-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  },
+  "scores": {
+    "cases": 4,
+    "correct_final": 4,
+    "matched_slots": 12,
+    "total_slots": 12
+  },
+  "cases": [
+    {
+      "case_id": "t1_syn340f1546f873f0054790",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn340f1546f873f0054790",
+          "final_answer": {
+            "value": "1880.24"
+          },
+          "steps": [
+            {
+              "slot_id": "effective_exchange_ratio",
+              "value": "129/95"
+            },
+            {
+              "slot_id": "equity_consideration",
+              "value": "1543.3"
+            },
+            {
+              "slot_id": "earnout_present_value",
+              "value": "125/18"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "1880.24": 5
+          },
+          "effective_exchange_ratio": {
+            "129/95": 5
+          },
+          "equity_consideration": {
+            "1543.3": 5
+          },
+          "earnout_present_value": {
+            "125/18": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "1880.24",
+              "effective_exchange_ratio": "129/95",
+              "equity_consideration": "1543.3",
+              "earnout_present_value": "125/18"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "1e717bfeb4b18dd820cf844ddadf0fd1cac3700fa25bcd9911e0a44b9ae81da8",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3276,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 514,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3276,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 514,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3276,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3276
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0183295,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3730,
+                  "session_id": "cd9334ab-ac46-4f8d-bdd8-306ba1940da1",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(38)\n    lo = Q(43)\n    hi = Q(62)\n    ratio = Q(\"1.2\")\n    cash = Q(\"15.5\")\n    if price < lo:\n        eff_ratio = ratio * lo / price\n        stock_val = ratio * lo\n    elif price > hi:\n        eff_ratio = ratio * hi / price\n        stock_val = ratio * hi\n    else:\n        eff_ratio = ratio\n        stock_val = ratio * price\n    shares = Q(23)\n    equity = (cash + stock_val) * shares\n    nd = Q(330)\n    ebitda = Q(115)\n    hurdle = Q(100)\n    earn = min(max(Q(\"0.5\") * (ebitda - hurdle), Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + nd + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff_ratio,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 124
+                },
+                "rendered": {
+                  "final": "1880.24",
+                  "effective_exchange_ratio": "129/95",
+                  "equity_consideration": "1543.3",
+                  "earnout_present_value": "125/18"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1880.24",
+              "effective_exchange_ratio": "129/95",
+              "equity_consideration": "1543.3",
+              "earnout_present_value": "125/18"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "43302bc6949e723ebea759da8885d5efc4892b5cb55dbe6f22e8b3ce260a0d57",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 335,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 335,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0037631,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3135,
+                  "session_id": "2f0ccacf-c049-4e6b-ab8c-2b219d2eb8f8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(38)\n    ratio_fixed = Q(\"1.2\")\n    lo = Q(43)\n    hi = Q(62)\n    if price < lo:\n        ratio = ratio_fixed * lo / price\n    elif price > hi:\n        ratio = ratio_fixed * hi / price\n    else:\n        ratio = ratio_fixed\n    shares = Q(23)\n    cash = Q(\"15.5\")\n    equity = shares * (cash + ratio * price)\n    netdebt = Q(330)\n    ebitda = Q(115)\n    hurdle = Q(100)\n    earn = min(max(Q(\"0.5\") * (ebitda - hurdle), Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + netdebt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": ratio,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 240
+                },
+                "rendered": {
+                  "final": "1880.24",
+                  "effective_exchange_ratio": "129/95",
+                  "equity_consideration": "1543.3",
+                  "earnout_present_value": "125/18"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1880.24",
+              "effective_exchange_ratio": "129/95",
+              "equity_consideration": "1543.3",
+              "earnout_present_value": "125/18"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d0ea73d18d691a547fdb5476db5373b236cba4797867e742441ba78e6652f3a8",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 316,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 316,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0035730999999999996,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3071,
+                  "session_id": "7db190ed-110a-4c09-9487-26cbc7282abb",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cash = Q(\"15.5\")\n    price = Q(38)\n    lo = Q(43)\n    hi = Q(62)\n    ratio = Q(\"1.2\")\n    if price < lo:\n        eff = ratio * lo / price\n    elif price > hi:\n        eff = ratio * hi / price\n    else:\n        eff = ratio\n    shares = Q(23)\n    per_share = cash + eff * price\n    equity = per_share * shares\n    netdebt = Q(330)\n    ebitda = Q(115)\n    hurdle = Q(100)\n    earn = min(max(Q(\"0.5\") * (ebitda - hurdle), Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + netdebt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 190
+                },
+                "rendered": {
+                  "final": "1880.24",
+                  "effective_exchange_ratio": "129/95",
+                  "equity_consideration": "1543.3",
+                  "earnout_present_value": "125/18"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1880.24",
+              "effective_exchange_ratio": "129/95",
+              "equity_consideration": "1543.3",
+              "earnout_present_value": "125/18"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "0f65f0b344c1ef87cd0b18f390de8289343a1a7a292ac9d8ad8fd2061eada6d3",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 324,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 324,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0036531000000000003,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3212,
+                  "session_id": "d31ae943-286c-482d-91b9-6ccc5be62504",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(38)\n    lo = Q(43)\n    hi = Q(62)\n    ratio = Q(\"1.2\")\n    if price < lo:\n        eff = ratio * lo / price\n    elif price > hi:\n        eff = ratio * hi / price\n    else:\n        eff = ratio\n    shares = Q(23)\n    cash = Q(\"15.5\")\n    stock_per_share = eff * price\n    equity = shares * (cash + stock_per_share)\n    netdebt = Q(330)\n    ebitda = Q(115)\n    hurdle = Q(100)\n    earn = min(max(Q(\"0.5\") * (ebitda - hurdle), Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + netdebt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 190
+                },
+                "rendered": {
+                  "final": "1880.24",
+                  "effective_exchange_ratio": "129/95",
+                  "equity_consideration": "1543.3",
+                  "earnout_present_value": "125/18"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "1880.24",
+              "effective_exchange_ratio": "129/95",
+              "equity_consideration": "1543.3",
+              "earnout_present_value": "125/18"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "1dbb53a7b6ff161824afd6d256068447834a9566375c236beaee2c772aa255f6",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 322,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 322,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0036331000000000002,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3151,
+                  "session_id": "d6cedb6f-af4c-4eee-b9b6-198742f24aa1",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(38)\n    lo = Q(43)\n    hi = Q(62)\n    ratio = Q(\"1.2\")\n    cash = Q(\"15.5\")\n    if price < lo:\n        eff = ratio * lo / price\n    elif price > hi:\n        eff = ratio * hi / price\n    else:\n        eff = ratio\n    shares = Q(23)\n    stock_value_per_share = eff * price\n    equity = (cash + stock_value_per_share) * shares\n    ebitda = Q(115)\n    hurdle = Q(100)\n    earn = min(max(Q(\"0.5\") * (ebitda - hurdle), Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + Q(330) + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 162
+                },
+                "rendered": {
+                  "final": "1880.24",
+                  "effective_exchange_ratio": "129/95",
+                  "equity_consideration": "1543.3",
+                  "earnout_present_value": "125/18"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn16767e3de582866531de",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn16767e3de582866531de",
+          "final_answer": {
+            "value": "3120.55"
+          },
+          "steps": [
+            {
+              "slot_id": "effective_exchange_ratio",
+              "value": "0.4"
+            },
+            {
+              "slot_id": "equity_consideration",
+              "value": "2761.2"
+            },
+            {
+              "slot_id": "earnout_present_value",
+              "value": "2125/54"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "3120.55": 5
+          },
+          "effective_exchange_ratio": {
+            "0.4": 5
+          },
+          "equity_consideration": {
+            "2761.2": 5
+          },
+          "earnout_present_value": {
+            "2125/54": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "3120.55",
+              "effective_exchange_ratio": "0.4",
+              "equity_consideration": "2761.2",
+              "earnout_present_value": "2125/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "b569fc85224a6b5a73f962dec770ce61eff0a40caaeefbcaec0f28b7763906ce",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3274,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 250,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3274,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 250,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3274,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3274
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0156815,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2922,
+                  "session_id": "909c27f1-649d-45a8-af74-539599b14a08",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(57)\n    ratio = Q(\"0.4\")\n    if price < 40:\n        eff = ratio * 40 / price\n    elif price > 70:\n        eff = ratio * 70 / price\n    else:\n        eff = ratio\n    per_share = 24 + eff * price\n    equity = per_share * 59\n    ebitda = Q(185)\n    earn = min(max((ebitda - 100) * Q(\"0.5\"), Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + 320 + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 117
+                },
+                "rendered": {
+                  "final": "3120.55",
+                  "effective_exchange_ratio": "0.4",
+                  "equity_consideration": "2761.2",
+                  "earnout_present_value": "2125/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3120.55",
+              "effective_exchange_ratio": "0.4",
+              "equity_consideration": "2761.2",
+              "earnout_present_value": "2125/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "da724070c53b2966d96a0e727548c39a85f62ee5e819816c3fee70225de838d1",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4089,
+                  "output_tokens": 266,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 266,
+                      "cache_read_input_tokens": 4089,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0030729,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4363,
+                  "session_id": "6c511fe9-f97f-4abf-92d8-0b858231488e",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(57)\n    ratio = Q(\"0.4\")\n    cash = Q(24)\n    shares = Q(59)\n    nd = Q(320)\n    if price < 40:\n        eff = ratio * 40 / price\n    elif price > 70:\n        eff = ratio * 70 / price\n    else:\n        eff = ratio\n    per_share = cash + eff * price\n    equity = per_share * shares\n    earn = min(Q(\"0.5\") * max(Q(185) - 100, Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + nd + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 236
+                },
+                "rendered": {
+                  "final": "3120.55",
+                  "effective_exchange_ratio": "0.4",
+                  "equity_consideration": "2761.2",
+                  "earnout_present_value": "2125/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3120.55",
+              "effective_exchange_ratio": "0.4",
+              "equity_consideration": "2761.2",
+              "earnout_present_value": "2125/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "f1f909d4573f5402427d2b75b80bd3267ed552cefd29c36a34302c84101c7498",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4089,
+                  "output_tokens": 311,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 311,
+                      "cache_read_input_tokens": 4089,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0035229000000000007,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3129,
+                  "session_id": "ed3979c2-0181-4dec-b132-feb183b45ba4",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(57)\n    ratio = Q(\"0.4\")\n    if price < 40:\n        eff_ratio = ratio * 40 / price\n    elif price > 70:\n        eff_ratio = ratio * 70 / price\n    else:\n        eff_ratio = ratio\n    shares = Q(59)\n    per_share = 24 + eff_ratio * price\n    equity = per_share * shares\n    net_debt = Q(320)\n    ebitda = Q(185)\n    hurdle = Q(100)\n    earn = min(Q(\"0.5\") * max(ebitda - hurdle, Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + net_debt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff_ratio,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 249
+                },
+                "rendered": {
+                  "final": "3120.55",
+                  "effective_exchange_ratio": "0.4",
+                  "equity_consideration": "2761.2",
+                  "earnout_present_value": "2125/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3120.55",
+              "effective_exchange_ratio": "0.4",
+              "equity_consideration": "2761.2",
+              "earnout_present_value": "2125/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "6090d6b86db0354822cc40cc43030552dfd72ff34936b6bb94925d51d3af1362",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4089,
+                  "output_tokens": 272,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 272,
+                      "cache_read_input_tokens": 4089,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031329,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3326,
+                  "session_id": "549af416-5f20-4633-8674-5c3990cc304e",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(57)\n    ratio = Q(\"0.4\")\n    if price < 40:\n        eff = ratio * 40 / price\n    elif price > 70:\n        eff = ratio * 70 / price\n    else:\n        eff = ratio\n    shares = Q(59)\n    per_share = 24 + eff * price\n    equity = per_share * shares\n    netdebt = Q(320)\n    ebitda = Q(185)\n    earn = min(Q(\"0.5\") * max(ebitda - 100, Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + netdebt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 128
+                },
+                "rendered": {
+                  "final": "3120.55",
+                  "effective_exchange_ratio": "0.4",
+                  "equity_consideration": "2761.2",
+                  "earnout_present_value": "2125/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3120.55",
+              "effective_exchange_ratio": "0.4",
+              "equity_consideration": "2761.2",
+              "earnout_present_value": "2125/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "81d264a059ae5a3860980b283cd8c5848a429183e559141bf0dc97262a072f29",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4089,
+                  "output_tokens": 286,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 286,
+                      "cache_read_input_tokens": 4089,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032729000000000005,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2754,
+                  "session_id": "784ebc4d-865a-4719-89b8-7cce99d6ae36",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(57)\n    ratio = Q(\"0.4\")\n    if price < 40:\n        eff = ratio * 40 / price\n    elif price > 70:\n        eff = ratio * 70 / price\n    else:\n        eff = ratio\n    shares = Q(59)\n    per_share = 24 + eff * price\n    equity = per_share * shares\n    netdebt = Q(320)\n    ebitda = Q(185)\n    hurdle = Q(100)\n    earn = min(Q(\"0.5\") * max(ebitda - hurdle, Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + netdebt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 210
+                },
+                "rendered": {
+                  "final": "3120.55",
+                  "effective_exchange_ratio": "0.4",
+                  "equity_consideration": "2761.2",
+                  "earnout_present_value": "2125/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn825c623613b6384db6d5",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn825c623613b6384db6d5",
+          "final_answer": {
+            "value": "3748.20"
+          },
+          "steps": [
+            {
+              "slot_id": "effective_exchange_ratio",
+              "value": "1.0575"
+            },
+            {
+              "slot_id": "equity_consideration",
+              "value": "3528.2"
+            },
+            {
+              "slot_id": "earnout_present_value",
+              "value": "0"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "3748.20": 5
+          },
+          "effective_exchange_ratio": {
+            "1.0575": 5
+          },
+          "equity_consideration": {
+            "3528.2": 5
+          },
+          "earnout_present_value": {
+            "0": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "3748.20",
+              "effective_exchange_ratio": "1.0575",
+              "equity_consideration": "3528.2",
+              "earnout_present_value": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "5bc2a74e29febffa4607370e68b4d028fb3cf50734220340504c30c43002aa8e",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3276,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 517,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3276,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 517,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3276,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3276
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0183595,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3696,
+                  "session_id": "ee3e168b-b1ef-4d9f-a855-7a5767c6a2b9",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cash = Q(\"17.5\")\n    ratio = Q(\"0.9\")\n    lo = Q(47)\n    hi = Q(60)\n    p = Q(40)\n    if p < lo:\n        stock_val = ratio * lo\n        eff = stock_val / p\n    elif p > hi:\n        stock_val = ratio * hi\n        eff = stock_val / p\n    else:\n        eff = ratio\n        stock_val = ratio * p\n    shares = Q(59)\n    equity = (cash + stock_val) * shares\n    nd = Q(220)\n    ebitda = Q(95)\n    hurdle = Q(100)\n    earn = min(Q(\"0.5\") * max(ebitda - hurdle, Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + nd + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 244
+                },
+                "rendered": {
+                  "final": "3748.20",
+                  "effective_exchange_ratio": "1.0575",
+                  "equity_consideration": "3528.2",
+                  "earnout_present_value": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3748.20",
+              "effective_exchange_ratio": "1.0575",
+              "equity_consideration": "3528.2",
+              "earnout_present_value": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "406527411ec2c8f1b39186092b9475d0305f1dd580b700a42f2e3ba14b2b23e0",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 525,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 525,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.005663099999999999,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3622,
+                  "session_id": "cd5fd6f8-fc3d-47ef-82db-2099395041e0",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cash = Q(\"17.5\")\n    ratio = Q(\"0.9\")\n    lo = Q(47)\n    hi = Q(60)\n    price = Q(40)\n    shares = Q(59)\n    nd = Q(220)\n    if price < lo:\n        stock_per = ratio * lo\n    elif price > hi:\n        stock_per = ratio * hi\n    else:\n        stock_per = ratio * price\n    eff_ratio = stock_per / price\n    equity = (cash + stock_per) * shares\n    ebitda = Q(95)\n    hurdle = Q(100)\n    earn = max(Q(0), Q(\"0.5\") * (ebitda - hurdle))\n    earn = min(earn, Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + nd + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff_ratio,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 177
+                },
+                "rendered": {
+                  "final": "3748.20",
+                  "effective_exchange_ratio": "1.0575",
+                  "equity_consideration": "3528.2",
+                  "earnout_present_value": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3748.20",
+              "effective_exchange_ratio": "1.0575",
+              "equity_consideration": "3528.2",
+              "earnout_present_value": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "701fe689c8f2f1e5332de4abadd0955ddbdc40d9665b67cd8b43e32eb46c844a",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 557,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 557,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0059831,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4375,
+                  "session_id": "2ceb2ca3-1860-45f7-b48e-0f61aa6bb2f5",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cash = Q(\"17.5\")\n    ratio = Q(\"0.9\")\n    lo = Q(47)\n    hi = Q(60)\n    price = Q(40)\n    if price < lo:\n        eff = ratio * lo / price\n    elif price > hi:\n        eff = ratio * hi / price\n    else:\n        eff = ratio\n    shares = Q(59)\n    equity = (cash + eff * price) * shares\n    nd = Q(220)\n    ebitda = Q(95)\n    hurdle = Q(100)\n    cap = Q(60)\n    earn = max(Q(0), Q(\"0.5\") * (ebitda - hurdle))\n    earn = min(earn, cap)\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + nd + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 146
+                },
+                "rendered": {
+                  "final": "3748.20",
+                  "effective_exchange_ratio": "1.0575",
+                  "equity_consideration": "3528.2",
+                  "earnout_present_value": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3748.20",
+              "effective_exchange_ratio": "1.0575",
+              "equity_consideration": "3528.2",
+              "earnout_present_value": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "a9923a63d520f801a8a4afd3b670cde01534cfdbac79cf9c3aa9efd1c4a66ea2",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 497,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 497,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0053831,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 4399,
+                  "session_id": "678ee4c4-a28b-4e02-9dab-b7c05884e0d2",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(40)\n    lo = Q(47)\n    hi = Q(60)\n    ratio0 = Q(\"0.9\")\n    cash = Q(\"17.5\")\n    shares = Q(59)\n    nd = Q(220)\n    if price < lo:\n        stock_val = ratio0 * lo\n        ratio = stock_val / price\n    elif price > hi:\n        stock_val = ratio0 * hi\n        ratio = stock_val / price\n    else:\n        ratio = ratio0\n        stock_val = ratio * price\n    equity = (cash + ratio * price) * shares\n    ebitda = Q(95)\n    hurdle = Q(100)\n    earn = min(max(Q(\"0.5\") * (ebitda - hurdle), Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + nd + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": ratio,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 193
+                },
+                "rendered": {
+                  "final": "3748.20",
+                  "effective_exchange_ratio": "1.0575",
+                  "equity_consideration": "3528.2",
+                  "earnout_present_value": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "3748.20",
+              "effective_exchange_ratio": "1.0575",
+              "equity_consideration": "3528.2",
+              "earnout_present_value": "0"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "5afc3670f8e033360694bbec2a477b9faa61752b6036da6352f5d2575a4b2018",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 530,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 530,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0057131,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 3982,
+                  "session_id": "7664e1ff-72bc-4c3d-a485-0ff1df0fea8b",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    cash = Q(\"17.5\")\n    ratio = Q(\"0.9\")\n    lo = Q(47)\n    hi = Q(60)\n    price = Q(40)\n    shares = Q(59)\n    nd = Q(220)\n    if price < lo:\n        stock_val = ratio * lo\n    elif price > hi:\n        stock_val = ratio * hi\n    else:\n        stock_val = ratio * price\n    eff_ratio = stock_val / price\n    equity = (cash + stock_val) * shares\n    ebitda = Q(95)\n    hurdle = Q(100)\n    earn = min(max(Q(\"0.5\") * (ebitda - hurdle), Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + nd + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff_ratio,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 193
+                },
+                "rendered": {
+                  "final": "3748.20",
+                  "effective_exchange_ratio": "1.0575",
+                  "equity_consideration": "3528.2",
+                  "earnout_present_value": "0"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn3c9b321ae5e3edcf5433",
+      "fac": 1,
+      "matched_slots": 3,
+      "total_slots": 3,
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn3c9b321ae5e3edcf5433",
+          "final_answer": {
+            "value": "2736.94"
+          },
+          "steps": [
+            {
+              "slot_id": "effective_exchange_ratio",
+              "value": "1.1"
+            },
+            {
+              "slot_id": "equity_consideration",
+              "value": "2563.7"
+            },
+            {
+              "slot_id": "earnout_present_value",
+              "value": "2875/54"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "2736.94": 5
+          },
+          "effective_exchange_ratio": {
+            "1.1": 5
+          },
+          "equity_consideration": {
+            "2563.7": 5
+          },
+          "earnout_present_value": {
+            "2875/54": 5
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "2736.94",
+              "effective_exchange_ratio": "1.1",
+              "equity_consideration": "2563.7",
+              "earnout_present_value": "2875/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "42f5dfff12b2a3566ff3ef55f7d27f85bfced12fc98e2990e75bb1006d4d79bc",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 3276,
+                  "cache_read_input_tokens": 815,
+                  "output_tokens": 296,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 3276,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 296,
+                      "cache_read_input_tokens": 815,
+                      "cache_creation_input_tokens": 3276,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 3276
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0161495,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2465,
+                  "session_id": "d5ebaf69-fd5a-4796-9f2b-519351a846bd",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(52)\n    ratio = Q(\"1.1\")\n    if price < 50:\n        eff_ratio = ratio * 50 / price\n    elif price > 69:\n        eff_ratio = ratio * 69 / price\n    else:\n        eff_ratio = ratio\n    shares = Q(31)\n    cash = Q(\"25.5\")\n    equity = (cash + eff_ratio * price) * shares\n    net_debt = Q(120)\n    ebitda = Q(215)\n    earn = min(Q(\"0.5\") * max(ebitda - 100, Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + net_debt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff_ratio,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 249
+                },
+                "rendered": {
+                  "final": "2736.94",
+                  "effective_exchange_ratio": "1.1",
+                  "equity_consideration": "2563.7",
+                  "earnout_present_value": "2875/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2736.94",
+              "effective_exchange_ratio": "1.1",
+              "equity_consideration": "2563.7",
+              "earnout_present_value": "2875/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "95bf4b2e252ae1142c12e84a13206ad1c80c560b7e2021ba4be0590b86b5f5d1",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 284,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 284,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0032531,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2551,
+                  "session_id": "897416f0-ee9c-490a-ab2e-9de11462a3e6",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(52)\n    ratio = Q(\"1.1\")\n    cash = Q(\"25.5\")\n    shares = Q(31)\n    if price < 50:\n        eff = ratio * 50 / price\n    elif price > 69:\n        eff = ratio * 69 / price\n    else:\n        eff = ratio\n    per_share = cash + eff * price\n    equity = per_share * shares\n    netdebt = Q(120)\n    ebitda = Q(215)\n    earn = min(max(Q(\"0.5\") * (ebitda - 100), Q(0)), Q(60))\n    pv = earn / Q(\"1.08\")\n    total = equity + netdebt + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 166
+                },
+                "rendered": {
+                  "final": "2736.94",
+                  "effective_exchange_ratio": "1.1",
+                  "equity_consideration": "2563.7",
+                  "earnout_present_value": "2875/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2736.94",
+              "effective_exchange_ratio": "1.1",
+              "equity_consideration": "2563.7",
+              "earnout_present_value": "2875/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d92ad7726f51a9ed26d6f0a16824a44e07fb3457009a7f82365823472bc9a202",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 275,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 275,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031631000000000003,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2640,
+                  "session_id": "33574652-1ba8-4dbc-a418-a10c17ad8809",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(52)\n    ratio = Q(\"1.1\")\n    cash = Q(\"25.5\")\n    shares = Q(31)\n    if price < 50:\n        eff = ratio * 50 / price\n    elif price > 69:\n        eff = ratio * 69 / price\n    else:\n        eff = ratio\n    per_share = cash + eff * price\n    equity = per_share * shares\n    ebitda = Q(215)\n    earn = min(Q(\"0.5\") * max(ebitda - 100, Q(0)), Q(60))\n    pv = earn / (1 + Q(\"0.08\"))\n    total = equity + 120 + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 117
+                },
+                "rendered": {
+                  "final": "2736.94",
+                  "effective_exchange_ratio": "1.1",
+                  "equity_consideration": "2563.7",
+                  "earnout_present_value": "2875/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2736.94",
+              "effective_exchange_ratio": "1.1",
+              "equity_consideration": "2563.7",
+              "earnout_present_value": "2875/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "d70ca651a983c82ea7f38784fe5f18821c9ffded21eeb4a61e901ff0955335c6",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 266,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 266,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0030731,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2641,
+                  "session_id": "c9265c75-af9f-449c-a298-915db9cc1529",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(52)\n    ratio = Q(\"1.1\")\n    if price < 50:\n        eff = ratio * 50 / price\n    elif price > 69:\n        eff = ratio * 69 / price\n    else:\n        eff = ratio\n    shares = Q(31)\n    cash = Q(\"25.5\")\n    equity = (cash + eff * price) * shares\n    ebitda = Q(215)\n    earn = max(Q(0), min(Q(60), Q(\"0.5\") * (ebitda - 100)))\n    pv = earn / Q(\"1.08\")\n    total = equity + Q(120) + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 142
+                },
+                "rendered": {
+                  "final": "2736.94",
+                  "effective_exchange_ratio": "1.1",
+                  "equity_consideration": "2563.7",
+                  "earnout_present_value": "2875/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          },
+          {
+            "texts": {
+              "final": "2736.94",
+              "effective_exchange_ratio": "1.1",
+              "equity_consideration": "2563.7",
+              "earnout_present_value": "2875/54"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "c144342e9a4d58897f7a3afdefac3239c646fafc1b4097f21027c20043fc049c",
+                "cached": false,
+                "model_id": "claude-sonnet-5-5",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 4091,
+                  "output_tokens": 271,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 271,
+                      "cache_read_input_tokens": 4091,
+                      "cache_creation_input_tokens": 0,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 0
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.0031230999999999997,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 2668,
+                  "session_id": "43b1bcef-49bf-48d4-a6eb-a711772632c8",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    price = Q(52)\n    ratio = Q(\"1.1\")\n    cash = Q(\"25.5\")\n    shares = Q(31)\n    if price < 50:\n        eff = ratio * 50 / price\n    elif price > 69:\n        eff = ratio * 69 / price\n    else:\n        eff = ratio\n    per_share = cash + eff * price\n    equity = per_share * shares\n    ebitda = Q(215)\n    earn = max(Q(0), min(Q(60), Q(\"0.5\") * (ebitda - 100)))\n    pv = earn / Q(\"1.08\")\n    total = equity + 120 + pv\n    return {\n        \"final\": total,\n        \"effective_exchange_ratio\": eff,\n        \"equity_consideration\": equity,\n        \"earnout_present_value\": pv,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 248
+                },
+                "rendered": {
+                  "final": "2736.94",
+                  "effective_exchange_ratio": "1.1",
+                  "equity_consideration": "2563.7",
+                  "earnout_present_value": "2875/54"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "da82bab9df684a55ac2d568aeb6941dd2561b14dbc0488b29e939690cc0e4b62"
+}

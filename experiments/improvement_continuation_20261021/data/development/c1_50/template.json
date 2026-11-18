@@ -1,0 +1,153 @@
+{
+ "name": "wash_sale_harvest_carryforward",
+ "domain_id": "fintech",
+ "topic_id": "robo_advisors",
+ "difficulty": "intermediate",
+ "params": {
+  "N": {
+   "kind": "int",
+   "min": 20,
+   "max": 50,
+   "step": 5
+  },
+  "B0": {
+   "kind": "decimal",
+   "min": "80.00",
+   "max": "120.00",
+   "step": "0.25"
+  },
+  "P1": {
+   "kind": "decimal",
+   "min": "60.00",
+   "max": "130.00",
+   "step": "0.25"
+  },
+  "D": {
+   "kind": "int",
+   "min": 5,
+   "max": 60,
+   "step": 5
+  },
+  "R": {
+   "kind": "int",
+   "min": 10,
+   "max": 60,
+   "step": 5
+  },
+  "P2": {
+   "kind": "decimal",
+   "min": "55.00",
+   "max": "125.00",
+   "step": "0.25"
+  },
+  "P3": {
+   "kind": "decimal",
+   "min": "50.00",
+   "max": "140.00",
+   "step": "0.25"
+  },
+  "C": {
+   "kind": "int",
+   "min": 500,
+   "max": 2500,
+   "step": 100
+  }
+ },
+ "question_template": "A fictional robo-advisor holds {N} shares of ETF Q bought at {B0} USD each and sells them all at {P1} USD each. {D} days later it buys {R} shares of the same ETF at {P2} USD each. Wash-sale rule: if the first sale was a loss and the repurchase is within 30 days (inclusive), the per-share loss times the smaller of shares sold and repurchased is disallowed and added to the new lot's total basis; a first-sale gain is unaffected. Later the same tax year the whole new lot is sold at {P3} USD each with no further repurchase; nothing else is realized. The net result is the allowed signed first-sale result plus the signed second-sale result. If the net is a loss, at most {C} USD is deductible this year and the excess carries forward; if a gain, deduction and carryforward are zero. What loss in USD carries forward?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "disallowed_loss",
+   "description": "Loss on the first sale disallowed by the wash-sale rule, USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "adjusted_lot_basis",
+   "description": "Total cost basis of the repurchased lot after adding disallowed loss, USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "net_result",
+   "description": "Signed net realized result for the year, positive means gain, USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "year_deduction",
+   "description": "Net loss deductible this year after the annual cap, USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    N = P[\"N\"]\n    B0 = P[\"B0\"]\n    P1 = P[\"P1\"]\n    D = P[\"D\"]\n    R = P[\"R\"]\n    P2 = P[\"P2\"]\n    P3 = P[\"P3\"]\n    C = P[\"C\"]\n    if N <= 0 or R <= 0 or C < 0:\n        raise ValueError(\"share counts must be positive and cap non-negative\")\n    first_signed = N * (P1 - B0)\n    per_share_loss = B0 - P1\n    if per_share_loss > 0 and D <= 30:\n        matched = N if N < R else R\n        disallowed = per_share_loss * matched\n    else:\n        disallowed = 0\n    allowed_first = first_signed + disallowed\n    basis2 = R * P2 + disallowed\n    second_signed = R * P3 - basis2\n    net = allowed_first + second_signed\n    if net < 0:\n        loss = -net\n        deduction = loss if loss < C else C\n        carry = loss - deduction\n    else:\n        deduction = 0\n        carry = 0\n    return {\n        \"final\": carry,\n        \"disallowed_loss\": disallowed,\n        \"adjusted_lot_basis\": basis2,\n        \"net_result\": net,\n        \"year_deduction\": deduction\n    }",
+ "coverage_params": [
+  {
+   "N": 40,
+   "B0": "100.00",
+   "P1": "80.00",
+   "D": 20,
+   "R": 30,
+   "P2": "78.00",
+   "P3": "70.00",
+   "C": 500
+  },
+  {
+   "N": 20,
+   "B0": "90.00",
+   "P1": "85.00",
+   "D": 30,
+   "R": 40,
+   "P2": "84.00",
+   "P3": "95.00",
+   "C": 1000
+  },
+  {
+   "N": 30,
+   "B0": "110.00",
+   "P1": "90.00",
+   "D": 35,
+   "R": 20,
+   "P2": "88.00",
+   "P3": "85.00",
+   "C": 2000
+  },
+  {
+   "N": 25,
+   "B0": "100.00",
+   "P1": "110.00",
+   "D": 10,
+   "R": 25,
+   "P2": "112.00",
+   "P3": "60.00",
+   "C": 800
+  }
+ ]
+}

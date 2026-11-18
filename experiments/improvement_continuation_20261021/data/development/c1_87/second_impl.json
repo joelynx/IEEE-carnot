@@ -1,0 +1,219 @@
+{
+ "family": "c1_87",
+ "template_sha256": "cc342998e364af00462252d9643b8338a8500b7f096fbf9d7138261a4fe22228",
+ "draws_sha256": "be74d6da3e8091b549599e4de9532facd692b41086af9eeeafd7775a80fe9c42",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "e12e08edf2da323700e0bee052def8336a505aaf6e578aab59ff5dc9111f7d43",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1890,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 740,
+    "output_tokens_details": {
+     "thinking_tokens": 185
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1890,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 740,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1890,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1890
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0749705
+  }
+ ],
+ "program": "def solve():\n    E0 = Q(P[\"E0\"])\n    prof = Q(P[\"P\"])\n    G = Q(P[\"G\"])\n    DIV = Q(P[\"DIV\"])\n    R0 = Q(P[\"R0\"])\n    D = Q(P[\"D\"])\n    H = Q(P[\"H\"])\n\n    # Quarter-by-quarter equity ledger\n    equity = E0\n    quarter_profit = prof\n    for q in range(4):\n        equity += quarter_profit\n        quarter_profit += G\n    closing_equity = equity - DIV\n\n    # Stress: USD per EUR falls by D percent -> EUR per USD rises\n    usd_per_eur_pre = 1 / R0\n    usd_per_eur_stressed = usd_per_eur_pre * (1 - D / 100)\n    if usd_per_eur_stressed <= 0:\n        raise ValueError(\"Stressed rate must be positive\")\n    R1 = 1 / usd_per_eur_stressed\n\n    equity_before = closing_equity * usd_per_eur_pre\n    equity_after = closing_equity * usd_per_eur_stressed\n    gross_loss = equity_before - equity_after\n\n    notional = E0 * H / 100\n    hedge_gain = notional * usd_per_eur_pre - notional * usd_per_eur_stressed\n\n    net_loss = gross_loss - hedge_gain\n\n    return {\n        \"final\": net_loss,\n        \"stressed_rate_eur_per_usd\": R1,\n        \"equity_before_usd_million\": equity_before,\n        \"equity_after_usd_million\": equity_after,\n        \"gross_loss_usd_million\": gross_loss,\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_E0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_P",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_G",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DIV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_H",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_E0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_P",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_G",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DIV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_H",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

@@ -1,0 +1,539 @@
+{
+ "family": "c1_94",
+ "draws_sha256": "52905b728fb0cd79b9546f95cf5bb6bf45e296bcc680c82178f5423b29b60e0a",
+ "checks": [
+  {
+   "case_id": "t1_syn62cc1293711d2885028e",
+   "verdicts": {
+    "final": true,
+    "excluded_count": true,
+    "cap_level": true,
+    "redistributed_excess": true,
+    "largest_final_weight": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn62cc1293711d2885028e",
+     "final_answer": {
+      "value": "37.5000"
+     },
+     "steps": [
+      {
+       "slot_id": "excluded_count",
+       "value": "2"
+      },
+      {
+       "slot_id": "cap_level",
+       "value": "40.0000"
+      },
+      {
+       "slot_id": "redistributed_excess",
+       "value": "23.6364"
+      },
+      {
+       "slot_id": "largest_final_weight",
+       "value": "40.0000"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "37.5000": 1
+     },
+     "excluded_count": {
+      "2": 1
+     },
+     "cap_level": {
+      "40.0000": 1
+     },
+     "redistributed_excess": {
+      "23.6364": 1
+     },
+     "largest_final_weight": {
+      "40.0000": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "37.5000",
+       "excluded_count": "2",
+       "cap_level": "40.0000",
+       "redistributed_excess": "23.6364",
+       "largest_final_weight": "40.0000"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "6afa0ccf64380ad615e7f50ed54cccc48edf1a23900f506f732cb45d788e2ca1",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1404,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 537,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1404,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 537,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1404,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1404
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.055131,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 6767,
+         "session_id": "39bebe1c-9561-4bf4-b18f-ffef7395f860",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    caps = {\"A\": Q(700), \"B\": Q(300), \"C\": Q(250), \"D\": Q(200), \"E\": Q(150)}\n    contro = {\"A\": Q(0), \"B\": Q(45), \"C\": Q(5), \"D\": Q(30), \"E\": Q(0)}\n    trans = {\"A\": Q(0), \"B\": Q(5), \"C\": Q(0), \"D\": Q(12), \"E\": Q(0)}\n    retained = []\n    excluded = 0\n    for k in caps:\n        if contro[k] > 20 and trans[k] < 16:\n            excluded += 1\n        else:\n            retained.append(k)\n    N = len(retained)\n    total = sum(caps[k] for k in retained)\n    w = {k: caps[k] / total * 100 for k in retained}\n    cap_level = Q(12, 10) * Q(100) / N\n    excess = Q(0)\n    final_w = {}\n    uncut = []\n    for k in retained:\n        if w[k] > cap_level:\n            excess += w[k] - cap_level\n            final_w[k] = cap_level\n        else:\n            uncut.append(k)\n    uncut_total = sum(w[k] for k in uncut)\n    for k in uncut:\n        final_w[k] = w[k] + excess * w[k] / uncut_total if uncut_total != 0 else w[k]\n    largest = max(final_w.values())\n    return {\n        \"final\": final_w[\"C\"],\n        \"excluded_count\": excluded,\n        \"cap_level\": cap_level,\n        \"redistributed_excess\": excess,\n        \"largest_final_weight\": largest,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 158
+        },
+        "rendered": {
+         "final": "37.5000",
+         "excluded_count": "2",
+         "cap_level": "40.0000",
+         "redistributed_excess": "23.6364",
+         "largest_final_weight": "40.0000"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn607594397ca0a44444bf",
+   "verdicts": {
+    "final": true,
+    "excluded_count": true,
+    "cap_level": true,
+    "redistributed_excess": true,
+    "largest_final_weight": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn607594397ca0a44444bf",
+     "final_answer": {
+      "value": "22.9167"
+     },
+     "steps": [
+      {
+       "slot_id": "excluded_count",
+       "value": "1"
+      },
+      {
+       "slot_id": "cap_level",
+       "value": "45.0000"
+      },
+      {
+       "slot_id": "redistributed_excess",
+       "value": "15.0000"
+      },
+      {
+       "slot_id": "largest_final_weight",
+       "value": "45.0000"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "22.9167": 1
+     },
+     "excluded_count": {
+      "1": 1
+     },
+     "cap_level": {
+      "45.0000": 1
+     },
+     "redistributed_excess": {
+      "15.0000": 1
+     },
+     "largest_final_weight": {
+      "45.0000": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "22.9167",
+       "excluded_count": "1",
+       "cap_level": "45.0000",
+       "redistributed_excess": "15.0000",
+       "largest_final_weight": "45.0000"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "eefcba98e0a77e6f211e2de204b897763f0dc4d76bde2067cf8383cc057ef11e",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1404,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 517,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1404,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 517,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1404,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1404
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.054131,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5336,
+         "session_id": "6bc256f9-78b0-45db-9805-f0cea670e4ab",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    caps = {\"A\": Q(900), \"B\": Q(300), \"C\": Q(250), \"D\": Q(200), \"E\": Q(150)}\n    contro = {\"A\": Q(0), \"B\": Q(60), \"C\": Q(5), \"D\": Q(5), \"E\": Q(0)}\n    capex = {\"A\": Q(0), \"B\": Q(10), \"C\": Q(0), \"D\": Q(12), \"E\": Q(0)}\n    retained = []\n    excluded = 0\n    for k in caps:\n        if contro[k] > 10 and not (capex[k] >= 22):\n            excluded += 1\n        else:\n            retained.append(k)\n    n = len(retained)\n    total = sum(caps[k] for k in retained)\n    w = {k: caps[k] / total * 100 for k in retained}\n    cap_level = Q(18, 10) * Q(100) / n\n    cut = {k: w[k] > cap_level for k in retained}\n    excess = sum(w[k] - cap_level for k in retained if cut[k])\n    base_uncut = sum(w[k] for k in retained if not cut[k])\n    final = {}\n    for k in retained:\n        if cut[k]:\n            final[k] = cap_level\n        else:\n            final[k] = w[k] + excess * w[k] / base_uncut\n    largest = max(final.values())\n    return {\n        \"final\": final[\"C\"],\n        \"excluded_count\": excluded,\n        \"cap_level\": cap_level,\n        \"redistributed_excess\": excess,\n        \"largest_final_weight\": largest,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 162
+        },
+        "rendered": {
+         "final": "22.9167",
+         "excluded_count": "1",
+         "cap_level": "45.0000",
+         "redistributed_excess": "15.0000",
+         "largest_final_weight": "45.0000"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn5f8f0c8753cb19be26f7",
+   "verdicts": {
+    "final": true,
+    "excluded_count": true,
+    "cap_level": true,
+    "redistributed_excess": true,
+    "largest_final_weight": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn5f8f0c8753cb19be26f7",
+     "final_answer": {
+      "value": "29.1667"
+     },
+     "steps": [
+      {
+       "slot_id": "excluded_count",
+       "value": "2"
+      },
+      {
+       "slot_id": "cap_level",
+       "value": "53.3333"
+      },
+      {
+       "slot_id": "redistributed_excess",
+       "value": "14.6667"
+      },
+      {
+       "slot_id": "largest_final_weight",
+       "value": "53.3333"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "29.1667": 1
+     },
+     "excluded_count": {
+      "2": 1
+     },
+     "cap_level": {
+      "53.3333": 1
+     },
+     "redistributed_excess": {
+      "14.6667": 1
+     },
+     "largest_final_weight": {
+      "53.3333": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "29.1667",
+       "excluded_count": "2",
+       "cap_level": "53.3333",
+       "redistributed_excess": "14.6667",
+       "largest_final_weight": "53.3333"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "74ba28ac3231ebec8e591b6e5d5e2b224fd70b3d13b281937537587a4eb53fd0",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1404,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 675,
+         "output_tokens_details": {
+          "thinking_tokens": 182
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1404,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 675,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1404,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1404
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.062031,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 7108,
+         "session_id": "67c93809-3b47-4dbd-a94a-0d90643f7849",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    caps = {\"A\": Q(850), \"B\": Q(300), \"C\": Q(250), \"D\": Q(200), \"E\": Q(150)}\n    contro = {\"A\": Q(0), \"B\": Q(\"0.5\"), \"C\": Q(\"0.05\"), \"D\": Q(\"0.5\"), \"E\": Q(0)}\n    capex = {\"A\": Q(0), \"B\": Q(\"0.15\"), \"C\": Q(0), \"D\": Q(\"0.12\"), \"E\": Q(0)}\n    retained = [k for k in caps if not (contro[k] > Q(\"0.2\") and capex[k] < Q(\"0.17\"))]\n    excluded = len(caps) - len(retained)\n    total = sum(caps[k] for k in retained)\n    w = {k: caps[k] / total * 100 for k in retained}\n    N = len(retained)\n    cap = Q(\"1.6\") * Q(100) / N\n    cut = [k for k in retained if w[k] > cap]\n    excess = sum(w[k] - cap for k in cut)\n    final = {}\n    base = sum(w[k] for k in retained if k not in cut)\n    for k in retained:\n        if k in cut:\n            final[k] = cap\n        else:\n            final[k] = w[k] + excess * w[k] / base\n    return {\n        \"final\": final[\"C\"],\n        \"excluded_count\": excluded,\n        \"cap_level\": cap,\n        \"redistributed_excess\": excess,\n        \"largest_final_weight\": max(final.values()),\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 137
+        },
+        "rendered": {
+         "final": "29.1667",
+         "excluded_count": "2",
+         "cap_level": "53.3333",
+         "redistributed_excess": "14.6667",
+         "largest_final_weight": "53.3333"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn0ed1bb6956fef2403c1d",
+   "verdicts": {
+    "final": true,
+    "excluded_count": true,
+    "cap_level": true,
+    "redistributed_excess": true,
+    "largest_final_weight": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn0ed1bb6956fef2403c1d",
+     "final_answer": {
+      "value": "19.2308"
+     },
+     "steps": [
+      {
+       "slot_id": "excluded_count",
+       "value": "0"
+      },
+      {
+       "slot_id": "cap_level",
+       "value": "36.0000"
+      },
+      {
+       "slot_id": "redistributed_excess",
+       "value": "0.0000"
+      },
+      {
+       "slot_id": "largest_final_weight",
+       "value": "30.7692"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "19.2308": 1
+     },
+     "excluded_count": {
+      "0": 1
+     },
+     "cap_level": {
+      "36.0000": 1
+     },
+     "redistributed_excess": {
+      "0.0000": 1
+     },
+     "largest_final_weight": {
+      "30.7692": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "19.2308",
+       "excluded_count": "0",
+       "cap_level": "36.0000",
+       "redistributed_excess": "0.0000",
+       "largest_final_weight": "30.7692"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "b27c550aba6eaa56d60115231aa44ab95c9a3a81fd0d060e4f5fca2d86d2131d",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1404,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 634,
+         "output_tokens_details": {
+          "thinking_tokens": 106
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1404,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 634,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1404,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1404
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.059981,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 6973,
+         "session_id": "0ac7aabd-0296-42a8-a09b-a70e0daefab6",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    caps = {\"A\": Q(400), \"B\": Q(300), \"C\": Q(250), \"D\": Q(200), \"E\": Q(150)}\n    contro = {\"A\": Q(0), \"B\": Q(0), \"C\": Q(5), \"D\": Q(15), \"E\": Q(0)}\n    capex = {\"A\": Q(0), \"B\": Q(25), \"C\": Q(0), \"D\": Q(12), \"E\": Q(0)}\n    retained = []\n    excluded = 0\n    for k in caps:\n        if contro[k] > 20 and capex[k] < 16:\n            excluded += 1\n        else:\n            retained.append(k)\n    N = len(retained)\n    cap_level = Q(\"1.8\") * Q(100) / N\n    total = sum(caps[k] for k in retained)\n    w = {k: caps[k] / total * 100 for k in retained}\n    cut = {k: w[k] > cap_level for k in retained}\n    excess = sum(w[k] - cap_level for k in retained if cut[k])\n    uncut_total = sum(w[k] for k in retained if not cut[k])\n    final = {}\n    for k in retained:\n        if cut[k]:\n            final[k] = cap_level\n        else:\n            final[k] = w[k] + (excess * w[k] / uncut_total if uncut_total != 0 else 0)\n    largest = max(final.values())\n    return {\n        \"final\": final[\"C\"],\n        \"excluded_count\": excluded,\n        \"cap_level\": cap_level,\n        \"redistributed_excess\": excess,\n        \"largest_final_weight\": largest,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 130
+        },
+        "rendered": {
+         "final": "19.2308",
+         "excluded_count": "0",
+         "cap_level": "36.0000",
+         "redistributed_excess": "0.0000",
+         "largest_final_weight": "30.7692"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

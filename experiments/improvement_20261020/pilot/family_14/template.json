@@ -1,0 +1,112 @@
+{
+  "name": "staged_capex_working_capital_timing_npv",
+  "domain_id": "investment_analysis",
+  "topic_id": "npv",
+  "difficulty": "intermediate",
+  "params": {
+    "C1": {
+      "kind": "int",
+      "min": 3000,
+      "max": 9000,
+      "step": 500
+    },
+    "C2": {
+      "kind": "int",
+      "min": 1000,
+      "max": 6000,
+      "step": 500
+    },
+    "F": {
+      "kind": "int",
+      "min": 2000,
+      "max": 5000,
+      "step": 250
+    },
+    "G": {
+      "kind": "decimal",
+      "min": "-10.0",
+      "max": "15.0",
+      "step": "2.5"
+    },
+    "W": {
+      "kind": "int",
+      "min": 5,
+      "max": 25,
+      "step": 5
+    },
+    "N": {
+      "kind": "int",
+      "min": 3,
+      "max": 6,
+      "step": 1
+    },
+    "REC": {
+      "kind": "int",
+      "min": 50,
+      "max": 100,
+      "step": 10
+    },
+    "R": {
+      "kind": "decimal",
+      "min": "4.0",
+      "max": "14.0",
+      "step": "0.5"
+    }
+  },
+  "question_template": "A plant is built in two stages: capex of USD {C1} at time zero and USD {C2} at the beginning of year 2. The beginning of year t is the same instant as the end of year t-1; time zero is the beginning of year 1. Operating inflows arrive at each year-end for {N} years: USD {F} in year 1, then changing {G} percent per year (negative means decline). Working capital must equal {W} percent of the coming year's inflow, set at the beginning of that year; each adjustment is the change from the prior balance (zero before year 1), an increase being an outflow and a decrease a release at that instant. At the end of year {N}, {REC} percent of the final balance is recovered and the rest is lost. The annual discount rate is {R} percent. Compute the project NPV at time zero.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "pv_staged_capex",
+      "description": "Present value of both capex stages combined.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "pv_operating_inflows",
+      "description": "Total present value of all end-of-year operating inflows.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "pv_wc_adjustments",
+      "description": "Net present value of beginning-of-year working-capital adjustments, positive meaning net outflow.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "pv_wc_release",
+      "description": "Present value of the recovered working capital at project end.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    C1 = Fraction(P[\"C1\"])\n    C2 = Fraction(P[\"C2\"])\n    F = Fraction(P[\"F\"])\n    g = Fraction(P[\"G\"]) / 100\n    w = Fraction(P[\"W\"]) / 100\n    N = int(P[\"N\"])\n    rec = Fraction(P[\"REC\"]) / 100\n    r = Fraction(P[\"R\"]) / 100\n    d = 1 + r\n    pv_capex = C1 + C2 / d\n    pv_inflows = Fraction(0)\n    pv_wc_adj = Fraction(0)\n    prev = Fraction(0)\n    for t in range(1, N + 1):\n        inflow = F * (1 + g) ** (t - 1)\n        pv_inflows += inflow / d ** t\n        req = w * inflow\n        adj = req - prev\n        pv_wc_adj += adj / d ** (t - 1)\n        prev = req\n    pv_release = rec * prev / d ** N\n    npv = pv_inflows - pv_capex - pv_wc_adj + pv_release\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inflows,\n        \"pv_wc_adjustments\": pv_wc_adj,\n        \"pv_wc_release\": pv_release,\n    }\n"
+}

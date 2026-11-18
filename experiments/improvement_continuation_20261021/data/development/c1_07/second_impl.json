@@ -1,0 +1,224 @@
+{
+ "family": "c1_07",
+ "template_sha256": "ba8a77497f1ed9c83ec5fa4fe6a8e4547ef393baa303f27983dece82e58444c0",
+ "draws_sha256": "ccdd598ec8773142fd472832dd8aab8ea6a807ff8e38c1b4f1d77775f31d6362",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "d123ae21b7c1fe8551299e4d6566ade575b299525735c68d5c95ce5c5b5d6774",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1956,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1292,
+    "output_tokens_details": {
+     "thinking_tokens": 628
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1956,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1292,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1956,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1956
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.1038905
+  }
+ ],
+ "program": "def solve():\n    COST = Q(P[\"COST\"]); RESID = Q(P[\"RESID\"]); N0 = Q(P[\"N0\"])\n    E12 = Q(P[\"E12\"]); NREM = Q(P[\"NREM\"]); E3 = Q(P[\"E3\"])\n    DEV = Q(P[\"DEV\"]); E4 = Q(P[\"E4\"])\n\n    if N0 <= 0 or NREM <= 0:\n        raise ValueError(\"invalid reserve estimates\")\n\n    # Ledger-style state: capitalized cost, accumulated depletion\n    cap_cost = COST\n    acc = Q(0)\n\n    # Years 1 and 2: original rate\n    rate1 = (cap_cost - acc - RESID) / N0\n    for _ in range(2):\n        acc += E12 * rate1\n\n    # Start Year 3: re-estimate, new prospective rate\n    carrying_start3 = cap_cost - acc\n    rate3 = (carrying_start3 - RESID) / NREM\n    dep3 = E3 * rate3\n    acc += dep3\n\n    # End Year 3: capitalize development cost\n    cap_cost += DEV\n\n    # Start Year 4: reset rate\n    remaining4 = NREM - E3\n    if remaining4 <= 0:\n        raise ValueError(\"no remaining estimated units at start of Year 4\")\n    carrying_start4 = cap_cost - acc\n    rate4 = (carrying_start4 - RESID) / remaining4\n    units4 = E4 if E4 <= remaining4 else remaining4\n    dep4 = units4 * rate4\n    acc += dep4\n\n    carrying_end4 = cap_cost - acc\n\n    return {\n        \"final\": dep4,\n        \"year3_rate_per_unit\": rate3,\n        \"year3_depletion\": dep3,\n        \"accumulated_depletion_end_year4\": acc,\n        \"carrying_amount_end_year4\": carrying_end4,\n        \"year4_depletion\": dep4,\n    }\n",
+ "result": {
+  "compared": 29,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_12",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_13",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COST",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_RESID",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_E12",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_NREM",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_E3",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_min_except_DEV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_E4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COST",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_RESID",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N0",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_E12",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NREM",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_E3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DEV",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_E4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "declared_invalid"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

@@ -1,0 +1,229 @@
+{
+ "family": "c1_21",
+ "template_sha256": "17ddf8ed11f73d3c3885b34e8f509de25211a2b7fa2aa44cdfcba83d5196a846",
+ "draws_sha256": "d3ef9fc1163de07e208d8a221c53cfdf9f608fc44f0837f18a1e56ae375fccbf",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "c645b087fa1b6923074e184ce6de4d222d6b01771222909e66c391c18f786bb0",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1724,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 420,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1724,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 420,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1724,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1724
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.055650500000000006
+  }
+ ],
+ "program": "def solve():\n    supply_tokens = Q(P[\"SUPPLY\"]) * 1000000\n    bal_pct = Q(P[\"BAL_PCT\"])\n    out_thresh = Q(P[\"OUT_THRESH\"])\n    cold = P[\"COLD\"]\n\n    balance_threshold = supply_tokens * bal_pct / 100\n\n    addresses = {\n        \"A\": (Q(P[\"BAL_A\"]), Q(20000)),\n        \"B\": (Q(P[\"BAL_B\"]), Q(P[\"OUT_B\"])),\n        \"C\": (Q(P[\"BAL_C\"]), Q(0)),\n    }\n\n    whale_count = 0\n    total_whale_balance = Q(0)\n    for name, (bal, out) in addresses.items():\n        if name == cold:\n            continue\n        by_balance = bal > balance_threshold\n        by_outflow = out > out_thresh\n        if by_balance or by_outflow:\n            whale_count += 1\n            total_whale_balance += bal\n\n    share = total_whale_balance / supply_tokens * 100\n\n    return {\n        \"final\": share,\n        \"balance_threshold\": balance_threshold,\n        \"whale_count\": Q(whale_count),\n        \"total_whale_balance\": total_whale_balance,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SUPPLY",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BAL_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_OUT_THRESH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BAL_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BAL_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_BAL_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_OUT_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COLD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SUPPLY",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BAL_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_OUT_THRESH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BAL_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BAL_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_BAL_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_OUT_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COLD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

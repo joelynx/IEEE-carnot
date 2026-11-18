@@ -1,0 +1,106 @@
+{
+ "name": "drift_band_rebalance_first_trigger_month",
+ "domain_id": "fintech",
+ "topic_id": "robo_advisors",
+ "difficulty": "advanced",
+ "params": {
+  "V0": {
+   "kind": "int",
+   "min": 10000,
+   "max": 250000,
+   "step": 1000
+  },
+  "W": {
+   "kind": "choice",
+   "values": [
+    50,
+    60,
+    70,
+    80
+   ]
+  },
+  "E": {
+   "kind": "decimal",
+   "min": "0.3",
+   "max": "1.5",
+   "step": "0.1"
+  },
+  "B": {
+   "kind": "decimal",
+   "min": "-0.2",
+   "max": "0.5",
+   "step": "0.1"
+  },
+  "D": {
+   "kind": "decimal",
+   "min": "2.0",
+   "max": "5.0",
+   "step": "0.5"
+  },
+  "F": {
+   "kind": "decimal",
+   "min": "0.2",
+   "max": "1.0",
+   "step": "0.1"
+  }
+ },
+ "question_template": "A fictional robo-advisor starts a portfolio of {V0} USD exactly at its target equity weight of {W} percent, the rest in bonds. Each month equities earn a fixed {E} percent and bonds a fixed {B} percent; then an annual advisory fee of {F} percent, charged as one twelfth of that rate at each month end, is deducted pro rata from both sleeves. After each month-end fee the advisor measures the equity weight and rebalances at the first month where the absolute deviation from target, in percentage points, strictly exceeds the band of {D} points; a deviation exactly equal to the band triggers nothing. The rebalance restores the target weight with a single equity trade against bonds. Use exact arithmetic. What signed equity trade in USD is executed at the first rebalance, where positive means buy and negative means sell?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "trigger_month_count",
+   "description": "Number of months until the first rebalance.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "equity_sleeve_at_trigger",
+   "description": "Equity value after fee in trigger month.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "portfolio_total_at_trigger",
+   "description": "Total portfolio value after fee in trigger month.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "equity_weight_at_trigger",
+   "description": "Equity weight in percent at trigger month.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    V0 = Q(P[\"V0\"])\n    w = Q(P[\"W\"]) / 100\n    e = Q(P[\"E\"]) / 100\n    b = Q(P[\"B\"]) / 100\n    d = Q(P[\"D\"])\n    f = Q(P[\"F\"]) / 100\n    if e == b:\n        raise ValueError(\"equal monthly returns never drift\")\n    keep = 1 - f / 12\n    eq = V0 * w\n    bd = V0 * (1 - w)\n    n = 0\n    while True:\n        n += 1\n        if n > 120:\n            raise ValueError(\"band not breached within 120 months\")\n        eq = eq * (1 + e) * keep\n        bd = bd * (1 + b) * keep\n        wt = eq / (eq + bd)\n        if abs(wt - w) * 100 > d:\n            break\n    total = eq + bd\n    trade = w * total - eq\n    return {\n        \"final\": trade,\n        \"trigger_month_count\": n,\n        \"equity_sleeve_at_trigger\": eq,\n        \"portfolio_total_at_trigger\": total,\n        \"equity_weight_at_trigger\": wt * 100,\n    }\n"
+}

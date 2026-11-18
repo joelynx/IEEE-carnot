@@ -1,0 +1,219 @@
+{
+ "family": "c1_57",
+ "template_sha256": "b225ddb39ccd022d4ef701da95370165aa4b7890d213d9f67349edb7b59479e9",
+ "draws_sha256": "d147a5c6b8db4462c48f9751e4f8d39a62790b28105eef83d8759df4e9be6b8e",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "7a4d67df2c0a78a0b3d29f926ec56e6478ed595251922b0f225f3de45265ac02",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1677,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1154,
+    "output_tokens_details": {
+     "thinking_tokens": 550
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1677,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1154,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1677,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1677
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0914105
+  }
+ ],
+ "program": "def solve():\n    I0 = Q(P[\"I0\"]); C = Q(P[\"C\"]); N = int(P[\"N\"]); D = Q(P[\"D\"])\n    r = Q(P[\"R\"]) / 100; f = Q(P[\"F\"]) / 100; k = Q(P[\"K\"]) / 100\n\n    # Build net-flow ledger year by year\n    flows = {0: -I0}\n    for t in range(1, N + 1):\n        flows[t] = C\n    flows[N] = C - D  # year-N net flow = inflow minus decommissioning cost\n\n    # NPV on net flows at rate R\n    npv = Q(0)\n    for t, cf in flows.items():\n        npv += cf / (1 + r) ** t\n    npv_positive = \"positive\" if npv > 0 else \"not_positive\"\n\n    # Classify flows by sign for MIRR\n    pv_neg = Q(0)\n    fv_pos = Q(0)\n    for t, cf in flows.items():\n        if cf < 0:\n            pv_neg += (-cf) / (1 + f) ** t\n        elif cf > 0:\n            fv_pos += cf * (1 + k) ** (N - t)\n        # zero flows ignored\n\n    if pv_neg <= 0 or fv_pos <= 0:\n        raise ValueError(\"MIRR undefined: need both negative and positive flows\")\n\n    # MIRR: pv_neg * (1+m)^N = fv_pos\n    ratio = fv_pos / pv_neg\n    m = exp(ln(ratio) / N) - 1\n    mirr_pct = m * 100\n\n    return {\n        \"final\": mirr_pct,\n        \"npv\": npv,\n        \"npv_positive\": npv_positive,\n        \"pv_negative_flows\": pv_neg,\n        \"fv_positive_flows\": fv_pos,\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_I0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_F",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_I0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_F",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

@@ -1,0 +1,219 @@
+{
+ "family": "c1_94",
+ "template_sha256": "92116c3b793c911e19ebe387aa0da419f7151ca439d7c1a60b3763b62e8ccbd2",
+ "draws_sha256": "52905b728fb0cd79b9546f95cf5bb6bf45e296bcc680c82178f5423b29b60e0a",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "da2f96f03388048c92901b4e950fdf319a8486226f0b2a34caa5b7f6fb8f1320",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1886,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1015,
+    "output_tokens_details": {
+     "thinking_tokens": 108
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1886,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1015,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1886,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1886
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.08864050000000001
+  }
+ ],
+ "program": "def solve():\n    mcap_a = Q(P[\"MCAP_A\"])\n    rev_b = Q(P[\"REV_B\"])\n    rev_d = Q(P[\"REV_D\"])\n    thresh = Q(P[\"THRESH\"])\n    capex_b = Q(P[\"CAPEX_B\"])\n    exempt_min = Q(P[\"EXEMPT_MIN\"])\n    cap_mult = Q(P[\"CAP_MULT\"])\n\n    issuers = {\n        \"A\": {\"mcap\": mcap_a, \"rev\": Q(0), \"capex\": Q(0)},\n        \"B\": {\"mcap\": Q(300), \"rev\": rev_b, \"capex\": capex_b},\n        \"C\": {\"mcap\": Q(250), \"rev\": Q(5), \"capex\": Q(0)},\n        \"D\": {\"mcap\": Q(200), \"rev\": rev_d, \"capex\": Q(12)},\n        \"E\": {\"mcap\": Q(150), \"rev\": Q(0), \"capex\": Q(0)},\n    }\n\n    # Exclusion screen with transition exemption\n    retained = []\n    excluded = []\n    for name, d in issuers.items():\n        breach = d[\"rev\"] > thresh\n        exempt = d[\"capex\"] >= exempt_min\n        if breach and not exempt:\n            excluded.append(name)\n        else:\n            retained.append(name)\n\n    n = len(retained)\n    if n == 0:\n        raise ValueError(\"no retained issuers\")\n\n    total_mcap = sum(issuers[k][\"mcap\"] for k in retained)\n    weights = {k: issuers[k][\"mcap\"] / total_mcap * 100 for k in retained}\n\n    cap_level = cap_mult * (Q(100) / n)\n\n    # Single-pass capping\n    cut = {}\n    uncut = {}\n    excess = Q(0)\n    for k in retained:\n        w = weights[k]\n        if w > cap_level:\n            excess += w - cap_level\n            cut[k] = cap_level\n        else:\n            uncut[k] = w\n\n    final_w = dict(cut)\n    uncut_total = sum(uncut.values())\n    if excess > 0:\n        if uncut_total == 0:\n            raise ValueError(\"no recipients for redistribution\")\n        for k, w in uncut.items():\n            final_w[k] = w + excess * (w / uncut_total)\n    else:\n        for k, w in uncut.items():\n            final_w[k] = w\n\n    largest = max(final_w.values())\n    c_final = final_w.get(\"C\", Q(0))\n\n    return {\n        \"final\": c_final,\n        \"excluded_count\": Q(len(excluded)),\n        \"cap_level\": cap_level,\n        \"redistributed_excess\": excess,\n        \"largest_final_weight\": largest,\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MCAP_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_REV_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_REV_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_THRESH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CAPEX_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_EXEMPT_MIN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CAP_MULT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MCAP_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_REV_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_REV_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_THRESH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CAPEX_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_EXEMPT_MIN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CAP_MULT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

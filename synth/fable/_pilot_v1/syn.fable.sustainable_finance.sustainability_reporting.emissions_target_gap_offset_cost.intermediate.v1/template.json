@@ -1,0 +1,89 @@
+{
+ "name": "emissions_target_gap_offset_cost",
+ "domain_id": "sustainable_finance",
+ "topic_id": "sustainability_reporting",
+ "difficulty": "intermediate",
+ "params": {
+  "SCOPE1": {
+   "kind": "int",
+   "min": 20000,
+   "max": 60000,
+   "step": 100
+  },
+  "SCOPE2": {
+   "kind": "int",
+   "min": 10000,
+   "max": 40000,
+   "step": 100
+  },
+  "SCOPE3": {
+   "kind": "int",
+   "min": 50000,
+   "max": 200000,
+   "step": 500
+  },
+  "BASE_TOTAL": {
+   "kind": "int",
+   "min": 100000,
+   "max": 300000,
+   "step": 1000
+  },
+  "TARGET_PCT": {
+   "kind": "decimal",
+   "min": "10.00",
+   "max": "40.00",
+   "step": "0.25"
+  },
+  "OFFSET_PRICE": {
+   "kind": "decimal",
+   "min": "15.00",
+   "max": "80.00",
+   "step": "0.50"
+  }
+ },
+ "question_template": "A company's annual sustainability report discloses current-year greenhouse-gas emissions of Scope 1 = {SCOPE1} tCO2e, Scope 2 (market-based) = {SCOPE2} tCO2e and Scope 3 = {SCOPE3} tCO2e. The report's base-year total emissions (all three scopes) were E0 = {BASE_TOTAL} tCO2e, and the company's public commitment is to cut total emissions by T = {TARGET_PCT} percent relative to the base year by the current year. Total reported emissions are the plain sum of the three scopes. The target cap is E0 times (1 minus T/100). If total reported emissions are at or below the cap, the excess is zero and no offsets are purchased; otherwise the excess is total reported emissions minus the cap. To report the target as met, the company buys verified carbon offsets covering exactly the excess tonnage (no rounding of tonnes) at a price of p = {OFFSET_PRICE} USD per tCO2e. Compute the total offset purchase cost in USD. Use exact arithmetic throughout and round only the final USD amount half up to two decimal places.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "total_reported_emissions",
+   "description": "Exact current-year total emissions in tCO2e, the sum of Scope 1, Scope 2 (market-based) and Scope 3.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "target_cap_emissions",
+   "description": "Exact target cap in tCO2e, equal to base-year total emissions E0 times (1 minus T/100).",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "excess_over_cap",
+   "description": "Exact excess emissions in tCO2e to be offset: total reported emissions minus the target cap when positive, otherwise zero (non-negative).",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "tons_co2e",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    s1 = Q(P[\"SCOPE1\"])\n    s2 = Q(P[\"SCOPE2\"])\n    s3 = Q(P[\"SCOPE3\"])\n    e0 = Q(P[\"BASE_TOTAL\"])\n    t = Q(P[\"TARGET_PCT\"])\n    price = Q(P[\"OFFSET_PRICE\"])\n    total = s1 + s2 + s3\n    cap = e0 * (Q(1) - t / Q(100))\n    if total > cap:\n        excess = total - cap\n    else:\n        excess = Q(0)\n    cost = excess * price\n    return {\n        \"final\": cost,\n        \"total_reported_emissions\": total,\n        \"target_cap_emissions\": cap,\n        \"excess_over_cap\": excess,\n    }\n"
+}

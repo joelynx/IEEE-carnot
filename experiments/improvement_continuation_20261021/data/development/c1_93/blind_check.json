@@ -1,0 +1,499 @@
+{
+ "family": "c1_93",
+ "draws_sha256": "f0e08632507181be67ba90eaf933302e0eb45a6ca1009e65579a76613ac968fe",
+ "checks": [
+  {
+   "case_id": "t1_syn8cae495366d95d5e7440",
+   "verdicts": {
+    "final": true,
+    "year2_available": true,
+    "total_borrowed": true,
+    "closing_bank": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn8cae495366d95d5e7440",
+     "final_answer": {
+      "value": "101715"
+     },
+     "steps": [
+      {
+       "slot_id": "year2_available",
+       "value": "1010.9"
+      },
+      {
+       "slot_id": "total_borrowed",
+       "value": "132"
+      },
+      {
+       "slot_id": "closing_bank",
+       "value": "0"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "101715": 1
+     },
+     "year2_available": {
+      "1010.9": 1
+     },
+     "total_borrowed": {
+      "132": 1
+     },
+     "closing_bank": {
+      "0": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "101715",
+       "year2_available": "1010.9",
+       "total_borrowed": "132",
+       "closing_bank": "0"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "d9709ba2a72066efbed6c7a7d4eb0bf078ab2a3c83674612bea66c0e0221fcd4",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1266,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 628,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1266,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 628,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1266,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1266
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.056921,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 7585,
+         "session_id": "3a5d3d4e-8771-44b1-b8a1-c22ff3cc732d",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    alloc = Q(1100)\n    emis = [Q(1820), Q(1610), Q(1180)]\n    bank = Q(0)\n    repay = Q(0)\n    penalty_rate = Q(75)\n    ratio = Q(\"1.35\")\n    limit = Q(\"0.06\")\n    total_pen = Q(0)\n    total_borrowed = Q(0)\n    year2_available = None\n    for y in range(3):\n        avail = bank + alloc - repay\n        repay = Q(0)\n        if y == 1:\n            year2_available = avail\n        if avail >= emis[y]:\n            bank = avail - emis[y]\n        else:\n            shortfall = emis[y] - avail\n            bank = Q(0)\n            if y < 2:\n                borrow = min(shortfall, limit * alloc)\n            else:\n                borrow = Q(0)\n            total_borrowed += borrow\n            repay = borrow * ratio\n            shortfall -= borrow\n            total_pen += shortfall * penalty_rate\n    return {\n        \"final\": total_pen,\n        \"year2_available\": year2_available,\n        \"total_borrowed\": total_borrowed,\n        \"closing_bank\": bank,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 103
+        },
+        "rendered": {
+         "final": "101715",
+         "year2_available": "1010.9",
+         "total_borrowed": "132",
+         "closing_bank": "0"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syna20986ff2fcd098bded9",
+   "verdicts": {
+    "final": true,
+    "year2_available": true,
+    "total_borrowed": true,
+    "closing_bank": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syna20986ff2fcd098bded9",
+     "final_answer": {
+      "value": "3437.5"
+     },
+     "steps": [
+      {
+       "slot_id": "year2_available",
+       "value": "1580"
+      },
+      {
+       "slot_id": "total_borrowed",
+       "value": "187.5"
+      },
+      {
+       "slot_id": "closing_bank",
+       "value": "127.5"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "3437.5": 1
+     },
+     "year2_available": {
+      "1580": 1
+     },
+     "total_borrowed": {
+      "187.5": 1
+     },
+     "closing_bank": {
+      "127.5": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "3437.5",
+       "year2_available": "1580",
+       "total_borrowed": "187.5",
+       "closing_bank": "127.5"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "96ba3dab76c9d8fb068e6f23fbbb3fceba5c3c7ea0958c77028c891d85526f5a",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1265,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 539,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1265,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 539,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1265,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1265
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.052451,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 6152,
+         "session_id": "362a3106-ac1a-416f-8782-ee5c57cbc5a3",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    alloc = Q(1250)\n    em = [Q(1120), Q(1830), Q(860)]\n    bank = Q(200)\n    repay = Q(0)\n    penalty = Q(0)\n    total_borrowed = Q(0)\n    year2_available = None\n    for y in range(3):\n        available = bank + alloc - repay\n        if y == 1:\n            year2_available = available\n        repay = Q(0)\n        if available >= em[y]:\n            bank = available - em[y]\n        else:\n            shortfall = em[y] - available\n            bank = Q(0)\n            if y < 2:\n                borrow = min(shortfall, Q(\"0.15\") * alloc)\n            else:\n                borrow = Q(0)\n            total_borrowed += borrow\n            repay = Q(\"1.4\") * borrow\n            penalty += (shortfall - borrow) * 55\n    return {\n        \"final\": penalty,\n        \"year2_available\": year2_available,\n        \"total_borrowed\": total_borrowed,\n        \"closing_bank\": bank,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 82
+        },
+        "rendered": {
+         "final": "3437.5",
+         "year2_available": "1580",
+         "total_borrowed": "187.5",
+         "closing_bank": "127.5"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn16229776f5e904af7afd",
+   "verdicts": {
+    "final": true,
+    "year2_available": true,
+    "total_borrowed": true,
+    "closing_bank": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn16229776f5e904af7afd",
+     "final_answer": {
+      "value": "0"
+     },
+     "steps": [
+      {
+       "slot_id": "year2_available",
+       "value": "2110"
+      },
+      {
+       "slot_id": "total_borrowed",
+       "value": "0"
+      },
+      {
+       "slot_id": "closing_bank",
+       "value": "510"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "0": 1
+     },
+     "year2_available": {
+      "2110": 1
+     },
+     "total_borrowed": {
+      "0": 1
+     },
+     "closing_bank": {
+      "510": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "0",
+       "year2_available": "2110",
+       "total_borrowed": "0",
+       "closing_bank": "510"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "fb2336a513ef520dd8290f113e83045c00d78222c8b00ce24960ebd01b3dca99",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1266,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 480,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1266,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 480,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1266,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1266
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.049520999999999996,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 9163,
+         "session_id": "2cbb53ec-4626-4768-9420-6050b2ca1768",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    alloc = 1500\n    emissions = [1090, 1810, 1290]\n    bank = 200\n    borrow_limit_pct = Q(\"0.18\")\n    repay_ratio = Q(\"1.05\")\n    penalty_rate = 100\n    repayment = 0\n    total_penalty = 0\n    total_borrowed = 0\n    year2_available = None\n    for i, em in enumerate(emissions):\n        available = bank + alloc - repayment\n        repayment = 0\n        if i == 1:\n            year2_available = available\n        if available >= em:\n            bank = available - em\n        else:\n            shortfall = em - available\n            bank = 0\n            if i < 2:\n                borrow = min(shortfall, borrow_limit_pct * alloc)\n                total_borrowed += borrow\n                repayment = borrow * repay_ratio\n                shortfall -= borrow\n            total_penalty += shortfall * penalty_rate\n    return {\n        \"final\": total_penalty,\n        \"year2_available\": year2_available,\n        \"total_borrowed\": total_borrowed,\n        \"closing_bank\": bank,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 80
+        },
+        "rendered": {
+         "final": "0",
+         "year2_available": "2110",
+         "total_borrowed": "0",
+         "closing_bank": "510"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn5583c4e293310e48032f",
+   "verdicts": {
+    "final": true,
+    "year2_available": true,
+    "total_borrowed": true,
+    "closing_bank": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn5583c4e293310e48032f",
+     "final_answer": {
+      "value": "0"
+     },
+     "steps": [
+      {
+       "slot_id": "year2_available",
+       "value": "1580"
+      },
+      {
+       "slot_id": "total_borrowed",
+       "value": "0"
+      },
+      {
+       "slot_id": "closing_bank",
+       "value": "140"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "0": 1
+     },
+     "year2_available": {
+      "1580": 1
+     },
+     "total_borrowed": {
+      "0": 1
+     },
+     "closing_bank": {
+      "140": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "0",
+       "year2_available": "1580",
+       "total_borrowed": "0",
+       "closing_bank": "140"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "78c1e0d426d1ffe39480a01c72654c684ad95c2b3820f0cd6eaefcdcb1de7497",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1266,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 463,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1266,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 463,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1266,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1266
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.048671,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5426,
+         "session_id": "968a0211-54d7-4d4a-a57f-30c661dd6c0e",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    alloc = Q(1400)\n    emis = [Q(1320), Q(1390), Q(1450)]\n    bank = Q(100)\n    repay = Q(0)\n    total_pen = Q(0)\n    total_borrowed = Q(0)\n    year2_available = None\n    for y in range(3):\n        available = bank + alloc - repay\n        repay = Q(0)\n        if y == 1:\n            year2_available = available\n        if available >= emis[y]:\n            bank = available - emis[y]\n        else:\n            shortfall = emis[y] - available\n            bank = Q(0)\n            borrow = Q(0)\n            if y < 2:\n                borrow = min(shortfall, Q(21, 100) * alloc)\n            shortfall -= borrow\n            total_borrowed += borrow\n            repay = borrow * Q(1.25)\n            total_pen += shortfall * 60\n    return {\n        \"final\": total_pen,\n        \"year2_available\": year2_available,\n        \"total_borrowed\": total_borrowed,\n        \"closing_bank\": bank,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 88
+        },
+        "rendered": {
+         "final": "0",
+         "year2_available": "1580",
+         "total_borrowed": "0",
+         "closing_bank": "140"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

@@ -1,0 +1,115 @@
+{
+  "name": "slb_step_up_baseline_recalc_payment_dates",
+  "domain_id": "sustainable_finance",
+  "topic_id": "green_bonds",
+  "difficulty": "advanced",
+  "params": {
+    "FACE": {
+      "kind": "int",
+      "min": 5000000,
+      "max": 50000000,
+      "step": 1000000
+    },
+    "COUPON": {
+      "kind": "decimal",
+      "min": "2.00",
+      "max": "6.00",
+      "step": "0.05"
+    },
+    "MATURITY_YEAR": {
+      "kind": "choice",
+      "values": [
+        2030,
+        2031,
+        2032,
+        2033
+      ]
+    },
+    "BASELINE": {
+      "kind": "int",
+      "min": 100000,
+      "max": 500000,
+      "step": 10000
+    },
+    "DIVEST_SHARE": {
+      "kind": "decimal",
+      "min": "2.0",
+      "max": "12.0",
+      "step": "0.5"
+    },
+    "TARGET_CUT": {
+      "kind": "int",
+      "min": 10,
+      "max": 30,
+      "step": 5
+    },
+    "OBSERVED_PCT": {
+      "kind": "decimal",
+      "min": "65.00",
+      "max": "95.00",
+      "step": "0.25"
+    },
+    "STEP_UP": {
+      "kind": "int",
+      "min": 20,
+      "max": 100,
+      "step": 10
+    }
+  },
+  "question_template": "A sustainability-linked green bond with face value {FACE} USD is issued on 1 January 2026 and pays an annual coupon of {COUPON} percent of face on 31 December of each year from 2026 through {MATURITY_YEAR} inclusive; ignore principal and all other cash flows. Baseline-year emissions are {BASELINE} tons CO2e. Before the observation period the issuer divests a unit accounting for {DIVEST_SHARE} percent of baseline-year emissions. The framework recalculates the baseline by removing that share only when the divested share is at least 5 percent; otherwise the original baseline stands. The performance target is emissions no higher than the applicable baseline reduced by {TARGET_CUT} percent. Verified emissions for calendar year 2027 equal {OBSERVED_PCT} percent of the original baseline, and the verification date is 30 June 2028. If verified emissions exceed the target by more than 5 percent of the target, the coupon rate steps up by {STEP_UP} basis points; if they exceed it by at most 5 percent of the target, the step-up is half that; if they are at or below the target there is no step-up. Any step-up applies to every coupon paid on or after the verification date through maturity, and earlier coupons are unaffected. Compute the total coupon cash paid over the bond's life.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "applicable_baseline",
+      "description": "Baseline emissions after applying the recalculation rule.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "tons_co2e",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "emissions_threshold",
+      "description": "Target emissions level derived from the applicable baseline.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "tons_co2e",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "stepped_coupon_rate",
+      "description": "Annual coupon rate applying to coupons paid after verification.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "percent",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "stepped_coupon_count",
+      "description": "Number of coupon payments subject to any step-up.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "count",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    face = Fraction(P[\"FACE\"])\n    c = Fraction(P[\"COUPON\"])\n    mat = int(P[\"MATURITY_YEAR\"])\n    n_total = mat - 2025\n    n_step = mat - 2027\n    base = Fraction(P[\"BASELINE\"])\n    d = Fraction(P[\"DIVEST_SHARE\"])\n    cut = Fraction(P[\"TARGET_CUT\"])\n    obs_pct = Fraction(P[\"OBSERVED_PCT\"])\n    su = Fraction(P[\"STEP_UP\"])\n    if d >= 5:\n        app = base * (1 - d / 100)\n    else:\n        app = base\n    thr = app * (1 - cut / 100)\n    obs = base * obs_pct / 100\n    if obs <= thr:\n        add_bp = Fraction(0)\n    elif obs <= thr * Fraction(105, 100):\n        add_bp = su / 2\n    else:\n        add_bp = su\n    step_rate = c + add_bp / 100\n    total = face * (c / 100 * (n_total - n_step) + step_rate / 100 * n_step)\n    return {\n        \"final\": total,\n        \"applicable_baseline\": app,\n        \"emissions_threshold\": thr,\n        \"stepped_coupon_rate\": step_rate,\n        \"stepped_coupon_count\": Fraction(n_step),\n    }\n"
+}

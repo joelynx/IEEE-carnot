@@ -1,0 +1,154 @@
+{
+ "name": "restricted_payment_builder_basket_leverage_block",
+ "domain_id": "financial_ratios",
+ "topic_id": "levratio",
+ "difficulty": "advanced",
+ "params": {
+  "NI_1": {
+   "kind": "int",
+   "min": 20,
+   "max": 50,
+   "step": 5
+  },
+  "GROWTH": {
+   "kind": "decimal",
+   "min": "0",
+   "max": "10",
+   "step": "2"
+  },
+  "CHARGE": {
+   "kind": "int",
+   "min": 0,
+   "max": 60,
+   "step": 10
+  },
+  "SHARE": {
+   "kind": "decimal",
+   "min": "40",
+   "max": "60",
+   "step": "10"
+  },
+  "PRIOR": {
+   "kind": "int",
+   "min": 0,
+   "max": 30,
+   "step": 5
+  },
+  "CASH": {
+   "kind": "int",
+   "min": 40,
+   "max": 90,
+   "step": 5
+  },
+  "EBITDA": {
+   "kind": "int",
+   "min": 70,
+   "max": 100,
+   "step": 10
+  },
+  "REQUEST": {
+   "kind": "int",
+   "min": 10,
+   "max": 40,
+   "step": 5
+  }
+ },
+ "question_template": "A borrower's loan agreement limits dividends to two baskets. Builder basket capacity equals {SHARE}% of cumulative net income for years 1-4 minus prior distributions of {PRIOR} USD million, floored at zero. Year 1 net income is {NI_1} USD million; pre-charge net income grows {GROWTH}% per year, compounding, in years 2-4. Year 2 only is reduced by a one-off after-tax charge of {CHARGE} USD million; a resulting loss year reduces cumulative net income. A general basket of 12 USD million is usable regardless of leverage. The borrower requests a dividend of {REQUEST} USD million; the proposed payment is the lesser of the request and the sum of both baskets. Builder basket use is blocked if pro forma net leverage after paying the full proposed payment from cash strictly exceeds 3.00x, where net leverage is (gross debt of 310 USD million minus cash) divided by EBITDA of {EBITDA} USD million and cash before payment is {CASH} USD million; a ratio exactly equal to 3.00x passes. If blocked, only the general basket may be used, again limited by the request. Report the permitted dividend in USD million.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "cumulative_net_income",
+   "description": "Sum of years 1-4 net income including the charge-reduced year 2",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "builder_capacity",
+   "description": "Builder basket capacity after prior distributions and zero floor",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "pro_forma_leverage",
+   "description": "Net leverage after paying the full proposed payment from cash",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "multiple",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "block_applies",
+   "description": "Whether the leverage block on the builder basket applies",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "yes",
+     "no"
+    ]
+   }
+  }
+ ],
+ "program": "from fractions import Fraction\n\ndef solve():\n    ni1 = Fraction(P[\"NI_1\"])\n    g = Fraction(P[\"GROWTH\"]) / 100\n    charge = Fraction(P[\"CHARGE\"])\n    share = Fraction(P[\"SHARE\"]) / 100\n    prior = Fraction(P[\"PRIOR\"])\n    cash = Fraction(P[\"CASH\"])\n    ebitda = Fraction(P[\"EBITDA\"])\n    request = Fraction(P[\"REQUEST\"])\n    general = Fraction(12)\n    debt = Fraction(310)\n    cap = Fraction(3)\n    if ebitda <= 0:\n        raise ValueError(\"EBITDA must be positive\")\n    cum = Fraction(0)\n    for t in range(4):\n        ni = ni1 * (1 + g) ** t\n        if t == 1:\n            ni = ni - charge\n        cum = cum + ni\n    builder = share * cum - prior\n    if builder < 0:\n        builder = Fraction(0)\n    proposed = min(request, general + builder)\n    lev = (debt - (cash - proposed)) / ebitda\n    blocked = lev > cap\n    if blocked:\n        permitted = min(request, general)\n    else:\n        permitted = proposed\n    return {\n        \"final\": permitted,\n        \"cumulative_net_income\": cum,\n        \"builder_capacity\": builder,\n        \"pro_forma_leverage\": lev,\n        \"block_applies\": \"yes\" if blocked else \"no\",\n    }\n",
+ "coverage_params": [
+  {
+   "NI_1": 40,
+   "GROWTH": "4",
+   "CHARGE": 0,
+   "SHARE": "50",
+   "PRIOR": 10,
+   "CASH": 90,
+   "EBITDA": 100,
+   "REQUEST": 40
+  },
+  {
+   "NI_1": 40,
+   "GROWTH": "4",
+   "CHARGE": 0,
+   "SHARE": "50",
+   "PRIOR": 10,
+   "CASH": 50,
+   "EBITDA": 80,
+   "REQUEST": 40
+  },
+  {
+   "NI_1": 20,
+   "GROWTH": "0",
+   "CHARGE": 60,
+   "SHARE": "40",
+   "PRIOR": 20,
+   "CASH": 40,
+   "EBITDA": 90,
+   "REQUEST": 10
+  },
+  {
+   "NI_1": 30,
+   "GROWTH": "2",
+   "CHARGE": 10,
+   "SHARE": "60",
+   "PRIOR": 0,
+   "CASH": 60,
+   "EBITDA": 90,
+   "REQUEST": 20
+  }
+ ]
+}

@@ -1,0 +1,499 @@
+{
+ "family": "c1_53",
+ "draws_sha256": "d272fd05cfe3f179c6a2031eb9922b8353f0a23d019956487b1756199f1346f5",
+ "checks": [
+  {
+   "case_id": "t1_syn7a402a5a43bcfe1eb8ed",
+   "verdicts": {
+    "final": true,
+    "net_monthly_rate_pct": true,
+    "projected_value": true,
+    "signed_gap": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn7a402a5a43bcfe1eb8ed",
+     "final_answer": {
+      "value": "1227.40"
+     },
+     "steps": [
+      {
+       "slot_id": "net_monthly_rate_pct",
+       "value": "23/48"
+      },
+      {
+       "slot_id": "projected_value",
+       "value": "31501.40"
+      },
+      {
+       "slot_id": "signed_gap",
+       "value": "-39498.60"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "1227.40": 1
+     },
+     "net_monthly_rate_pct": {
+      "23/48": 1
+     },
+     "projected_value": {
+      "31501.40": 1
+     },
+     "signed_gap": {
+      "-39498.60": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "1227.40",
+       "net_monthly_rate_pct": "23/48",
+       "projected_value": "31501.40",
+       "signed_gap": "-39498.60"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f58c378d1d4a3681069c4d17a21e7469a229e444b8a695b8ff3a9edf541e79d1",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1307,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 333,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1307,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 333,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1307,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1307
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.042991,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3849,
+         "session_id": "ac445d59-e5fb-4fb2-a592-549ed084482e",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    balance = Q(9000)\n    months = 30\n    deposit = Q(800)\n    annual_return = Q(\"0.06\")\n    fee = Q(\"0.0025\")\n    r = (annual_return - fee) / 12\n    one_time = Q(-4500)\n    one_time_month = 24\n    goal = Q(71000)\n\n    bal = balance\n    for m in range(1, months + 1):\n        bal = bal * (1 + r) + deposit\n        if m == one_time_month:\n            bal += one_time\n    projected = bal\n    gap = projected - goal\n\n    # annuity factor for level additional monthly deposit at end of each month\n    af = sum((1 + r) ** (months - m) for m in range(1, months + 1))\n    if gap < 0:\n        add = -gap / af\n    else:\n        add = Q(0)\n\n    return {\n        \"final\": add,\n        \"net_monthly_rate_pct\": r * 100,\n        \"projected_value\": projected,\n        \"signed_gap\": gap,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 113
+        },
+        "rendered": {
+         "final": "1227.40",
+         "net_monthly_rate_pct": "23/48",
+         "projected_value": "31501.40",
+         "signed_gap": "-39498.60"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_synee2beb1a5d874673dd7f",
+   "verdicts": {
+    "final": true,
+    "net_monthly_rate_pct": true,
+    "projected_value": true,
+    "signed_gap": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synee2beb1a5d874673dd7f",
+     "final_answer": {
+      "value": "217.18"
+     },
+     "steps": [
+      {
+       "slot_id": "net_monthly_rate_pct",
+       "value": "5/24"
+      },
+      {
+       "slot_id": "projected_value",
+       "value": "56284.00"
+      },
+      {
+       "slot_id": "signed_gap",
+       "value": "-6716.00"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "217.18": 1
+     },
+     "net_monthly_rate_pct": {
+      "5/24": 1
+     },
+     "projected_value": {
+      "56284.00": 1
+     },
+     "signed_gap": {
+      "-6716.00": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "217.18",
+       "net_monthly_rate_pct": "5/24",
+       "projected_value": "56284.00",
+       "signed_gap": "-6716.00"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "553f1b4fe199031662fadfceb1133f3372ad0c96169e9029d3632c32accefb0b",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1309,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 350,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1309,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 350,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1309,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1309
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.043881,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4201,
+         "session_id": "0a7692e1-3e3f-4594-bae5-4599a88fbb7d",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    bal0 = Q(36500)\n    n = 30\n    dep = Q(400)\n    annual = Q(\"0.035\") - Q(\"0.01\")\n    r = annual / 12\n    net_monthly_rate_pct = r * 100\n    goal = Q(63000)\n    one_time = Q(5000)\n    one_time_month = 24\n\n    # Projected value\n    bal = bal0\n    for m in range(1, n + 1):\n        bal = bal * (1 + r) + dep\n        if m == one_time_month:\n            bal = bal + one_time\n    projected = bal\n    gap = projected - goal\n\n    # Annuity factor for 30 month-end deposits\n    af = sum((1 + r) ** (n - m) for m in range(1, n + 1))\n    if gap < 0:\n        add = -gap / af\n    else:\n        add = Q(0)\n\n    return {\n        \"final\": add,\n        \"net_monthly_rate_pct\": net_monthly_rate_pct,\n        \"projected_value\": projected,\n        \"signed_gap\": gap,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 155
+        },
+        "rendered": {
+         "final": "217.18",
+         "net_monthly_rate_pct": "5/24",
+         "projected_value": "56284.00",
+         "signed_gap": "-6716.00"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn40445359be28c478b5da",
+   "verdicts": {
+    "final": true,
+    "net_monthly_rate_pct": true,
+    "projected_value": true,
+    "signed_gap": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn40445359be28c478b5da",
+     "final_answer": {
+      "value": "260.20"
+     },
+     "steps": [
+      {
+       "slot_id": "net_monthly_rate_pct",
+       "value": "2/3"
+      },
+      {
+       "slot_id": "projected_value",
+       "value": "45881.30"
+      },
+      {
+       "slot_id": "signed_gap",
+       "value": "-19118.70"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "260.20": 1
+     },
+     "net_monthly_rate_pct": {
+      "2/3": 1
+     },
+     "projected_value": {
+      "45881.30": 1
+     },
+     "signed_gap": {
+      "-19118.70": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "260.20",
+       "net_monthly_rate_pct": "2/3",
+       "projected_value": "45881.30",
+       "signed_gap": "-19118.70"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "4ad113ed0ebec20ddbf5f3de2860b853f2cfe16c0be35449ed012fad1659d1ff",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1309,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 337,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1309,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 337,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1309,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1309
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.043231000000000006,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4364,
+         "session_id": "ef42af0a-1faa-4929-99fb-359353c73389",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    balance = Q(9500)\n    months = 60\n    deposit = Q(500)\n    annual_return = Q(\"0.085\")\n    fee = Q(\"0.005\")\n    r = (annual_return - fee) / 12\n    one_time = Q(-3500)\n    one_time_month = 6\n    goal = Q(65000)\n\n    # project\n    bal = balance\n    for m in range(1, months + 1):\n        bal = bal * (1 + r) + deposit\n        if m == one_time_month:\n            bal = bal + one_time\n    projected = bal\n    gap = projected - goal\n\n    # annuity factor for 60 month-end deposits\n    af = sum((1 + r) ** (months - m) for m in range(1, months + 1))\n    if gap < 0:\n        extra = -gap / af\n    else:\n        extra = Q(0)\n\n    return {\n        \"final\": extra,\n        \"net_monthly_rate_pct\": r * 100,\n        \"projected_value\": projected,\n        \"signed_gap\": gap,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 97
+        },
+        "rendered": {
+         "final": "260.20",
+         "net_monthly_rate_pct": "2/3",
+         "projected_value": "45881.30",
+         "signed_gap": "-19118.70"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_synb3ebb3e0bba3e610d1bc",
+   "verdicts": {
+    "final": true,
+    "net_monthly_rate_pct": true,
+    "projected_value": true,
+    "signed_gap": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synb3ebb3e0bba3e610d1bc",
+     "final_answer": {
+      "value": "1399.76"
+     },
+     "steps": [
+      {
+       "slot_id": "net_monthly_rate_pct",
+       "value": "0.375"
+      },
+      {
+       "slot_id": "projected_value",
+       "value": "35642.01"
+      },
+      {
+       "slot_id": "signed_gap",
+       "value": "-44357.99"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "1399.76": 1
+     },
+     "net_monthly_rate_pct": {
+      "0.375": 1
+     },
+     "projected_value": {
+      "35642.01": 1
+     },
+     "signed_gap": {
+      "-44357.99": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "1399.76",
+       "net_monthly_rate_pct": "0.375",
+       "projected_value": "35642.01",
+       "signed_gap": "-44357.99"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "db8a98421c169a85829e2b578153144b5b48fb0161c0d0f78a267caa067c823e",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1309,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 308,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1309,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 308,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1309,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1309
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.041781,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 3858,
+         "session_id": "c51cb9f4-6e5e-4f57-b416-0aadab796ed4",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    bal = Q(6500)\n    n = 30\n    dep = Q(750)\n    r = (Q(\"0.055\") - Q(\"0.01\")) / 12\n    goal = Q(80000)\n    one_time = Q(4500)\n    one_time_month = 24\n    # projected value\n    b = bal\n    for m in range(1, n + 1):\n        b = b * (1 + r) + dep\n        if m == one_time_month:\n            b = b + one_time\n    projected = b\n    gap = projected - goal\n    # annuity factor: deposit at end of month m grows for n-m months\n    af = sum((1 + r) ** (n - m) for m in range(1, n + 1))\n    add = (-gap) / af if gap < 0 else Q(0)\n    return {\n        \"final\": add,\n        \"net_monthly_rate_pct\": r * 100,\n        \"projected_value\": projected,\n        \"signed_gap\": gap,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 106
+        },
+        "rendered": {
+         "final": "1399.76",
+         "net_monthly_rate_pct": "0.375",
+         "projected_value": "35642.01",
+         "signed_gap": "-44357.99"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

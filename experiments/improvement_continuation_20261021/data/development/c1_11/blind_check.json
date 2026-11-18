@@ -1,0 +1,539 @@
+{
+ "family": "c1_11",
+ "draws_sha256": "044519dc9797f0c2f944ccac653670ffe9b398eb718c2c77a85b2c5484c29600",
+ "checks": [
+  {
+   "case_id": "t1_synf0df7bbe83dac06d1af3",
+   "verdicts": {
+    "final": true,
+    "remaining_permanent_balance": true,
+    "amortizing_shield_pv": true,
+    "tax_shield_value": true,
+    "levered_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synf0df7bbe83dac06d1af3",
+     "final_answer": {
+      "value": "750.1908"
+     },
+     "steps": [
+      {
+       "slot_id": "remaining_permanent_balance",
+       "value": "150.0000"
+      },
+      {
+       "slot_id": "amortizing_shield_pv",
+       "value": "12.3418"
+      },
+      {
+       "slot_id": "tax_shield_value",
+       "value": "40.1908"
+      },
+      {
+       "slot_id": "levered_firm_value",
+       "value": "1100.1908"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "750.1908": 1
+     },
+     "remaining_permanent_balance": {
+      "150.0000": 1
+     },
+     "amortizing_shield_pv": {
+      "12.3418": 1
+     },
+     "tax_shield_value": {
+      "40.1908": 1
+     },
+     "levered_firm_value": {
+      "1100.1908": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "750.1908",
+       "remaining_permanent_balance": "150.0000",
+       "amortizing_shield_pv": "12.3418",
+       "tax_shield_value": "40.1908",
+       "levered_firm_value": "1100.1908"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "0691862d09a48620904060b7d34c51d5908837158644605804e46d503078265f",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1959,
+         "cache_read_input_tokens": 0,
+         "output_tokens": 388,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1959,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 388,
+           "cache_read_input_tokens": 0,
+           "cache_creation_input_tokens": 1959,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1959
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.05859999999999999,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4635,
+         "session_id": "f9d538ef-e114-47a0-b2b7-1e7302ed40ac",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V_u = Q(1060)\n    D = Q(350)\n    r = Q(\"0.055\")\n    t = Q(\"0.23\")\n    rep = Q(50)\n    n = 4\n    bal = D\n    amort_pv = Q(0)\n    for yr in range(1, n + 1):\n        shield = t * r * bal\n        amort_pv += shield / (1 + r) ** yr\n        bal -= rep\n    remaining = bal\n    perm_pv = t * remaining / (1 + r) ** n\n    shield_total = amort_pv + perm_pv\n    V_l = V_u + shield_total\n    equity = V_l - D\n    return {\n        \"final\": equity,\n        \"remaining_permanent_balance\": remaining,\n        \"amortizing_shield_pv\": amort_pv,\n        \"tax_shield_value\": shield_total,\n        \"levered_firm_value\": V_l,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 406
+        },
+        "rendered": {
+         "final": "750.1908",
+         "remaining_permanent_balance": "150.0000",
+         "amortizing_shield_pv": "12.3418",
+         "tax_shield_value": "40.1908",
+         "levered_firm_value": "1100.1908"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn3fc0779ac5d685bb7910",
+   "verdicts": {
+    "final": true,
+    "remaining_permanent_balance": true,
+    "amortizing_shield_pv": true,
+    "tax_shield_value": true,
+    "levered_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn3fc0779ac5d685bb7910",
+     "final_answer": {
+      "value": "584.3867"
+     },
+     "steps": [
+      {
+       "slot_id": "remaining_permanent_balance",
+       "value": "155.0000"
+      },
+      {
+       "slot_id": "amortizing_shield_pv",
+       "value": "2.0645"
+      },
+      {
+       "slot_id": "tax_shield_value",
+       "value": "34.3867"
+      },
+      {
+       "slot_id": "levered_firm_value",
+       "value": "764.3867"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "584.3867": 1
+     },
+     "remaining_permanent_balance": {
+      "155.0000": 1
+     },
+     "amortizing_shield_pv": {
+      "2.0645": 1
+     },
+     "tax_shield_value": {
+      "34.3867": 1
+     },
+     "levered_firm_value": {
+      "764.3867": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "584.3867",
+       "remaining_permanent_balance": "155.0000",
+       "amortizing_shield_pv": "2.0645",
+       "tax_shield_value": "34.3867",
+       "levered_firm_value": "764.3867"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "6f1839e779cbd71bf18038b46eae2264309281b07bc05a5639d3dbd0aa4e87cb",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1234,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 386,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1234,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 386,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1234,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1234
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.044181,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4321,
+         "session_id": "aefaaa84-bc92-42ae-a391-5dbacda0ca52",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V_u = Q(730)\n    D = Q(180)\n    r = Q(\"0.055\")\n    t = Q(\"0.22\")\n    rep = Q(25)\n    n = 1\n    bal = D\n    amort_pv = Q(0)\n    for y in range(1, n + 1):\n        shield = bal * r * t\n        amort_pv += shield / (1 + r) ** y\n        bal -= rep\n    remaining = bal\n    perm_pv = t * remaining / (1 + r) ** n\n    ts = amort_pv + perm_pv\n    V_l = V_u + ts\n    E = V_l - D\n    return {\n        \"final\": E,\n        \"remaining_permanent_balance\": remaining,\n        \"amortizing_shield_pv\": amort_pv,\n        \"tax_shield_value\": ts,\n        \"levered_firm_value\": V_l,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 312
+        },
+        "rendered": {
+         "final": "584.3867",
+         "remaining_permanent_balance": "155.0000",
+         "amortizing_shield_pv": "2.0645",
+         "tax_shield_value": "34.3867",
+         "levered_firm_value": "764.3867"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_synaff9cfed5b60e37ed389",
+   "verdicts": {
+    "final": true,
+    "remaining_permanent_balance": true,
+    "amortizing_shield_pv": true,
+    "tax_shield_value": true,
+    "levered_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synaff9cfed5b60e37ed389",
+     "final_answer": {
+      "value": "289.5286"
+     },
+     "steps": [
+      {
+       "slot_id": "remaining_permanent_balance",
+       "value": "20.0000"
+      },
+      {
+       "slot_id": "amortizing_shield_pv",
+       "value": "6.1945"
+      },
+      {
+       "slot_id": "tax_shield_value",
+       "value": "9.5286"
+      },
+      {
+       "slot_id": "levered_firm_value",
+       "value": "489.5286"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "289.5286": 1
+     },
+     "remaining_permanent_balance": {
+      "20.0000": 1
+     },
+     "amortizing_shield_pv": {
+      "6.1945": 1
+     },
+     "tax_shield_value": {
+      "9.5286": 1
+     },
+     "levered_firm_value": {
+      "489.5286": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "289.5286",
+       "remaining_permanent_balance": "20.0000",
+       "amortizing_shield_pv": "6.1945",
+       "tax_shield_value": "9.5286",
+       "levered_firm_value": "489.5286"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "6cc083115e95684c649ba8deaa3352b6234905ea36d4dbb6995950d22533053b",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1232,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 366,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1232,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 366,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1232,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1232
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.043141,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4808,
+         "session_id": "06aece1a-f09b-4052-9b98-2e355a0949ea",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    Vu = Q(480)\n    D = Q(200)\n    r = Q(\"0.08\")\n    t = Q(\"0.21\")\n    rep = Q(60)\n    n = 3\n    bal = D\n    pv = Q(0)\n    for yr in range(1, n + 1):\n        pv += t * r * bal / (1 + r) ** yr\n        bal -= rep\n    remaining = bal\n    perm_pv = t * remaining / (1 + r) ** n\n    shield = pv + perm_pv\n    VL = Vu + shield\n    equity = VL - D\n    return {\n        \"final\": equity,\n        \"remaining_permanent_balance\": remaining,\n        \"amortizing_shield_pv\": pv,\n        \"tax_shield_value\": shield,\n        \"levered_firm_value\": VL,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 272
+        },
+        "rendered": {
+         "final": "289.5286",
+         "remaining_permanent_balance": "20.0000",
+         "amortizing_shield_pv": "6.1945",
+         "tax_shield_value": "9.5286",
+         "levered_firm_value": "489.5286"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn4419257bfdbc06520227",
+   "verdicts": {
+    "final": true,
+    "remaining_permanent_balance": true,
+    "amortizing_shield_pv": true,
+    "tax_shield_value": true,
+    "levered_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn4419257bfdbc06520227",
+     "final_answer": {
+      "value": "592.1844"
+     },
+     "steps": [
+      {
+       "slot_id": "remaining_permanent_balance",
+       "value": "115.0000"
+      },
+      {
+       "slot_id": "amortizing_shield_pv",
+       "value": "5.9832"
+      },
+      {
+       "slot_id": "tax_shield_value",
+       "value": "32.1844"
+      },
+      {
+       "slot_id": "levered_firm_value",
+       "value": "812.1844"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "592.1844": 1
+     },
+     "remaining_permanent_balance": {
+      "115.0000": 1
+     },
+     "amortizing_shield_pv": {
+      "5.9832": 1
+     },
+     "tax_shield_value": {
+      "32.1844": 1
+     },
+     "levered_firm_value": {
+      "812.1844": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "592.1844",
+       "remaining_permanent_balance": "115.0000",
+       "amortizing_shield_pv": "5.9832",
+       "tax_shield_value": "32.1844",
+       "levered_firm_value": "812.1844"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "9a5d4a638777a3d24a529778fa60c90a7fefd29304437b91f9d32e7c7153139e",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1234,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 319,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1234,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 319,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1234,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1234
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.040831,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4053,
+         "session_id": "bf5dd100-bd4f-49f0-b183-a95643278fb1",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V_u = Q(780)\n    D0 = Q(220)\n    r = Q(\"0.045\")\n    t = Q(\"0.26\")\n    rep = Q(35)\n    n = 3\n    bal = D0\n    amort_pv = Q(0)\n    for yr in range(1, n + 1):\n        shield = bal * r * t\n        amort_pv += shield / (1 + r) ** yr\n        bal -= rep\n    remaining = bal\n    perm_value_at_3 = t * remaining\n    perm_pv = perm_value_at_3 / (1 + r) ** n\n    ts = amort_pv + perm_pv\n    V_l = V_u + ts\n    equity = V_l - D0\n    return {\n        \"final\": equity,\n        \"remaining_permanent_balance\": remaining,\n        \"amortizing_shield_pv\": amort_pv,\n        \"tax_shield_value\": ts,\n        \"levered_firm_value\": V_l,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 132
+        },
+        "rendered": {
+         "final": "592.1844",
+         "remaining_permanent_balance": "115.0000",
+         "amortizing_shield_pv": "5.9832",
+         "tax_shield_value": "32.1844",
+         "levered_firm_value": "812.1844"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

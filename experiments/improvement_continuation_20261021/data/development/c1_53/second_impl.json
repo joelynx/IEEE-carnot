@@ -1,0 +1,229 @@
+{
+ "family": "c1_53",
+ "template_sha256": "ea8c97cfcb48f74d2ad3f5901eed28282fcddfe05dd2b8eb02a92b143a793b71",
+ "draws_sha256": "d272fd05cfe3f179c6a2031eb9922b8353f0a23d019956487b1756199f1346f5",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "6d3fd24a1fcdf459a0d6f676752a322fbe8901a55d840f61b2e574af6aefe5c8",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1837,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 526,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1837,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 526,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1837,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1837
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0632105
+  }
+ ],
+ "program": "def solve():\n    start = Q(P[\"START\"])\n    contrib = Q(P[\"CONTRIB\"])\n    annual_ret = Q(P[\"ANNUAL_RET\"])\n    fee_bps = Q(P[\"FEE_BPS\"])\n    months = int(P[\"MONTHS\"])\n    lump = Q(P[\"LUMP\"])\n    lump_month = int(P[\"LUMP_MONTH\"])\n    goal = Q(P[\"GOAL\"])\n\n    # net monthly rate (as a fraction)\n    annual_fee_pct = fee_bps / 100\n    r = (annual_ret - annual_fee_pct) / 100 / 12\n    net_monthly_rate_pct = r * 100\n\n    # Month-by-month ledger: grow at start-of-month balance, then deposit, then lump if applicable.\n    bal = start\n    # Also track the sensitivity: value at goal date per 1 USD of extra level deposit each month\n    sens = Q(0)\n    for m in range(1, months + 1):\n        bal = bal * (1 + r)\n        sens = sens * (1 + r)\n        bal = bal + contrib\n        sens = sens + 1\n        if m == lump_month:\n            bal = bal + lump\n\n    projected = bal\n    gap = projected - goal\n\n    if gap < 0:\n        extra = (goal - projected) / sens\n    else:\n        extra = Q(0)\n\n    return {\n        \"final\": extra,\n        \"net_monthly_rate_pct\": net_monthly_rate_pct,\n        \"projected_value\": projected,\n        \"signed_gap\": gap,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_START",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CONTRIB",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ANNUAL_RET",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FEE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_LUMP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_LUMP_MONTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_GOAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_START",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CONTRIB",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ANNUAL_RET",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE_BPS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_LUMP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_LUMP_MONTH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_GOAL",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

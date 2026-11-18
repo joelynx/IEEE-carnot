@@ -1,0 +1,122 @@
+{
+ "name": "two_asset_var_backtest_capital_charge",
+ "domain_id": "risk_management",
+ "topic_id": "var",
+ "difficulty": "advanced",
+ "params": {
+  "V": {
+   "kind": "int",
+   "min": 500000,
+   "max": 5000000,
+   "step": 50000
+  },
+  "W1": {
+   "kind": "int",
+   "min": 30,
+   "max": 70,
+   "step": 5
+  },
+  "S1": {
+   "kind": "decimal",
+   "min": "0.8",
+   "max": "2.5",
+   "step": "0.1"
+  },
+  "S2": {
+   "kind": "decimal",
+   "min": "0.8",
+   "max": "2.5",
+   "step": "0.1"
+  },
+  "RHO": {
+   "kind": "decimal",
+   "min": "-0.4",
+   "max": "0.8",
+   "step": "0.1"
+  },
+  "Z": {
+   "kind": "choice",
+   "values": [
+    "1.645",
+    "2.054",
+    "2.326"
+   ]
+  },
+  "H": {
+   "kind": "int",
+   "min": 1,
+   "max": 10,
+   "step": 1
+  },
+  "A": {
+   "kind": "decimal",
+   "min": "1.0",
+   "max": "5.0",
+   "step": "0.25"
+  },
+  "N": {
+   "kind": "int",
+   "min": 0,
+   "max": 12,
+   "step": 1
+  }
+ },
+ "question_template": "A two-asset portfolio has value V={V} USD, weight w1={W1} percent in asset 1 and the rest in asset 2. Daily volatilities are s1={S1} percent and s2={S2} percent; return correlation is rho={RHO}. One-day diversified VaR is V times the supplied quantile z={Z} times portfolio daily volatility (variance-covariance, zero mean); scale it to h={H} trading days by the square root of time. The average holding-period VaR over the prior 60 days is a={A} percent of V. Backtesting over 250 days gave n={N} exceptions. Multiplier k is 3 plus an add-on: 0 for n at most 4; 0.40, 0.50, 0.65, 0.75, 0.85 for n of 5, 6, 7, 8, 9; 1.00 for n of 10 or more. Compute the capital charge in USD as the larger of the holding-period VaR and k times the 60-day average VaR; round only the final value half up to 2 decimal places.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "undiversified_one_day_var",
+   "description": "Exact one-day VaR in USD ignoring diversification.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "diversified_one_day_var",
+   "description": "One-day diversified VaR in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "holding_period_var",
+   "description": "Diversified VaR in USD at the holding period.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "regulatory_multiplier",
+   "description": "Exact regulatory multiplier including add-on.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "multiple",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    V = Q(P[\"V\"])\n    w1 = Q(P[\"W1\"]) / 100\n    w2 = 1 - w1\n    s1 = Q(P[\"S1\"]) / 100\n    s2 = Q(P[\"S2\"]) / 100\n    rho = Q(P[\"RHO\"])\n    z = Q(P[\"Z\"])\n    h = P[\"H\"]\n    a = Q(P[\"A\"]) / 100\n    n = P[\"N\"]\n    undiv = V * z * (w1 * s1 + w2 * s2)\n    var_p = (w1 * s1) ** 2 + (w2 * s2) ** 2 + 2 * rho * w1 * w2 * s1 * s2\n    if var_p <= 0:\n        raise ValueError(\"non-positive portfolio variance\")\n    sig = sqrt(var_p)\n    div1 = V * z * sig\n    varh = div1 * sqrt(h)\n    addons = {5: Q(\"0.40\"), 6: Q(\"0.50\"), 7: Q(\"0.65\"), 8: Q(\"0.75\"), 9: Q(\"0.85\")}\n    if n <= 4:\n        addon = Q(0)\n    elif n >= 10:\n        addon = Q(1)\n    else:\n        addon = addons[n]\n    k = 3 + addon\n    avg = V * a\n    final = max(varh, k * avg)\n    return {\n        \"final\": final,\n        \"undiversified_one_day_var\": undiv,\n        \"diversified_one_day_var\": div1,\n        \"holding_period_var\": varh,\n        \"regulatory_multiplier\": k,\n    }\n"
+}

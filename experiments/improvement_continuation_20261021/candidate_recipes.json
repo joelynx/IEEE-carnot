@@ -1,0 +1,72 @@
+{
+  "version": "continuation-recipes-v1",
+  "status": "frozen_before_continuation_model_calls",
+  "scope": "Novel route only. The seen route of every recipe is R4's seen route (configs/r4.json top level), delegated unchanged when routing is used. Tuning regression panels force the novel route as a stress test; that is not a routing change.",
+  "common": {
+    "exemplars": "exemplars/r0_exemplars.json via carnot.exemplars.select; tuning panels: select(file, template_id, mode) with mode S or H; synthetic panels: select(file, None, 'H') exactly as in the prior pilot",
+    "user_prompt": "carnot.solver.Solver.prompt with unit_hints v2, echo_notes true, no slot conventions (identical for every recipe)",
+    "sandbox": "configs/r4.json sandbox: wsl, timeout 5 s; unchanged exact formatter",
+    "backend": "claude-code-cli 2.1.296 via carnot.llm_client.ClaudeCLI; every response must report exactly the requested model ID or the run stops",
+    "cache_key": "carnot.llm_client request key (model, effort, cli_version, flags_version, system_sha256, user_sha256, sample, tag); unchanged"
+  },
+  "generators": {
+    "r4": {
+      "config": "configs/r4.json routing.novel",
+      "model": "claude-sonnet-5-5", "effort": "medium",
+      "system_prompt": "carnot/prompts/pot_system_v1.txt",
+      "samples": 5, "max_retries": 2,
+      "sample_identities": {"synthetic": [0, 1, 2, 3, 4], "tuning_contemporary": [500, 501, 502, 503, 504], "tuning_historical_replay": [0, 1, 2, 3, 4]}
+    },
+    "p": {
+      "config": "configs/r5p.json routing.novel",
+      "model": "claude-sonnet-5-5", "effort": "medium",
+      "system_prompt": "carnot/prompts/pot_system_v2.txt",
+      "samples": 5, "max_retries": 2,
+      "sample_identities": {"all_panels": [0, 1, 2, 3, 4]}
+    },
+    "d5": {
+      "definition": "Five fixed roles from carnot/prompts/r5_diversity_roles.json (frozen in the prior diversity preregistration). Role k uses sample identity k. Effective system prompt = pot_system_v2 when the role instruction is empty, else pot_system_v2 + '\\n\\nIndependent derivation role:\\n' + instruction. Role 0 is byte-identical to P sample 0 and is reused from the cache only when its full request key matches.",
+      "roles": [
+        {"index": 0, "role": "direct", "model": "claude-sonnet-5-5", "effort": "medium"},
+        {"index": 1, "role": "output_interpretation", "model": "claude-sonnet-5-5", "effort": "medium"},
+        {"index": 2, "role": "alternative_derivation", "model": "claude-sonnet-5-5", "effort": "medium"},
+        {"index": 3, "role": "independent_stronger", "model": "claude-opus-5-5", "effort": "medium"},
+        {"index": 4, "role": "quantity_audit", "model": "claude-opus-5-5", "effort": "medium"}
+      ],
+      "max_retries": 2
+    },
+    "extra1": {
+      "definition": "One additional independent sample, generated only when the trigger holds. Opus medium, system pot_system_v2 without a role instruction, the same user prompt and exemplars as P, sample identity 5, tag attempt0, zero retries. It sees no candidate outputs, votes or gold. Identical to the prior sampling-control request construction.",
+      "model": "claude-opus-5-5", "effort": "medium", "sample_identity": 5, "max_retries": 0
+    },
+    "verifier": {
+      "definition": "Frozen R5-V call: carnot.verification.candidate_packet over the five D5 samples (complete executed rows, deduplicated, anonymized, shuffled by 'carnot-r5v-order-' + case_id), system carnot/prompts/verify_selection_v1.txt, sample 0, tag r5v-selection-v1, zero retries. Accepted only through carnot.verification.check_evidence.",
+      "model": "claude-opus-5-5", "effort": "medium", "max_calls_per_case": 1
+    }
+  },
+  "trigger": "len(carnot.verification.candidate_packet(question, d5_samples)[0]) >= 2, i.e. at least two distinct complete output rows, each backed by an executed program reproducing it. Gold, scores and oracle coverage never enter the trigger.",
+  "recipes": {
+    "R4": {"generator": "r4", "selector": "field_plurality", "extra_calls": 0, "role": "accepted baseline"},
+    "P": {"generator": "p", "selector": "field_plurality", "extra_calls": 0},
+    "D": {"generator": "d5", "selector": "field_plurality", "extra_calls": 0},
+    "J": {"generator": "d5", "selector": "complete_row_final_first", "fallback": "D row when carnot.selection.final_first_complete abstains", "extra_calls": 0},
+    "JB": {"generator": "d5", "selector": "balanced_complete_row", "fallback": "J row when no D5 sample is a complete row", "extra_calls": 0,
+           "weights": "Each model group has total weight 1/2, split uniformly over its scheduled roles: Sonnet roles 0, 1, 2 weigh 1/6 each; Opus roles 3, 4 weigh 1/4 each. Exact fractions.",
+           "rule": "A role supports a row only when its sample rendered every field (complete). Incomplete or failed roles contribute zero and their weight is not redistributed. Identical complete rows pool their weights. Choose the row with the greatest total weight; break equal weight by the smallest supporting role index."},
+    "X1": {"generator": "d5 + extra1", "selector": "field_plurality over six samples (carnot.solver.Solver.solve vote and tie rule) when triggered", "fallback": "J row when not triggered", "extra_calls": "at most 1"},
+    "X1C": {"generator": "d5 + extra1 (same saved sixth sample as X1)", "selector": "complete_row_final_first over six samples when triggered", "fallback": "X1 row when that selector abstains; J row when not triggered", "extra_calls": "at most 1 (shared with X1)"},
+    "V": {"generator": "d5 + verifier", "selector": "evidence-checked selection when triggered", "fallback": "J row on abstention, invalid index, missing or failed evidence, evidence mismatch, or no trigger", "extra_calls": "at most 1", "no_value_edits": true}
+  },
+  "selectors": {
+    "field_plurality": "Per-field plurality of rendered strings with the existing deterministic tie rule (carnot.solver.Solver.solve), then carnot.formatter.build_row.",
+    "complete_row_final_first": "carnot.selection.final_first_complete: plurality final, then a complete sample with that final, checkpoint agreement within the group, then input index; row rebuilt with build_row.",
+    "balanced_complete_row": "See recipes.JB."
+  },
+  "simplicity_order": ["R4", "P", "D", "J", "JB", "X1", "X1C", "V"],
+  "infrastructure": {
+    "transport": "carnot.llm_client internal transport retries (10, 30, 90 s) are unchanged and are not generation retries.",
+    "llm_error": "A non-usage LLMError marks the whole case incomplete; the case is resumed later under identical identities.",
+    "usage_limit": "UsageLimitError stops the run; completed cases are kept; resume uses the cache.",
+    "cache_only": "Any missing cached response raises CacheMissError and fails the run."
+  }
+}

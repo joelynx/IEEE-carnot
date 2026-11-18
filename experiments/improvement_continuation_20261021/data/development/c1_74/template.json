@@ -1,0 +1,118 @@
+{
+ "name": "payment_holiday_capitalized_once_bp_rate",
+ "domain_id": "personal_finance",
+ "topic_id": "loanrepay",
+ "difficulty": "intermediate",
+ "params": {
+  "BAL": {
+   "kind": "int",
+   "min": 20000,
+   "max": 80000,
+   "step": 500
+  },
+  "RATE_BP": {
+   "kind": "int",
+   "min": 300,
+   "max": 1200,
+   "step": 25
+  },
+  "DEF_PCT": {
+   "kind": "decimal",
+   "min": "0.20",
+   "max": "0.80",
+   "step": "0.05"
+  },
+  "PMT": {
+   "kind": "int",
+   "min": 400,
+   "max": 1500,
+   "step": 10
+  },
+  "FEE": {
+   "kind": "int",
+   "min": 0,
+   "max": 150,
+   "step": 25
+  },
+  "N": {
+   "kind": "int",
+   "min": 3,
+   "max": 8,
+   "step": 1
+  }
+ },
+ "question_template": "A fictional loan has balance {BAL} USD at the start of month 1 and a payment of {PMT} USD per month. Its annual nominal rate is {RATE_BP} basis points; the regular monthly rate is that annual rate divided by 12. A payment holiday covers months 1 and 2: no payments, and deferral interest accrues at {DEF_PCT} percent per month on the month-1 opening balance only, uncompounded. At the end of month 2 the accrued deferral interest plus a one-time fee of {FEE} USD is capitalized once into the balance. From month 3 the original payment resumes at month end; each month adds interest at the regular monthly rate on the opening balance, then subtracts the payment. Report the regular monthly rate in percent, the capitalized amount, and the balances after the first and after the {N}th resumed payment.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "monthly_rate_pct",
+   "description": "Regular monthly rate in percentage points, converted from annual basis points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 6
+    }
+   }
+  },
+  {
+   "slot_id": "capitalized_amount",
+   "description": "Uncompounded two-month deferral interest plus fee added to the balance once",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "balance_after_first_resumed",
+   "description": "Balance after the first resumed month-end payment following capitalization",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    bal = Q(P[\"BAL\"])\n    bp = Q(P[\"RATE_BP\"])\n    defp = Q(P[\"DEF_PCT\"])\n    pmt = Q(P[\"PMT\"])\n    fee = Q(P[\"FEE\"])\n    n = int(P[\"N\"])\n    if n < 1:\n        raise ValueError(\"need at least one resumed payment\")\n    r = bp / 10000 / 12\n    monthly_rate_pct = r * 100\n    deferral_interest = bal * (defp / 100) * 2\n    capitalized = deferral_interest + fee\n    b = bal + capitalized\n    first = None\n    for k in range(1, n + 1):\n        b = b + b * r - pmt\n        if b <= 0:\n            raise ValueError(\"loan repaid before the stated month\")\n        if k == 1:\n            first = b\n    return {\n        \"final\": b,\n        \"monthly_rate_pct\": monthly_rate_pct,\n        \"capitalized_amount\": capitalized,\n        \"balance_after_first_resumed\": first,\n    }",
+ "coverage_params": [
+  {
+   "BAL": 40000,
+   "RATE_BP": 600,
+   "DEF_PCT": "0.50",
+   "PMT": 800,
+   "FEE": 50,
+   "N": 4
+  },
+  {
+   "BAL": 20000,
+   "RATE_BP": 1200,
+   "DEF_PCT": "0.20",
+   "PMT": 1500,
+   "FEE": 0,
+   "N": 8
+  },
+  {
+   "BAL": 80000,
+   "RATE_BP": 1200,
+   "DEF_PCT": "0.80",
+   "PMT": 400,
+   "FEE": 150,
+   "N": 3
+  }
+ ]
+}

@@ -1,0 +1,270 @@
+{
+ "family": "c1_04_pair",
+ "template_sha256": "031b574a01ab81502be2d475ce7d6e73994c333a0e9fc4f4180e41d082af6fdb",
+ "draws_sha256": "d484a39252f2c6b0c7ac88594ff350623c96aeb319aa14bee0cb4c8ad130dabd",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "6a984675f77480a61e2968abbe7582aa447ca0748313e59dec579d5f6b349b4c",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1820,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 960,
+    "output_tokens_details": {
+     "thinking_tokens": 267
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1820,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 960,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1820,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1820
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.08457049999999999
+  },
+  {
+   "attempt": 1,
+   "cache_key": "968a6a7ded32da5250951b0313394e3ab0af326a058a8fa2e6a422a3cbe0dd3b",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2584,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 690,
+    "output_tokens_details": {
+     "thinking_tokens": 67
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 2584,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 690,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 2584,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 2584
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0863505
+  }
+ ],
+ "program": "def solve():\n    cogs = Q(P[\"COGS\"])\n    inv_o = Q(P[\"INV_OPEN\"]); inv_c = Q(P[\"INV_CLOSE\"])\n    ap_o = Q(P[\"AP_OPEN\"]); ap_c = Q(P[\"AP_CLOSE\"])\n    adv_o = Q(P[\"ADV_OPEN\"]); adv_c = Q(P[\"ADV_CLOSE\"])\n    share_settle = Q(P[\"SHARE_SETTLE\"])\n\n    # Inventory ledger: open + purchases - COGS = close\n    purchases = inv_c - inv_o + cogs\n\n    # Payables ledger: open + purchases - settlements = close\n    # settlements = cash settlements (incl. share-funded cash) + advance drawdowns\n    payables_change = ap_c - ap_o\n    total_settlements = ap_o + purchases - ap_c\n\n    # Advances ledger: open + cash advances - drawdowns = close\n    # Cash paid = cash settlements + cash advances\n    #           = (total_settlements - drawdowns) + cash_advances\n    #           = total_settlements + (adv_c - adv_o)\n    cash_paid = total_settlements + (adv_c - adv_o)\n\n    # share-funded settlement of payables is cash paid to suppliers and is\n    # already embedded in the payables settlements; no further adjustment.\n    _ = share_settle\n\n    net_wc_change = (inv_c + adv_c - ap_c) - (inv_o + adv_o - ap_o)\n\n    if cash_paid < 0:\n        raise ValueError(\"implied cash paid to suppliers is negative; data inconsistent\")\n\n    return {\n        \"final\": cash_paid,\n        \"purchases\": purchases,\n        \"payables_change\": payables_change,\n        \"net_wc_change\": net_wc_change,\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_COGS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_INV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_AP_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_AP_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ADV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ADV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SHARE_SETTLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_COGS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_INV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_AP_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_AP_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ADV_OPEN",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ADV_CLOSE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SHARE_SETTLE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

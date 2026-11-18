@@ -1,0 +1,133 @@
+{
+  "version": "continuation-preregistration-v1",
+  "status": "frozen_before_continuation_model_calls",
+  "plan": {"path": "PLAN.md", "sha256": "47913a362ea36b53e07e3709d1ff80f080e6285b4b6efd41fd90738934f8f2bc"},
+  "authorization": "User instruction on 21 Oct 2026: 'Execute the plan in @PLAN.md'. This authorizes the local experiments in Packages A-G. It does not authorize historical lockbox looks, Test runs, portal uploads or organizer messages. Package H steps require separate user authorization after the evidence is presented.",
+  "accepted_submission": {"run": "runs/20261012T165330Z_r4_test928_S", "zip_sha256": "cec784e29f40f277d86ee6a38701e22ca117f1102abd5541083cefc8c60e0cc3", "predictions_sha256": "e0ef54ebb142a85e3d7c6ec305c6530058b919db3c63e8328810099627913067", "status": "remains accepted unless every promotion gate passes and the user separately authorizes delivery"},
+  "inputs": {
+    "candidate_recipes": {"path": "experiments/improvement_continuation_20261021/candidate_recipes.json", "sha256": "7714fe977fcf99648a8fdd5b498be190d69116b0543c14f43cac41c25cb85bf1"},
+    "statistical_feasibility": {"path": "experiments/improvement_continuation_20261021/statistical_feasibility.json", "sha256": "b2939d72ff31fdb6f0e91c6244e3a1853fa675f6722469171568d7648ee016a6"},
+    "baseline_manifest": "experiments/improvement_continuation_20261021/baseline_manifest.json (dependency identities before any continuation code was written)"
+  },
+  "development_evidence_only": [
+    "All 24 families, 96 instances and descendants of experiments/improvement_20261020/pilot, including the amortizing-bond family_09 and its wording",
+    "All earlier synthetic templates under synth/ (fable, v3, handoff)",
+    "Every tuning-eval and tuning-noex case and every historical tuning run, which already informed R0-R4 and R5 development",
+    "The diversity role wording, verifier prompt and sampling control, which were motivated by the initial pilot's bond errors"
+  ],
+  "hypotheses": {
+    "H1": {"statement": "R5-P reduces semantic errors without harming familiar families.",
+           "evidence": "P versus contemporary R4 on tuning-eval forced-novel S/H (regression gates) and on new development families (family-macro FAC, error classes)."},
+    "H2": {"statement": "Diverse generators improve complete-candidate oracle coverage across different mechanisms.",
+           "evidence": "Share of cases and families whose five-sample pool contains a fully correct complete row: D5 versus R4 and P pools, by mechanism class. Diagnostic only; gold coverage never drives production behavior."},
+    "H3": {"statement": "Evidence-based selection improves on deterministic selection or one extra independent sample.",
+           "evidence": "V versus J, JB, X1 and X1C on new development families: all cases, and separately disagreements, final ties, checkpoint-only disagreements, missing-correct-candidate cases and correct-minority cases."},
+    "H4": {"statement": "The chosen recipe generalizes beyond the observed bond wording.",
+           "evidence": "Single fresh confirmation of the one nominated recipe against R4 on 48 sealed confirmation families, plus the development stress panel (one-time versus recurring coupon schedules, paraphrases, minimal pairs, distractors)."}
+  },
+  "routing": "Seen route unchanged for every recipe. Tuning panels use forced novel route (stress test). Synthetic panels use normal routing; every synthetic question is novel by construction and the runner asserts it.",
+  "panels": {
+    "tuning_eval": {"cases": 580, "templates": 290, "source": "splits/splits_v1.json tuning-eval", "modes": ["S", "H"]},
+    "tuning_noex": {"cases": 2314, "templates": 290, "source": "splits tuning minus exemplars/r0_exemplars.json case IDs (as carnot.run derives it)", "overlap": "contains all 580 tuning-eval cases; same 290 templates; never summed with tuning-eval as independent evidence", "modes": ["S", "H"], "when": "Package F, nominated recipe only"},
+    "pilot_replay": {"cases": 96, "source": "experiments/improvement_20261020/pilot (question text extracted without gold)", "purpose": "Package B cache-only replay of saved R4, P, D5, J, V and sampling-control outputs"},
+    "new_development": {"families": 48, "instances_per_family": 4, "waves": "wave 1 = 24 families (one intermediate and one advanced per domain), wave 2 = remaining 24"},
+    "new_confirmation": {"families": 48, "instances_per_family": 4, "status": "authored, checked and sealed after the development families; unscored until Package G"},
+    "stress": {"definition": "Development-only diagnostic panel; descendants grouped with their source family; never confirmation units. Bond family_09 variants (original wording with new seeds, explicit one-time change, explicit recurring change, neutral paraphrase of the original one-time meaning) plus, for one wave-1 development family per mechanism class (lowest design index in that class), a neutral paraphrase, a minimal pair with one explicitly changed rule, and a plausible-distractor variant. Four instances per variant; paraphrase and distractor variants reuse the source seeds so their gold equals the source's.",
+               "oracle_checks": "Same oracle quality rule as new families."}
+  },
+  "sample_identities": "As in candidate_recipes.json. Contemporary R4 on tuning panels uses 500-504 (never previously used; verified absent from the cache). Historical R4 replay uses 0-4 cache-only.",
+  "run_matrix": {
+    "B_replay": "Cache-only replay of all 96 pilot cases through the new runner for R4, P, D5 (D, J), V and X1; compare request keys, executed candidate outputs, votes, selected rows, verifier verdicts and fallbacks with the saved records. Zero fresh calls required.",
+    "C_historical": "Cache-only R4 with identities 0-4 on tuning-eval forced-novel S and H; compare with runs/20261012T163526Z_r4_tuning-eval_S_forced-novel and runs/20261012T163913Z_r4_tuning-eval_H_forced-novel.",
+    "C_contemporary": "On tuning-eval forced-novel, S then H: R4c (identities 500-504), P, D5, and the triggered X1 and V calls, all interleaved per case in one run under one backend period. D, J, JB, X1, X1C and V derive from the single saved D5 pool.",
+    "E_development": "On wave-1 then wave-2 development families and the stress panel: R4 (0-4), P, D5, triggered X1 and V. All eight recipes scored.",
+    "F_wider": "Nominated recipe and R4c (500-504) on tuning-noex forced-novel S then H; identical requests reused from tuning-eval.",
+    "G_confirmation": "R4 (0-4) and the nominated recipe only, on all 192 confirmation instances, interleaved per case. Scored once, after every prediction is persisted and coverage is verified."
+  },
+  "case_order": {"seed": "carnot-continuation-v1-order", "rule": "random.Random(seed + '#' + panel_id).shuffle(sorted case IDs); case jobs run three at a time, each job runs every enabled arm for its case"},
+  "scoring": {
+    "separation": "Generation and selection read question files only. Predictions for every recipe are written and hashed before the scoring command loads gold.",
+    "per_case": "finreason_task1.scoring.score_case (toolkit, unchanged)",
+    "tuning_official": "carnot.harness.score (toolkit score_submission) giving seen_fac and seen_checkpoint; recomputation from probed per-case weights must match the toolkit report (carnot.compare.check_against_official) before any comparison",
+    "synthetic": "Equal-family macro FAC = mean over families of mean FAC over its four instances; checkpoint macro = mean over families of mean(matched_slots/total_slots). Families are balanced four intermediate and four advanced per domain per partition, so no further weighting.",
+    "missing": "A case with no persisted prediction after the bounded resumption passes is scored as an empty row (all fields wrong) in the intended denominator."
+  },
+  "statistics": {
+    "margin": 0.001,
+    "regression": {"estimator": "carnot.compare.bootstrap with official per-case weights, 10,000 replicates, seed 'carnot-continuation-v1-regression'",
+                   "primary_scheme": "templates resampled within topics (both S and H)",
+                   "legacy_scheme": "cases resampled within templates, S only, reported separately",
+                   "one_sided_95_lower": "5th percentile of bootstrap deltas",
+                   "gate": "carnot.prospective.decision(delta, lower, 0.001, all_differences_zero=<no case differs>, independent_units=290). FAC gate is the original policy; the checkpoint gate at the same margin is an explicit additional continuation safeguard.",
+                   "sensitivity": "count of discordant templates; Clopper-Pearson one-sided 95% upper bound on the share of templates with a net FAC loss; sparse-discordance flag when fewer than ten templates are discordant. Reported, never substituted for the gate.",
+                   "comparators": "contemporary R4c is the decisive comparator; comparisons against the historical replay are reported separately and labelled historical"},
+    "development": {"estimator": "carnot.prospective.paired_family_interval, 10,000 replicates, seed 'carnot-continuation-v1-development'", "use": "uncertainty description only; development never establishes improvement"},
+    "confirmation": {"estimator": "carnot.prospective.paired_family_interval, 10,000 replicates, seed 'carnot-continuation-v1-confirmation'",
+                     "positive_improvement": "family-macro FAC delta > 0 and two-sided 95% interval lower end strictly > 0",
+                     "noninferiority": "carnot.prospective.decision on the one-sided 95% lower bound with independent_units = number of scored families",
+                     "checkpoint": "reported as secondary; a checkpoint-only gain is never presented as FAC improvement",
+                     "sensitivity": "leave-one-family-out deltas (minimum and maximum); breakdowns by domain, difficulty and mechanism class"}
+  },
+  "analysis_reports": {
+    "per_recipe": "final and complete-row oracle coverage of the generation pool, selection losses, wrong-to-correct and correct-to-wrong changes against R4c (tuning) or R4 (synthetic), checkpoint gains and harms, verifier abstentions and harmful overrides, fresh and cached calls, retries, input/output/thinking/cache tokens and cost equivalents (end-to-end and fresh-only)",
+    "subsets": "all cases; trigger cases (disagreements); final ties; checkpoint-only disagreements; cases with no correct final in the pool; correct-minority cases; disagreements where the starting answer was already correct",
+    "error_classes": ["sign", "unit_or_scale", "annual_vs_cumulative", "one_time_vs_repeated_change", "timing", "threshold_or_constraint_order", "wrong_requested_output", "arithmetic_or_program_failure", "formatting", "selection_loss"],
+    "error_review": "Automatic pre-classification (numeric relations, sandbox issues, pool oracle), then manual review of every selected error with the question and program; each classification saved with its rationale. Failed cases stay in the denominator.",
+    "s_h_overlap": "number of identical request keys shared by S and H runs; S and H are not independent replications"
+  },
+  "selection_rule": {
+    "eligible": "P, D, J, JB, X1, X1C, V. A recipe is eligible only if its tuning-eval forced-novel S and H runs are complete, its FAC point delta versus R4c is >= 0 in both modes, and its checkpoint point delta versus R4c is >= -0.001 in both modes.",
+    "ranking": "On all 48 development families: higher family-macro FAC, then higher family-macro checkpoint, then lower end-to-end cost equivalent per case, then the simplicity order R4 < P < D < J < JB < X1 < X1C < V.",
+    "nomination": "Nominate the top-ranked eligible recipe only if its development family-macro FAC is strictly greater than R4's. Otherwise nominate none and retain R4.",
+    "single_candidate": "Exactly one recipe may enter confirmation. Runners-up are never tested on confirmation."
+  },
+  "wider_regression_and_confirmation": {
+    "before_confirmation": "Complete F_wider. If the nominee has a net FAC loss (delta < 0) on any required regression view (tuning-eval S/H, tuning-noex S/H), stop before confirmation, retain R4, and leave the confirmation families sealed for a future cycle.",
+    "confirmation_freeze": "Before any confirmation call, write confirmation/preregistration.json with the nominee's exact recipe, code/config/prompt/exemplar hashes, model/CLI identities, confirmation IDs and gold hashes, metrics, bootstrap seed and complete run matrix.",
+    "no_peeking": "No partial correctness inspection, early stopping, family additions, candidate changes or favorable resampling. Technical resumption under identical identities only."
+  },
+  "family_design": {
+    "allocation": "96 new families: 12 domains x 8. Per domain: two intermediate matched pairs and two advanced matched pairs. Each pair shares domain, difficulty and mechanism class but has a different reasoning structure. One member of every pair goes to development and the other to confirmation by random.Random(sha256('carnot-continuation-v1-partition#' + pair_id)). Wave 1 = development members of the A pairs (one intermediate, one advanced per domain).",
+    "mechanism_classes": {"T": "time/state", "S": "sign/direction", "U": "units/scale", "R": "interacting rules", "O": "output binding", "D": "structural dependence"},
+    "class_table": "For domain index i (alphabetical) with C = [T, S, U, R, O, D]: intermediate A = C[i mod 6], intermediate B = C[(i+3) mod 6], advanced A = C[(i+1) mod 6], advanced B = C[(i+4) mod 6]. Each class has 8 pairs (4 intermediate, 4 advanced), 4 of them A pairs.",
+    "briefs": "data/family_design.json holds all 96 briefs and is hashed in an addendum before the first authoring call. Briefs must differ in reasoning structure from each other and from the 24 pilot designs. Difficulty comes from legitimate interactions and semantic binding, not ambiguity, length or unstated formulas; scenario tax or regulatory rules are stated explicitly.",
+    "author": {"model": "claude-fable-5-1", "effort": "high", "prompt": "carnot/prompts/synth_author_v5.txt (hashed in the addendum)", "max_repairs": 2, "rules": "carnot.synth.template rules v4", "author_id": "fable_c1", "draws_validated": 12, "draws_scored": "first 4 valid seeds from seed 0", "coverage_params": "2-4 author-declared grid points exercising distinct branches or boundaries; validated, not scored"},
+    "identity": "template IDs must be unique across all new and pilot families; case IDs follow carnot.synth.template.case_id"
+  },
+  "oracle_quality": {
+    "gates": [
+      "generation: carnot.synth.template.generate yields 12 valid draws (toolkit validators, self-score 1/1, novelty)",
+      "endpoints: carnot.improvement_quality.endpoints combinations execute without unexpected failure; explicit ValueError guards recorded as declared-invalid with reasons",
+      "coverage: each coverage parameter set either renders every field or raises an explicit ValueError",
+      "second implementation: a separate claude-fable-5-1 high call sees the question template, parameter specs and output specs, never the reference program or gold, and writes an independent parameterized program by a different derivation where feasible; its rendered outputs must equal the reference on all 12 draws, all valid endpoints and all valid coverage sets. One repair is allowed for execution or format errors only; value mismatches are never fed back.",
+      "blind solver: claude-fable-5-1 medium, neutral system prompt carnot/prompts/oracle_checker_neutral_v1.txt (neither candidate's semantic prompt nor role wording), no exemplars, unit hints v2 and echo notes as in both candidates' output table, one sample with up to two execution retries, on each of the four scored instances; every field must agree"
+    ],
+    "accept": "all gates pass",
+    "dispute": "Any failed gate makes the family disputed. Before any candidate scoring of its partition, the reviewer may (a) fix an explicit reference-program defect, (b) clarify ambiguous wording, or (c) accept the reference when the wording is unambiguous and the second implementation agrees, with written rationale. Every change archives before/after hashes, and (a)/(b) rerun all gates. Gold is never chosen by voting across candidate systems, and candidate outputs never exist at this stage.",
+    "quarantine_and_replacement": "A family still disputed after one adjudication round, or whose authoring fails after the allowed repairs, is quarantined. It is re-authored once from the same brief under replacement identity r1, frozen before its partition is scored. At most 12 replacements per partition. Shortfalls are reported, never filled from old families. Never replace a family because of candidate or R4 performance.",
+    "after_scoring": "A defect found after a partition's scoring starts is reported under this rule; labels are not revised to obtain a pass.",
+    "limitations": "Author, second implementation and blind solver share one model family; separate calls are not independent human review."
+  },
+  "wave1_assessment": {
+    "report": "Families with any R4 final error, any pool disagreement, generation failures and oracle disputes, by mechanism class and domain; failures are never the only retained families.",
+    "ceiling": "fewer than 5 of the 24 wave-1 families contain an R4 final error",
+    "concentration": "at least 75% of informative families (any recipe final error or any D5 pool final disagreement) belong to one mechanism class",
+    "action": "If ceiling or concentration holds, one documented development-only design revision may be frozen and applied to wave 2 and all confirmation families. Earlier results are preserved. If the revised design's wave-2 families still meet the ceiling condition, deliver that limitation, leave confirmation unscored and retain R4."
+  },
+  "resources": {
+    "concurrency": 3,
+    "generation_retries": "2 per sample for R4, P and D5; 0 for X1 and V",
+    "fresh_call_caps": {"B": 0, "C_tuning_eval_S_and_H": 10000, "D_authoring_and_oracle": 2500, "E_development_and_stress": 5000, "F_tuning_noex_S_and_H": 20000, "G_confirmation": 2500},
+    "projection_basis": "Pilot fresh call cost equivalents: Sonnet medium about 0.008 USD, Opus medium about 0.039 USD per call (pilot reports). Cost equivalents are usage proxies, not invoices or estimates of remaining subscription allowance.",
+    "cap_rule": "A phase that reaches its cap stops and is reported; raising a cap requires a recorded amendment and the user's approval."
+  },
+  "stopping": [
+    "subscription usage exhausted: stop, keep completed cases, resume later under identical identities",
+    "model identity mismatch, unsupported model, CLI version change, corrupt cache, provenance or hash mismatch, sandbox isolation failure: stop the affected phase",
+    "unresolved oracle defects: stop scoring of the affected partition",
+    "failed or inconclusive gates: stop promotion; R4 remains accepted",
+    "low-information design after the single revision: stop before confirmation"
+  ],
+  "locks": "Every model-calling command holds runs/.run.lock (carnot.common.RunLock). No second campaign is started while one is active; unrelated processes are never terminated.",
+  "amendments": "Recorded in amendments.jsonl with time, reason, affected hashes and whether outcomes had been seen. A behavior-changing fix is a new recipe identity and must repeat the affected evaluations."
+}

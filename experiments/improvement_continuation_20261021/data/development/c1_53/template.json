@@ -1,0 +1,145 @@
+{
+ "name": "robo_goal_tracker_signed_gap_top_up",
+ "domain_id": "fintech",
+ "topic_id": "robo_advisors",
+ "difficulty": "advanced",
+ "params": {
+  "START": {
+   "kind": "int",
+   "min": 5000,
+   "max": 40000,
+   "step": 500
+  },
+  "CONTRIB": {
+   "kind": "int",
+   "min": 100,
+   "max": 800,
+   "step": 50
+  },
+  "ANNUAL_RET": {
+   "kind": "decimal",
+   "min": "-6.0",
+   "max": "12.0",
+   "step": "0.5"
+  },
+  "FEE_BPS": {
+   "kind": "int",
+   "min": 0,
+   "max": 100,
+   "step": 25
+  },
+  "MONTHS": {
+   "kind": "int",
+   "min": 24,
+   "max": 60,
+   "step": 6
+  },
+  "LUMP": {
+   "kind": "int",
+   "min": -5000,
+   "max": 5000,
+   "step": 500
+  },
+  "LUMP_MONTH": {
+   "kind": "int",
+   "min": 6,
+   "max": 24,
+   "step": 6
+  },
+  "GOAL": {
+   "kind": "int",
+   "min": 20000,
+   "max": 80000,
+   "step": 1000
+  }
+ },
+ "question_template": "A fictional robo-advisor tracks a savings goal. The portfolio holds {START} USD today and the goal date is {MONTHS} months away. The client deposits {CONTRIB} USD at the end of every month through the goal date. The advisor assumes a signed expected annual return of {ANNUAL_RET} percent and charges an annual advisory fee of {FEE_BPS} basis points (100 basis points equal 1 percent). The net monthly growth rate equals the annual return minus the annual fee, divided by 12, and is applied once per month to the balance at the beginning of that month; the monthly deposit is added after that month's growth. In addition, a one-time signed cash flow of {LUMP} USD (positive means an extra deposit, negative means a withdrawal) occurs once at the end of month {LUMP_MONTH}, after that month's deposit, and then grows with the portfolio for the remaining months. The goal amount is {GOAL} USD. The gap is projected value at the goal date minus the goal, so a negative gap is a shortfall. If there is a shortfall, the advisor recommends a level additional amount added to each of the remaining {MONTHS} month-end deposits so that the projected value exactly equals the goal; if there is a surplus the recommended additional amount is zero. What is the recommended additional monthly deposit in USD per month?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_per_month",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "net_monthly_rate_pct",
+   "description": "Net monthly growth rate after fee, in percentage points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "projected_value",
+   "description": "Projected portfolio value at the goal date including the one-time cash flow",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  },
+  {
+   "slot_id": "signed_gap",
+   "description": "Projected value minus goal; negative indicates a shortfall",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    S = Q(P[\"START\"])\n    C = Q(P[\"CONTRIB\"])\n    annual_ret = Q(P[\"ANNUAL_RET\"])\n    fee_pct = Q(P[\"FEE_BPS\"]) / 100\n    M = int(P[\"MONTHS\"])\n    K = int(P[\"LUMP_MONTH\"])\n    X = Q(P[\"LUMP\"])\n    G = Q(P[\"GOAL\"])\n    if K < 1 or K > M:\n        raise ValueError(\"one-time cash flow month must lie within the horizon\")\n    r = (annual_ret - fee_pct) / 100 / 12\n    growth = (1 + r) ** M\n    if r != 0:\n        annuity = (growth - 1) / r\n    else:\n        annuity = Q(M)\n    projected = S * growth + C * annuity + X * (1 + r) ** (M - K)\n    gap = projected - G\n    if gap < 0:\n        extra = -gap / annuity\n    else:\n        extra = Q(0)\n    return {\n        \"final\": extra,\n        \"net_monthly_rate_pct\": r * 100,\n        \"projected_value\": projected,\n        \"signed_gap\": gap,\n    }",
+ "coverage_params": [
+  {
+   "START": 10000,
+   "CONTRIB": 200,
+   "ANNUAL_RET": "6.0",
+   "FEE_BPS": 50,
+   "MONTHS": 36,
+   "LUMP": 2000,
+   "LUMP_MONTH": 12,
+   "GOAL": 60000
+  },
+  {
+   "START": 40000,
+   "CONTRIB": 800,
+   "ANNUAL_RET": "-3.0",
+   "FEE_BPS": 25,
+   "MONTHS": 60,
+   "LUMP": -3000,
+   "LUMP_MONTH": 24,
+   "GOAL": 20000
+  },
+  {
+   "START": 15000,
+   "CONTRIB": 300,
+   "ANNUAL_RET": "1.0",
+   "FEE_BPS": 100,
+   "MONTHS": 48,
+   "LUMP": 0,
+   "LUMP_MONTH": 6,
+   "GOAL": 50000
+  },
+  {
+   "START": 20000,
+   "CONTRIB": 500,
+   "ANNUAL_RET": "8.0",
+   "FEE_BPS": 0,
+   "MONTHS": 24,
+   "LUMP": 5000,
+   "LUMP_MONTH": 24,
+   "GOAL": 40000
+  }
+ ]
+}

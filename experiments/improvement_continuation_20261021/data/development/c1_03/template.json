@@ -1,0 +1,146 @@
+{
+ "name": "classified_indirect_ocf_accrued_interest_equipment_gain",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "cash_flow_statements",
+ "difficulty": "intermediate",
+ "params": {
+  "NI": {
+   "kind": "int",
+   "min": 50000,
+   "max": 400000,
+   "step": 1000
+  },
+  "DEP": {
+   "kind": "int",
+   "min": 10000,
+   "max": 80000,
+   "step": 500
+  },
+  "DIV": {
+   "kind": "int",
+   "min": 2000,
+   "max": 20000,
+   "step": 500
+  },
+  "COST": {
+   "kind": "int",
+   "min": 20000,
+   "max": 120000,
+   "step": 1000
+  },
+  "PROCEEDS": {
+   "kind": "int",
+   "min": 5000,
+   "max": 60000,
+   "step": 500
+  },
+  "LOAN": {
+   "kind": "int",
+   "min": 100000,
+   "max": 600000,
+   "step": 10000
+  },
+  "CLOSE_MONTHS": {
+   "kind": "choice",
+   "values": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "WC_CHG": {
+   "kind": "int",
+   "min": -30000,
+   "max": 30000,
+   "step": 1000
+  }
+ },
+ "question_template": "Net income {NI} USD includes depreciation {DEP} USD, the sale gain, interest expense and dividend income {DIV} USD. Equipment costing {COST} USD, 60% depreciated, was sold for {PROCEEDS} USD cash. A {LOAN} USD loan was outstanding all year; interest expense is 8% of it. Interest payable was 2 months of interest at year start and {CLOSE_MONTHS} months at year end; interest paid is expense minus the payable increase. Net operating working capital changed by {WC_CHG} USD (a positive increase reduces operating cash). Policy: interest paid is financing, so operating adds back the full expense and ignores the payable change; dividends received (all in cash) are investing, so operating removes dividend income; the gain (negative if a loss) is subtracted in operating and full proceeds are investing. Compute operating cash flow.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "gain_on_sale",
+   "description": "Signed gain on the equipment sale, negative if a loss",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "interest_expense",
+   "description": "Interest expense accrued on the loan for the year",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "interest_paid_financing",
+   "description": "Interest paid in cash, reported as a financing outflow magnitude",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "investing_cash_flow",
+   "description": "Net investing cash flow including sale proceeds and dividends received",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    ni = P[\"NI\"]\n    dep = P[\"DEP\"]\n    div = P[\"DIV\"]\n    cost = P[\"COST\"]\n    proceeds = P[\"PROCEEDS\"]\n    loan = P[\"LOAN\"]\n    cm = P[\"CLOSE_MONTHS\"]\n    wc = P[\"WC_CHG\"]\n    if cm < 0 or cm > 12:\n        raise ValueError(\"closing months of interest payable must be between 0 and 12\")\n    book_value = cost * Q(40, 100)\n    gain = proceeds - book_value\n    int_exp = loan * Q(8, 100)\n    ip_open = int_exp * Q(2, 12)\n    ip_close = int_exp * Q(cm, 12)\n    int_paid = int_exp - (ip_close - ip_open)\n    ocf = ni + dep - gain + int_exp - div - wc\n    inv = proceeds + div\n    return {\n        \"final\": ocf,\n        \"gain_on_sale\": gain,\n        \"interest_expense\": int_exp,\n        \"interest_paid_financing\": int_paid,\n        \"investing_cash_flow\": inv,\n    }",
+ "coverage_params": [
+  {
+   "NI": 150000,
+   "DEP": 30000,
+   "DIV": 6000,
+   "COST": 60000,
+   "PROCEEDS": 32000,
+   "LOAN": 300000,
+   "CLOSE_MONTHS": 4,
+   "WC_CHG": 12000
+  },
+  {
+   "NI": 90000,
+   "DEP": 20000,
+   "DIV": 4000,
+   "COST": 80000,
+   "PROCEEDS": 20000,
+   "LOAN": 450000,
+   "CLOSE_MONTHS": 1,
+   "WC_CHG": -15000
+  },
+  {
+   "NI": 200000,
+   "DEP": 45000,
+   "DIV": 10000,
+   "COST": 50000,
+   "PROCEEDS": 20000,
+   "LOAN": 240000,
+   "CLOSE_MONTHS": 2,
+   "WC_CHG": 0
+  }
+ ]
+}

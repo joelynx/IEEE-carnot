@@ -1,0 +1,224 @@
+{
+ "family": "bond_orig",
+ "template_sha256": "5dcdfe72973c7a2bcdbd7136ef96bae61515bd909b49eeb30a7c9e11f6ed63e7",
+ "draws_sha256": "673ab104ed8032b24ae3611d49f45fb2a28355aeb9ec1b1d47b9a47e1def9931",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "6b298cdf75b5f78ceaa73e4c561dcfba1768ce978e4b06a5d7c28ad9f27cbf38",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1908,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 1019,
+    "output_tokens_details": {
+     "thinking_tokens": 436
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1908,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 1019,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1908,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1908
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.08928049999999998
+  }
+ ],
+ "program": "def solve():\n    face = Q(P[\"FACE\"])\n    a1 = Q(P[\"A1_PCT\"]) / 100 * face\n    a2 = Q(P[\"A2_PCT\"]) / 100 * face\n    c1 = Q(P[\"C1_PCT\"]) / 100\n    c2 = c1 + Q(P[\"STEP_BP\"]) / 10000\n    y = Q(P[\"Y_PCT\"]) / 100\n    call_rate = Q(P[\"CALL_PCT\"]) / 100\n    t = Q(P[\"DAYS\"]) / 360\n\n    # Period-by-period ledger of principal outstanding\n    bal0 = face                    # outstanding during year 1\n    cf1 = c1 * bal0 + a1\n    bal1 = bal0 - a1               # outstanding during year 2\n    cf2_sched = c2 * bal1 + a2\n    bal2 = bal1 - a2               # outstanding during year 3 (after year-2 installment)\n    cf3 = c2 * bal2 + bal2\n\n    pv3_at_2 = cf3 / (1 + y)\n    call_payment = call_rate * bal2\n    called = call_payment < pv3_at_2\n\n    year2_total = cf2_sched + (call_payment if called else 0)\n\n    def df(k):\n        return exp(-(Q(k) - t) * ln(1 + y))\n\n    price = cf1 * df(1) + year2_total * df(2)\n    if not called:\n        price += cf3 * df(3)\n\n    return {\n        \"final\": price,\n        \"principal_after_year2\": bal2,\n        \"pv_year3_at_year2\": pv3_at_2,\n        \"call_decision\": \"call\" if called else \"no_call\",\n        \"year2_total_received\": year2_total,\n    }\n",
+ "result": {
+  "compared": 33,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_100",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_103",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_104",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_105",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_101",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_102",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_106",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_107",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_108",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_109",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_110",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_111",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FACE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_A1_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_A2_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C1_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_STEP_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_Y_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CALL_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FACE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_A1_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_A2_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_C1_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_STEP_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_Y_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CALL_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DAYS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

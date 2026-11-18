@@ -1,0 +1,95 @@
+{
+  "name": "hedged_two_asset_volatility_target_overlay",
+  "domain_id": "investment_analysis",
+  "topic_id": "rar",
+  "difficulty": "advanced",
+  "params": {
+    "CORE": {
+      "kind": "int",
+      "min": 50,
+      "max": 400,
+      "step": 10
+    },
+    "SIGMA_E": {
+      "kind": "int",
+      "min": 12,
+      "max": 30,
+      "step": 1
+    },
+    "SIGMA_H": {
+      "kind": "int",
+      "min": 8,
+      "max": 30,
+      "step": 1
+    },
+    "RHO": {
+      "kind": "decimal",
+      "min": "-0.9",
+      "max": "0.9",
+      "step": "0.1"
+    },
+    "TARGET": {
+      "kind": "int",
+      "min": 4,
+      "max": 20,
+      "step": 1
+    }
+  },
+  "question_template": "An investment desk holds a USD {CORE} million core equity position whose annualized return volatility is {SIGMA_E} percent. It overlays an index futures position with return volatility {SIGMA_H} percent; the correlation between core and futures returns is {RHO}. The overlay ratio h is the futures notional as a fraction of core value, positive for long and negative for short, so the overlay return equals h times the futures return. Working in percentage-point-squared units (a 20 percent volatility is a variance of 400), the hedged portfolio variance is sigma_E^2 + h^2 sigma_H^2 + 2 h rho sigma_E sigma_H. The desk wants portfolio volatility of exactly {TARGET} percent. If that target is at or above the minimum attainable volatility over all real h, choose h among the ratios that hit the target: take the one with the smaller absolute value, and the negative one if the two are tied. If the target is below the minimum attainable volatility, set h to the minimum-variance overlay ratio instead. Report the signed futures notional, h times core value, in USD million.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 4
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "core_variance_pp2",
+      "description": "Core equity variance in percentage-point-squared units.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "dimensionless",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "min_variance_pp2",
+      "description": "Minimum attainable portfolio variance over all overlay ratios.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "dimensionless",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "target_attainable",
+      "description": "Whether the volatility target can be reached with some overlay ratio.",
+      "result_spec": {
+        "type": "enum",
+        "allowed_values": [
+          "attainable",
+          "unattainable"
+        ]
+      }
+    },
+    {
+      "slot_id": "selected_hedge_ratio",
+      "description": "Signed overlay ratio chosen under the stated selection rule.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "ratio",
+        "rounding": {
+          "mode": "half_up",
+          "decimal_places": 6
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    V = P[\"CORE\"]\n    sE = P[\"SIGMA_E\"]\n    sH = P[\"SIGMA_H\"]\n    rho = P[\"RHO\"]\n    T = P[\"TARGET\"]\n    core_var = sE * sE\n    min_var = core_var * (1 - rho * rho)\n    h_min = -rho * sE / sH\n    target_var = T * T\n    if target_var >= min_var:\n        flag = \"attainable\"\n        s = sqrt(target_var - min_var)\n        h1 = (-rho * sE - s) / sH\n        h2 = (-rho * sE + s) / sH\n        a1 = abs(h1)\n        a2 = abs(h2)\n        if a1 < a2:\n            h = h1\n        elif a2 < a1:\n            h = h2\n        else:\n            h = h1 if h1 <= h2 else h2\n    else:\n        flag = \"unattainable\"\n        h = h_min\n    notional = h * V\n    return {\n        \"final\": notional,\n        \"core_variance_pp2\": core_var,\n        \"min_variance_pp2\": min_var,\n        \"target_attainable\": flag,\n        \"selected_hedge_ratio\": h\n    }\n"
+}

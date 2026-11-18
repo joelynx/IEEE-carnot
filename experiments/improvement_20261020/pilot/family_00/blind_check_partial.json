@@ -1,0 +1,534 @@
+[
+  {
+    "case_id": "t1_sync38494f9017e86a0d99a",
+    "verdicts": {
+      "final": true,
+      "impairment_loss": true,
+      "carrying_pre_reversal": true,
+      "reversal_ceiling": true,
+      "reversal_recognized": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_sync38494f9017e86a0d99a",
+        "final_answer": {
+          "value": "-59.8515"
+        },
+        "steps": [
+          {
+            "slot_id": "impairment_loss",
+            "value": "65650/3"
+          },
+          {
+            "slot_id": "carrying_pre_reversal",
+            "value": "16087.5"
+          },
+          {
+            "slot_id": "reversal_ceiling",
+            "value": "32500"
+          },
+          {
+            "slot_id": "reversal_recognized",
+            "value": "16412.5"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "-59.8515": 1
+        },
+        "impairment_loss": {
+          "65650/3": 1
+        },
+        "carrying_pre_reversal": {
+          "16087.5": 1
+        },
+        "reversal_ceiling": {
+          "32500": 1
+        },
+        "reversal_recognized": {
+          "16412.5": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "-59.8515",
+            "impairment_loss": "65650/3",
+            "carrying_pre_reversal": "16087.5",
+            "reversal_ceiling": "32500",
+            "reversal_recognized": "16412.5"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "de74aef47f91bdab2f6cea6306f0738bc4494bb4b9866ea8856111a8fbb24d43",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 2190,
+                "cache_read_input_tokens": 0,
+                "output_tokens": 551,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 2190,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 551,
+                    "cache_read_input_tokens": 0,
+                    "cache_creation_input_tokens": 2190,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 2190
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.07137,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6375,
+                "session_id": "694abab0-3211-40ae-82e5-248c89dd3bd0",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    cost = 65000\n    life = 6\n    annual_dep = cost / life  # 10833.33...\n\n    # End of year 2, after depreciation\n    carrying_y2 = cost - 2 * annual_dep\n    recoverable_y2 = cost * 0.33\n    impairment_loss = carrying_y2 - recoverable_y2  # positive loss magnitude\n\n    # Depreciate written-down amount over remaining 4 years\n    remaining_life = life - 2\n    new_dep = recoverable_y2 / remaining_life\n    carrying_pre_reversal = recoverable_y2 - new_dep  # end of year 3\n\n    # Ceiling: depreciated cost had no impairment occurred\n    reversal_ceiling = cost - 3 * annual_dep\n\n    recoverable_y3 = cost * 0.52\n    target = min(recoverable_y3, reversal_ceiling)\n    reversal_recognized = max(target - carrying_pre_reversal, 0)\n\n    carrying_post = carrying_pre_reversal + reversal_recognized\n    total_assets = carrying_post + 220000\n    total_liabilities = 290000\n    actual_ratio_pct = total_liabilities / total_assets * 100\n    cap_pct = 55\n    headroom = cap_pct - actual_ratio_pct  # negative if breached\n\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment_loss,\n        \"carrying_pre_reversal\": carrying_pre_reversal,\n        \"reversal_ceiling\": reversal_ceiling,\n        \"reversal_recognized\": reversal_recognized,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 172
+              },
+              "rendered": {
+                "final": "-59.8515",
+                "impairment_loss": "65650/3",
+                "carrying_pre_reversal": "16087.5",
+                "reversal_ceiling": "32500",
+                "reversal_recognized": "16412.5"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn6458d727cd8798d2170d",
+    "verdicts": {
+      "final": true,
+      "impairment_loss": true,
+      "carrying_pre_reversal": true,
+      "reversal_ceiling": true,
+      "reversal_recognized": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn6458d727cd8798d2170d",
+        "final_answer": {
+          "value": "30.3514"
+        },
+        "steps": [
+          {
+            "slot_id": "impairment_loss",
+            "value": "29700"
+          },
+          {
+            "slot_id": "carrying_pre_reversal",
+            "value": "51012.5"
+          },
+          {
+            "slot_id": "reversal_ceiling",
+            "value": "77000"
+          },
+          {
+            "slot_id": "reversal_recognized",
+            "value": "0"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "30.3514": 1
+        },
+        "impairment_loss": {
+          "29700": 1
+        },
+        "carrying_pre_reversal": {
+          "51012.5": 1
+        },
+        "reversal_ceiling": {
+          "77000": 1
+        },
+        "reversal_recognized": {
+          "0": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "30.3514",
+            "impairment_loss": "29700",
+            "carrying_pre_reversal": "51012.5",
+            "reversal_ceiling": "77000",
+            "reversal_recognized": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "c8229d94dae682dfab2ac3747b362a4b54decb266ff92098f6d90e419fb63336",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1190,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 596,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1190,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 596,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1190,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1190
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05387,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6807,
+                "session_id": "1cec636e-4a72-41aa-9961-515a15e53c3f",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    cost = Q(110000)\n    life = 10\n    annual_dep = cost / life  # 11000\n\n    # End of year 2, after depreciation\n    carrying_y2 = cost - 2 * annual_dep  # 88000\n    recoverable_y2 = cost * Q(\"0.53\")    # 58300\n    impairment_loss = carrying_y2 - recoverable_y2  # 29700\n\n    # Depreciation on written-down amount over remaining 8 years\n    remaining_life = life - 2\n    new_dep = recoverable_y2 / remaining_life\n    carrying_pre_reversal = recoverable_y2 - new_dep  # end of year 3\n\n    # Ceiling: depreciated cost had no impairment occurred, end of year 3\n    reversal_ceiling = cost - 3 * annual_dep  # 77000\n\n    recoverable_y3 = cost * Q(\"0.41\")  # 45100\n    target = min(recoverable_y3, reversal_ceiling)\n    reversal_recognized = max(Q(0), target - carrying_pre_reversal)\n\n    carrying_post = carrying_pre_reversal + reversal_recognized\n\n    other_assets = Q(320000)\n    liabilities = Q(110000)\n    total_assets = other_assets + carrying_post\n    actual_ratio_pct = liabilities / total_assets * 100\n    cap_pct = Q(60)\n    headroom = cap_pct - actual_ratio_pct  # percentage points\n\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment_loss,\n        \"carrying_pre_reversal\": carrying_pre_reversal,\n        \"reversal_ceiling\": reversal_ceiling,\n        \"reversal_recognized\": reversal_recognized,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 175
+              },
+              "rendered": {
+                "final": "30.3514",
+                "impairment_loss": "29700",
+                "carrying_pre_reversal": "51012.5",
+                "reversal_ceiling": "77000",
+                "reversal_recognized": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synd213d4411c36aa3c4f04",
+    "verdicts": {
+      "final": true,
+      "impairment_loss": true,
+      "carrying_pre_reversal": true,
+      "reversal_ceiling": true,
+      "reversal_recognized": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synd213d4411c36aa3c4f04",
+        "final_answer": {
+          "value": "-41.5406"
+        },
+        "steps": [
+          {
+            "slot_id": "impairment_loss",
+            "value": "15200"
+          },
+          {
+            "slot_id": "carrying_pre_reversal",
+            "value": "48600"
+          },
+          {
+            "slot_id": "reversal_ceiling",
+            "value": "60000"
+          },
+          {
+            "slot_id": "reversal_recognized",
+            "value": "0"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "-41.5406": 1
+        },
+        "impairment_loss": {
+          "15200": 1
+        },
+        "carrying_pre_reversal": {
+          "48600": 1
+        },
+        "reversal_ceiling": {
+          "60000": 1
+        },
+        "reversal_recognized": {
+          "0": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "-41.5406",
+            "impairment_loss": "15200",
+            "carrying_pre_reversal": "48600",
+            "reversal_ceiling": "60000",
+            "reversal_recognized": "0"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b5b488e78094058e4d6f9351700ff7eca05813dd0218393613681c3ee9fe90a1",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1190,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 606,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1190,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 606,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1190,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1190
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05437,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6245,
+                "session_id": "09c6855b-d95f-4fbd-a2d1-7aaabe86ca01",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    cost = 120000\n    life = 6\n    annual_dep = cost / life  # 20000\n\n    # End of year 2 after depreciation\n    carrying_y2 = cost - 2 * annual_dep  # 80000\n    recoverable_y2 = cost * Q(\"0.54\")  # 64800\n    impairment_loss = carrying_y2 - recoverable_y2  # 15200\n\n    # Depreciation on written-down amount over remaining 4 years\n    remaining_life = life - 2\n    new_dep = recoverable_y2 / remaining_life  # 16200\n    carrying_pre_reversal = recoverable_y2 - new_dep  # 48600 at end of year 3\n\n    # Ceiling: depreciated cost had no impairment occurred\n    reversal_ceiling = cost - 3 * annual_dep  # 60000\n\n    recoverable_y3 = cost * Q(\"0.38\")  # 45600\n    potential = min(recoverable_y3, reversal_ceiling) - carrying_pre_reversal\n    reversal_recognized = potential if potential > 0 else 0  # zero if not positive\n\n    carrying_post = carrying_pre_reversal + reversal_recognized\n\n    other_assets = 200000\n    liabilities = 240000\n    total_assets = other_assets + carrying_post\n    actual_ratio_pct = liabilities / total_assets * 100\n    cap_pct = 55\n    headroom = cap_pct - actual_ratio_pct  # percentage points, negative if breached\n\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment_loss,\n        \"carrying_pre_reversal\": carrying_pre_reversal,\n        \"reversal_ceiling\": reversal_ceiling,\n        \"reversal_recognized\": reversal_recognized,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 186
+              },
+              "rendered": {
+                "final": "-41.5406",
+                "impairment_loss": "15200",
+                "carrying_pre_reversal": "48600",
+                "reversal_ceiling": "60000",
+                "reversal_recognized": "0"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_synefcf592fa553a1426dbb",
+    "verdicts": {
+      "final": true,
+      "impairment_loss": true,
+      "carrying_pre_reversal": true,
+      "reversal_ceiling": true,
+      "reversal_recognized": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_synefcf592fa553a1426dbb",
+        "final_answer": {
+          "value": "14.0973"
+        },
+        "steps": [
+          {
+            "slot_id": "impairment_loss",
+            "value": "23100"
+          },
+          {
+            "slot_id": "carrying_pre_reversal",
+            "value": "28600"
+          },
+          {
+            "slot_id": "reversal_ceiling",
+            "value": "44000"
+          },
+          {
+            "slot_id": "reversal_recognized",
+            "value": "5500"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "14.0973": 1
+        },
+        "impairment_loss": {
+          "23100": 1
+        },
+        "carrying_pre_reversal": {
+          "28600": 1
+        },
+        "reversal_ceiling": {
+          "44000": 1
+        },
+        "reversal_recognized": {
+          "5500": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "14.0973",
+            "impairment_loss": "23100",
+            "carrying_pre_reversal": "28600",
+            "reversal_ceiling": "44000",
+            "reversal_recognized": "5500"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "dc9a1ca3ae124ab152c59b3c1f8dc53675da54f1fa56abcad8b8174869a330f5",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1190,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 559,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1190,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 559,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1190,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1190
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.052020000000000004,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6760,
+                "session_id": "53b6885e-b21c-4426-a5bd-8cf43f57c29e",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    cost = 110000\n    life = 5\n    annual_dep = cost / life  # 22000\n\n    # End of year 2 carrying before impairment\n    carrying_y2 = cost - 2 * annual_dep  # 66000\n    recoverable_y2 = cost * 0.39  # 42900\n    impairment_loss = carrying_y2 - recoverable_y2  # 23100\n\n    # Depreciate written-down amount over remaining 3 years\n    new_dep = recoverable_y2 / (life - 2)\n    carrying_pre_reversal = recoverable_y2 - new_dep  # end of year 3\n\n    # Ceiling: depreciated cost had no impairment occurred\n    reversal_ceiling = cost - 3 * annual_dep  # 44000\n\n    recoverable_y3 = cost * 0.31  # 34100\n    capped_recoverable = min(recoverable_y3, reversal_ceiling)\n    reversal_recognized = max(capped_recoverable - carrying_pre_reversal, 0)\n\n    carrying_post = carrying_pre_reversal + reversal_recognized\n\n    total_assets = carrying_post + 270000\n    total_liabilities = 170000\n    actual_ratio_pct = total_liabilities / total_assets * 100\n    cap_pct = 70\n    headroom = cap_pct - actual_ratio_pct\n\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": impairment_loss,\n        \"carrying_pre_reversal\": carrying_pre_reversal,\n        \"reversal_ceiling\": reversal_ceiling,\n        \"reversal_recognized\": reversal_recognized,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 173
+              },
+              "rendered": {
+                "final": "14.0973",
+                "impairment_loss": "23100",
+                "carrying_pre_reversal": "28600",
+                "reversal_ceiling": "44000",
+                "reversal_recognized": "5500"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

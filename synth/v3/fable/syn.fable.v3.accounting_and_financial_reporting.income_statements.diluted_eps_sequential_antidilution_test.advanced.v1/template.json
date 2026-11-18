@@ -1,0 +1,124 @@
+{
+ "name": "diluted_eps_sequential_antidilution_test",
+ "domain_id": "accounting_and_financial_reporting",
+ "topic_id": "income_statements",
+ "difficulty": "advanced",
+ "params": {
+  "NET_INCOME": {
+   "kind": "int",
+   "min": 2000000,
+   "max": 6000000,
+   "step": 50000
+  },
+  "PREF_DIV": {
+   "kind": "int",
+   "min": 100000,
+   "max": 600000,
+   "step": 25000
+  },
+  "SHARES": {
+   "kind": "int",
+   "min": 1000000,
+   "max": 2000000,
+   "step": 50000
+  },
+  "OPTIONS": {
+   "kind": "int",
+   "min": 50000,
+   "max": 200000,
+   "step": 10000
+  },
+  "EXERCISE": {
+   "kind": "decimal",
+   "min": "25.00",
+   "max": "35.00",
+   "step": "0.50"
+  },
+  "AVG_PRICE": {
+   "kind": "decimal",
+   "min": "20.00",
+   "max": "40.00",
+   "step": "0.50"
+  },
+  "BOND_FACE": {
+   "kind": "int",
+   "min": 1000000,
+   "max": 3000000,
+   "step": 100000
+  },
+  "COUPON": {
+   "kind": "decimal",
+   "min": "4.0",
+   "max": "8.0",
+   "step": "0.5"
+  },
+  "CONV_SHARES": {
+   "kind": "int",
+   "min": 100000,
+   "max": 400000,
+   "step": 10000
+  },
+  "TAX": {
+   "kind": "int",
+   "min": 21,
+   "max": 30,
+   "step": 1
+  }
+ },
+ "question_template": "For the reporting year a company reports net income of {NET_INCOME} USD and declared dividends of {PREF_DIV} USD on non-convertible preferred shares; weighted-average ordinary shares outstanding are {SHARES}. Two potential ordinary share instruments were outstanding all year. (1) Options on {OPTIONS} shares, exercise price {EXERCISE} USD; the average market price for the year was {AVG_PRICE} USD. Under the treasury stock method the options count only if the average price strictly exceeds the exercise price; otherwise they add zero incremental shares. (2) Convertible bonds, face value {BOND_FACE} USD, annual coupon {COUPON} percent paid in cash and expensed in full, convertible into {CONV_SHARES} ordinary shares in total; the tax rate is {TAX} percent and the only earnings effect of assumed conversion is the after-tax interest saving. Test instruments sequentially by incremental per-share effect: options first, then the bonds against the EPS figure that already includes the option shares; include the bonds only if their after-tax interest saving per conversion share is strictly less than that EPS figure. Use exact arithmetic and compute diluted earnings per share in USD per share.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "basic_eps_per_share",
+   "description": "Exact basic EPS in USD per share.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "option_incremental_shares",
+   "description": "Exact treasury-stock incremental shares from options.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "convertible_per_share_effect",
+   "description": "After-tax interest saving per conversion share.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "convertible_included",
+   "description": "Whether the bonds enter diluted EPS.",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "false",
+     "true"
+    ]
+   }
+  }
+ ],
+ "program": "def solve():\n    ni = Fraction(P[\"NET_INCOME\"])\n    pd = Fraction(P[\"PREF_DIV\"])\n    sh = Fraction(P[\"SHARES\"])\n    opt = Fraction(P[\"OPTIONS\"])\n    ex = Fraction(P[\"EXERCISE\"])\n    avg = Fraction(P[\"AVG_PRICE\"])\n    face = Fraction(P[\"BOND_FACE\"])\n    coupon = Fraction(P[\"COUPON\"]) / 100\n    cs = Fraction(P[\"CONV_SHARES\"])\n    tax = Fraction(P[\"TAX\"]) / 100\n    earnings = ni - pd\n    if earnings <= 0:\n        raise ValueError(\"earnings to ordinary shareholders must be positive\")\n    basic = earnings / sh\n    if avg > ex:\n        inc = opt * (avg - ex) / avg\n    else:\n        inc = Fraction(0)\n    eps_after_options = earnings / (sh + inc)\n    saving = face * coupon * (1 - tax)\n    effect = saving / cs\n    if effect < eps_after_options:\n        included = \"true\"\n        diluted = (earnings + saving) / (sh + inc + cs)\n    else:\n        included = \"false\"\n        diluted = eps_after_options\n    return {\n        \"final\": diluted,\n        \"basic_eps_per_share\": basic,\n        \"option_incremental_shares\": inc,\n        \"convertible_per_share_effect\": effect,\n        \"convertible_included\": included,\n    }\n"
+}

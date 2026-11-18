@@ -1,0 +1,112 @@
+{
+ "name": "dupont_target_roe_sales_with_sales_linked_assets",
+ "domain_id": "financial_ratios",
+ "topic_id": "profitratio",
+ "difficulty": "intermediate",
+ "params": {
+  "NET_MARGIN": {
+   "kind": "decimal",
+   "min": "4.0",
+   "max": "15.0",
+   "step": "0.5"
+  },
+  "EQUITY_MULTIPLIER": {
+   "kind": "decimal",
+   "min": "1.5",
+   "max": "3.5",
+   "step": "0.1"
+  },
+  "TARGET_ROE": {
+   "kind": "decimal",
+   "min": "8.0",
+   "max": "30.0",
+   "step": "0.5"
+  },
+  "FIXED_ASSETS": {
+   "kind": "int",
+   "min": 200000,
+   "max": 2000000,
+   "step": 50000
+  },
+  "VARIABLE_SHARE": {
+   "kind": "decimal",
+   "min": "0.20",
+   "max": "0.80",
+   "step": "0.05"
+  }
+ },
+ "question_template": "A firm's net profit margin is fixed at {NET_MARGIN} percent of annual sales, and its equity multiplier (total assets divided by shareholders' equity) is fixed at {EQUITY_MULTIPLIER}; equity adjusts so the multiplier holds exactly. Total assets are not fixed: they equal a fixed base of {FIXED_ASSETS} USD plus {VARIABLE_SHARE} USD of working assets for every 1 USD of annual sales. Management targets a return on equity of {TARGET_ROE} percent, defined as net income divided by shareholders' equity. Using the three-factor DuPont identity, where asset turnover is sales divided by total assets, find the annual sales level at which ROE equals the target exactly. Also report the resulting total assets, asset turnover and shareholders' equity. If no positive sales level can reach the target, the problem is infeasible.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "total_assets",
+   "description": "Total assets at the required sales level, fixed base plus sales-linked working assets",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "asset_turnover",
+   "description": "Asset turnover at the required sales level",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "multiple",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "shareholders_equity",
+   "description": "Shareholders' equity implied by total assets and the fixed equity multiplier",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    m = P[\"NET_MARGIN\"] / 100\n    em = P[\"EQUITY_MULTIPLIER\"]\n    r = P[\"TARGET_ROE\"] / 100\n    base = P[\"FIXED_ASSETS\"]\n    s = P[\"VARIABLE_SHARE\"]\n    # ROE = m*S*em / (base + s*S) = r  =>  S*(m*em - r*s) = r*base\n    denom = m * em - r * s\n    if denom <= 0:\n        raise ValueError(\"infeasible: sales-linked assets absorb the margin, target ROE unattainable at any positive sales\")\n    sales = r * base / denom\n    total_assets = base + s * sales\n    turnover = sales / total_assets\n    equity = total_assets / em\n    return {\n        \"final\": sales,\n        \"total_assets\": total_assets,\n        \"asset_turnover\": turnover,\n        \"shareholders_equity\": equity,\n    }",
+ "coverage_params": [
+  {
+   "NET_MARGIN": "8.0",
+   "EQUITY_MULTIPLIER": "2.5",
+   "TARGET_ROE": "15.0",
+   "FIXED_ASSETS": 800000,
+   "VARIABLE_SHARE": "0.50"
+  },
+  {
+   "NET_MARGIN": "12.0",
+   "EQUITY_MULTIPLIER": "1.8",
+   "TARGET_ROE": "20.0",
+   "FIXED_ASSETS": 200000,
+   "VARIABLE_SHARE": "0.20"
+  },
+  {
+   "NET_MARGIN": "10.0",
+   "EQUITY_MULTIPLIER": "2.0",
+   "TARGET_ROE": "25.0",
+   "FIXED_ASSETS": 1000000,
+   "VARIABLE_SHARE": "0.80"
+  },
+  {
+   "NET_MARGIN": "4.0",
+   "EQUITY_MULTIPLIER": "1.5",
+   "TARGET_ROE": "30.0",
+   "FIXED_ASSETS": 2000000,
+   "VARIABLE_SHARE": "0.80"
+  }
+ ]
+}

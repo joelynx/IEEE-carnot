@@ -1,0 +1,147 @@
+{
+ "name": "esg_exclusion_exemption_dependent_cap_single_pass",
+ "domain_id": "sustainable_finance",
+ "topic_id": "esg_investing",
+ "difficulty": "advanced",
+ "params": {
+  "MCAP_A": {
+   "kind": "int",
+   "min": 300,
+   "max": 900,
+   "step": 50
+  },
+  "REV_B": {
+   "kind": "int",
+   "min": 0,
+   "max": 60,
+   "step": 5
+  },
+  "REV_D": {
+   "kind": "int",
+   "min": 0,
+   "max": 60,
+   "step": 5
+  },
+  "THRESH": {
+   "kind": "int",
+   "min": 10,
+   "max": 40,
+   "step": 5
+  },
+  "CAPEX_B": {
+   "kind": "int",
+   "min": 0,
+   "max": 30,
+   "step": 5
+  },
+  "EXEMPT_MIN": {
+   "kind": "int",
+   "min": 8,
+   "max": 25,
+   "step": 1
+  },
+  "CAP_MULT": {
+   "kind": "decimal",
+   "min": "1.2",
+   "max": "2.0",
+   "step": "0.1"
+  }
+ },
+ "question_template": "An ESG index universe has five issuers with free-float market caps in USD million: A {MCAP_A}, B 300, C 250, D 200, E 150. Controversial-activity revenue shares: A 0%, B {REV_B}%, C 5%, D {REV_D}%, E 0%. Transition capex shares: B {CAPEX_B}%, D 12%, all others 0%. Exclusion screen: an issuer is excluded if its controversial revenue share is strictly above {THRESH}%, unless its transition capex share is at least {EXEMPT_MIN}%, in which case it is retained under the transition exemption. Retained issuers are weighted in proportion to market cap, renormalized to sum to 100%. Issuer cap: the cap level equals {CAP_MULT} times the equal weight 100%/N, where N is the number of retained issuers after the screen. Each issuer whose renormalized weight is strictly above the cap is cut exactly to the cap; the total excess removed is redistributed in a single pass to the issuers that were not cut, pro rata to their renormalized (pre-redistribution) weights. No second pass is made, so a recipient may finish above the cap. Report the number of excluded issuers, the cap level in percent, the largest final weight in percent, the total redistributed excess in percentage points, and issuer C's final weight in percent.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "excluded_count",
+   "description": "Number of issuers excluded after applying the transition exemption",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "cap_level",
+   "description": "Cap level in percent based on the retained issuer count",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "redistributed_excess",
+   "description": "Total excess removed from capped issuers, in percentage points",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "largest_final_weight",
+   "description": "Largest issuer weight in percent after the single redistribution pass",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    mcap = {\"A\": Fraction(P[\"MCAP_A\"]), \"B\": Fraction(300), \"C\": Fraction(250), \"D\": Fraction(200), \"E\": Fraction(150)}\n    rev = {\"A\": Fraction(0), \"B\": Fraction(P[\"REV_B\"]), \"C\": Fraction(5), \"D\": Fraction(P[\"REV_D\"]), \"E\": Fraction(0)}\n    capex = {\"A\": Fraction(0), \"B\": Fraction(P[\"CAPEX_B\"]), \"C\": Fraction(0), \"D\": Fraction(12), \"E\": Fraction(0)}\n    thresh = Fraction(P[\"THRESH\"])\n    exempt_min = Fraction(P[\"EXEMPT_MIN\"])\n    cap_mult = Fraction(str(P[\"CAP_MULT\"]))\n    retained = []\n    excluded = 0\n    for k in [\"A\", \"B\", \"C\", \"D\", \"E\"]:\n        if rev[k] > thresh and capex[k] < exempt_min:\n            excluded += 1\n        else:\n            retained.append(k)\n    n = len(retained)\n    if n == 0:\n        raise ValueError(\"no issuers retained\")\n    total = sum(mcap[k] for k in retained)\n    w = {k: mcap[k] / total * 100 for k in retained}\n    cap = cap_mult * Fraction(100, n)\n    capped = [k for k in retained if w[k] > cap]\n    uncapped = [k for k in retained if w[k] <= cap]\n    if len(capped) > 0 and len(uncapped) == 0:\n        raise ValueError(\"no recipients for excess\")\n    excess = sum(w[k] - cap for k in capped)\n    base = sum(w[k] for k in uncapped)\n    final = {}\n    for k in retained:\n        if k in capped:\n            final[k] = cap\n        else:\n            final[k] = w[k] + (excess * w[k] / base if excess > 0 else Fraction(0))\n    largest = max(final.values())\n    c_final = final[\"C\"]\n    return {\"final\": c_final, \"excluded_count\": Fraction(excluded), \"cap_level\": cap, \"redistributed_excess\": excess, \"largest_final_weight\": largest}",
+ "coverage_params": [
+  {
+   "MCAP_A": 900,
+   "REV_B": 40,
+   "REV_D": 30,
+   "THRESH": 25,
+   "CAPEX_B": 20,
+   "EXEMPT_MIN": 15,
+   "CAP_MULT": "1.5"
+  },
+  {
+   "MCAP_A": 300,
+   "REV_B": 10,
+   "REV_D": 10,
+   "THRESH": 25,
+   "CAPEX_B": 0,
+   "EXEMPT_MIN": 15,
+   "CAP_MULT": "2.0"
+  },
+  {
+   "MCAP_A": 600,
+   "REV_B": 25,
+   "REV_D": 40,
+   "THRESH": 25,
+   "CAPEX_B": 0,
+   "EXEMPT_MIN": 12,
+   "CAP_MULT": "1.2"
+  },
+  {
+   "MCAP_A": 300,
+   "REV_B": 50,
+   "REV_D": 50,
+   "THRESH": 20,
+   "CAPEX_B": 5,
+   "EXEMPT_MIN": 15,
+   "CAP_MULT": "1.2"
+  }
+ ]
+}

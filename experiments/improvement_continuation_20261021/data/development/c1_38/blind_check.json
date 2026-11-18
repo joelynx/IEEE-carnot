@@ -1,0 +1,539 @@
+{
+ "family": "c1_38",
+ "draws_sha256": "8a9c8f3694d54939f2aea909a85eec0a815fac59cc21a3d6d28aaa5c29e6e1e1",
+ "checks": [
+  {
+   "case_id": "t1_syndecf65d5dfc294b57f2d",
+   "verdicts": {
+    "final": true,
+    "implied_cross_rate": true,
+    "single_loop_profit_bps": true,
+    "ending_usd_balance": true,
+    "loop_profitable": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syndecf65d5dfc294b57f2d",
+     "final_answer": {
+      "value": "-526.0000"
+     },
+     "steps": [
+      {
+       "slot_id": "implied_cross_rate",
+       "value": "1.329825"
+      },
+      {
+       "slot_id": "single_loop_profit_bps",
+       "value": "-526.0000"
+      },
+      {
+       "slot_id": "ending_usd_balance",
+       "value": "521070.00"
+      },
+      {
+       "slot_id": "loop_profitable",
+       "value": "unprofitable"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-526.0000": 1
+     },
+     "implied_cross_rate": {
+      "1.329825": 1
+     },
+     "single_loop_profit_bps": {
+      "-526.0000": 1
+     },
+     "ending_usd_balance": {
+      "521070.00": 1
+     },
+     "loop_profitable": {
+      "unprofitable": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-526.0000",
+       "implied_cross_rate": "1.329825",
+       "single_loop_profit_bps": "-526.0000",
+       "ending_usd_balance": "521070.00",
+       "loop_profitable": "unprofitable"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f6e62083e0d3dedc802919af2938df677bfa046d121d70a07b5b719bac5b21c1",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1381,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 467,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1381,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 467,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1381,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1381
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.05117100000000001,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5265,
+         "session_id": "01409b98-9b42-481c-8ed1-f025cbb8c584",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    start = Q(550000)\n    eurusd = Q(\"1.1175\")\n    eur_per_gbp = Q(\"1.19\")\n    gbpusd_mid = Q(\"1.2625\")\n    half_spread = Q(13) * Q(\"0.0001\")\n    bid = gbpusd_mid - half_spread\n    fee = Q(\"0.00035\")\n\n    implied_cross = eurusd * eur_per_gbp  # USD per GBP\n\n    def run_loop(usd):\n        eur = usd / eurusd * (1 - fee)\n        gbp = eur / eur_per_gbp * (1 - fee)\n        usd_end = gbp * bid * (1 - fee)\n        return usd_end\n\n    single_end = run_loop(start)\n    single_bps = (single_end - start) / start * 10000\n\n    balance = start\n    for _ in range(2):\n        end = run_loop(balance)\n        profit_bps = (end - balance) / balance * 10000\n        balance = end\n        if profit_bps < 0:\n            break\n\n    cumulative_bps = (balance - start) / start * 10000\n\n    return {\n        \"final\": cumulative_bps,\n        \"implied_cross_rate\": implied_cross,\n        \"single_loop_profit_bps\": single_bps,\n        \"ending_usd_balance\": balance,\n        \"loop_profitable\": \"profitable\" if single_bps > 0 else \"unprofitable\",\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 229
+        },
+        "rendered": {
+         "final": "-526.0000",
+         "implied_cross_rate": "1.329825",
+         "single_loop_profit_bps": "-526.0000",
+         "ending_usd_balance": "521070.00",
+         "loop_profitable": "unprofitable"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn67d3b216de5ce7aa7cc7",
+   "verdicts": {
+    "final": true,
+    "implied_cross_rate": true,
+    "single_loop_profit_bps": true,
+    "ending_usd_balance": true,
+    "loop_profitable": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn67d3b216de5ce7aa7cc7",
+     "final_answer": {
+      "value": "-163.8543"
+     },
+     "steps": [
+      {
+       "slot_id": "implied_cross_rate",
+       "value": "1.2702"
+      },
+      {
+       "slot_id": "single_loop_profit_bps",
+       "value": "-163.8543"
+      },
+      {
+       "slot_id": "ending_usd_balance",
+       "value": "442626.56"
+      },
+      {
+       "slot_id": "loop_profitable",
+       "value": "unprofitable"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-163.8543": 1
+     },
+     "implied_cross_rate": {
+      "1.2702": 1
+     },
+     "single_loop_profit_bps": {
+      "-163.8543": 1
+     },
+     "ending_usd_balance": {
+      "442626.56": 1
+     },
+     "loop_profitable": {
+      "unprofitable": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-163.8543",
+       "implied_cross_rate": "1.2702",
+       "single_loop_profit_bps": "-163.8543",
+       "ending_usd_balance": "442626.56",
+       "loop_profitable": "unprofitable"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "09120783748d6b41684b53b8dd58c1556324b3f584c8f3023b7cac25e5b7cbc2",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1380,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 431,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1380,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 431,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1380,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1380
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.049351,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4724,
+         "session_id": "dc5fc612-6dec-4819-bd03-8c2dd8924103",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    start = Q(450000)\n    eurusd = Q(\"1.095\")\n    eur_per_gbp = Q(\"1.16\")\n    mid = Q(\"1.2525\")\n    width = Q(36) * Q(\"0.0001\")\n    bid = mid - width / 2\n    fee = Q(\"3.5\") / 10000\n\n    implied = eurusd * eur_per_gbp  # USD per GBP\n\n    def run_loop(usd):\n        eur = usd / eurusd * (1 - fee)\n        gbp = eur / eur_per_gbp * (1 - fee)\n        return gbp * bid * (1 - fee)\n\n    single_end = run_loop(start)\n    single_bps = (single_end - start) / start * 10000\n\n    balance = start\n    for _ in range(4):\n        end = run_loop(balance)\n        profit_bps = (end - balance) / balance * 10000\n        balance = end\n        if profit_bps < 0:\n            break\n\n    cumulative = (balance - start) / start * 10000\n\n    return {\n        \"final\": cumulative,\n        \"implied_cross_rate\": implied,\n        \"single_loop_profit_bps\": single_bps,\n        \"ending_usd_balance\": balance,\n        \"loop_profitable\": \"profitable\" if single_bps > 0 else \"unprofitable\",\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 301
+        },
+        "rendered": {
+         "final": "-163.8543",
+         "implied_cross_rate": "1.2702",
+         "single_loop_profit_bps": "-163.8543",
+         "ending_usd_balance": "442626.56",
+         "loop_profitable": "unprofitable"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syna9323954fbc273d02673",
+   "verdicts": {
+    "final": true,
+    "implied_cross_rate": true,
+    "single_loop_profit_bps": true,
+    "ending_usd_balance": true,
+    "loop_profitable": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syna9323954fbc273d02673",
+     "final_answer": {
+      "value": "-854.8510"
+     },
+     "steps": [
+      {
+       "slot_id": "implied_cross_rate",
+       "value": "1.30815"
+      },
+      {
+       "slot_id": "single_loop_profit_bps",
+       "value": "-854.8510"
+      },
+      {
+       "slot_id": "ending_usd_balance",
+       "value": "502983.19"
+      },
+      {
+       "slot_id": "loop_profitable",
+       "value": "unprofitable"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-854.8510": 1
+     },
+     "implied_cross_rate": {
+      "1.30815": 1
+     },
+     "single_loop_profit_bps": {
+      "-854.8510": 1
+     },
+     "ending_usd_balance": {
+      "502983.19": 1
+     },
+     "loop_profitable": {
+      "unprofitable": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-854.8510",
+       "implied_cross_rate": "1.30815",
+       "single_loop_profit_bps": "-854.8510",
+       "ending_usd_balance": "502983.19",
+       "loop_profitable": "unprofitable"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "65772eb83b5d8de4830019010562b65dc0a62a9f9408d5a9eb4ea333602185cd",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1379,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 438,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1379,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 438,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1379,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1379
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.049681,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5143,
+         "session_id": "74e23da4-8d14-4670-8920-bd5eb166e778",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    start = Q(550000)\n    eurusd = Q(\"1.14\")\n    eur_per_gbp = Q(\"1.1475\")\n    mid = Q(\"1.1975\")\n    pip = Q(\"0.0001\")\n    bid = mid - pip  # width 2 pips centred -> 1 pip each side\n    fee = Q(3) / 10000\n    implied = eurusd * eur_per_gbp\n\n    def run_loop(usd):\n        eur = usd / eurusd * (1 - fee)\n        gbp = eur / eur_per_gbp * (1 - fee)\n        return gbp * bid * (1 - fee)\n\n    single_end = run_loop(start)\n    single_bps = (single_end - start) / start * 10000\n\n    bal = start\n    for i in range(2):\n        new_bal = run_loop(bal)\n        profit_bps = (new_bal - bal) / bal * 10000\n        bal = new_bal\n        if profit_bps < 15:\n            break\n\n    cum = (bal - start) / start * 10000\n    return {\n        \"final\": cum,\n        \"implied_cross_rate\": implied,\n        \"single_loop_profit_bps\": single_bps,\n        \"ending_usd_balance\": bal,\n        \"loop_profitable\": \"profitable\" if single_bps > 0 else \"unprofitable\",\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 341
+        },
+        "rendered": {
+         "final": "-854.8510",
+         "implied_cross_rate": "1.30815",
+         "single_loop_profit_bps": "-854.8510",
+         "ending_usd_balance": "502983.19",
+         "loop_profitable": "unprofitable"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_synbc16599cbcfd147b6823",
+   "verdicts": {
+    "final": true,
+    "implied_cross_rate": true,
+    "single_loop_profit_bps": true,
+    "ending_usd_balance": true,
+    "loop_profitable": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synbc16599cbcfd147b6823",
+     "final_answer": {
+      "value": "-364.0337"
+     },
+     "steps": [
+      {
+       "slot_id": "implied_cross_rate",
+       "value": "1.28771875"
+      },
+      {
+       "slot_id": "single_loop_profit_bps",
+       "value": "-364.0337"
+      },
+      {
+       "slot_id": "ending_usd_balance",
+       "value": "481798.32"
+      },
+      {
+       "slot_id": "loop_profitable",
+       "value": "unprofitable"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "-364.0337": 1
+     },
+     "implied_cross_rate": {
+      "1.28771875": 1
+     },
+     "single_loop_profit_bps": {
+      "-364.0337": 1
+     },
+     "ending_usd_balance": {
+      "481798.32": 1
+     },
+     "loop_profitable": {
+      "unprofitable": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "-364.0337",
+       "implied_cross_rate": "1.28771875",
+       "single_loop_profit_bps": "-364.0337",
+       "ending_usd_balance": "481798.32",
+       "loop_profitable": "unprofitable"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "79e2b58c340e71c84ae9e8eab7b2dc1025a557362e30f8d65ee993a201a13e6d",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1382,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 489,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1382,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 489,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1382,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1382
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.052291,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 6047,
+         "session_id": "18686dbc-5e20-41be-a53c-a23d4fb02040",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    start = Q(500000)\n    eurusd = Q(\"1.1125\")\n    eur_per_gbp = Q(\"1.1575\")\n    gbpusd_mid = Q(\"1.2425\")\n    half_width = Q(22) * Q(\"0.0001\") / 2\n    gbp_bid = gbpusd_mid - half_width\n    fee = Q(\"1.5\") / 10000\n\n    implied_cross = eurusd * eur_per_gbp  # USD per GBP\n\n    def run_loop(usd):\n        eur = usd / eurusd * (1 - fee)\n        gbp = eur / eur_per_gbp * (1 - fee)\n        usd_end = gbp * gbp_bid * (1 - fee)\n        return usd_end\n\n    single_end = run_loop(start)\n    single_profit_bps = (single_end - start) / start * 10000\n\n    balance = start\n    for _ in range(2):\n        end = run_loop(balance)\n        profit_bps = (end - balance) / balance * 10000\n        balance = end\n        if profit_bps < 20:\n            break\n\n    cumulative_bps = (balance - start) / start * 10000\n\n    return {\n        \"final\": cumulative_bps,\n        \"implied_cross_rate\": implied_cross,\n        \"single_loop_profit_bps\": single_profit_bps,\n        \"ending_usd_balance\": balance,\n        \"loop_profitable\": \"profitable\" if single_profit_bps > 0 else \"unprofitable\",\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 158
+        },
+        "rendered": {
+         "final": "-364.0337",
+         "implied_cross_rate": "1.28771875",
+         "single_loop_profit_bps": "-364.0337",
+         "ending_usd_balance": "481798.32",
+         "loop_profitable": "unprofitable"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

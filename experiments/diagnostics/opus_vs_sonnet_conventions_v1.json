@@ -1,0 +1,33 @@
+{
+  "name": "opus_vs_sonnet_conventions_v1",
+  "purpose": "Option 4 of the R2 discussion: on the tuning-eval cases where R1's novel path still misses a slot, does a stronger model read the slot convention correctly more often than fresh R1 samples? Informs whether building a hidden-like labelled set (option 1) is worth it. Cannot by itself justify adopting R2.",
+  "approved_by_user": "2026-10-12: 'yes, run the option 4 diagnostic'",
+  "split": "tuning-eval",
+  "cases": {
+    "t1_dze57qquqcc7cqr2xpua6": ["factor_ratio_trace"],
+    "t1_rwz5ybiy42flbtv3uwjbe": ["factor_ratio_trace"],
+    "t1_hjxf7by5ix5meugpknjp6": ["variance_trace"],
+    "t1_pmhsknct6wglk2zigpdyc": ["variance_trace"]
+  },
+  "case_selection": "every tuning-eval case with a slot miss in run 20261012T051314Z_r1_tuning-eval_S_forced-novel (4 cases, 2 templates: portfolio_single_factor sign convention; two_asset_perfect_correlation_sd variance units). Effective n = 2 conventions.",
+  "base_config": "configs/r1.json",
+  "shared": "system prompt, exemplars (S-mode selection), sandbox and max_retries from base_config; prompts identical across arms",
+  "arms": [
+    {"name": "control_sonnet_medium", "model": "claude-sonnet-5-5", "effort": "medium", "sample_offset": 5,
+     "why": "fresh samples of R1's novel path (R1 used samples 0-4); measures how often a re-draw fixes a case chosen because it failed"},
+    {"name": "treatment_opus_medium", "model": "claude-opus-5-5", "effort": "medium", "sample_offset": 0,
+     "why": "the stronger model at the same effort"}
+  ],
+  "samples_per_case_per_arm": 10,
+  "vote_block": 5,
+  "metrics": {
+    "primary": "per-sample correctness of the target slot (official value_matches via score_case on a row holding only that slot), pooled over the 40 samples per arm and reported per template",
+    "secondary": ["per-sample all-fields-correct rate (final and every slot)", "per-sample correctness of the non-target fields (regression check)", "plurality vote over samples 1-5 and 6-10 of each arm: target-slot correct and all-fields correct (2 votes per case per arm)", "usage and cost-equivalent per arm"]
+  },
+  "interpretation": {
+    "supports_stronger_model": "treatment target-slot rate >= control rate + 0.30 pooled, AND treatment >= control on both templates, AND treatment's non-target-field correct rate is not lower than control's by more than 0.10",
+    "against": "treatment target-slot rate <= control rate + 0.10 pooled",
+    "otherwise": "inconclusive",
+    "caveat": "2 conventions only; anecdotal whatever the outcome; the cases were selected because Sonnet failed, which the control arm accounts for"
+  }
+}

@@ -1,0 +1,77 @@
+{
+ "name": "headcount_synergy_severance_two_year_cumulative",
+ "domain_id": "mergers_and_acquisitions",
+ "topic_id": "synergies_and_cost_savings",
+ "difficulty": "intermediate",
+ "params": {
+  "POSITIONS": {
+   "kind": "int",
+   "min": 40,
+   "max": 400,
+   "step": 10
+  },
+  "COST_PER_POSITION": {
+   "kind": "int",
+   "min": 60,
+   "max": 160,
+   "step": 5
+  },
+  "SEVERANCE_MONTHS": {
+   "kind": "int",
+   "min": 3,
+   "max": 12,
+   "step": 1
+  },
+  "PHASE_IN_PCT": {
+   "kind": "int",
+   "min": 30,
+   "max": 80,
+   "step": 5
+  }
+ },
+ "question_template": "Use exact arithmetic. A merger eliminates N={POSITIONS} redundant positions with an average fully loaded annual cost of c={COST_PER_POSITION} thousand USD each. Severance paid once at closing equals m={SEVERANCE_MONTHS} months of the annual run-rate savings. Only p={PHASE_IN_PCT} percent of run-rate savings are realized in year 1; year 2 realizes the full run-rate. Compute cumulative net savings at the end of year 2 in USD million (realized savings in years 1 and 2 minus severance).",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd_million",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "run_rate_savings",
+   "description": "Annual run-rate headcount savings in USD million.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "severance_cost",
+   "description": "One-time severance paid at closing.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "year_one_realized",
+   "description": "Savings realized during year one.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd_million",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    n = P[\"POSITIONS\"]\n    c = P[\"COST_PER_POSITION\"]\n    m = P[\"SEVERANCE_MONTHS\"]\n    p = P[\"PHASE_IN_PCT\"]\n    run_rate = Fraction(n * c, 1000)\n    severance = run_rate * Fraction(m, 12)\n    year_one = run_rate * Fraction(p, 100)\n    final = year_one + run_rate - severance\n    return {\n        \"final\": final,\n        \"run_rate_savings\": run_rate,\n        \"severance_cost\": severance,\n        \"year_one_realized\": year_one,\n    }\n"
+}

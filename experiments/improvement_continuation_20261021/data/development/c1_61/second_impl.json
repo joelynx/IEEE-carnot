@@ -1,0 +1,189 @@
+{
+ "family": "c1_61",
+ "template_sha256": "cefd98522bc0088f64e8c338d0da7c47c6b277feb4a9a00fb25772fe05bb1e09",
+ "draws_sha256": "443e09d1774168f8043f6b8746512816f3d533016cd1a0f53a1d921e83b98c6b",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "46a1be868ee7c690c4f28a2e2bf4d25c9a8a64ce9584cb4c06ebf37585dadd32",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1623,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 775,
+    "output_tokens_details": {
+     "thinking_tokens": 272
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1623,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 775,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1623,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1623
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0713805
+  }
+ ],
+ "program": "def solve():\n    nominal_bp = P[\"NOMINAL_BP\"]\n    min_pct = P[\"MIN_PCT\"]\n    deposit = P[\"DEPOSIT\"]\n    months = P[\"MONTHS\"]\n\n    # Nominal annual rate as a decimal fraction\n    r = Q(nominal_bp, 10000)\n    monthly_rate = r / 12\n\n    # One-year growth factor built period by period (12 monthly credits)\n    growth = Q(1)\n    for _ in range(12):\n        growth = growth * (1 + monthly_rate)\n\n    # Equivalent continuously compounded annual rate: exp(c) = growth\n    c_converted = ln(growth)\n\n    # Minimum continuous rate check\n    c_min = min_pct / 100\n    if c_converted < c_min:\n        c_credited = c_min\n    else:\n        c_credited = c_converted\n\n    # Effective annual rate under the credited continuous rate\n    ear = exp(c_credited) - 1\n\n    # Gap in basis points\n    gap_bp = (ear - c_credited) * 10000\n\n    # Ending value of deposit after MONTHS/12 years of continuous growth\n    t_years = Q(months, 12)\n    ending_value = deposit * exp(c_credited * t_years)\n\n    return {\n        \"final\": ending_value,\n        \"credited_continuous_rate_pct\": c_credited * 100,\n        \"effective_annual_rate_pct\": ear * 100,\n        \"gap_bp\": gap_bp,\n    }\n",
+ "result": {
+  "compared": 26,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_NOMINAL_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MIN_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_DEPOSIT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NOMINAL_BP",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MIN_PCT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_DEPOSIT",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MONTHS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

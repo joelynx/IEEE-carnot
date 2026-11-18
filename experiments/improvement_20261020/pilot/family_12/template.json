@@ -1,0 +1,101 @@
+{
+  "name": "tiered_fee_refund_credit_capped_rebate",
+  "domain_id": "fintech",
+  "topic_id": "payment_technologies",
+  "difficulty": "intermediate",
+  "params": {
+    "V": {
+      "kind": "int",
+      "min": 20000,
+      "max": 80000,
+      "step": 500
+    },
+    "C": {
+      "kind": "int",
+      "min": 10000,
+      "max": 50000,
+      "step": 1000
+    },
+    "R1": {
+      "kind": "decimal",
+      "min": "2.0",
+      "max": "3.5",
+      "step": "0.1"
+    },
+    "R2": {
+      "kind": "decimal",
+      "min": "1.0",
+      "max": "2.5",
+      "step": "0.1"
+    },
+    "R": {
+      "kind": "int",
+      "min": 500,
+      "max": 9000,
+      "step": 100
+    },
+    "F": {
+      "kind": "decimal",
+      "min": "0.1",
+      "max": "0.5",
+      "step": "0.05"
+    },
+    "REB": {
+      "kind": "decimal",
+      "min": "5",
+      "max": "20",
+      "step": "1"
+    },
+    "CAP": {
+      "kind": "int",
+      "min": 100,
+      "max": 600,
+      "step": 25
+    }
+  },
+  "question_template": "A fictional merchant's card processor bills monthly. Gross card volume this month is {V} USD. Variable fees are marginal: {R1} percent on the first {C} USD of gross volume and {R2} percent on any gross volume above that breakpoint. Refunds of {R} USD in the same month earn a fee credit equal to refunded volume times the blended rate, where the blended rate is the gross variable fee divided by gross volume. Refunds also incur a surcharge of {F} percent of refunded volume, which is never credited. A loyalty rebate of {REB} percent applies to the net variable fee (gross variable fee minus refund credit, excluding the surcharge) and is capped at {CAP} USD per month. The net monthly fee equals gross variable fee minus refund credit plus surcharge minus rebate. What is the net monthly fee in USD?",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "gross_variable_fee",
+      "description": "Gross variable fee from both marginal tiers before refunds.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "refund_credit",
+      "description": "Fee credit returned on refunded volume at the blended rate.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "rebate_applied",
+      "description": "Loyalty rebate actually applied after the monthly cap.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    V = P[\"V\"]\n    C = P[\"C\"]\n    r1 = P[\"R1\"] / 100\n    r2 = P[\"R2\"] / 100\n    R = P[\"R\"]\n    f = P[\"F\"] / 100\n    reb = P[\"REB\"] / 100\n    cap = P[\"CAP\"]\n    if R > V:\n        raise ValueError(\"refunded volume exceeds gross volume\")\n    tier1 = min(V, C)\n    tier2 = max(V - C, 0)\n    gross = tier1 * r1 + tier2 * r2\n    blended = gross / V\n    credit = R * blended\n    surcharge = R * f\n    net_var = gross - credit\n    rebate = min(reb * net_var, cap)\n    final = gross - credit + surcharge - rebate\n    return {\n        \"final\": final,\n        \"gross_variable_fee\": gross,\n        \"refund_credit\": credit,\n        \"rebate_applied\": rebate,\n    }\n"
+}

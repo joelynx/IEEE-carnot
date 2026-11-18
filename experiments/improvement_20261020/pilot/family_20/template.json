@@ -1,0 +1,95 @@
+{
+  "name": "two_factor_shock_with_cross_term_loss",
+  "domain_id": "risk_management",
+  "topic_id": "sensitivity_analysis",
+  "difficulty": "intermediate",
+  "params": {
+    "V": {
+      "kind": "int",
+      "min": 50000,
+      "max": 500000,
+      "step": 2500
+    },
+    "E": {
+      "kind": "decimal",
+      "min": "-10.0",
+      "max": "10.0",
+      "step": "0.5"
+    },
+    "F": {
+      "kind": "decimal",
+      "min": "-8.0",
+      "max": "8.0",
+      "step": "0.5"
+    },
+    "B": {
+      "kind": "decimal",
+      "min": "0.5",
+      "max": "1.5",
+      "step": "0.1"
+    },
+    "D": {
+      "kind": "decimal",
+      "min": "-1.00",
+      "max": "1.00",
+      "step": "0.25"
+    },
+    "K": {
+      "kind": "decimal",
+      "min": "-2.0",
+      "max": "2.0",
+      "step": "0.5"
+    },
+    "H": {
+      "kind": "int",
+      "min": 0,
+      "max": 80,
+      "step": 10
+    }
+  },
+  "question_template": "Use exact arithmetic. A portfolio worth V={V} USD faces two factors: an equity index and an FX rate. Signed equity change is e={E} percent; signed FX change is f={F} percent. Raw equity sensitivity is b={B}; a hedge covers h={H} percent of the equity exposure, so net equity sensitivity is b*(1-h/100). FX sensitivity is d={D}. Interaction coefficient is k={K}: the cross effect on the value ratio is k times the product of the factor ratios e/100 and f/100 (the hedge does not apply to it). Total value ratio is the net equity effect plus the FX effect plus the cross effect; signed value change is V times that ratio. Report the loss magnitude in USD: the positive size of the decline if value falls, otherwise 0.",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "net_equity_sensitivity",
+      "description": "Exact equity sensitivity after the hedge is applied.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "multiple",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "cross_effect_ratio",
+      "description": "Exact signed cross-effect contribution to the value ratio.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "ratio",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "signed_value_change",
+      "description": "Exact signed USD change in portfolio value before taking the loss magnitude.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    V = Fraction(P[\"V\"])\n    e = Fraction(P[\"E\"]) / 100\n    f = Fraction(P[\"F\"]) / 100\n    b = Fraction(P[\"B\"])\n    d = Fraction(P[\"D\"])\n    k = Fraction(P[\"K\"])\n    h = Fraction(P[\"H\"]) / 100\n    net_b = b * (1 - h)\n    equity_effect = net_b * e\n    fx_effect = d * f\n    cross = k * e * f\n    total_ratio = equity_effect + fx_effect + cross\n    change = V * total_ratio\n    loss = -change if change < 0 else Fraction(0)\n    return {\n        \"final\": loss,\n        \"net_equity_sensitivity\": net_b,\n        \"cross_effect_ratio\": cross,\n        \"signed_value_change\": change\n    }"
+}

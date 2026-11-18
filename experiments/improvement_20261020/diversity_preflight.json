@@ -1,0 +1,141 @@
+{
+  "case_id": "t1_237n6qpnolxdybgr2bk32",
+  "llm": {
+    "backend": "claude-code-cli",
+    "cli_version": "2.1.296 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "flags_version": "v1",
+    "flags": [
+      "-p",
+      "--safe-mode",
+      "--model",
+      "claude-opus-5-5",
+      "--effort",
+      "medium",
+      "--system-prompt-file",
+      "<system-prompt-file>",
+      "--tools",
+      "",
+      "--strict-mcp-config",
+      "--disable-slash-commands",
+      "--permission-prompts",
+      "none",
+      "--max-turns",
+      "1",
+      "--no-session-persistence",
+      "--output-format",
+      "json"
+    ],
+    "auth_method": "claude.ai",
+    "subscription_type": "team"
+  },
+  "fac": 1,
+  "matched_slots": 2,
+  "total_slots": 2,
+  "outcome": {
+    "row": {
+      "schema_version": "finreason.task1.prediction/1.0.0",
+      "dataset_version": "task1-v4",
+      "case_id": "t1_237n6qpnolxdybgr2bk32",
+      "final_answer": {
+        "value": "33.33"
+      },
+      "steps": [
+        {
+          "slot_id": "eligible_tier1_usd_million",
+          "value": "33.325"
+        },
+        {
+          "slot_id": "composition_ratio",
+          "value": "0.33325"
+        }
+      ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+      "final": {
+        "33.33": 1
+      },
+      "eligible_tier1_usd_million": {
+        "33.325": 1
+      },
+      "composition_ratio": {
+        "0.33325": 1
+      }
+    },
+    "samples": [
+      {
+        "texts": {
+          "final": "33.33",
+          "eligible_tier1_usd_million": "33.325",
+          "composition_ratio": "0.33325"
+        },
+        "issues": {},
+        "attempts": [
+          {
+            "attempt": 0,
+            "cache_key": "1f8fe13f06573ef5bfef68d24516319970a116a71a4ade32d99c896f2381664e",
+            "cached": false,
+            "model_id": "claude-opus-5-5",
+            "usage": {
+              "input_tokens": 2,
+              "cache_creation_input_tokens": 1966,
+              "cache_read_input_tokens": 0,
+              "output_tokens": 258,
+              "output_tokens_details": {
+                "thinking_tokens": 0
+              },
+              "server_tool_use": {
+                "web_search_requests": 0,
+                "web_fetch_requests": 0
+              },
+              "service_tier": "standard",
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 1966,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "inference_geo": "global",
+              "iterations": [
+                {
+                  "input_tokens": 2,
+                  "output_tokens": 258,
+                  "cache_read_input_tokens": 0,
+                  "cache_creation_input_tokens": 1966,
+                  "cache_creation": {
+                    "ephemeral_5m_input_tokens": 0,
+                    "ephemeral_1h_input_tokens": 1966
+                  },
+                  "type": "message"
+                }
+              ],
+              "speed": "standard",
+              "fallback_credit": null
+            },
+            "cost_equivalent_usd": 0.020895999999999998,
+            "meta": {
+              "stop_reason": "end_turn",
+              "duration_ms": 3803,
+              "session_id": "c2db4f82-6efb-4601-91d8-a61dff73c30f",
+              "num_turns": 1
+            },
+            "code": "def solve():\n    # Inputs (USD millions)\n    common_equity = Q(\"33.325\")\n    additional_tier1 = Q(\"0\")\n    total_tier1 = Q(\"100\")\n\n    # Combined eligible capital = CET1 + AT1\n    eligible_tier1_usd_million = common_equity + additional_tier1\n\n    # Exact composition ratio (plain number)\n    composition_ratio = eligible_tier1_usd_million / total_tier1\n\n    # Final percent (harness rounds half-up to 2 dp)\n    final_percent = composition_ratio * 100\n\n    return {\n        \"final\": final_percent,\n        \"eligible_tier1_usd_million\": eligible_tier1_usd_million,\n        \"composition_ratio\": composition_ratio,\n    }\n",
+            "sandbox": {
+              "ok": true,
+              "stage": null,
+              "error": null,
+              "elapsed_ms": 81
+            },
+            "rendered": {
+              "final": "33.33",
+              "eligible_tier1_usd_million": "33.325",
+              "composition_ratio": "0.33325"
+            },
+            "issues": {},
+            "flags": []
+          }
+        ]
+      }
+    ]
+  }
+}

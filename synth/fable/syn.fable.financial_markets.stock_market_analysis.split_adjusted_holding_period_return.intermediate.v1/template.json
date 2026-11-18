@@ -1,0 +1,86 @@
+{
+ "name": "split_adjusted_holding_period_return",
+ "domain_id": "financial_markets",
+ "topic_id": "stock_market_analysis",
+ "difficulty": "intermediate",
+ "params": {
+  "N": {
+   "kind": "int",
+   "min": 10,
+   "max": 200,
+   "step": 5
+  },
+  "P0": {
+   "kind": "int",
+   "min": 40,
+   "max": 150,
+   "step": 1
+  },
+  "S": {
+   "kind": "choice",
+   "values": [
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  "D": {
+   "kind": "decimal",
+   "min": "0.10",
+   "max": "1.50",
+   "step": "0.05"
+  },
+  "P1": {
+   "kind": "decimal",
+   "min": "8.00",
+   "max": "80.00",
+   "step": "0.25"
+  }
+ },
+ "question_template": "An investor buys {N} shares at USD {P0} each. The company then executes a {S}-for-1 stock split. After the split, a cash dividend of USD {D} per post-split share is paid, and the investor later sells all post-split shares at USD {P1} each. Compute the holding-period return in percent = (sale proceeds + total dividends - purchase cost) / purchase cost x 100. Use exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "post_split_share_count",
+   "description": "Number of shares held after the split.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "post_split_dividend_cash",
+   "description": "Total cash dividends on post-split shares.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "post_split_sale_value",
+   "description": "Total proceeds from selling post-split shares.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    n = P[\"N\"]\n    p0 = P[\"P0\"]\n    s = P[\"S\"]\n    d = P[\"D\"]\n    p1 = P[\"P1\"]\n    cost = n * p0\n    shares_post = n * s\n    dividends = shares_post * d\n    proceeds = shares_post * p1\n    hpr = Fraction(proceeds + dividends - cost, 1) / cost * 100\n    return {\n        \"final\": hpr,\n        \"post_split_share_count\": shares_post,\n        \"post_split_dividend_cash\": dividends,\n        \"post_split_sale_value\": proceeds\n    }\n"
+}

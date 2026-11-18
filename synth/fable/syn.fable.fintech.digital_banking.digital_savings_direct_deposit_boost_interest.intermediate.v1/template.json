@@ -1,0 +1,89 @@
+{
+ "name": "digital_savings_direct_deposit_boost_interest",
+ "domain_id": "fintech",
+ "topic_id": "digital_banking",
+ "difficulty": "intermediate",
+ "params": {
+  "BALANCE": {
+   "kind": "int",
+   "min": 2000,
+   "max": 40000,
+   "step": 250
+  },
+  "DEPOSIT": {
+   "kind": "int",
+   "min": 0,
+   "max": 4000,
+   "step": 100
+  },
+  "THRESHOLD": {
+   "kind": "int",
+   "min": 500,
+   "max": 2500,
+   "step": 250
+  },
+  "CAP": {
+   "kind": "int",
+   "min": 5000,
+   "max": 25000,
+   "step": 2500
+  },
+  "BASE_RATE": {
+   "kind": "decimal",
+   "min": "0.50",
+   "max": "2.00",
+   "step": "0.05"
+  },
+  "BOOST_RATE": {
+   "kind": "decimal",
+   "min": "3.00",
+   "max": "5.50",
+   "step": "0.10"
+  }
+ },
+ "question_template": "A fictional digital savings account has an ending balance B={BALANCE} USD and pays a base annual rate r_b={BASE_RATE} percent. If the customer's monthly direct deposit D={DEPOSIT} USD is at least the threshold T={THRESHOLD} USD (a deposit exactly equal to T qualifies), the account instead pays a boosted annual rate r_h={BOOST_RATE} percent on the part of the balance up to the cap C={CAP} USD and the base rate on any balance above the cap. Otherwise the whole balance earns the base rate. Monthly interest is the annual rate divided by 12 applied to the ending balance only; the deposit itself is not added. Use exact arithmetic. What is the month's total interest in USD?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "boost_qualified",
+   "description": "Whether the direct deposit meets the threshold.",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "false",
+     "true"
+    ]
+   }
+  },
+  {
+   "slot_id": "boosted_rate_balance",
+   "description": "Balance portion earning the boosted rate in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "base_rate_balance",
+   "description": "Balance portion earning the base rate in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    B = Q(P[\"BALANCE\"])\n    D = Q(P[\"DEPOSIT\"])\n    T = Q(P[\"THRESHOLD\"])\n    C = Q(P[\"CAP\"])\n    rb = Q(P[\"BASE_RATE\"])\n    rh = Q(P[\"BOOST_RATE\"])\n    if rh <= rb:\n        raise ValueError(\"boost rate must exceed base rate\")\n    qualified = D >= T\n    if qualified:\n        boosted = min(B, C)\n        base_part = B - boosted\n    else:\n        boosted = Q(0)\n        base_part = B\n    interest = boosted * rh / Q(1200) + base_part * rb / Q(1200)\n    return {\n        \"final\": interest,\n        \"boost_qualified\": \"true\" if qualified else \"false\",\n        \"boosted_rate_balance\": boosted,\n        \"base_rate_balance\": base_part,\n    }\n"
+}

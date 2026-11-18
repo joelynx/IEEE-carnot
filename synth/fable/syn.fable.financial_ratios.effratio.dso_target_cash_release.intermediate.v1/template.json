@@ -1,0 +1,88 @@
+{
+ "name": "dso_target_cash_release",
+ "domain_id": "financial_ratios",
+ "topic_id": "effratio",
+ "difficulty": "intermediate",
+ "params": {
+  "CREDIT_SALES": {
+   "kind": "int",
+   "min": 600000,
+   "max": 3000000,
+   "step": 10000
+  },
+  "RECV_BEGIN": {
+   "kind": "int",
+   "min": 60000,
+   "max": 400000,
+   "step": 1000
+  },
+  "RECV_END": {
+   "kind": "int",
+   "min": 60000,
+   "max": 400000,
+   "step": 1000
+  },
+  "TARGET_DSO": {
+   "kind": "int",
+   "min": 25,
+   "max": 60,
+   "step": 1
+  }
+ },
+ "question_template": "Annual credit sales are {CREDIT_SALES} USD. Accounts receivable were {RECV_BEGIN} USD at the beginning of the year and {RECV_END} USD at the end. Use the arithmetic mean of beginning and ending receivables and a 365-day year. Management targets days sales outstanding of {TARGET_DSO} days with credit sales unchanged. Compute the cash released from receivables if the target is met: current average receivables minus the receivables level implied by the target. A negative value means receivables would have to rise. Use exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "avg_receivables",
+   "description": "Arithmetic mean of beginning and ending receivables in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "receivables_turnover",
+   "description": "Credit sales divided by average receivables.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "multiple",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "current_dso",
+   "description": "Current days sales outstanding on a 365-day year.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "days",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "target_receivables",
+   "description": "Receivables level implied by the target days in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    S = Fraction(P[\"CREDIT_SALES\"])\n    rb = Fraction(P[\"RECV_BEGIN\"])\n    re = Fraction(P[\"RECV_END\"])\n    T = Fraction(P[\"TARGET_DSO\"])\n    avg = (rb + re) / 2\n    if avg <= 0 or S <= 0:\n        raise ValueError(\"non-positive inputs\")\n    turnover = S / avg\n    dso = Fraction(365) / turnover\n    target = S * T / Fraction(365)\n    final = avg - target\n    return {\n        \"final\": final,\n        \"avg_receivables\": avg,\n        \"receivables_turnover\": turnover,\n        \"current_dso\": dso,\n        \"target_receivables\": target,\n    }\n"
+}

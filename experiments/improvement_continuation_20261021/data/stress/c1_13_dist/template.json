@@ -1,0 +1,127 @@
+{
+ "name": "two_stage_quarterly_dividend_rate_conversion_dist",
+ "domain_id": "corporate_finance",
+ "topic_id": "div_policies",
+ "difficulty": "advanced",
+ "params": {
+  "D0": {
+   "kind": "decimal",
+   "min": "0.20",
+   "max": "1.50",
+   "step": "0.05"
+  },
+  "G1_BP": {
+   "kind": "int",
+   "min": -200,
+   "max": 400,
+   "step": 25
+  },
+  "N_Q": {
+   "kind": "int",
+   "min": 4,
+   "max": 12,
+   "step": 1
+  },
+  "G2_PCT": {
+   "kind": "decimal",
+   "min": "0.0",
+   "max": "6.0",
+   "step": "0.5"
+  },
+  "R_EFF": {
+   "kind": "decimal",
+   "min": "4.0",
+   "max": "14.0",
+   "step": "0.5"
+  },
+  "CONV": {
+   "kind": "choice",
+   "values": [
+    "compound",
+    "nominal"
+   ]
+  }
+ },
+ "question_template": "A firm pays dividends quarterly; the dividend just paid was {D0} USD per share. The firm has 25 million shares outstanding. Stage one lasts {N_Q} quarters; each quarterly dividend is {G1_BP} basis points higher than the previous one (one basis point is 0.01 percent; a negative figure is a cut), so the quarter-1 dividend already includes one quarter of growth. After stage one, dividends grow at {G2_PCT} percent per year forever, converted to a quarterly growth rate by the {CONV} convention: 'compound' takes the rate that compounds over four quarters to the annual rate, 'nominal' divides the annual percentage by four. The required return is an effective annual rate of {R_EFF} percent; convert it to the equivalent compounded quarterly rate and discount each quarterly dividend at that rate. The terminal value at the end of the last stage-one quarter equals the first stage-two dividend divided by the quarterly rate minus the quarterly stage-two growth; the valuation is undefined unless that growth is below the quarterly rate. Report the quarterly discount rate in percent, the present value of stage-one dividends, the terminal value at the end of stage one, and the share price today (stage-one present value plus discounted terminal value).",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "quarterly_rate",
+   "description": "Quarterly discount rate equivalent to the effective annual required return, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 6
+    }
+   }
+  },
+  {
+   "slot_id": "stage_one_pv",
+   "description": "Present value today of all stage-one quarterly dividends per share",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "terminal_value",
+   "description": "Terminal value per share at the end of the last stage-one quarter",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "from fractions import Fraction\nfrom decimal import Decimal, getcontext\n\ndef to_dec(x):\n    f = Fraction(x)\n    return Decimal(f.numerator) / Decimal(f.denominator)\n\ndef solve():\n    getcontext().prec = 60\n    d0 = to_dec(P[\"D0\"])\n    g1_bp = to_dec(P[\"G1_BP\"])\n    n_q = int(P[\"N_Q\"])\n    g2_pct = to_dec(P[\"G2_PCT\"])\n    r_eff = to_dec(P[\"R_EFF\"])\n    conv = P[\"CONV\"]\n    one = Decimal(1)\n    # stage-one quarterly growth from basis points\n    g1q = g1_bp / Decimal(10000)\n    # quarterly discount rate equivalent to effective annual rate\n    rq = (one + r_eff / Decimal(100)).sqrt().sqrt() - one\n    # stage-two quarterly growth\n    if conv == \"compound\":\n        g2q = (one + g2_pct / Decimal(100)).sqrt().sqrt() - one\n    elif conv == \"nominal\":\n        g2q = g2_pct / Decimal(400)\n    else:\n        raise ValueError(\"unknown conversion convention\")\n    if g2q >= rq:\n        raise ValueError(\"quarterly stage-two growth must be below quarterly discount rate\")\n    pv1 = Decimal(0)\n    div = d0\n    for t in range(1, n_q + 1):\n        div = div * (one + g1q)\n        pv1 += div / (one + rq) ** t\n    d_last = div\n    tv = d_last * (one + g2q) / (rq - g2q)\n    price = pv1 + tv / (one + rq) ** n_q\n    return {\n        \"final\": price,\n        \"quarterly_rate\": rq * Decimal(100),\n        \"stage_one_pv\": pv1,\n        \"terminal_value\": tv,\n    }",
+ "coverage_params": [
+  {
+   "D0": "0.50",
+   "G1_BP": 200,
+   "N_Q": 8,
+   "G2_PCT": "3.0",
+   "R_EFF": "9.0",
+   "CONV": "compound"
+  },
+  {
+   "D0": "1.00",
+   "G1_BP": -100,
+   "N_Q": 4,
+   "G2_PCT": "0.0",
+   "R_EFF": "6.0",
+   "CONV": "nominal"
+  },
+  {
+   "D0": "0.75",
+   "G1_BP": 0,
+   "N_Q": 12,
+   "G2_PCT": "5.0",
+   "R_EFF": "4.0",
+   "CONV": "compound"
+  },
+  {
+   "D0": "0.25",
+   "G1_BP": 400,
+   "N_Q": 6,
+   "G2_PCT": "4.0",
+   "R_EFF": "4.5",
+   "CONV": "nominal"
+  }
+ ]
+}

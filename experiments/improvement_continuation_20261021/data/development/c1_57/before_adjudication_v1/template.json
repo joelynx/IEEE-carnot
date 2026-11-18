@@ -1,0 +1,144 @@
+{
+ "name": "decommissioning_project_mirr_signed_flows",
+ "domain_id": "investment_analysis",
+ "topic_id": "irr",
+ "difficulty": "intermediate",
+ "params": {
+  "I0": {
+   "kind": "int",
+   "min": 50000,
+   "max": 200000,
+   "step": 5000
+  },
+  "C": {
+   "kind": "int",
+   "min": 10000,
+   "max": 60000,
+   "step": 1000
+  },
+  "N": {
+   "kind": "int",
+   "min": 3,
+   "max": 8,
+   "step": 1
+  },
+  "D": {
+   "kind": "int",
+   "min": 0,
+   "max": 90000,
+   "step": 1000
+  },
+  "R": {
+   "kind": "decimal",
+   "min": "4",
+   "max": "14",
+   "step": "0.5"
+  },
+  "F": {
+   "kind": "decimal",
+   "min": "3",
+   "max": "12",
+   "step": "0.5"
+  },
+  "K": {
+   "kind": "decimal",
+   "min": "3",
+   "max": "14",
+   "step": "0.5"
+  }
+ },
+ "question_template": "A project pays an outlay of {I0} USD at time 0 and receives an operating inflow of {C} USD at the end of each of years 1 to {N}. At the end of year {N} it also pays a decommissioning cost of {D} USD; the year-{N} net flow is the inflow minus that cost and may be positive, zero or negative. Inflows are positive, outflows negative. NPV is computed on the net flows at {R} percent per year. For the modified IRR, classify each year's net flow by sign: negative net flows (including the time-0 outlay) are discounted to time 0 at a finance rate of {F} percent per year, positive net flows are compounded to the end of year {N} at a reinvestment rate of {K} percent per year, and a zero net flow is ignored. The MIRR is the annual rate that grows that total present value into that total future value over {N} years. Compute the MIRR as a percentage.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "npv",
+   "description": "Net present value of all net cash flows at the stated discount rate",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "npv_positive",
+   "description": "Whether the NPV is strictly positive",
+   "result_spec": {
+    "type": "enum",
+    "allowed_values": [
+     "positive",
+     "not_positive"
+    ]
+   }
+  },
+  {
+   "slot_id": "pv_negative_flows",
+   "description": "Total present value at time 0 of negative net flows at the finance rate",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "fv_positive_flows",
+   "description": "Total future value at final year of positive net flows at the reinvestment rate",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    I0 = Q(P[\"I0\"])\n    C = Q(P[\"C\"])\n    D = Q(P[\"D\"])\n    N = int(P[\"N\"])\n    r = Q(P[\"R\"]) / 100\n    f = Q(P[\"F\"]) / 100\n    k = Q(P[\"K\"]) / 100\n    if I0 <= 0 or C <= 0 or N < 1:\n        raise ValueError(\"invalid project inputs\")\n    net_last = C - D\n    npv = -I0\n    for t in range(1, N):\n        npv += C / (1 + r) ** t\n    npv += net_last / (1 + r) ** N\n    npv_positive = \"positive\" if npv > 0 else \"not_positive\"\n    pv_neg = I0\n    if net_last < 0:\n        pv_neg += (-net_last) / (1 + f) ** N\n    fv_pos = Q(0)\n    for t in range(1, N):\n        fv_pos += C * (1 + k) ** (N - t)\n    if net_last > 0:\n        fv_pos += net_last\n    if pv_neg <= 0 or fv_pos <= 0:\n        raise ValueError(\"MIRR undefined\")\n    ratio = fv_pos / pv_neg\n    mirr = (exp(ln(ratio) / N) - 1) * 100\n    return {\"final\": mirr, \"npv\": npv, \"npv_positive\": npv_positive, \"pv_negative_flows\": pv_neg, \"fv_positive_flows\": fv_pos}\n",
+ "coverage_params": [
+  {
+   "I0": 100000,
+   "C": 30000,
+   "N": 5,
+   "D": 10000,
+   "R": "8",
+   "F": "6",
+   "K": "10"
+  },
+  {
+   "I0": 150000,
+   "C": 25000,
+   "N": 4,
+   "D": 60000,
+   "R": "10",
+   "F": "7",
+   "K": "9"
+  },
+  {
+   "I0": 80000,
+   "C": 20000,
+   "N": 6,
+   "D": 20000,
+   "R": "5",
+   "F": "5",
+   "K": "5"
+  },
+  {
+   "I0": 120000,
+   "C": 20000,
+   "N": 8,
+   "D": 0,
+   "R": "12",
+   "F": "12",
+   "K": "12"
+  }
+ ]
+}

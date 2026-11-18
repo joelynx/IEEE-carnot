@@ -1,0 +1,209 @@
+{
+ "family": "c1_27",
+ "template_sha256": "99360dd619f4753f9c8f96db73a44c6c109c28aa658dbabdc2044fbcb9904170",
+ "draws_sha256": "c8cb81d124310e23bc2a3810aaa044463a92ba521cc2e8c1ee298e0737173491",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "96820dea096fa39c335ff91e264c595f28772b66001e5074adc0e39a75e9d65d",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1492,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 643,
+    "output_tokens_details": {
+     "thinking_tokens": 245
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1492,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 643,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1492,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1492
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.062160499999999994
+  }
+ ],
+ "program": "def solve():\n    N = P[\"N\"]\n    C = P[\"C\"]\n    R = P[\"R\"]\n    D = P[\"D\"]\n    c_cents = Q(P[\"C_CENTS\"])\n    S = P[\"S\"]\n\n    # Walk day by day, tracking when the current key started.\n    key_start = 1\n    for day in range(1, C + 1):\n        if day > 1 and (day - 1) % N == 0:\n            # rotation happened at end of previous day; new key covers from this day\n            key_start = day\n    # exposure window: key_start .. C inclusive\n    exposure_days = C - key_start + 1\n\n    # ledger of records per day\n    exposed = 0\n    for day in range(key_start, C + 1):\n        records_today = R + (day - 1) * D\n        exposed += records_today\n\n    base_cost_usd = Q(exposed) * c_cents / Q(100)\n    adjustment = base_cost_usd * Q(S) / Q(10000)\n    total = base_cost_usd + adjustment\n\n    return {\n        \"final\": total,\n        \"exposure_days\": Q(exposure_days),\n        \"exposed_records\": Q(exposed),\n        \"base_cost_usd\": base_cost_usd,\n    }\n",
+ "result": {
+  "compared": 30,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_C_CENTS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_C",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_R",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_C_CENTS",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_S",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

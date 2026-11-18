@@ -1,0 +1,146 @@
+{
+ "name": "all_stock_premium_exchange_ratio_fee_shares_signed_move",
+ "domain_id": "mergers_and_acquisitions",
+ "topic_id": "deal_structure",
+ "difficulty": "intermediate",
+ "params": {
+  "TGT_PX": {
+   "kind": "int",
+   "min": 15,
+   "max": 60,
+   "step": 1
+  },
+  "PREM": {
+   "kind": "int",
+   "min": 10,
+   "max": 50,
+   "step": 5
+  },
+  "ACQ_PX": {
+   "kind": "int",
+   "min": 30,
+   "max": 120,
+   "step": 5
+  },
+  "TGT_SH": {
+   "kind": "int",
+   "min": 10,
+   "max": 80,
+   "step": 5
+  },
+  "ACQ_SH": {
+   "kind": "int",
+   "min": 60,
+   "max": 300,
+   "step": 10
+  },
+  "MOVE": {
+   "kind": "int",
+   "min": -20,
+   "max": 20,
+   "step": 1
+  },
+  "FEE": {
+   "kind": "decimal",
+   "min": "0.5",
+   "max": "3.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "All-stock deal. Target's unaffected price is {TGT_PX} USD; the offer is a {PREM} percent premium. Acquirer trades at {ACQ_PX} USD pre-announcement. Target has {TGT_SH} million shares, Acquirer {ACQ_SH} million. The exchange ratio is fixed as offer price divided by Acquirer's pre-announcement price and is never adjusted. Acquirer's price then moves {MOVE} percent by closing (negative is a fall). Advisory fees of {FEE} percent of total offer value (offer price times Target shares) are paid in new Acquirer shares issued to advisors at the closing price. Realized gain per Target share is closing value received minus unaffected price, as a signed percent of unaffected price. Report Target holders' percent ownership of combined shares: old Acquirer shares plus shares issued to Target holders plus fee shares.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "percent",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 4
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "exchange_ratio",
+   "description": "Acquirer shares per Target share from offer price and pre-announcement price",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "target_holder_shares",
+   "description": "Acquirer shares issued to Target holders, as a number of shares, not millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "realized_gain_pct",
+   "description": "Signed realized gain per Target share versus unaffected price, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  },
+  {
+   "slot_id": "fee_shares",
+   "description": "Acquirer shares issued to advisors, as a number of shares, not millions",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 2
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    tgt_px = Q(P[\"TGT_PX\"])\n    prem = Q(P[\"PREM\"]) / 100\n    acq_px = Q(P[\"ACQ_PX\"])\n    tgt_sh = Q(P[\"TGT_SH\"]) * 1000000\n    acq_sh = Q(P[\"ACQ_SH\"]) * 1000000\n    move = Q(P[\"MOVE\"]) / 100\n    fee = Q(P[\"FEE\"]) / 100\n    offer = tgt_px * (1 + prem)\n    ratio = offer / acq_px\n    new_sh = ratio * tgt_sh\n    close_px = acq_px * (1 + move)\n    if close_px <= 0:\n        raise ValueError(\"closing price must be positive\")\n    fee_val = fee * offer * tgt_sh\n    fee_sh = fee_val / close_px\n    gain_pct = (ratio * close_px - tgt_px) / tgt_px * 100\n    own_pct = new_sh / (acq_sh + new_sh + fee_sh) * 100\n    return {\n        \"final\": own_pct,\n        \"exchange_ratio\": ratio,\n        \"target_holder_shares\": new_sh,\n        \"realized_gain_pct\": gain_pct,\n        \"fee_shares\": fee_sh\n    }",
+ "coverage_params": [
+  {
+   "TGT_PX": 30,
+   "PREM": 30,
+   "ACQ_PX": 60,
+   "TGT_SH": 40,
+   "ACQ_SH": 100,
+   "MOVE": -10,
+   "FEE": "2.0"
+  },
+  {
+   "TGT_PX": 30,
+   "PREM": 30,
+   "ACQ_PX": 60,
+   "TGT_SH": 40,
+   "ACQ_SH": 100,
+   "MOVE": 10,
+   "FEE": "2.0"
+  },
+  {
+   "TGT_PX": 45,
+   "PREM": 20,
+   "ACQ_PX": 90,
+   "TGT_SH": 25,
+   "ACQ_SH": 200,
+   "MOVE": 0,
+   "FEE": "0.5"
+  },
+  {
+   "TGT_PX": 20,
+   "PREM": 50,
+   "ACQ_PX": 120,
+   "TGT_SH": 80,
+   "ACQ_SH": 60,
+   "MOVE": -20,
+   "FEE": "3.0"
+  }
+ ]
+}

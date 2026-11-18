@@ -1,0 +1,539 @@
+{
+ "family": "c1_14",
+ "draws_sha256": "78bbadc474606bffdd23ddc02dfae5ce51b0309cf26c94b68e927f12ff25f1c7",
+ "checks": [
+  {
+   "case_id": "t1_syn30b62842db1549f310d3",
+   "verdicts": {
+    "final": true,
+    "adjusted_ebit": true,
+    "highest_admissible_debt": true,
+    "chosen_debt": true,
+    "chosen_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn30b62842db1549f310d3",
+     "final_answer": {
+      "value": "483.2"
+     },
+     "steps": [
+      {
+       "slot_id": "adjusted_ebit",
+       "value": "60"
+      },
+      {
+       "slot_id": "highest_admissible_debt",
+       "value": "280"
+      },
+      {
+       "slot_id": "chosen_debt",
+       "value": "280"
+      },
+      {
+       "slot_id": "chosen_firm_value",
+       "value": "763.2"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "483.2": 1
+     },
+     "adjusted_ebit": {
+      "60": 1
+     },
+     "highest_admissible_debt": {
+      "280": 1
+     },
+     "chosen_debt": {
+      "280": 1
+     },
+     "chosen_firm_value": {
+      "763.2": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "483.2",
+       "adjusted_ebit": "60",
+       "highest_admissible_debt": "280",
+       "chosen_debt": "280",
+       "chosen_firm_value": "763.2"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "8768667d3c2ce12c4bdad37c567affa69c2160f7c04509cffd9cc8e05ba80f52",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1348,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 360,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1348,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 360,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1348,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1348
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.04516100000000001,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4251,
+         "session_id": "cf56fda0-0018-4c86-926d-234bdd251452",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V_u = Q(710)\n    ebit = Q(55) + Q(5)\n    t = Q(\"0.24\")\n    unit = Q(70)\n    threshold = 4 * ebit\n    best_val = None\n    best_debt = None\n    highest_adm = Q(0)\n    for k in range(0, 5):\n        D = k * unit\n        if k >= 1:\n            rate = Q(\"0.06\") + Q(\"0.01\") * (k - 1)\n            interest = D * rate\n            if interest > ebit:\n                continue\n        highest_adm = D\n        excess = D - threshold if D > threshold else Q(0)\n        fv = V_u + t * D - Q(\"0.35\") * excess\n        if best_val is None or fv > best_val:\n            best_val = fv\n            best_debt = D\n    equity = best_val - best_debt\n    return {\n        \"final\": equity,\n        \"adjusted_ebit\": ebit,\n        \"highest_admissible_debt\": highest_adm,\n        \"chosen_debt\": best_debt,\n        \"chosen_firm_value\": best_val,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 344
+        },
+        "rendered": {
+         "final": "483.2",
+         "adjusted_ebit": "60",
+         "highest_admissible_debt": "280",
+         "chosen_debt": "280",
+         "chosen_firm_value": "763.2"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn5ed5968f8ee4390f9960",
+   "verdicts": {
+    "final": true,
+    "adjusted_ebit": true,
+    "highest_admissible_debt": true,
+    "chosen_debt": true,
+    "chosen_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn5ed5968f8ee4390f9960",
+     "final_answer": {
+      "value": "207.975"
+     },
+     "steps": [
+      {
+       "slot_id": "adjusted_ebit",
+       "value": "65"
+      },
+      {
+       "slot_id": "highest_admissible_debt",
+       "value": "560"
+      },
+      {
+       "slot_id": "chosen_debt",
+       "value": "560"
+      },
+      {
+       "slot_id": "chosen_firm_value",
+       "value": "767.975"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "207.975": 1
+     },
+     "adjusted_ebit": {
+      "65": 1
+     },
+     "highest_admissible_debt": {
+      "560": 1
+     },
+     "chosen_debt": {
+      "560": 1
+     },
+     "chosen_firm_value": {
+      "767.975": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "207.975",
+       "adjusted_ebit": "65",
+       "highest_admissible_debt": "560",
+       "chosen_debt": "560",
+       "chosen_firm_value": "767.975"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "0a7cb00c7f2347f57c9bbaf66ddad4d57b2e8166abf45d8e6090e469e0abbdee",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1350,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 341,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1350,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 341,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1350,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1350
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.044251,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4100,
+         "session_id": "adfff5b0-4027-4d9e-b428-45a95835b47f",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V_u = Q(710)\n    adj_ebit = Q(45) + Q(20)\n    t = Q(\"0.31\")\n    unit = Q(140)\n    threshold = Q(\"1.5\") * adj_ebit\n    best = None\n    highest_adm = Q(0)\n    for k in range(0, 5):\n        D = k * unit\n        if k >= 1:\n            rate = Q(\"0.06\") + Q(\"0.01\") * (k - 1)\n            if D * rate > adj_ebit:\n                continue\n        highest_adm = D\n        distress = Q(\"0.25\") * max(D - threshold, Q(0))\n        fv = V_u + t * D - distress\n        if best is None or fv > best[1]:\n            best = (D, fv)\n    D, fv = best\n    return {\n        \"final\": fv - D,\n        \"adjusted_ebit\": adj_ebit,\n        \"highest_admissible_debt\": highest_adm,\n        \"chosen_debt\": D,\n        \"chosen_firm_value\": fv,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 341
+        },
+        "rendered": {
+         "final": "207.975",
+         "adjusted_ebit": "65",
+         "highest_admissible_debt": "560",
+         "chosen_debt": "560",
+         "chosen_firm_value": "767.975"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn51b1b42afe7c39e383bc",
+   "verdicts": {
+    "final": true,
+    "adjusted_ebit": true,
+    "highest_admissible_debt": true,
+    "chosen_debt": true,
+    "chosen_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn51b1b42afe7c39e383bc",
+     "final_answer": {
+      "value": "464.4"
+     },
+     "steps": [
+      {
+       "slot_id": "adjusted_ebit",
+       "value": "125"
+      },
+      {
+       "slot_id": "highest_admissible_debt",
+       "value": "240"
+      },
+      {
+       "slot_id": "chosen_debt",
+       "value": "240"
+      },
+      {
+       "slot_id": "chosen_firm_value",
+       "value": "704.4"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "464.4": 1
+     },
+     "adjusted_ebit": {
+      "125": 1
+     },
+     "highest_admissible_debt": {
+      "240": 1
+     },
+     "chosen_debt": {
+      "240": 1
+     },
+     "chosen_firm_value": {
+      "704.4": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "464.4",
+       "adjusted_ebit": "125",
+       "highest_admissible_debt": "240",
+       "chosen_debt": "240",
+       "chosen_firm_value": "704.4"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "afb7cf4567c71c1643f2897f2049b40bd802b2982821abf9dab3132cc30f566e",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1348,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 430,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1348,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 430,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1348,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1348
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.048660999999999996,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4961,
+         "session_id": "fdd0a406-a389-4484-987e-7c9586615027",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V_u = Q(630)\n    ebit = Q(115) + Q(10)\n    t = Q(\"0.31\")\n    unit = Q(60)\n    threshold = 2 * ebit\n    levels = []\n    for k in range(0, 5):\n        debt = k * unit\n        if k == 0:\n            admissible = True\n        else:\n            rate = Q(\"0.08\") + Q(\"0.01\") * (k - 1)\n            admissible = debt * rate <= ebit\n        if not admissible:\n            continue\n        excess = debt - threshold\n        if excess < 0:\n            excess = Q(0)\n        fv = V_u + t * debt - Q(\"0.20\") * excess\n        levels.append((debt, fv))\n    highest_adm = max(d for d, _ in levels)\n    chosen_debt, chosen_fv = levels[0]\n    for d, fv in levels:\n        if fv > chosen_fv:\n            chosen_debt, chosen_fv = d, fv\n    equity = chosen_fv - chosen_debt\n    return {\n        \"final\": equity,\n        \"adjusted_ebit\": ebit,\n        \"highest_admissible_debt\": highest_adm,\n        \"chosen_debt\": chosen_debt,\n        \"chosen_firm_value\": chosen_fv,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 264
+        },
+        "rendered": {
+         "final": "464.4",
+         "adjusted_ebit": "125",
+         "highest_admissible_debt": "240",
+         "chosen_debt": "240",
+         "chosen_firm_value": "704.4"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_synba175413f1fc6da96c09",
+   "verdicts": {
+    "final": true,
+    "adjusted_ebit": true,
+    "highest_admissible_debt": true,
+    "chosen_debt": true,
+    "chosen_firm_value": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_synba175413f1fc6da96c09",
+     "final_answer": {
+      "value": "544.5"
+     },
+     "steps": [
+      {
+       "slot_id": "adjusted_ebit",
+       "value": "35"
+      },
+      {
+       "slot_id": "highest_admissible_debt",
+       "value": "280"
+      },
+      {
+       "slot_id": "chosen_debt",
+       "value": "70"
+      },
+      {
+       "slot_id": "chosen_firm_value",
+       "value": "614.5"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "544.5": 1
+     },
+     "adjusted_ebit": {
+      "35": 1
+     },
+     "highest_admissible_debt": {
+      "280": 1
+     },
+     "chosen_debt": {
+      "70": 1
+     },
+     "chosen_firm_value": {
+      "614.5": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "544.5",
+       "adjusted_ebit": "35",
+       "highest_admissible_debt": "280",
+       "chosen_debt": "70",
+       "chosen_firm_value": "614.5"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "f2a4ce9308862047b7069404a574c41aad2f4d7cf7c016b4895dcf70c8fdd50b",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1348,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 430,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1348,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 430,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1348,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1348
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.048660999999999996,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4739,
+         "session_id": "b11d8b86-8a47-4fd1-8a06-c28abdc1733e",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V_u = Q(590)\n    base_ebit = Q(40)\n    revision = Q(-5)\n    adj_ebit = base_ebit + revision\n    t = Q(\"0.35\")\n    unit = Q(70)\n    distress_rate = Q(\"0.35\")\n    threshold = 2 * adj_ebit\n\n    best_level = None\n    best_value = None\n    highest_adm = Q(0)\n    for k in range(0, 5):\n        debt = k * unit\n        if k == 0:\n            admissible = True\n        else:\n            rate = Q(\"0.06\") + Q(\"0.01\") * (k - 1)\n            interest = debt * rate\n            admissible = interest <= adj_ebit\n        if not admissible:\n            continue\n        highest_adm = debt\n        excess = debt - threshold if debt > threshold else Q(0)\n        fv = V_u + t * debt - distress_rate * excess\n        if best_value is None or fv > best_value:\n            best_value = fv\n            best_level = debt\n\n    equity = best_value - best_level\n    return {\n        \"final\": equity,\n        \"adjusted_ebit\": adj_ebit,\n        \"highest_admissible_debt\": highest_adm,\n        \"chosen_debt\": best_level,\n        \"chosen_firm_value\": best_value,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 128
+        },
+        "rendered": {
+         "final": "544.5",
+         "adjusted_ebit": "35",
+         "highest_admissible_debt": "280",
+         "chosen_debt": "70",
+         "chosen_firm_value": "614.5"
+        },
+        "issues": {},
+        "flags": []
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

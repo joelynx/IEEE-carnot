@@ -1,0 +1,26 @@
+{
+  "name": "r4",
+  "description": "R4 (pre-registered): R3 plus, on both routes, (a) unit hints v2 ('dimensionless' no longer described as a fraction scale; R3 had it on the novel route only) and (b) echo notes: when a sentence of the question repeats a slot description verbatim (e.g. 'Report taxable income.'), the output table says that sentence belongs to the slot, not to the final answer",
+  "model": "claude-sonnet-5-5",
+  "effort": "low",
+  "system_prompt": "carnot/prompts/pot_system_v1.txt",
+  "exemplars": "exemplars/r0_exemplars.json",
+  "n_samples": 1,
+  "max_retries": 2,
+  "sandbox": {
+    "backend": "wsl",
+    "timeout": 5
+  },
+  "routing": {
+    "rule": "novel_vs_train_v1",
+    "novel": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "n_samples": 5,
+      "unit_hints": "v2",
+      "echo_notes": true
+    }
+  },
+  "unit_hints": "v2",
+  "echo_notes": true
+}

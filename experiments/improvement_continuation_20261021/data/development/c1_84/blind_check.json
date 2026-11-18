@@ -1,0 +1,561 @@
+{
+ "family": "c1_84",
+ "draws_sha256": "158dd269fd05054e3503be3597b4fc6f4067489f0742ba7de6d63a1ea6117137",
+ "checks": [
+  {
+   "case_id": "t1_syn67dc29a52b2205f14ac8",
+   "verdicts": {
+    "final": true,
+    "portfolio_volatility": true,
+    "unscaled_total_var": true,
+    "position_cut_factor": true,
+    "component_var_asset2_after_rule": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn67dc29a52b2205f14ac8",
+     "final_answer": {
+      "value": "17047.79"
+     },
+     "steps": [
+      {
+       "slot_id": "portfolio_volatility",
+       "value": "3.294759"
+      },
+      {
+       "slot_id": "unscaled_total_var",
+       "value": "21844.26"
+      },
+      {
+       "slot_id": "position_cut_factor",
+       "value": "0.89268321"
+      },
+      {
+       "slot_id": "component_var_asset2_after_rule",
+       "value": "2452.21"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "17047.79": 1
+     },
+     "portfolio_volatility": {
+      "3.294759": 1
+     },
+     "unscaled_total_var": {
+      "21844.26": 1
+     },
+     "position_cut_factor": {
+      "0.89268321": 1
+     },
+     "component_var_asset2_after_rule": {
+      "2452.21": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "17047.79",
+       "portfolio_volatility": "3.294759",
+       "unscaled_total_var": "21844.26",
+       "position_cut_factor": "0.89268321",
+       "component_var_asset2_after_rule": "2452.21"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "7fdc255dc5e1b0417aae42923fb8c4a840aca3bca26e2d36a427bbb1bc1ccbee",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1416,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 397,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1416,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 397,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1416,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1416
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.048371,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 9029,
+         "session_id": "f554d52a-a924-43a4-b8e5-fd4c7acd9d87",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V = Q(300000)\n    w1 = Q(\"0.6\"); w2 = Q(\"0.4\")\n    s1 = Q(\"0.049\"); s2 = Q(\"0.018\")\n    rho = Q(\"0.4\")\n    z = Q(\"2.21\")\n    var_p = w1**2*s1**2 + w2**2*s2**2 + 2*w1*w2*rho*s1*s2\n    sp = sqrt(var_p)\n    total_var = V*z*sp\n    # marginal contributions\n    m1 = (w1*s1**2 + w2*rho*s1*s2)/sp\n    m2 = (w2*s2**2 + w1*rho*s1*s2)/sp\n    c1 = V*z*w1*m1\n    c2 = V*z*w2*m2\n    limit = Q(\"0.065\")*V\n    if total_var > limit:\n        f = limit/total_var\n    else:\n        f = Q(1)\n    return {\n        \"final\": c1*f,\n        \"portfolio_volatility\": sp*100,\n        \"unscaled_total_var\": total_var,\n        \"position_cut_factor\": f,\n        \"component_var_asset2_after_rule\": c2*f,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 92
+        },
+        "rendered": {
+         "final": "17047.79",
+         "portfolio_volatility": "3.294759",
+         "unscaled_total_var": "21844.26",
+         "position_cut_factor": "0.89268321",
+         "component_var_asset2_after_rule": "2452.21"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "portfolio_volatility:inexact",
+         "unscaled_total_var:inexact",
+         "position_cut_factor:inexact",
+         "component_var_asset2_after_rule:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn382eab65767d072f54e3",
+   "verdicts": {
+    "final": true,
+    "portfolio_volatility": true,
+    "unscaled_total_var": true,
+    "position_cut_factor": true,
+    "component_var_asset2_after_rule": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn382eab65767d072f54e3",
+     "final_answer": {
+      "value": "759.77"
+     },
+     "steps": [
+      {
+       "slot_id": "portfolio_volatility",
+       "value": "5.234908"
+      },
+      {
+       "slot_id": "unscaled_total_var",
+       "value": "144378.76"
+      },
+      {
+       "slot_id": "position_cut_factor",
+       "value": "0.24241793"
+      },
+      {
+       "slot_id": "component_var_asset2_after_rule",
+       "value": "34240.23"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "759.77": 1
+     },
+     "portfolio_volatility": {
+      "5.234908": 1
+     },
+     "unscaled_total_var": {
+      "144378.76": 1
+     },
+     "position_cut_factor": {
+      "0.24241793": 1
+     },
+     "component_var_asset2_after_rule": {
+      "34240.23": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "759.77",
+       "portfolio_volatility": "5.234908",
+       "unscaled_total_var": "144378.76",
+       "position_cut_factor": "0.24241793",
+       "component_var_asset2_after_rule": "34240.23"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "0e5ce426f7afa6e0a89af7691af3e0df364505558b40eb995a7067f5c436cf1c",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1417,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 458,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1417,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 458,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1417,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1417
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.051441,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 5122,
+         "session_id": "095dc070-bf25-431f-911e-dfd076157b70",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V = Q(1400000)\n    w1 = Q(\"0.10\")\n    w2 = 1 - w1\n    s1 = Q(\"0.032\")\n    s2 = Q(\"0.057\")\n    rho = Q(\"0.3\")\n    z = Q(\"1.97\")\n    var_p = w1**2 * s1**2 + w2**2 * s2**2 + 2 * w1 * w2 * rho * s1 * s2\n    sigma_p = sqrt(var_p)\n    total_var = V * z * sigma_p\n    # marginal contributions\n    m1 = (w1 * s1**2 + w2 * rho * s1 * s2) / sigma_p\n    m2 = (w2 * s2**2 + w1 * rho * s1 * s2) / sigma_p\n    c1 = V * z * w1 * m1\n    c2 = V * z * w2 * m2\n    limit = Q(\"0.025\") * V\n    if total_var > limit:\n        factor = limit / total_var\n    else:\n        factor = Q(1)\n    c1_after = c1 * factor\n    c2_after = c2 * factor\n    return {\n        \"final\": c1_after,\n        \"portfolio_volatility\": sigma_p * 100,\n        \"unscaled_total_var\": total_var,\n        \"position_cut_factor\": factor,\n        \"component_var_asset2_after_rule\": c2_after,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 89
+        },
+        "rendered": {
+         "final": "759.77",
+         "portfolio_volatility": "5.234908",
+         "unscaled_total_var": "144378.76",
+         "position_cut_factor": "0.24241793",
+         "component_var_asset2_after_rule": "34240.23"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "portfolio_volatility:inexact",
+         "unscaled_total_var:inexact",
+         "position_cut_factor:inexact",
+         "component_var_asset2_after_rule:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn0a5806a396b216616464",
+   "verdicts": {
+    "final": true,
+    "portfolio_volatility": true,
+    "unscaled_total_var": true,
+    "position_cut_factor": true,
+    "component_var_asset2_after_rule": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn0a5806a396b216616464",
+     "final_answer": {
+      "value": "59302.25"
+     },
+     "steps": [
+      {
+       "slot_id": "portfolio_volatility",
+       "value": "2.226203"
+      },
+      {
+       "slot_id": "unscaled_total_var",
+       "value": "42119.76"
+      },
+      {
+       "slot_id": "position_cut_factor",
+       "value": "1.00000000"
+      },
+      {
+       "slot_id": "component_var_asset2_after_rule",
+       "value": "-17182.48"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "59302.25": 1
+     },
+     "portfolio_volatility": {
+      "2.226203": 1
+     },
+     "unscaled_total_var": {
+      "42119.76": 1
+     },
+     "position_cut_factor": {
+      "1.00000000": 1
+     },
+     "component_var_asset2_after_rule": {
+      "-17182.48": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "59302.25",
+       "portfolio_volatility": "2.226203",
+       "unscaled_total_var": "42119.76",
+       "position_cut_factor": "1.00000000",
+       "component_var_asset2_after_rule": "-17182.48"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "8775fa2eb5f8844b8bb10479732a1a20ffa1d365750cc62dfdff9e567ad9e8ef",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1417,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 456,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1417,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 456,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1417,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1417
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.051341,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4954,
+         "session_id": "1845b5d1-1251-428d-818b-974a6c5c13c1",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V = Q(1100000)\n    w1 = Q(\"0.7\")\n    w2 = Q(1) - w1\n    s1 = Q(\"0.046\")\n    s2 = Q(\"0.039\")\n    rho = Q(\"-0.9\")\n    z = Q(\"1.72\")\n    var_p = w1**2 * s1**2 + w2**2 * s2**2 + 2 * w1 * w2 * rho * s1 * s2\n    sigma_p = sqrt(var_p)\n    total_var = V * z * sigma_p\n    # marginal contributions\n    m1 = (w1 * s1**2 + w2 * rho * s1 * s2) / sigma_p\n    m2 = (w2 * s2**2 + w1 * rho * s1 * s2) / sigma_p\n    c1 = V * z * w1 * m1\n    c2 = V * z * w2 * m2\n    limit = Q(\"0.095\") * V\n    if total_var > limit:\n        f = limit / total_var\n    else:\n        f = Q(1)\n    c1_after = c1 * f\n    c2_after = c2 * f\n    return {\n        \"final\": c1_after,\n        \"portfolio_volatility\": sigma_p * 100,\n        \"unscaled_total_var\": total_var,\n        \"position_cut_factor\": f,\n        \"component_var_asset2_after_rule\": c2_after,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 102
+        },
+        "rendered": {
+         "final": "59302.25",
+         "portfolio_volatility": "2.226203",
+         "unscaled_total_var": "42119.76",
+         "position_cut_factor": "1.00000000",
+         "component_var_asset2_after_rule": "-17182.48"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "portfolio_volatility:inexact",
+         "unscaled_total_var:inexact",
+         "component_var_asset2_after_rule:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn05ed7607c8e7028bbf0f",
+   "verdicts": {
+    "final": true,
+    "portfolio_volatility": true,
+    "unscaled_total_var": true,
+    "position_cut_factor": true,
+    "component_var_asset2_after_rule": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn05ed7607c8e7028bbf0f",
+     "final_answer": {
+      "value": "18039.31"
+     },
+     "steps": [
+      {
+       "slot_id": "portfolio_volatility",
+       "value": "1.155439"
+      },
+      {
+       "slot_id": "unscaled_total_var",
+       "value": "12305.43"
+      },
+      {
+       "slot_id": "position_cut_factor",
+       "value": "1.00000000"
+      },
+      {
+       "slot_id": "component_var_asset2_after_rule",
+       "value": "-5733.88"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "18039.31": 1
+     },
+     "portfolio_volatility": {
+      "1.155439": 1
+     },
+     "unscaled_total_var": {
+      "12305.43": 1
+     },
+     "position_cut_factor": {
+      "1.00000000": 1
+     },
+     "component_var_asset2_after_rule": {
+      "-5733.88": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "18039.31",
+       "portfolio_volatility": "1.155439",
+       "unscaled_total_var": "12305.43",
+       "position_cut_factor": "1.00000000",
+       "component_var_asset2_after_rule": "-5733.88"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "ae6f6104b114343423c68cf9004c3dd1d374d23f0c1e560f3044eea2714679a1",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1414,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 367,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1414,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 367,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1414,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1414
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046831,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4387,
+         "session_id": "367a88a2-adc8-41c7-a875-6f3f4f02c06a",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    V = Q(750000)\n    w1 = Q(\"0.4\"); w2 = Q(1) - w1\n    s1 = Q(\"0.044\"); s2 = Q(\"0.012\"); rho = Q(\"-0.9\")\n    z = Q(\"1.42\")\n    var = w1**2*s1**2 + w2**2*s2**2 + 2*w1*w2*rho*s1*s2\n    sp = sqrt(var)\n    total = V*z*sp\n    m1 = (w1*s1**2 + w2*rho*s1*s2)/sp\n    m2 = (w2*s2**2 + w1*rho*s1*s2)/sp\n    c1 = V*z*w1*m1\n    c2 = V*z*w2*m2\n    limit = Q(\"0.1\")*V\n    f = limit/total if total > limit else Q(1)\n    return {\n        \"final\": c1*f,\n        \"portfolio_volatility\": sp*100,\n        \"unscaled_total_var\": total,\n        \"position_cut_factor\": f,\n        \"component_var_asset2_after_rule\": c2*f,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 86
+        },
+        "rendered": {
+         "final": "18039.31",
+         "portfolio_volatility": "1.155439",
+         "unscaled_total_var": "12305.43",
+         "position_cut_factor": "1.00000000",
+         "component_var_asset2_after_rule": "-5733.88"
+        },
+        "issues": {},
+        "flags": [
+         "final:inexact",
+         "portfolio_volatility:inexact",
+         "unscaled_total_var:inexact",
+         "component_var_asset2_after_rule:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

@@ -1,0 +1,534 @@
+[
+  {
+    "case_id": "t1_syn064d7238387246fafc40",
+    "verdicts": {
+      "final": true,
+      "pv_staged_capex": true,
+      "pv_operating_inflows": true,
+      "pv_wc_adjustments": true,
+      "pv_wc_release": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn064d7238387246fafc40",
+        "final_answer": {
+          "value": "-3873.13"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "126500/9"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "709478021875/68024448"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "482129725/1119744"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "5540171875/30233088"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "-3873.13": 1
+        },
+        "pv_staged_capex": {
+          "126500/9": 1
+        },
+        "pv_operating_inflows": {
+          "709478021875/68024448": 1
+        },
+        "pv_wc_adjustments": {
+          "482129725/1119744": 1
+        },
+        "pv_wc_release": {
+          "5540171875/30233088": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "-3873.13",
+            "pv_staged_capex": "126500/9",
+            "pv_operating_inflows": "709478021875/68024448",
+            "pv_wc_adjustments": "482129725/1119744",
+            "pv_wc_release": "5540171875/30233088"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "b2b10c95effb2b9bd60ea8c5a35780910bdb6139ef80d930222647e6aed95ad6",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1168,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 628,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1168,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 628,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1168,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1168
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.055029999999999996,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 9154,
+                "session_id": "8a57f0c4-8b00-4f2a-9436-634cd2c0eac6",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(\"-0.075\")\n    wc_rate = Q(\"0.15\")\n    n = 4\n\n    # Inflows at end of years 1..4\n    inflows = [Q(3500) * (1 + g) ** (t - 1) for t in range(1, n + 1)]\n\n    # Capex: 8500 at time 0, 6000 at beginning of year 2 (= end of year 1)\n    pv_staged_capex = Q(8500) + Q(6000) / (1 + r) ** 1\n\n    # Operating inflows PV\n    pv_operating_inflows = sum(inflows[t - 1] / (1 + r) ** t for t in range(1, n + 1))\n\n    # Working capital: balance at beginning of year t = 15% of inflow of year t, set at end of year t-1\n    pv_wc_adjustments = Q(0)  # positive = net outflow\n    prev_balance = Q(0)\n    for t in range(1, n + 1):\n        balance = wc_rate * inflows[t - 1]\n        adjustment = balance - prev_balance  # increase = outflow\n        pv_wc_adjustments += adjustment / (1 + r) ** (t - 1)\n        prev_balance = balance\n\n    # Release at end of year 4: 60% of final balance recovered\n    final_balance = prev_balance\n    pv_wc_release = Q(\"0.60\") * final_balance / (1 + r) ** n\n\n    npv = -pv_staged_capex + pv_operating_inflows - pv_wc_adjustments + pv_wc_release\n\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_staged_capex,\n        \"pv_operating_inflows\": pv_operating_inflows,\n        \"pv_wc_adjustments\": pv_wc_adjustments,\n        \"pv_wc_release\": pv_wc_release,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 242
+              },
+              "rendered": {
+                "final": "-3873.13",
+                "pv_staged_capex": "126500/9",
+                "pv_operating_inflows": "709478021875/68024448",
+                "pv_wc_adjustments": "482129725/1119744",
+                "pv_wc_release": "5540171875/30233088"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn883ba8b2f8cbf61fb80e",
+    "verdicts": {
+      "final": true,
+      "pv_staged_capex": true,
+      "pv_operating_inflows": true,
+      "pv_wc_adjustments": true,
+      "pv_wc_release": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn883ba8b2f8cbf61fb80e",
+        "final_answer": {
+          "value": "1140.04"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "458000/43"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "952740000/79507"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "1304775/1849"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "40848300/79507"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1140.04": 1
+        },
+        "pv_staged_capex": {
+          "458000/43": 1
+        },
+        "pv_operating_inflows": {
+          "952740000/79507": 1
+        },
+        "pv_wc_adjustments": {
+          "1304775/1849": 1
+        },
+        "pv_wc_release": {
+          "40848300/79507": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1140.04",
+            "pv_staged_capex": "458000/43",
+            "pv_operating_inflows": "952740000/79507",
+            "pv_wc_adjustments": "1304775/1849",
+            "pv_wc_release": "40848300/79507"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "932013bb41ed717963da655567512037d972d59ce942190ec1c991b348de97a3",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1170,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 575,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1170,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 575,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1170,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1170
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.052419999999999994,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6926,
+                "session_id": "8c399578-850b-43dc-824b-a6ae558f2301",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.075\")\n    g = Q(\"0.025\")\n    wc_rate = Q(\"0.15\")\n    recovery = Q(\"0.90\")\n\n    # Inflows at end of years 1..3\n    inflows = [Q(4500) * (1 + g) ** (t - 1) for t in range(1, 4)]\n\n    # Capex: 6000 at t=0, 5000 at beginning of year 2 (end of year 1)\n    pv_capex = Q(6000) + Q(5000) / (1 + r) ** 1\n\n    # PV of operating inflows\n    pv_inflows = sum(inflows[t - 1] / (1 + r) ** t for t in range(1, 4))\n\n    # Working capital: balance set at beginning of year t (time t-1) = 15% of inflow_t\n    pv_wc_adj = Q(0)  # positive = net outflow\n    prev = Q(0)\n    for t in range(1, 4):\n        bal = wc_rate * inflows[t - 1]\n        adj = bal - prev  # increase = outflow\n        pv_wc_adj += adj / (1 + r) ** (t - 1)\n        prev = bal\n    final_balance = prev\n\n    # Release at end of year 3: 90% recovered\n    pv_wc_release = recovery * final_balance / (1 + r) ** 3\n\n    npv = -pv_capex + pv_inflows - pv_wc_adj + pv_wc_release\n\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inflows,\n        \"pv_wc_adjustments\": pv_wc_adj,\n        \"pv_wc_release\": pv_wc_release,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 296
+              },
+              "rendered": {
+                "final": "1140.04",
+                "pv_staged_capex": "458000/43",
+                "pv_operating_inflows": "952740000/79507",
+                "pv_wc_adjustments": "1304775/1849",
+                "pv_wc_release": "40848300/79507"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn4c4813af4cae9a13f0ce",
+    "verdicts": {
+      "final": true,
+      "pv_staged_capex": true,
+      "pv_operating_inflows": true,
+      "pv_wc_adjustments": true,
+      "pv_wc_release": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn4c4813af4cae9a13f0ce",
+        "final_answer": {
+          "value": "1214.76"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "262000/27"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "25362500/2187"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "1125"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "1953125/4374"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "1214.76": 1
+        },
+        "pv_staged_capex": {
+          "262000/27": 1
+        },
+        "pv_operating_inflows": {
+          "25362500/2187": 1
+        },
+        "pv_wc_adjustments": {
+          "1125": 1
+        },
+        "pv_wc_release": {
+          "1953125/4374": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "1214.76",
+            "pv_staged_capex": "262000/27",
+            "pv_operating_inflows": "25362500/2187",
+            "pv_wc_adjustments": "1125",
+            "pv_wc_release": "1953125/4374"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "45bfff273bdb15b49e1202db9afd96735ad769d68dce2dc7efbf6fa2aee992b2",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1166,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 553,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1166,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 553,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1166,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1166
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05124,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 8971,
+                "session_id": "74ca29b4-8ff3-4c13-974e-ffbfa39a35ad",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.08\")\n    g = Q(0)\n    inflows = [Q(4500) * (1 + g) ** t for t in range(3)]  # years 1..3\n    # Capex: 6000 at t=0, 4000 at beginning of year 2 (= end of year 1)\n    pv_capex = Q(6000) + Q(4000) / (1 + r) ** 1\n    # Operating inflows at year-ends\n    pv_inflows = sum(cf / (1 + r) ** (t + 1) for t, cf in enumerate(inflows))\n    # Working capital: 25% of coming year's inflow, set at beginning of year t (time t-1)\n    wc_pct = Q(\"0.25\")\n    balances = [wc_pct * cf for cf in inflows]\n    prev = Q(0)\n    pv_wc_adj = Q(0)  # positive = net outflow\n    for t, bal in enumerate(balances):\n        adj = bal - prev  # increase = outflow\n        pv_wc_adj += adj / (1 + r) ** t\n        prev = bal\n    # Release at end of year 3: 50% of final balance recovered\n    pv_wc_release = Q(\"0.5\") * balances[-1] / (1 + r) ** 3\n    npv = -pv_capex + pv_inflows - pv_wc_adj + pv_wc_release\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_capex,\n        \"pv_operating_inflows\": pv_inflows,\n        \"pv_wc_adjustments\": pv_wc_adj,\n        \"pv_wc_release\": pv_wc_release,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 277
+              },
+              "rendered": {
+                "final": "1214.76",
+                "pv_staged_capex": "262000/27",
+                "pv_operating_inflows": "25362500/2187",
+                "pv_wc_adjustments": "1125",
+                "pv_wc_release": "1953125/4374"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "t1_syn02714c764f8d76ffe4a4",
+    "verdicts": {
+      "final": true,
+      "pv_staged_capex": true,
+      "pv_operating_inflows": true,
+      "pv_wc_adjustments": true,
+      "pv_wc_release": true
+    },
+    "outcome": {
+      "row": {
+        "schema_version": "finreason.task1.prediction/1.0.0",
+        "dataset_version": "carnot-synth-v1",
+        "case_id": "t1_syn02714c764f8d76ffe4a4",
+        "final_answer": {
+          "value": "3614.42"
+        },
+        "steps": [
+          {
+            "slot_id": "pv_staged_capex",
+            "value": "53750/7"
+          },
+          {
+            "slot_id": "pv_operating_inflows",
+            "value": "32953125/2744"
+          },
+          {
+            "slot_id": "pv_wc_adjustments",
+            "value": "1250"
+          },
+          {
+            "slot_id": "pv_wc_release",
+            "value": "5859375/10976"
+          }
+        ]
+      },
+      "dropped_by_gate": [],
+      "votes": {
+        "final": {
+          "3614.42": 1
+        },
+        "pv_staged_capex": {
+          "53750/7": 1
+        },
+        "pv_operating_inflows": {
+          "32953125/2744": 1
+        },
+        "pv_wc_adjustments": {
+          "1250": 1
+        },
+        "pv_wc_release": {
+          "5859375/10976": 1
+        }
+      },
+      "samples": [
+        {
+          "texts": {
+            "final": "3614.42",
+            "pv_staged_capex": "53750/7",
+            "pv_operating_inflows": "32953125/2744",
+            "pv_wc_adjustments": "1250",
+            "pv_wc_release": "5859375/10976"
+          },
+          "issues": {},
+          "attempts": [
+            {
+              "attempt": 0,
+              "cache_key": "40468613c82fa2fbdfe1e137bf9dc574aab3cadfee4e8d707ba0bb8b26100776",
+              "cached": false,
+              "model_id": "claude-fable-5-1",
+              "usage": {
+                "input_tokens": 2,
+                "cache_creation_input_tokens": 1166,
+                "cache_read_input_tokens": 1000,
+                "output_tokens": 595,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_search_requests": 0,
+                  "web_fetch_requests": 0
+                },
+                "service_tier": "standard",
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 1166,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "inference_geo": "global",
+                "iterations": [
+                  {
+                    "input_tokens": 2,
+                    "output_tokens": 595,
+                    "cache_read_input_tokens": 1000,
+                    "cache_creation_input_tokens": 1166,
+                    "cache_creation": {
+                      "ephemeral_5m_input_tokens": 0,
+                      "ephemeral_1h_input_tokens": 1166
+                    },
+                    "type": "message"
+                  }
+                ],
+                "speed": "standard",
+                "fallback_credit": null
+              },
+              "cost_equivalent_usd": 0.05334,
+              "meta": {
+                "stop_reason": "end_turn",
+                "duration_ms": 6714,
+                "session_id": "2404a7bf-1a12-4ccc-bbb0-124366dd26d6",
+                "num_turns": 1
+              },
+              "code": "def solve():\n    r = Q(\"0.12\")\n    capex0 = Q(5000)\n    capex_y2_begin = Q(3000)  # beginning of year 2 = end of year 1\n    inflows = [Q(5000), Q(5000), Q(5000)]  # years 1..3, 0% growth\n    wc_pct = Q(\"0.25\")\n    recovery_pct = Q(\"0.60\")\n\n    df = lambda t: 1 / (1 + r) ** t\n\n    # PV of staged capex (outflows, positive magnitude)\n    pv_staged_capex = capex0 * df(0) + capex_y2_begin * df(1)\n\n    # PV of operating inflows at year-ends\n    pv_operating_inflows = sum(inflows[t - 1] * df(t) for t in range(1, 4))\n\n    # Working capital adjustments at beginning of each year (end of year t-1)\n    pv_wc_adjustments = Q(0)\n    prior = Q(0)\n    for t in range(1, 4):\n        balance = wc_pct * inflows[t - 1]\n        change = balance - prior  # increase = outflow (positive)\n        pv_wc_adjustments += change * df(t - 1)\n        prior = balance\n\n    # Release of recovered working capital at end of year 3\n    pv_wc_release = recovery_pct * prior * df(3)\n\n    npv = -pv_staged_capex + pv_operating_inflows - pv_wc_adjustments + pv_wc_release\n\n    return {\n        \"final\": npv,\n        \"pv_staged_capex\": pv_staged_capex,\n        \"pv_operating_inflows\": pv_operating_inflows,\n        \"pv_wc_adjustments\": pv_wc_adjustments,\n        \"pv_wc_release\": pv_wc_release,\n    }\n",
+              "sandbox": {
+                "ok": true,
+                "stage": null,
+                "error": null,
+                "elapsed_ms": 331
+              },
+              "rendered": {
+                "final": "3614.42",
+                "pv_staged_capex": "53750/7",
+                "pv_operating_inflows": "32953125/2744",
+                "pv_wc_adjustments": "1250",
+                "pv_wc_release": "5859375/10976"
+              },
+              "issues": {},
+              "flags": []
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

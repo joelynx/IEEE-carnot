@@ -1,0 +1,112 @@
+{
+  "name": "impairment_reversal_ceiling_leverage_covenant_headroom",
+  "domain_id": "accounting_and_financial_reporting",
+  "topic_id": "balance_sheets",
+  "difficulty": "intermediate",
+  "params": {
+    "COST": {
+      "kind": "int",
+      "min": 60000,
+      "max": 120000,
+      "step": 5000
+    },
+    "LIFE": {
+      "kind": "choice",
+      "values": [
+        5,
+        6,
+        8,
+        10
+      ]
+    },
+    "REC1_PCT": {
+      "kind": "int",
+      "min": 30,
+      "max": 55,
+      "step": 1
+    },
+    "REC2_PCT": {
+      "kind": "int",
+      "min": 30,
+      "max": 80,
+      "step": 1
+    },
+    "OTHER_ASSETS": {
+      "kind": "int",
+      "min": 150000,
+      "max": 400000,
+      "step": 10000
+    },
+    "LIAB": {
+      "kind": "int",
+      "min": 100000,
+      "max": 300000,
+      "step": 10000
+    },
+    "COV_MAX": {
+      "kind": "choice",
+      "values": [
+        55,
+        60,
+        65,
+        70
+      ]
+    }
+  },
+  "question_template": "Equipment cost {COST} USD, depreciated straight-line over {LIFE} years to zero residual, with depreciation charged each year-end. At end of year 2, after depreciation, the recoverable amount is {REC1_PCT}% of cost and the asset is written down to it; depreciation then continues straight-line on the written-down amount over the remaining life. At end of year 3, after depreciation, the recoverable amount is {REC2_PCT}% of cost. A reversal is recognized only if positive and cannot lift the carrying amount above the depreciated cost had no impairment occurred. After any reversal, other assets total {OTHER_ASSETS} USD and total liabilities are {LIAB} USD. A covenant caps total liabilities divided by total assets at {COV_MAX}%. Compute covenant headroom: cap minus actual ratio in percentage points (negative if breached).",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 4
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "impairment_loss",
+      "description": "Impairment loss recognized at end of year 2.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "carrying_pre_reversal",
+      "description": "Carrying amount at end of year 3 before any reversal.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "reversal_ceiling",
+      "description": "Depreciated cost at end of year 3 had no impairment occurred.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "reversal_recognized",
+      "description": "Impairment reversal recognized at end of year 3, zero if none.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    cost = Fraction(P[\"COST\"])\n    life = Fraction(P[\"LIFE\"])\n    rec1 = cost * Fraction(P[\"REC1_PCT\"]) / 100\n    rec2 = cost * Fraction(P[\"REC2_PCT\"]) / 100\n    other_assets = Fraction(P[\"OTHER_ASSETS\"])\n    liab = Fraction(P[\"LIAB\"])\n    cov_max = Fraction(P[\"COV_MAX\"])\n\n    cv2 = cost * (life - 2) / life\n    if rec1 >= cv2:\n        raise ValueError(\"recoverable amount at year 2 must be below carrying amount for an impairment\")\n    loss = cv2 - rec1\n\n    cv3_pre = rec1 * (life - 3) / (life - 2)\n    ceiling = cost * (life - 3) / life\n    capped_target = min(rec2, ceiling)\n    reversal = capped_target - cv3_pre\n    if reversal < 0:\n        reversal = Fraction(0)\n    cv3 = cv3_pre + reversal\n\n    total_assets = other_assets + cv3\n    ratio_pct = Fraction(100) * liab / total_assets\n    headroom = cov_max - ratio_pct\n\n    return {\n        \"final\": headroom,\n        \"impairment_loss\": loss,\n        \"carrying_pre_reversal\": cv3_pre,\n        \"reversal_ceiling\": ceiling,\n        \"reversal_recognized\": reversal,\n    }\n"
+}

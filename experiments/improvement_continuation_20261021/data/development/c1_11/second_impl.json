@@ -1,0 +1,207 @@
+{
+ "family": "c1_11",
+ "template_sha256": "07215787874ee4c373f133196395e94adb3ac7669ed2c35b72cdec06b4c98089",
+ "draws_sha256": "044519dc9797f0c2f944ccac653670ffe9b398eb718c2c77a85b2c5484c29600",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "9d01c6d33923111ed8939e5f5a19ff2dadce426881810fbae393e4914a40e897",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2275,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 606,
+    "output_tokens_details": {
+     "thinking_tokens": 196
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 2275,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 606,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 2275,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 2275
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.07582
+  }
+ ],
+ "program": "def solve():\n    VU = Q(P[\"VU\"])\n    B = Q(P[\"B\"])\n    A = Q(P[\"A\"])\n    K = int(P[\"K\"])\n    rd = Q(P[\"RD\"]) / 100\n    t = Q(P[\"T\"]) / 100\n\n    # period-by-period ledger of the debt balance\n    bal = B\n    amort_pv = Q(0)\n    disc = Q(1)\n    for yr in range(1, K + 1):\n        disc = disc * (1 + rd)\n        interest = bal * rd\n        shield = interest * t\n        amort_pv += shield / disc\n        bal = bal - A\n        if bal <= 0:\n            raise ValueError(\"repayment schedule leaves a non-positive balance\")\n\n    remaining = bal\n    perm_value_at_K = t * remaining\n    perm_pv = perm_value_at_K / disc\n\n    total_shield = amort_pv + perm_pv\n    VL = VU + total_shield\n    E = VL - B\n\n    return {\n        \"final\": E,\n        \"remaining_permanent_balance\": remaining,\n        \"amortizing_shield_pv\": amort_pv,\n        \"tax_shield_value\": total_shield,\n        \"levered_firm_value\": VL,\n    }\n",
+ "result": {
+  "compared": 28,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_12",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_VU",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_B",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_RD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_T",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_VU",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_B",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "endpoint_max_except_A",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_K",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_RD",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_T",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "declared_invalid"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

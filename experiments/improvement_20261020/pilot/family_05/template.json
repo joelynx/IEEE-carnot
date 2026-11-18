@@ -1,0 +1,106 @@
+{
+  "name": "oracle_shock_liquidation_collateral_topup",
+  "domain_id": "crypto_finance",
+  "topic_id": "defi",
+  "difficulty": "advanced",
+  "params": {
+    "V0": {
+      "kind": "int",
+      "min": 10000,
+      "max": 20000,
+      "step": 500
+    },
+    "D": {
+      "kind": "int",
+      "min": 4000,
+      "max": 10000,
+      "step": 250
+    },
+    "S": {
+      "kind": "int",
+      "min": -40,
+      "max": 20,
+      "step": 5
+    },
+    "LT": {
+      "kind": "int",
+      "min": 75,
+      "max": 90,
+      "step": 5
+    },
+    "CF": {
+      "kind": "int",
+      "min": 25,
+      "max": 50,
+      "step": 5
+    },
+    "F": {
+      "kind": "int",
+      "min": 5,
+      "max": 15,
+      "step": 1
+    },
+    "T": {
+      "kind": "int",
+      "min": 50,
+      "max": 70,
+      "step": 5
+    }
+  },
+  "question_template": "A fictional DeFi lending market tracks a borrower holding collateral worth {V0} USD at the current oracle price against a stablecoin debt of {D} USD; the pre-shock position is not liquidatable. The oracle price then changes by {S} percent in a single update (negative means a drop), and the collateral value moves proportionally. The position becomes liquidatable only if the debt strictly exceeds {LT} percent of the post-shock collateral value. If liquidatable, exactly one liquidation occurs: the liquidator repays the maximum allowed, which is {CF} percent of the debt (the close factor), and seizes collateral, valued at the post-shock price, equal to the repaid amount times one plus a {F} percent liquidation fee. If not liquidatable, nothing is repaid or seized. Afterwards the borrower must deposit additional collateral, valued at the post-shock price, so that the remaining debt is at most {T} percent of the total collateral value; no deposit is needed if this already holds. What is the minimum additional collateral deposit in USD?",
+  "answer_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+      "mode": "half_up",
+      "decimal_places": 2
+    }
+  },
+  "slots": [
+    {
+      "slot_id": "post_shock_collateral_value",
+      "description": "Collateral value in USD after the oracle price shock.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "repaid_debt",
+      "description": "Debt repaid by the liquidator, zero if no liquidation occurs.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "seized_collateral_value",
+      "description": "Collateral value seized including the liquidation fee, zero if none.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    },
+    {
+      "slot_id": "remaining_collateral_value",
+      "description": "Collateral value left after the liquidation, before any deposit.",
+      "result_spec": {
+        "type": "decimal",
+        "unit": "usd",
+        "rounding": {
+          "mode": "exact"
+        }
+      }
+    }
+  ],
+  "program": "def solve():\n    V0 = Fraction(P[\"V0\"])\n    D = Fraction(P[\"D\"])\n    S = Fraction(P[\"S\"])\n    LT = Fraction(P[\"LT\"])\n    CF = Fraction(P[\"CF\"])\n    F = Fraction(P[\"F\"])\n    T = Fraction(P[\"T\"])\n    if D > LT / 100 * V0:\n        raise ValueError(\"pre-shock position is already liquidatable\")\n    V1 = V0 * (1 + S / 100)\n    liquidatable = D > LT / 100 * V1\n    if liquidatable:\n        repaid = CF / 100 * D\n        seized = repaid * (1 + F / 100)\n    else:\n        repaid = Fraction(0)\n        seized = Fraction(0)\n    if seized > V1:\n        raise ValueError(\"seized collateral exceeds collateral held\")\n    D2 = D - repaid\n    V2 = V1 - seized\n    need = D2 * 100 / T - V2\n    topup = need if need > 0 else Fraction(0)\n    return {\n        \"final\": topup,\n        \"post_shock_collateral_value\": V1,\n        \"repaid_debt\": repaid,\n        \"seized_collateral_value\": seized,\n        \"remaining_collateral_value\": V2,\n    }\n"
+}

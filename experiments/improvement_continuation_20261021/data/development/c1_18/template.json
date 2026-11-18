@@ -1,0 +1,125 @@
+{
+ "name": "amm_fee_on_input_swap_signed_benchmark_result",
+ "domain_id": "crypto_finance",
+ "topic_id": "defi",
+ "difficulty": "intermediate",
+ "params": {
+  "R_A": {
+   "kind": "int",
+   "min": 2000,
+   "max": 20000,
+   "step": 1000
+  },
+  "R_U": {
+   "kind": "int",
+   "min": 50000,
+   "max": 500000,
+   "step": 10000
+  },
+  "DIRECTION": {
+   "kind": "choice",
+   "values": [
+    "sell_a",
+    "buy_a"
+   ]
+  },
+  "TRADE_PCT": {
+   "kind": "decimal",
+   "min": "0.5",
+   "max": "20.0",
+   "step": "0.5"
+  },
+  "FEE_BPS": {
+   "kind": "int",
+   "min": 0,
+   "max": 100,
+   "step": 5
+  },
+  "SHOCK": {
+   "kind": "decimal",
+   "min": "-15.0",
+   "max": "15.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "A constant-product pool holds {R_A} token A and {R_U} stablecoins (1 USD each). Direction {DIRECTION}: sell_a inputs A, buy_a inputs stablecoins; the other is output. Gross input is {TRADE_PCT} percent of the pre-trade input reserve. A {FEE_BPS} basis point fee on gross input is deducted first; only net input enters the invariant, but the full gross input stays in the pool, so the post-trade input reserve includes it. Pre-trade spot is stablecoin reserve over A reserve; effective price is gross USD per A traded; price impact in percent is effective over spot, minus 1, times 100 (signed). Benchmark is spot times one plus {SHOCK} percent (signed). Signed result (gain positive): sell_a, USD out minus gross A in times benchmark; buy_a, A out times benchmark minus USD in. What is the signed result in USD?",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "output_amount",
+   "description": "Units of the output token received after the fee-adjusted invariant swap",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "post_input_reserve",
+   "description": "Post-trade reserve of the input token including the retained fee",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "price_impact",
+   "description": "Signed price impact of effective price versus pre-trade spot, in percent",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "percent",
+    "rounding": {
+     "mode": "half_up",
+     "decimal_places": 4
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    ra = Q(P[\"R_A\"])\n    ru = Q(P[\"R_U\"])\n    d = P[\"DIRECTION\"]\n    pct = Q(P[\"TRADE_PCT\"]) / 100\n    fee = Q(P[\"FEE_BPS\"]) / 10000\n    s = Q(P[\"SHOCK\"]) / 100\n    if ra <= 0 or ru <= 0:\n        raise ValueError(\"reserves must be positive\")\n    if fee >= 1 or pct <= 0:\n        raise ValueError(\"invalid fee or trade size\")\n    if d not in (\"sell_a\", \"buy_a\"):\n        raise ValueError(\"unknown direction\")\n    k = ra * ru\n    spot = ru / ra\n    if d == \"sell_a\":\n        rin, rout = ra, ru\n    else:\n        rin, rout = ru, ra\n    x = rin * pct\n    net = x * (1 - fee)\n    out = rout - k / (rin + net)\n    post_in = rin + x\n    if d == \"sell_a\":\n        eff = out / x\n    else:\n        eff = x / out\n    impact = (eff / spot - 1) * 100\n    bench = spot * (1 + s)\n    if d == \"sell_a\":\n        result = out - x * bench\n    else:\n        result = out * bench - x\n    return {\"final\": result, \"output_amount\": out, \"post_input_reserve\": post_in, \"price_impact\": impact}",
+ "coverage_params": [
+  {
+   "R_A": 10000,
+   "R_U": 200000,
+   "DIRECTION": "sell_a",
+   "TRADE_PCT": "5.0",
+   "FEE_BPS": 30,
+   "SHOCK": "-6.0"
+  },
+  {
+   "R_A": 10000,
+   "R_U": 200000,
+   "DIRECTION": "buy_a",
+   "TRADE_PCT": "5.0",
+   "FEE_BPS": 30,
+   "SHOCK": "6.0"
+  },
+  {
+   "R_A": 10000,
+   "R_U": 200000,
+   "DIRECTION": "buy_a",
+   "TRADE_PCT": "5.0",
+   "FEE_BPS": 0,
+   "SHOCK": "0.0"
+  },
+  {
+   "R_A": 4000,
+   "R_U": 100000,
+   "DIRECTION": "sell_a",
+   "TRADE_PCT": "20.0",
+   "FEE_BPS": 100,
+   "SHOCK": "10.0"
+  }
+ ]
+}

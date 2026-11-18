@@ -1,0 +1,499 @@
+{
+  "family": "family_20",
+  "all_agree": true,
+  "checks": [
+    {
+      "case_id": "t1_syn5771dc48ec86c809e6f2",
+      "verdicts": {
+        "final": true,
+        "net_equity_sensitivity": true,
+        "cross_effect_ratio": true,
+        "signed_value_change": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn5771dc48ec86c809e6f2",
+          "final_answer": {
+            "value": "0.00"
+          },
+          "steps": [
+            {
+              "slot_id": "net_equity_sensitivity",
+              "value": "0.6"
+            },
+            {
+              "slot_id": "cross_effect_ratio",
+              "value": "0.0008125"
+            },
+            {
+              "slot_id": "signed_value_change",
+              "value": "5665.78125"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.00": 1
+          },
+          "net_equity_sensitivity": {
+            "0.6": 1
+          },
+          "cross_effect_ratio": {
+            "0.0008125": 1
+          },
+          "signed_value_change": {
+            "5665.78125": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.00",
+              "net_equity_sensitivity": "0.6",
+              "cross_effect_ratio": "0.0008125",
+              "signed_value_change": "5665.78125"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "ca24e7e3296d5888c5468052508bf6865d58028b9f9328caf90e12f5ec4315d1",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1176,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 499,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1176,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 499,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1176,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1176
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04874,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5493,
+                  "session_id": "2ba45794-5d60-458d-adae-0f49b01a4d78",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V = Q(382500)\n    e = Q(\"6.5\")   # signed equity change, percent\n    f = Q(\"2.5\")   # signed FX change, percent\n    b = Q(\"0.6\")   # raw equity sensitivity\n    h = Q(0)       # hedge coverage percent\n    d = Q(-1)      # FX sensitivity\n    k = Q(\"0.5\")   # interaction coefficient\n\n    # Net equity sensitivity after hedge\n    net_equity_sensitivity = b * (1 - h / 100)\n\n    # Factor ratios\n    e_ratio = e / 100\n    f_ratio = f / 100\n\n    # Effects on value ratio\n    net_equity_effect = net_equity_sensitivity * e_ratio\n    fx_effect = d * f_ratio\n    cross_effect_ratio = k * e_ratio * f_ratio  # hedge not applied\n\n    total_ratio = net_equity_effect + fx_effect + cross_effect_ratio\n\n    # Signed value change in USD\n    signed_value_change = V * total_ratio\n\n    # Loss magnitude: positive size of decline, else 0\n    loss_magnitude = -signed_value_change if signed_value_change < 0 else Q(0)\n\n    return {\n        \"final\": loss_magnitude,\n        \"net_equity_sensitivity\": net_equity_sensitivity,\n        \"cross_effect_ratio\": cross_effect_ratio,\n        \"signed_value_change\": signed_value_change,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 187
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "net_equity_sensitivity": "0.6",
+                  "cross_effect_ratio": "0.0008125",
+                  "signed_value_change": "5665.78125"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn6fd5ef5575392ca85516",
+      "verdicts": {
+        "final": true,
+        "net_equity_sensitivity": true,
+        "cross_effect_ratio": true,
+        "signed_value_change": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn6fd5ef5575392ca85516",
+          "final_answer": {
+            "value": "0.00"
+          },
+          "steps": [
+            {
+              "slot_id": "net_equity_sensitivity",
+              "value": "1.12"
+            },
+            {
+              "slot_id": "cross_effect_ratio",
+              "value": "0.00005"
+            },
+            {
+              "slot_id": "signed_value_change",
+              "value": "3375"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.00": 1
+          },
+          "net_equity_sensitivity": {
+            "1.12": 1
+          },
+          "cross_effect_ratio": {
+            "0.00005": 1
+          },
+          "signed_value_change": {
+            "3375": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.00",
+              "net_equity_sensitivity": "1.12",
+              "cross_effect_ratio": "0.00005",
+              "signed_value_change": "3375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "16acc13c6ea21944fce0e19bc77311c8364f1e66ddec4a5022da14a38e3a14e8",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1175,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 457,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1175,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 457,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1175,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1175
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.046619999999999995,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 5197,
+                  "session_id": "82f41175-780b-4e7a-a98c-2e446cef0b51",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V = 450000\n    e = 1          # equity change, percent\n    f = -0.5       # FX change, percent\n    b = 1.4        # raw equity sensitivity\n    h = 20         # hedge percent\n    d = 0.75       # FX sensitivity\n    k = -1         # interaction coefficient\n\n    # Net equity sensitivity after hedge\n    net_equity_sensitivity = b * (1 - h / 100)\n\n    # Factor ratios\n    e_ratio = e / 100\n    f_ratio = f / 100\n\n    # Effects on value ratio\n    net_equity_effect = net_equity_sensitivity * e_ratio\n    fx_effect = d * f_ratio\n    cross_effect_ratio = k * e_ratio * f_ratio\n\n    total_ratio = net_equity_effect + fx_effect + cross_effect_ratio\n\n    # Signed value change in USD\n    signed_value_change = V * total_ratio\n\n    # Loss magnitude: positive size of decline, else 0\n    loss_magnitude = -signed_value_change if signed_value_change < 0 else 0\n\n    return {\n        \"final\": loss_magnitude,\n        \"net_equity_sensitivity\": net_equity_sensitivity,\n        \"cross_effect_ratio\": cross_effect_ratio,\n        \"signed_value_change\": signed_value_change,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 147
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "net_equity_sensitivity": "1.12",
+                  "cross_effect_ratio": "0.00005",
+                  "signed_value_change": "3375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_synb3db95c5e6e5da936acd",
+      "verdicts": {
+        "final": true,
+        "net_equity_sensitivity": true,
+        "cross_effect_ratio": true,
+        "signed_value_change": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_synb3db95c5e6e5da936acd",
+          "final_answer": {
+            "value": "0.00"
+          },
+          "steps": [
+            {
+              "slot_id": "net_equity_sensitivity",
+              "value": "0.3"
+            },
+            {
+              "slot_id": "cross_effect_ratio",
+              "value": "-0.00105"
+            },
+            {
+              "slot_id": "signed_value_change",
+              "value": "3109.375"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.00": 1
+          },
+          "net_equity_sensitivity": {
+            "0.3": 1
+          },
+          "cross_effect_ratio": {
+            "-0.00105": 1
+          },
+          "signed_value_change": {
+            "3109.375": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.00",
+              "net_equity_sensitivity": "0.3",
+              "cross_effect_ratio": "-0.00105",
+              "signed_value_change": "3109.375"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "00a00b12a80cd4a6ba842496cae2c08e4cafecedcfa9f651d3a2fd46fc9218e8",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1173,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 447,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1173,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 447,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1173,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1173
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.04608,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 8561,
+                  "session_id": "ce1fd98c-b710-42f3-aa03-80847befdf9d",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V = 312500\n    e = 7      # percent, signed equity change\n    f = 1      # percent, signed FX change\n    b = Q(\"0.5\")\n    h = 40     # percent hedged\n    d = -1\n    k = Q(\"-1.5\")\n\n    # Net equity sensitivity after hedge\n    net_equity_sensitivity = b * (1 - Q(h, 100))\n\n    # Factor ratios\n    e_ratio = Q(e, 100)\n    f_ratio = Q(f, 100)\n\n    # Component effects on value ratio\n    net_equity_effect = net_equity_sensitivity * e_ratio\n    fx_effect = d * f_ratio\n    cross_effect_ratio = k * e_ratio * f_ratio\n\n    total_ratio = net_equity_effect + fx_effect + cross_effect_ratio\n\n    # Signed USD change\n    signed_value_change = V * total_ratio\n\n    # Loss magnitude: positive size of decline, else 0\n    loss_magnitude = -signed_value_change if signed_value_change < 0 else 0\n\n    return {\n        \"final\": loss_magnitude,\n        \"net_equity_sensitivity\": net_equity_sensitivity,\n        \"cross_effect_ratio\": cross_effect_ratio,\n        \"signed_value_change\": signed_value_change,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 294
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "net_equity_sensitivity": "0.3",
+                  "cross_effect_ratio": "-0.00105",
+                  "signed_value_change": "3109.375"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "t1_syn40f2954083980ec83d1b",
+      "verdicts": {
+        "final": true,
+        "net_equity_sensitivity": true,
+        "cross_effect_ratio": true,
+        "signed_value_change": true
+      },
+      "outcome": {
+        "row": {
+          "schema_version": "finreason.task1.prediction/1.0.0",
+          "dataset_version": "carnot-synth-v1",
+          "case_id": "t1_syn40f2954083980ec83d1b",
+          "final_answer": {
+            "value": "0.00"
+          },
+          "steps": [
+            {
+              "slot_id": "net_equity_sensitivity",
+              "value": "1.3"
+            },
+            {
+              "slot_id": "cross_effect_ratio",
+              "value": "-0.0016"
+            },
+            {
+              "slot_id": "signed_value_change",
+              "value": "2916"
+            }
+          ]
+        },
+        "dropped_by_gate": [],
+        "votes": {
+          "final": {
+            "0.00": 1
+          },
+          "net_equity_sensitivity": {
+            "1.3": 1
+          },
+          "cross_effect_ratio": {
+            "-0.0016": 1
+          },
+          "signed_value_change": {
+            "2916": 1
+          }
+        },
+        "samples": [
+          {
+            "texts": {
+              "final": "0.00",
+              "net_equity_sensitivity": "1.3",
+              "cross_effect_ratio": "-0.0016",
+              "signed_value_change": "2916"
+            },
+            "issues": {},
+            "attempts": [
+              {
+                "attempt": 0,
+                "cache_key": "12cc9b0ad895c5798c289ebce3ccd0c65520bd85f490f30115b7f785f6254006",
+                "cached": false,
+                "model_id": "claude-fable-5-1",
+                "usage": {
+                  "input_tokens": 2,
+                  "cache_creation_input_tokens": 1173,
+                  "cache_read_input_tokens": 1000,
+                  "output_tokens": 443,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_search_requests": 0,
+                    "web_fetch_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 1173,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "inference_geo": "global",
+                  "iterations": [
+                    {
+                      "input_tokens": 2,
+                      "output_tokens": 443,
+                      "cache_read_input_tokens": 1000,
+                      "cache_creation_input_tokens": 1173,
+                      "cache_creation": {
+                        "ephemeral_5m_input_tokens": 0,
+                        "ephemeral_1h_input_tokens": 1173
+                      },
+                      "type": "message"
+                    }
+                  ],
+                  "speed": "standard",
+                  "fallback_credit": null
+                },
+                "cost_equivalent_usd": 0.045880000000000004,
+                "meta": {
+                  "stop_reason": "end_turn",
+                  "duration_ms": 7253,
+                  "session_id": "9bd21add-81a8-40ec-87bd-0a328a8cb087",
+                  "num_turns": 1
+                },
+                "code": "def solve():\n    V = 202500\n    e = 2      # signed equity change, percent\n    f = 4      # signed FX change, percent\n    b = Q(\"1.3\")\n    h = 0      # hedge percent\n    d = Q(\"-0.25\")\n    k = -2\n\n    # Net equity sensitivity after hedge\n    net_equity_sensitivity = b * (1 - Q(h, 100))\n\n    e_ratio = Q(e, 100)\n    f_ratio = Q(f, 100)\n\n    equity_effect = net_equity_sensitivity * e_ratio\n    fx_effect = d * f_ratio\n    # Cross effect: k times product of factor ratios (hedge not applied)\n    cross_effect_ratio = k * e_ratio * f_ratio\n\n    total_ratio = equity_effect + fx_effect + cross_effect_ratio\n    signed_value_change = V * total_ratio\n\n    # Loss magnitude: positive size of decline if value falls, else 0\n    loss_magnitude = -signed_value_change if signed_value_change < 0 else 0\n\n    return {\n        \"final\": loss_magnitude,\n        \"net_equity_sensitivity\": net_equity_sensitivity,\n        \"cross_effect_ratio\": cross_effect_ratio,\n        \"signed_value_change\": signed_value_change,\n    }\n",
+                "sandbox": {
+                  "ok": true,
+                  "stage": null,
+                  "error": null,
+                  "elapsed_ms": 306
+                },
+                "rendered": {
+                  "final": "0.00",
+                  "net_equity_sensitivity": "1.3",
+                  "cross_effect_ratio": "-0.0016",
+                  "signed_value_change": "2916"
+                },
+                "issues": {},
+                "flags": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "instances_sha256": "20216b655dd93c12b988d9d554954e6287e12de0636666cfaa5e4091232f8e26"
+}

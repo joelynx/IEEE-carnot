@@ -1,0 +1,100 @@
+{
+ "name": "event_shock_margin_call_release_price",
+ "domain_id": "crypto_finance",
+ "topic_id": "global_events_impact",
+ "difficulty": "advanced",
+ "params": {
+  "P0": {
+   "kind": "int",
+   "min": 2000,
+   "max": 4000,
+   "step": 50
+  },
+  "DROP": {
+   "kind": "int",
+   "min": 25,
+   "max": 45,
+   "step": 1
+  },
+  "RECOVERY": {
+   "kind": "int",
+   "min": 10,
+   "max": 40,
+   "step": 5
+  },
+  "COINS": {
+   "kind": "int",
+   "min": 10,
+   "max": 50,
+   "step": 1
+  },
+  "C0": {
+   "kind": "decimal",
+   "min": "1.30",
+   "max": "1.50",
+   "step": "0.05"
+  },
+  "MAINT": {
+   "kind": "decimal",
+   "min": "1.15",
+   "max": "1.25",
+   "step": "0.05"
+  }
+ },
+ "question_template": "A fictional global event hits a locally described crypto asset. Pre-event price is P0={P0} USD and the event-day close is {DROP} percent below it. On each later day the close recovers {RECOVERY} percent of the gap between the previous close and the pre-event price. A lender holds N={COINS} coins as collateral; the loan was sized so that the pre-event coin value equals c={C0} times the loan amount. The lender requires the coin value at each close to be at least m={MAINT} times the loan; at the event-day close the borrower deposits cash equal to the shortfall below that requirement. The cash is released at the first later close at which the coin value alone meets the requirement (equality counts). What is the close price in USD on the release day? Use exact arithmetic.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "event_close_price",
+   "description": "Closing price in USD on the event day.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "shortfall_deposit",
+   "description": "Cash deposited at event-day close, in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "release_threshold_price",
+   "description": "Lowest price where coins alone meet requirement, in USD.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "days_to_release",
+   "description": "Days after event day until cash release.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "count",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    P0 = Q(P[\"P0\"])\n    d = Q(P[\"DROP\"]) / 100\n    g = Q(P[\"RECOVERY\"]) / 100\n    N = Q(P[\"COINS\"])\n    c0 = Q(P[\"C0\"])\n    m = Q(P[\"MAINT\"])\n    L = N * P0 / c0\n    p1 = P0 * (1 - d)\n    req = m * L\n    if p1 * N >= req:\n        raise ValueError(\"no margin call on event day\")\n    if P0 * N <= req:\n        raise ValueError(\"coins can never meet requirement\")\n    deposit = req - p1 * N\n    thr = req / N\n    price = p1\n    days = 0\n    while price * N < req:\n        price = price + g * (P0 - price)\n        days += 1\n        if days > 500:\n            raise ValueError(\"recovery too slow\")\n    return {\n        \"final\": price,\n        \"event_close_price\": p1,\n        \"shortfall_deposit\": deposit,\n        \"release_threshold_price\": thr,\n        \"days_to_release\": days,\n    }\n"
+}

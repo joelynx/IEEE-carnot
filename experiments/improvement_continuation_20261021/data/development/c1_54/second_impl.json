@@ -1,0 +1,229 @@
+{
+ "family": "c1_54",
+ "template_sha256": "d4914b7a051aac3e9349b908a7400991a69f36219c5d11e166925936edbd76f3",
+ "draws_sha256": "25cfb7180ee90df98a241f13c0ca3582bab7aa6e7940e8201e6618f6ab5ec9f2",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "4cc53b82c4507f437c3aab428b6fad29c058ac399335ed49714262c6a59e157e",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1753,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 472,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1753,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 472,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1753,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1753
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0588305
+  }
+ ],
+ "program": "def solve():\n    CAC = Q(P[\"CAC\"])\n    SPEND = Q(P[\"SPEND\"])\n    IC_RATE = Q(P[\"IC_RATE\"])\n    D0 = Q(P[\"D0\"])\n    NIM = Q(P[\"NIM\"])\n    G = Q(P[\"G\"])\n    S = Q(P[\"S\"])\n    N = int(P[\"N\"])\n\n    interchange = SPEND * IC_RATE / 100\n    monthly_rate = NIM / 100 / 12\n\n    balance = D0  # beginning of month 1\n    cumulative = -CAC  # month 0\n    payback = 0\n    contrib_n = None\n    balance_begin_n = None\n\n    for t in range(1, N + 1):\n        balance_begin = balance\n        nii = balance_begin * monthly_rate\n        contrib = interchange + nii - S\n        cumulative += contrib\n        if payback == 0 and cumulative >= 0:\n            payback = t\n        if t == N:\n            contrib_n = contrib\n            balance_begin_n = balance_begin\n        # end-of-month deposit change, floored at zero\n        balance = balance_begin + G\n        if balance < 0:\n            balance = Q(0)\n\n    return {\n        \"final\": cumulative,\n        \"balance_begin_month_n\": balance_begin_n,\n        \"contribution_month_n\": contrib_n,\n        \"payback_month\": Q(payback),\n    }\n",
+ "result": {
+  "compared": 34,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_CAC",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_SPEND",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_IC_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_D0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_NIM",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_G",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_S",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_CAC",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_SPEND",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_IC_RATE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_D0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_NIM",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_G",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_S",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_N",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}

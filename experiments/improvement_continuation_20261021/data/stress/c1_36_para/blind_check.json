@@ -1,0 +1,511 @@
+{
+ "family": "c1_36_para",
+ "draws_sha256": "cdf658c7ebd52e2fbce6f00eeea1f499f55c130500468416c0858f34300eb162",
+ "checks": [
+  {
+   "case_id": "t1_syn55c47f63a90d78b8cdeb",
+   "verdicts": {
+    "final": true,
+    "two_year_zero_rate": true,
+    "three_year_zero_rate": true,
+    "forward_rate_2y1y": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn55c47f63a90d78b8cdeb",
+     "final_answer": {
+      "value": "4624.06"
+     },
+     "steps": [
+      {
+       "slot_id": "two_year_zero_rate",
+       "value": "3.4573"
+      },
+      {
+       "slot_id": "three_year_zero_rate",
+       "value": "5.3007"
+      },
+      {
+       "slot_id": "forward_rate_2y1y",
+       "value": "9.0867"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "4624.06": 1
+     },
+     "two_year_zero_rate": {
+      "3.4573": 1
+     },
+     "three_year_zero_rate": {
+      "5.3007": 1
+     },
+     "forward_rate_2y1y": {
+      "9.0867": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "4624.06",
+       "two_year_zero_rate": "3.4573",
+       "three_year_zero_rate": "5.3007",
+       "forward_rate_2y1y": "9.0867"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "cb1c8c78f372e85625d5945b65b50213c11a169883c37128e0b6ab15e064dd5d",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1371,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 375,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1371,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 375,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1371,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1371
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046370999999999996,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4866,
+         "session_id": "6c007ba3-5616-41aa-a668-e42343bb20b0",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    p1 = Q(\"0.06\"); p2 = Q(\"0.035\"); p3 = Q(\"0.0525\")\n    z1 = p1\n    d1 = 1 / (1 + z1)\n    # two-year: p2*d1 + (1+p2)*d2 = 1\n    d2 = (1 - p2 * d1) / (1 + p2)\n    z2 = sqrt(1 / d2) - 1\n    # three-year\n    d3 = (1 - p3 * (d1 + d2)) / (1 + p3)\n    z3 = (1 / d3) ** Q(1, 3) - 1\n    f = d2 / d3 - 1\n    face = 5000\n    c = p3 - Q(\"0.0275\")\n    if c < 0:\n        c = Q(0)\n    coupon = face * c\n    price = coupon * d1 + coupon * d2 + (coupon + face) * d3\n    return {\n        \"final\": price,\n        \"two_year_zero_rate\": z2 * 100,\n        \"three_year_zero_rate\": z3 * 100,\n        \"forward_rate_2y1y\": f * 100,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 120
+        },
+        "rendered": {
+         "final": "4624.06",
+         "two_year_zero_rate": "3.4573",
+         "three_year_zero_rate": "5.3007",
+         "forward_rate_2y1y": "9.0867"
+        },
+        "issues": {},
+        "flags": [
+         "two_year_zero_rate:inexact",
+         "three_year_zero_rate:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn1e7e20434ae506c8bad4",
+   "verdicts": {
+    "final": true,
+    "two_year_zero_rate": true,
+    "three_year_zero_rate": true,
+    "forward_rate_2y1y": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn1e7e20434ae506c8bad4",
+     "final_answer": {
+      "value": "1032.57"
+     },
+     "steps": [
+      {
+       "slot_id": "two_year_zero_rate",
+       "value": "8.1236"
+      },
+      {
+       "slot_id": "three_year_zero_rate",
+       "value": "7.8094"
+      },
+      {
+       "slot_id": "forward_rate_2y1y",
+       "value": "7.1837"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "1032.57": 1
+     },
+     "two_year_zero_rate": {
+      "8.1236": 1
+     },
+     "three_year_zero_rate": {
+      "7.8094": 1
+     },
+     "forward_rate_2y1y": {
+      "7.1837": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "1032.57",
+       "two_year_zero_rate": "8.1236",
+       "three_year_zero_rate": "7.8094",
+       "forward_rate_2y1y": "7.1837"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "df05a421a761162adff9b3821abeaec7524a92a9a9de1f7228475377b4f19dff",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1369,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 371,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1369,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 371,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1369,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1369
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046131000000000005,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4365,
+         "session_id": "d8a01739-f386-423c-8bc2-c194bc7481e3",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    p1 = Q(\"0.05\"); p2 = Q(\"0.08\"); p3 = Q(\"0.0775\")\n    z1 = p1\n    d1 = 1 / (1 + z1)\n    # 2y: p2*d1 + (1+p2)*d2 = 1\n    d2 = (1 - p2 * d1) / (1 + p2)\n    z2 = sqrt(1 / d2) - 1\n    d3 = (1 - p3 * d1 - p3 * d2) / (1 + p3)\n    z3 = (1 / d3) ** Q(1, 3) - 1\n    f = (1 / d3) / (1 / d2) - 1\n    c = p3 + Q(\"0.0125\")\n    if c < 0:\n        c = Q(0)\n    face = 1000\n    price = c * face * d1 + c * face * d2 + (1 + c) * face * d3\n    return {\n        \"final\": price,\n        \"two_year_zero_rate\": z2 * 100,\n        \"three_year_zero_rate\": z3 * 100,\n        \"forward_rate_2y1y\": f * 100,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 91
+        },
+        "rendered": {
+         "final": "1032.57",
+         "two_year_zero_rate": "8.1236",
+         "three_year_zero_rate": "7.8094",
+         "forward_rate_2y1y": "7.1837"
+        },
+        "issues": {},
+        "flags": [
+         "two_year_zero_rate:inexact",
+         "three_year_zero_rate:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn65d237731397883577d1",
+   "verdicts": {
+    "final": true,
+    "two_year_zero_rate": true,
+    "three_year_zero_rate": true,
+    "forward_rate_2y1y": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn65d237731397883577d1",
+     "final_answer": {
+      "value": "1520.66"
+     },
+     "steps": [
+      {
+       "slot_id": "two_year_zero_rate",
+       "value": "2.1990"
+      },
+      {
+       "slot_id": "three_year_zero_rate",
+       "value": "5.0630"
+      },
+      {
+       "slot_id": "forward_rate_2y1y",
+       "value": "11.0340"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "1520.66": 1
+     },
+     "two_year_zero_rate": {
+      "2.1990": 1
+     },
+     "three_year_zero_rate": {
+      "5.0630": 1
+     },
+     "forward_rate_2y1y": {
+      "11.0340": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "1520.66",
+       "two_year_zero_rate": "2.1990",
+       "three_year_zero_rate": "5.0630",
+       "forward_rate_2y1y": "11.0340"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "0c27988735a5b0b0c36b5677806c6f80e2106fc25a17f168c98e521627a08458",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1369,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 381,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1369,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 381,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1369,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1369
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046631000000000006,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4268,
+         "session_id": "8080a89e-7999-4d44-899f-e901c10fc626",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    p1 = Q(\"0.07\"); p2 = Q(\"0.0225\"); p3 = Q(\"0.05\")\n    z1 = p1\n    d1 = 1 / (1 + z1)\n    # 2y: p2*d1 + (1+p2)*d2 = 1\n    d2 = (1 - p2 * d1) / (1 + p2)\n    z2 = (1 / d2) ** Q(1, 2) - 1\n    d3 = (1 - p3 * (d1 + d2)) / (1 + p3)\n    z3 = (1 / d3) ** Q(1, 3) - 1\n    f = d2 / d3 - 1\n    face = Q(1500)\n    c_rate = p3 + Q(\"0.005\")\n    if c_rate < 0:\n        c_rate = Q(0)\n    c = face * c_rate\n    price = c * d1 + c * d2 + (c + face) * d3\n    return {\n        \"final\": price,\n        \"two_year_zero_rate\": z2 * 100,\n        \"three_year_zero_rate\": z3 * 100,\n        \"forward_rate_2y1y\": f * 100,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 86
+        },
+        "rendered": {
+         "final": "1520.66",
+         "two_year_zero_rate": "2.1990",
+         "three_year_zero_rate": "5.0630",
+         "forward_rate_2y1y": "11.0340"
+        },
+        "issues": {},
+        "flags": [
+         "two_year_zero_rate:inexact",
+         "three_year_zero_rate:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "case_id": "t1_syn90f8c723030f6a9ef6df",
+   "verdicts": {
+    "final": true,
+    "two_year_zero_rate": true,
+    "three_year_zero_rate": true,
+    "forward_rate_2y1y": true
+   },
+   "outcome": {
+    "row": {
+     "schema_version": "finreason.task1.prediction/1.0.0",
+     "dataset_version": "carnot-synth-v1",
+     "case_id": "t1_syn90f8c723030f6a9ef6df",
+     "final_answer": {
+      "value": "2730.74"
+     },
+     "steps": [
+      {
+       "slot_id": "two_year_zero_rate",
+       "value": "2.0127"
+      },
+      {
+       "slot_id": "three_year_zero_rate",
+       "value": "4.1013"
+      },
+      {
+       "slot_id": "forward_rate_2y1y",
+       "value": "8.4077"
+      }
+     ]
+    },
+    "dropped_by_gate": [],
+    "votes": {
+     "final": {
+      "2730.74": 1
+     },
+     "two_year_zero_rate": {
+      "2.0127": 1
+     },
+     "three_year_zero_rate": {
+      "4.1013": 1
+     },
+     "forward_rate_2y1y": {
+      "8.4077": 1
+     }
+    },
+    "samples": [
+     {
+      "texts": {
+       "final": "2730.74",
+       "two_year_zero_rate": "2.0127",
+       "three_year_zero_rate": "4.1013",
+       "forward_rate_2y1y": "8.4077"
+      },
+      "issues": {},
+      "attempts": [
+       {
+        "attempt": 0,
+        "cache_key": "1a88e709b71d4be26ab45a1f5a6dbc41a5bf74e061b7b1f58b4c2483f4f60325",
+        "cached": false,
+        "model_id": "claude-fable-5-1",
+        "usage": {
+         "input_tokens": 2,
+         "cache_creation_input_tokens": 1369,
+         "cache_read_input_tokens": 724,
+         "output_tokens": 372,
+         "output_tokens_details": {
+          "thinking_tokens": 0
+         },
+         "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+         },
+         "service_tier": "standard",
+         "cache_creation": {
+          "ephemeral_1h_input_tokens": 1369,
+          "ephemeral_5m_input_tokens": 0
+         },
+         "inference_geo": "global",
+         "iterations": [
+          {
+           "input_tokens": 2,
+           "output_tokens": 372,
+           "cache_read_input_tokens": 724,
+           "cache_creation_input_tokens": 1369,
+           "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1369
+           },
+           "type": "message"
+          }
+         ],
+         "speed": "standard",
+         "fallback_credit": null
+        },
+        "cost_equivalent_usd": 0.046181,
+        "meta": {
+         "stop_reason": "end_turn",
+         "duration_ms": 4135,
+         "session_id": "0da176e3-eef5-4019-8587-d6d1d2f0245c",
+         "num_turns": 1
+        },
+        "code": "def solve():\n    p1 = Q(\"0.0075\"); p2 = Q(\"0.02\"); p3 = Q(\"0.04\")\n    z1 = p1\n    d1 = 1 / (1 + z1)\n    # two-year: p2*d1 + (1+p2)*d2 = 1\n    d2 = (1 - p2 * d1) / (1 + p2)\n    z2 = sqrt(1 / d2) - 1\n    d3 = (1 - p3 * (d1 + d2)) / (1 + p3)\n    z3 = (1 / d3) ** Q(1, 3) - 1\n    f = d2 / d3 - 1\n    face = Q(2500)\n    c = p3 + Q(\"0.0325\")\n    if c < 0:\n        c = Q(0)\n    coupon = face * c\n    price = coupon * d1 + coupon * d2 + (coupon + face) * d3\n    return {\n        \"final\": price,\n        \"two_year_zero_rate\": z2 * 100,\n        \"three_year_zero_rate\": z3 * 100,\n        \"forward_rate_2y1y\": f * 100,\n    }\n",
+        "sandbox": {
+         "ok": true,
+         "stage": null,
+         "error": null,
+         "elapsed_ms": 84
+        },
+        "rendered": {
+         "final": "2730.74",
+         "two_year_zero_rate": "2.0127",
+         "three_year_zero_rate": "4.1013",
+         "forward_rate_2y1y": "8.4077"
+        },
+        "issues": {},
+        "flags": [
+         "two_year_zero_rate:inexact",
+         "three_year_zero_rate:inexact"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ],
+ "all_agree": true
+}

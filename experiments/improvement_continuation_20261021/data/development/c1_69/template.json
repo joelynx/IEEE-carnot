@@ -1,0 +1,143 @@
+{
+ "name": "indemnity_claims_de_minimis_basket_cap",
+ "domain_id": "mergers_and_acquisitions",
+ "topic_id": "due_diligence",
+ "difficulty": "advanced",
+ "params": {
+  "PURCHASE_PRICE": {
+   "kind": "int",
+   "min": 20000000,
+   "max": 60000000,
+   "step": 1000000
+  },
+  "CLAIM_A": {
+   "kind": "int",
+   "min": 10000,
+   "max": 900000,
+   "step": 10000
+  },
+  "CLAIM_B": {
+   "kind": "int",
+   "min": 10000,
+   "max": 900000,
+   "step": 10000
+  },
+  "CLAIM_C": {
+   "kind": "int",
+   "min": 10000,
+   "max": 900000,
+   "step": 10000
+  },
+  "DE_MINIMIS": {
+   "kind": "int",
+   "min": 25000,
+   "max": 150000,
+   "step": 5000
+  },
+  "BASKET": {
+   "kind": "int",
+   "min": 100000,
+   "max": 600000,
+   "step": 50000
+  },
+  "CAP_PCT": {
+   "kind": "decimal",
+   "min": "1.0",
+   "max": "10.0",
+   "step": "0.5"
+  },
+  "BASKET_TYPE": {
+   "kind": "choice",
+   "values": [
+    "deductible",
+    "tipping"
+   ]
+  }
+ },
+ "question_template": "Use exact arithmetic. A share purchase agreement with a purchase price of {PURCHASE_PRICE} USD contains an indemnity for breaches of warranty. Post-closing diligence identifies three separate claims of {CLAIM_A} USD, {CLAIM_B} USD and {CLAIM_C} USD. The per-claim de minimis is {DE_MINIMIS} USD: a claim strictly below the de minimis is disregarded entirely and does not count toward the basket; a claim equal to or above it is eligible in full. The basket is {BASKET} USD and operates as a {BASKET_TYPE} basket. Under a deductible basket, only the amount by which total eligible claims exceed the basket is recoverable; under a tipping basket, if total eligible claims strictly exceed the basket the entire eligible total is recoverable, otherwise nothing is. If total eligible claims do not exceed the basket, recovery is zero. The seller's liability cap is {CAP_PCT} percent of the purchase price (percent on a 0 to 100 scale) and applies after the basket. Determine total eligible claims, the recoverable amount before the cap, the cap amount in USD, and the final recovery from the seller in USD.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "exact"
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "eligible_claims_total",
+   "description": "Sum of claims at or above the per-claim de minimis",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "recoverable_before_cap",
+   "description": "Recoverable amount after applying the basket rule, before the liability cap",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "cap_amount",
+   "description": "Seller liability cap expressed in USD",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    pp = P[\"PURCHASE_PRICE\"]\n    claims = [P[\"CLAIM_A\"], P[\"CLAIM_B\"], P[\"CLAIM_C\"]]\n    dm = P[\"DE_MINIMIS\"]\n    basket = P[\"BASKET\"]\n    cap_pct = P[\"CAP_PCT\"]\n    bt = P[\"BASKET_TYPE\"]\n    if bt not in (\"deductible\", \"tipping\"):\n        raise ValueError(\"unknown basket type\")\n    eligible = 0\n    for c in claims:\n        if c >= dm:\n            eligible = eligible + c\n    if eligible > basket:\n        if bt == \"deductible\":\n            before_cap = eligible - basket\n        else:\n            before_cap = eligible\n    else:\n        before_cap = 0\n    cap_amount = pp * cap_pct / 100\n    if before_cap > cap_amount:\n        final = cap_amount\n    else:\n        final = before_cap\n    return {\n        \"final\": final,\n        \"eligible_claims_total\": eligible,\n        \"recoverable_before_cap\": before_cap,\n        \"cap_amount\": cap_amount,\n    }",
+ "coverage_params": [
+  {
+   "PURCHASE_PRICE": 40000000,
+   "CLAIM_A": 300000,
+   "CLAIM_B": 20000,
+   "CLAIM_C": 450000,
+   "DE_MINIMIS": 50000,
+   "BASKET": 250000,
+   "CAP_PCT": "5.0",
+   "BASKET_TYPE": "deductible"
+  },
+  {
+   "PURCHASE_PRICE": 20000000,
+   "CLAIM_A": 800000,
+   "CLAIM_B": 600000,
+   "CLAIM_C": 100000,
+   "DE_MINIMIS": 100000,
+   "BASKET": 300000,
+   "CAP_PCT": "1.5",
+   "BASKET_TYPE": "tipping"
+  },
+  {
+   "PURCHASE_PRICE": 30000000,
+   "CLAIM_A": 150000,
+   "CLAIM_B": 250000,
+   "CLAIM_C": 40000,
+   "DE_MINIMIS": 50000,
+   "BASKET": 400000,
+   "CAP_PCT": "3.0",
+   "BASKET_TYPE": "deductible"
+  },
+  {
+   "PURCHASE_PRICE": 50000000,
+   "CLAIM_A": 30000,
+   "CLAIM_B": 20000,
+   "CLAIM_C": 10000,
+   "DE_MINIMIS": 40000,
+   "BASKET": 100000,
+   "CAP_PCT": "2.0",
+   "BASKET_TYPE": "tipping"
+  }
+ ]
+}

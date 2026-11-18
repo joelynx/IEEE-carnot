@@ -1,0 +1,66 @@
+{
+ "name": "npv_level_annuity_outlay",
+ "domain_id": "investment_analysis",
+ "topic_id": "npv",
+ "difficulty": "basic",
+ "params": {
+  "I0": {
+   "kind": "int",
+   "min": 2000,
+   "max": 12000,
+   "step": 50
+  },
+  "C": {
+   "kind": "int",
+   "min": 400,
+   "max": 2500,
+   "step": 10
+  },
+  "N": {
+   "kind": "int",
+   "min": 3,
+   "max": 8,
+   "step": 1
+  },
+  "R": {
+   "kind": "decimal",
+   "min": "2.0",
+   "max": "12.0",
+   "step": "0.5"
+  }
+ },
+ "question_template": "A project requires an initial outlay of USD {I0} at time zero and returns a level cash flow of USD {C} at the end of each year for {N} years, with no salvage. The annual discount rate is r={R} percent, compounded annually. Compute the NPV as the present value of the level cash flows minus the initial outlay. Use exact arithmetic throughout.",
+ "answer_spec": {
+  "type": "decimal",
+  "unit": "usd",
+  "rounding": {
+   "mode": "half_up",
+   "decimal_places": 2
+  }
+ },
+ "slots": [
+  {
+   "slot_id": "annuity_factor_trace",
+   "description": "Exact present value factor of the level annuity.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "ratio",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  },
+  {
+   "slot_id": "annuity_pv_trace",
+   "description": "Present value of all level cash flows.",
+   "result_spec": {
+    "type": "decimal",
+    "unit": "usd",
+    "rounding": {
+     "mode": "exact"
+    }
+   }
+  }
+ ],
+ "program": "def solve():\n    I0 = P[\"I0\"]\n    C = P[\"C\"]\n    n = P[\"N\"]\n    r = Fraction(P[\"R\"]) / 100\n    if r <= 0:\n        raise ValueError(\"rate must be positive\")\n    growth = (1 + r) ** n\n    af = (1 - 1 / growth) / r\n    pv = C * af\n    npv = pv - I0\n    return {\"final\": npv, \"annuity_factor_trace\": af, \"annuity_pv_trace\": pv}\n"
+}

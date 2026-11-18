@@ -1,0 +1,219 @@
+{
+ "family": "c1_66",
+ "template_sha256": "e6c0beabe894e35b9b60803c22bc9bc9e618e31bd489c2aaa513548d9ad4e324",
+ "draws_sha256": "770647519f00862debc4e865cf227a31d28452a6b1f9e023d8e4bc085198dca0",
+ "calls": [
+  {
+   "attempt": 0,
+   "cache_key": "a6a51213a9d7f20c37251d289444a02781ed949e9440b82a9ea60364011ed492",
+   "cached": false,
+   "model": "claude-fable-5-1",
+   "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1748,
+    "cache_read_input_tokens": 602,
+    "output_tokens": 589,
+    "output_tokens_details": {
+     "thinking_tokens": 0
+    },
+    "server_tool_use": {
+     "web_search_requests": 0,
+     "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+     "ephemeral_1h_input_tokens": 1748,
+     "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+     {
+      "input_tokens": 2,
+      "output_tokens": 589,
+      "cache_read_input_tokens": 602,
+      "cache_creation_input_tokens": 1748,
+      "cache_creation": {
+       "ephemeral_5m_input_tokens": 0,
+       "ephemeral_1h_input_tokens": 1748
+      },
+      "type": "message"
+     }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+   },
+   "cost_equivalent_usd": 0.0645805
+  }
+ ],
+ "program": "def solve():\n    tgt_px = Q(P[\"TGT_PX\"])\n    prem = Q(P[\"PREM\"])\n    acq_px = Q(P[\"ACQ_PX\"])\n    tgt_sh = Q(P[\"TGT_SH\"]) * 1000000\n    acq_sh = Q(P[\"ACQ_SH\"]) * 1000000\n    move = Q(P[\"MOVE\"])\n    fee = Q(P[\"FEE\"])\n\n    # Offer price per Target share\n    offer_px = tgt_px * (1 + prem / 100)\n\n    # Fixed exchange ratio\n    exchange_ratio = offer_px / acq_px\n\n    # Shares issued to Target holders\n    target_holder_shares = exchange_ratio * tgt_sh\n\n    # Acquirer closing price\n    close_px = acq_px * (1 + move / 100)\n\n    # Value received per Target share at closing\n    value_received = exchange_ratio * close_px\n    realized_gain_pct = (value_received - tgt_px) / tgt_px * 100\n\n    # Advisory fees: percent of total offer value, paid in shares at closing price\n    total_offer_value = offer_px * tgt_sh\n    fee_amount = total_offer_value * fee / 100\n    fee_shares = fee_amount / close_px\n\n    # Combined share count and Target holders' ownership\n    combined = acq_sh + target_holder_shares + fee_shares\n    ownership_pct = target_holder_shares / combined * 100\n\n    return {\n        \"final\": ownership_pct,\n        \"exchange_ratio\": exchange_ratio,\n        \"target_holder_shares\": target_holder_shares,\n        \"realized_gain_pct\": realized_gain_pct,\n        \"fee_shares\": fee_shares,\n    }\n",
+ "result": {
+  "compared": 32,
+  "mismatches": [],
+  "second_errors": [],
+  "reference_unexpected_errors": [],
+  "rows": [
+   {
+    "set": "draw_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_3",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_4",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_5",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_6",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_7",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_8",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_9",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_10",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "draw_11",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_min",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_all_max",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TGT_PX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_PREM",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ACQ_PX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_TGT_SH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_ACQ_SH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_MOVE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_min_except_FEE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_TGT_PX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_PREM",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ACQ_PX",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_TGT_SH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_ACQ_SH",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_MOVE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "endpoint_max_except_FEE",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_0",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_1",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_2",
+    "reference": "ok",
+    "second": "match"
+   },
+   {
+    "set": "coverage_3",
+    "reference": "ok",
+    "second": "match"
+   }
+  ]
+ },
+ "passed": true,
+ "value_mismatches_fed_back": false
+}
