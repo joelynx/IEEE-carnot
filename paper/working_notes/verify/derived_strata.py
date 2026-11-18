@@ -106,6 +106,7 @@ from decimal import Decimal  # noqa: E402
 dev_manifest = {r["case_id"]: r for r in jl(dev / "dev_manifest.jsonl")}
 template_of = {cid: (train_manifest.get(cid) or dev_manifest[cid])["template_id"] for cid in questions}
 exact = frac = long_dec = lost_in_double = exact_finals = unreachable_finals = 0
+representable = given_back = 0
 cases_hit, templates_hit = set(), set()
 for cid, q in questions.items():
     g = gold[cid]
@@ -127,6 +128,11 @@ for cid, q in questions.items():
             if Fraction(Decimal(repr(float(text)))) != Fraction(Decimal(text)):
                 lost_in_double += 1
                 unreachable = True
+                # is the gold itself a double, and does the nearest double, printed with
+                # the gold's own number of decimal places, give the gold again?
+                representable += Fraction(float(text)) == Fraction(Decimal(text))
+                places = len(text.partition(".")[2])
+                given_back += Fraction(Decimal(format(float(text), f".{places}f"))) == Fraction(Decimal(text))
         if unreachable:
             cases_hit.add(cid)
             templates_hit.add(template_of[cid])
@@ -134,8 +140,10 @@ for cid, q in questions.items():
 print(f"3. exact gold fields {exact} ({exact_finals} finals): non-terminating fractions (n/d) {frac};"
       f" finite decimals with more than 15 significant digits {long_dec};"
       f" finite decimals that the nearest double does not print back {lost_in_double}")
-print(f"   exact gold fields no double-precision value can match: {frac + lost_in_double} of {exact}"
+print(f"   fractions plus decimals that the nearest double does not print back: {frac + lost_in_double} of {exact}"
       f" ({unreachable_finals} finals), in {len(cases_hit)} of {len(questions)} questions and {len(templates_hit)} of {len(set(template_of.values()))} templates")
+print(f"   of the {lost_in_double} decimals: exactly representable as a double {representable};"
+      f" given back when the nearest double is printed with the gold's number of decimal places {given_back}")
 
 # 4. more public-field contrasts
 def share(qs, pred):

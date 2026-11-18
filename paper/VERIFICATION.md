@@ -503,7 +503,7 @@ Removed from the paper and kept in the supplement: the lettered adoption-rule li
 | Item | Decision | What was done |
 |---|---|---|
 | Repository | `https://github.com/joelynx/IEEE-carnot` | `\repourl` in `main.tex`; the supplement's abstract; `release/templates/README.md.tmpl` |
-| Licence | MIT | `release/templates/LICENSE` (copyright 2026 Joel Jobi), written into the release as `LICENSE`. The release README says that the organisers' material keeps CC BY 4.0 and that the paper and its sources are not covered, because the copyright in the paper may pass to the publisher. This scope note is the drafting model's wording; the author should confirm it. |
+| Licence | MIT | `release/templates/LICENSE` (copyright 2026 Joel Jobi), written into the release as `LICENSE`. The release README says that the organisers' material keeps CC BY 4.0 and that the paper and its sources are not covered, because the copyright in the paper may pass to the publisher. This scope note is the drafting model's wording; the author confirmed it on 19 November 2026 (section 10.7). |
 | Quoted sentences of the organisers' private e-mail (the audit's one blocker) | Replace them with the organisers' public wording | `paper/ORGANISER_REQUIREMENTS.md`: the two rows of R4 now quote the public "Task 1 rules clarification · 12 October 2026" (`app/task1/rules-clarification.tsx` on the organisers' `origin/main`, read at `cee57ae`); two short quoted phrases of the e-mail are paraphrased. `paper/build_facts.py`: the string `finchain_disclosure_request` is reworded. `paper/facts.json` was rebuilt and differs in that string only; `paper/TABLES.md` is unchanged. No requirement and no number changed. |
 
 Defaults kept, as told to the author: the planning notes stay out of the release; full submission receipt ids and per-call session ids stay in; the working documents in `paper/` stay in. `paper/README.md` gained a section describing the folder's state on 18 November 2026.
@@ -521,7 +521,7 @@ Defaults kept, as told to the author: the planning notes stay out of the release
 
 ### 9.1 What prompted it, and the author's decisions
 
-After the first camera-ready build (section 8; published as commit `44ab0b3` with release `v1.0`) two documents were added to `working_notes/`: `REVIEW_REVISION_ASSESSMENT_20261118.md`, an assessment of how that build answers the reviews, with the check script `verify/revision_assessment.py`, and `EXPERIMENT_RECOMMENDATIONS_20261118.md`, which proposes three experiments. Neither was written in the sessions that produced the paper. Every finding was checked against the files before anything was changed (9.2).
+After the first camera-ready build (section 8; published as commit `44ab0b3` with release `v1.0`) two documents were added to `working_notes/`: `REVIEW_REVISION_ASSESSMENT_20261118.md`, an assessment of how that build answers the reviews, with the check script `verify/revision_assessment.py`, and `EXPERIMENT_RECOMMENDATIONS_20261118.md`, which proposes three experiments. Neither was written in the sessions that produced the paper. Every finding was checked against the files before anything was changed (9.2). (The two documents and the script are not part of the public repository; see 10.9, which also says where the script's figures can be recomputed.)
 
 Decisions of the author on 18 November 2026:
 
@@ -570,7 +570,7 @@ AR = `experiments/arith_replay_20261118/` (`preregistration.json`, `run_arith_re
 | Supplement, Table III and "What explains the losses" | AR `field_transitions_*.json`, `posthoc_analysis.json`, and `verify/arith_replay_checks.py`, item 3 (set differences between the rules: rule 3 loses every decimal slot that rule 2 loses, and 1 and 8 more; rule 1 loses every decimal slot that rule 2 loses, and 51 and 255 more; the one fraction slot for which the reconstruction returns another fraction). `posthoc_analysis.json` assigns each lost slot to the first matching reason, so its label "a fraction was written for a finite decimal" reads 1 and 9 where the set difference is 1 and 8, and its "denominator above 10^6" (6 and 18) counts only slots whose computed double is the nearest one |
 | No execution failed in binary64; no field was unrenderable or dropped by the validator | AR `results/overview.json`: `execution_failures` {}, `unrendered_fields` {}, `fields_dropped_by_gate` 0 in all six arms |
 | Supplement, Section IV: loss interval [0.0054155, 0.0054185]; weights 1/360, 1/480, 1/600, 1/840; 1, 4, 5 and 2 domains; the single solution | `verify/derived_strata.py`, items 1 and 2 (as in 8.3) |
-| Supplement, "Representation of the gold values": 548; 70; 2 of the 70; 618 slots in 61 templates | `verify/derived_strata.py`, item 3; `verify/revision_assessment.py` (`mismatches_recovered_by_fixed_decimal_rendering`: 2) |
+| Supplement, "Representation of the gold values": 548; 70; 2 of the 70; 618 slots in 61 templates | `verify/derived_strata.py`, item 3, whose last line gives the two counts first taken from `verify/revision_assessment.py`: none of the 70 exactly representable, and 2 given back when the nearest double is printed with the gold's number of decimal places |
 
 Limits stated in the paper and the supplement: the programs were written for an exact pipeline; three float implementations are not every possible one; both runs hold familiar templates only, and the second run contains the programs of the first, so they are not two independent samples. The paired intervals of the replay exclude 0, but the paper still calls no difference significant.
 
@@ -599,7 +599,7 @@ Length, with `verify/revision_assessment.py`'s measure: source 7,612 whitespace-
 - `python -m carnot.continuation_state_v1 verify`: exit 0 (frozen files and ledgers intact).
 - **An edit that was undone.** While the move to another machine was prepared, a setting for the WSL distribution name was added to `carnot/sandbox/executor.py` and removed again the same day, when it turned out that the file's hash is recorded in the continuation's baseline manifest and in 13 run records. The file is byte-identical to the released one (SHA-256 `7d15a38c…`), and the replay's runner checks that hash at start.
 
-### 9.6 Final deliverable
+### 9.6 Final deliverable (superseded by section 10.7)
 
 - `working_notes/carnot_finreason2026_task1_working_notes.pdf` (a copy of `main.pdf`): SHA-256 `5b771934ec5fc5b706da432053f9b565e3e39115f3cff5d060032201286cf78e`, 266,640 bytes, 10 pages, US letter.
 - `working_notes/carnot_working_notes_standalone.tex`: regenerated with `verify/flatten.py`.
@@ -613,4 +613,142 @@ Length, with `verify/revision_assessment.py`'s measure: source 7,612 whitespace-
 - After the rebuild the three archives have the SHA-256 values of release `v1.0` (`1aa6fb41…`, `af27d880…`, `df255815…`) and `ARTIFACTS.md` is byte-identical to the published one. No archive has to be uploaded again.
 - `release/verify_release.py release_staging`: all four checks passed (69,277 rows in the cache snapshot; every zip passes its self-test; no forbidden path; `MANIFEST.sha256` matches the tree).
 - `release/audit.py`: the same eleven decision items as in the first audit and no new kind of finding. The first rebuild carried one blocker, the tool's own warning that three files under `experiments/` had been written in the fifteen minutes before the build (the amendment and the README of the replay); the tree was therefore built again after that interval. The report is `release/AUDIT_REPORT.md`, which is not part of the released tree.
-- What the paper says about the repository (the supplement, the replay records, the README's commands) is true of the rebuilt tree and becomes true of the public repository when the author pushes it. Until then the public repository is the first camera-ready build, commit `44ab0b3`.
+- What the paper says about the repository (the supplement, the replay records, the README's commands) is true of the rebuilt tree and becomes true of the public repository when the author pushes it. Until then the public repository is the first camera-ready build, commit `44ab0b3`. (The author pushed this build later the same day as commit `7a1fbba`; see section 10.1.)
+
+## 10. Third camera-ready build of 18 November 2026: editorial revision after a second writing audit
+
+### 10.1 What prompted it, and how it was judged
+
+`working_notes/AI_WRITING_AUDIT_20261118.md` reviewed the PDF of section 9.6 (SHA-256 `5b771934…`). It was not written in the sessions that produced the paper. By then the author had pushed that build: the public repository was at commit `7a1fbba`, and its PDF had the same SHA-256 (checked on 18 November 2026 through the GitHub API and by downloading the file). The audit quotes 125 passages with a comment on each; it marks 34 as salient, 5 as context and 2 as disclosure.
+
+The author asked the drafting model to read the audit and to judge what to add, delete or modify. The choices below are therefore the model's. The author had not reviewed them when this section was written, and it is the author who decides whether this build replaces the public one.
+
+One question was asked of every entry: does the passage say something inaccurate or stronger than its source, give an action to the wrong subject, or repeat something without adding to it? Whether a passage reads as drafted by a model was not a criterion. The drafting is disclosed in the Acknowledgment, which is unchanged, and every disclosure of Section IX is kept (disclosure 2 now also names the breakage check, 10.2).
+
+By the model's count 107 of the 125 entries led to a change, some of them only in part, and 18 did not (10.3). All 34 salient entries are among the 107. No model was run, no experiment was made, no test answer was analysed, and nothing was uploaded or pushed.
+
+### 10.2 Statements corrected, and the source of each new wording
+
+"Before" is the build of section 9 (commit `7a1fbba`). WA = `working_notes/verify/writing_audit_checks.py` (new, read-only: it compares stored prediction files field by field).
+
+| Where | Before | Now | Why, and source |
+|---|---|---|---|
+| III-B | "There is no retrieval, so same-template examples are never shown" | "as deployed, every question gets the same three examples, including the questions of those three templates" | The old sentence was false for the deployed mode. `carnot/exemplars.py`, `select`: the three primaries are returned whenever the mode is S; six tuning-eval questions share a primary's template (Section IV-A) |
+| Table I | "echo notes (never fire on test)" in the novel-route column | "(triggered by none of the 348)" | The echo rule fires on 4 seen-route test questions (Section VII-E; section 2) |
+| XI | "with one run per configuration" | "rests on few runs: its one run without examples is compared with baseline runs made five weeks earlier" | Table V holds three R0 runs and five samples scored alone; only the run without examples is single (8.3) |
+| V-F | "whose slots are exact" | "whose slots are mostly exact" | 4,850 of 5,180 train slots (section 2) |
+| I, related work | "the intermediate chain, which is where our residual errors lie" | clause removed | The inspected errors include wrong final answers (the tax confusion, Sections VII-E and VIII) |
+| VII-C | "Evaluated as `e_base` against `e_conv`" | "evaluated as `e_conv` against the baseline `e_base`" | The roles were reversed. PR (`conventions_v1`): baseline `e_base`, candidate `e_conv` |
+| VII-B | "24 of 25 authored templates trivial, below the pre-registered floor of 12 non-trivial templates" | "which left one non-trivial template against a pre-registered floor of 12" | Same figures (section 2); the old sentence compared 24 with a floor for the other category |
+| X | "These panels did not discriminate between systems." | sentence removed; XI now says "the systems differed mostly on one ambiguous wording" | Table VII shows 83 to 88 on the stress panel; the supported statement is that the gains "came mostly from the ambiguous bond wording" (section 5.2) |
+| Abstract | "replaying one run's programs in double precision lost three or four" | "re-executing … lost three or four (depending on how floats are written)" | The range is over the three renderings of Table V, not an uncertainty (9.3) |
+| Abstract, V-F | "The published scores imply three wrong finals … and eight …"; "The published scores fix how the eleven wrong finals divide" | both now open with the assumption that the 348 novel-route questions are the hidden ones | The derivation rests on that assumption (8.3; supplement, Section IV) |
+| Abstract, V-F, VII-C, XI | "the hidden questions" for properties measured on the novel route | "the 348", "novel-route questions", "on the novel route" | The route is what was measured (Section II-D) |
+| V-C | "so we call no difference in this paper significant" | "so we call none of these differences significant" | The inference covers the pre-registered comparisons. It remains true that the paper calls no difference significant |
+| IV-B | "no statistic computed on test outputs is used" | "The decision uses no statistic computed on test outputs; Section IX discloses one statistic of a test run that a written rationale mentioned" | PR (`r1`: `check_e`, `rationale`); section 2, row on the thinking-token caveat |
+| I | "so arithmetic and formatting errors cost as much as reasoning errors" | "so a value that is off in its last digit scores no better than a wrong method, and one malformed value invalidates the whole file" | A malformed value costs the file, which is more than one field (Section II-C) |
+| III-G | "so samples are independent calls"; "Every replay we checked reproduced its run bit for bit" | "separate calls with the same prompt"; "Replaying the R3 and R4 test submissions from this cache reproduced the uploaded files byte for byte" | `carnot/solver.py` (`solve_sample`); `paper/REPLAY_CHECK.md` |
+| III-B | "all six were verified at the first attempt" | "no candidate was rejected" | WA, item 3: six candidates tried, six verified, one attempt each (`exemplars/r0_exemplars.json`, `bootstrap_log`) |
+| V-C | "Forced onto the novel route, R4 equals R3 exactly." | "Applied to every tuning-eval question, R4's novel-route configuration returned the same fields as R3's." | WA, item 1: 0 of 1,616 fields differ, in S-mode and in H-mode |
+| VI | "Table V separates four components" | "examines four components … The comparisons are not equally controlled: two rescore stored runs, one adds a run made five weeks later, and one re-executes stored programs." | 8.3 and 9.3 |
+| VI, worked examples | "On familiar templates the examples thus change a few fields at most" | "Field by field, the run without examples differs from the first R0 run in 4 of 1,616 fields, these two finals and two slots; this single comparison suggests, and cannot establish, …" | WA, item 2: finals of `t1_ks6lmh3qyhkt36r57ez4k` and `t1_ls7mubqvgwm32wk4e5xze` (the two tax finals of 8.3); `growth_multiplier_trace` in two cases of one template, one newly matched and one newly missed, which is why the checkpoint difference is 0 |
+| VI, sampling | "the vote removes an isolated deviation … and adds no answer that a typical single sample lacks. The same holds for the forced runs of R2, R3 and R4." | "The five-sample vote of R1 forced … a final in one sample and a slot in another; the vote corrects these two deviations and otherwise returns what all five samples returned. In the forced runs of R2, R3 and R4 the vote likewise returns the fields of its first sample." | `component_analysis.py`: R1 forced has 2 non-unanimous fields, and the voted value equals the gold in both; the vote differs from the first sample on 0 fields in every forced run. The old last sentence claimed more than that for R2 to R4 |
+| VI, exact arithmetic | "all 93 whose gold is a fraction unless fractions are reconstructed, which recovers 64, and 29 to 80 of the 872 exact decimal slots" | "Of the 93 exact slots whose gold is a fraction, the first two rules lose every one and the third loses 29; of the 872 exact decimal slots that the exact run matches, the three rules lose 80, 29 and 30." | Same source as 9.3 (AR `field_transitions_*.json`: 93, 93, 29 and 80, 29, 30) |
+| III-H | heading "The submitted systems"; "the more specific per-field hint changed the behaviour" | "Systems R0 to R4"; "was enough to change the scale that the programs returned (Section VII)" | R2 was never uploaded. The hint alone fixed 8 slots and broke none (section 2, `conventions_v1`) |
+| Table VI, IX | "Distinct model calls of the whole project" | "Distinct model calls in the response cache: all runs of the pipeline and the experiments, … but not the Claude Code sessions in which the code and this paper were written." | `carnot/llm_client.py`: the cache is written only by the project's own client; `paper/build_facts.py` (`usage_facts`) sums its rows. Interactive sessions never write to it |
+| IX, disclosure (2) | "the lockbox look was decisive" | "the breakage check and the lockbox look were decisive" | PR (`hints_v2`): "only the breakage check and the lockbox are decisive". Section VII-D says the same and keeps "as pre-registered" |
+| IX, availability | "With the cache, readers can repeat both test replays without a model call." | "The repository's README gives the commands and requirements for repeating both test replays from the cache without a model call." | The released README: both commands with `--cache-only`, and the recorded CLI version, a login, the sandbox and the organisers' data as requirements (9.2) |
+| IX, models | "again with that interface version and model identifier" | "with the same interface version and `claude-sonnet-5-5`" | ZS `run/summary.json` (8.3) |
+| X | "V adds one Opus call that must select an existing candidate through an evidence program" | "that sees the candidate programs and must return a program whose outputs reproduce those of one candidate, so that it can select a candidate but cannot edit a value" | `carnot/verification.py` (`check_evidence`); supplement, Section III |
+| XI | "adopted on prior evidence and the absence of detected harm on familiar templates" | adds "their effect on hidden templates was never measured" | Sections II-D and V-E |
+| XI, last paragraph | "The hidden questions are longer and more conditional … which is where further work on this pipeline should start." | "Further work on this pipeline should start with held-out templates fixed before development, and should test whether disagreement among the samples marks the wrongly answered questions, which we could not tell on the test set." | Section V-F: split and unanimous votes could not be told apart |
+| V-F | "Third, our synthetic panels were too easy to expose such errors"; "We have no indication that arithmetic or rendering contributed" | no longer numbered as a cause; "The specifications give no reason to suspect arithmetic or rendering, although no hidden case can be inspected" | The third item explained why the checks missed the errors, not what caused them; the reason given shows agreement with the specification, not a diagnosis |
+
+**Wrong or unclear grammatical subject, reworded without a change of content:** "Each question publishes a specification"; "Neither measure checks" (now "Neither exact execution nor rendering"); "The equivalence is the scorer's own"; the adoption rule's "forced onto every tuning-eval question in both modes, neither score is detectably lower"; "Decomposed, the unit hint alone"; "Train's dimensionless gold holds"; "every other R3 answer replayed R1's cached responses"; "took the development leaderboard to 1.000000" (the clause is gone; the score is in Section V-B); "R1's noted that"; "without manual edits, including to formatting"; disclosure (4), "which uses the leaderboard"; "A pre-registered continuation replayed … and authored"; "the pre-registered rule stopped the study"; "P lost and gained no final answer"; "divide the samples".
+
+**Announcements and repeated statements removed:** "Two properties of the task shaped the design"; "What we add is …" before the list of contributions; the first-sample clause in contribution 2 (it stays in the abstract and Section VI); "so that the executed program's value is the submitted value" in the related work (it stays in contribution 1 and Section III-D); "Two prompt changes need detail"; "The public record supports three observations and suggests possible causes"; "These are hypotheses" after the label; "the causes named in Section V-F are hypotheses" in XI; the second "pre-registered with the disclosure" sentences in VII-A and VII-D (disclosures 3 and 2 carry them); "Later lockbox results were read as aggregates only" in VIII (it is in IV-A); the one-sentence "Resource use" paragraph (its pointer to Table VI moved to "Models"); the pointer in the caption of Fig. 1 to the section the figure is in; "none was submitted" in the text of X (the caption of Table VII says it). "Decisive" occurs once instead of five times and "pre-registered" 16 times instead of 17.
+
+**Layout:** the three limitation labels of Section XI start paragraphs of their own; the three-part prompt description of III-A and the synthetic-set description of VII-B are split into shorter sentences.
+
+### 10.3 Entries not acted on
+
+- **Title** (2 entries): kept on the author's instruction of 2 November (section 7).
+- **II-A and II-C** both describe the three kinds of field: one gives the form of the gold strings, the other the scorer's comparison. Both are needed.
+- **II-D, "We assume, but cannot verify"**, and **IV-A, "a sensitivity check and not an independent replication"**: the audit itself cites the first as the careful wording and calls the count in the second essential.
+- **IV-B, "The author approved …"**: the third person is deliberate (section 7.1).
+- **V-E, "after all of the model-selection decisions above"**: the order of events matters for a system that was selected.
+- **VI, "not every floating-point pipeline"**: the limit of the replay (9.3).
+- **VII-A, "two conventions are too few to establish this"**: it answers a reviewer's point (8.2); the same remark one sentence earlier was removed instead.
+- **VIII:** the three case reports, "Among the inspected errors we found no arithmetic-execution or formatting failure" and the sentence on R1's one slot are the evidence itself.
+- **IX, disclosure (5)** (the two incidents) and "none of them informed a decision" in **disclosure (6)**: the list of disclosures is the formal record and stays complete, also where the body says the same.
+- **Acknowledgment** (3 entries) and **References** (1 entry): the AI-use disclosure and the organisers' required entries.
+
+Partly acted on: the receipt and hash of R4 stay in V-D (section 7.1) and only the sentence order changed; the opening exception of VIII stays.
+
+### 10.4 Rows of earlier sections whose quoted wording changed
+
+The sources are unchanged; only the sentences differ.
+
+- Section 2: "all six at the first attempt" is now "no candidate was rejected"; "Backup replaces primary in H-mode; no retrieval" is now the sentence of 10.2, first row.
+- Section 8.3: the sampling row and the worked-examples rows keep their sources; the paper's sentences are those of 10.2.
+- Section 8.4: "with one run per configuration" is superseded by 10.2, third row.
+- Section 9.3: "All 93 fraction slots lost unless fractions are reconstructed, which recovers 64" and "29 to 80 of the 872" are now the per-rule sentence of 10.2; "replaying one run's programs …" is now "re-executing …".
+
+### 10.5 Statements removed, and where the fact remains
+
+| Removed | Where the fact remains |
+|---|---|
+| II-C: "We give official scores to six decimal places, as the organisers do." | Caption of Table II; the ranking sentence of II-C |
+| III-A: "this fallback was declared in advance" | PR; not needed for the description |
+| III-F: "The rule is fixed, derived from train and uses only these public fields." | II-D ("built from train alone"), the definition in III-F, and IX ("routing is derived from train") |
+| V-A: the tuning-noex scores of R4's seen route and of R0 | Table II |
+| V-B: "so we name them by label and cite …", "so the R0 row is also theirs", "the portal accepted both uploads" | Table III; the first sentence of V-B |
+| V-F: "so these questions can be answered" | The count of eight teams stays |
+| VII-B: "which does not show that fully specified financial reasoning is solved" | The sentence is now limited to "the fully specified problems that the model wrote" |
+| VII-C: "never from the question's own template"; "We observed that the organisers do not use slot names consistently"; "Under the registered rule" | "from *other* templates"; the observation stays without the attribution; Table IV |
+| XI: "A held-out-template check would have had to be fixed before method development." | The last paragraph now recommends it |
+| XI: "its logs and replay checks make the development decisions auditable" | Contribution 4 and Section IX |
+| Abstract: the validator clause; "one short" | Section III-A |
+
+The sentence of II-B on hash checks was first removed and then restored in shorter form ("every run hash-checks the files against the release manifests"), because it is the paper's only support for "we made no changes to the data".
+
+### 10.6 Checks after the edit
+
+- **Numbers.** `number_diff.py` against the sources of commit `7a1fbba` (kept locally in `paper_backups/second_camera_ready_5b771934/`, which is not part of the release): 0 tokens added, 0 removed. Two existing tokens have a new use: "4 of 1,616" (10.2) and "30" (the third rule's lost decimal slots).
+- **Independent check.** A separate read-only pass compared all 74 changed passages of `main.tex`, the table and figure changes, and the removed sentences with the run files, the code and the logs. It found no statement that the records contradict. It found three wording defects in the new text (in the abstract a pronoun that pointed at the 580 and a clause in which the program was "rendered"; in XI, panels that "differed between systems") and twelve smaller points, of which eleven were applied and one needed no change; they are part of 10.2. It also found four places in `RESPONSE_TO_REVIEWS_20261118.md` that described the previous wording; they are corrected.
+- **Build.** `pdflatex` → `bibtex` → `pdflatex` ×2: 10 pages, 0 undefined references or citations, 0 `Overfull \hbox`, 0 LaTeX warnings; all 13 fonts embedded; title and author in the metadata. The right column of the last page is a little more than half used.
+- **Encoding.** `main.tex`, the tables, the figure and the standalone copy are LF-only without control characters.
+- **Length**, by `verify/paper_length.py` (the same two measures as the outside script used in section 9): source 7,601 whitespace-separated tokens (second build 7,612; first build 7,636; submitted 7,135); extracted PDF text 9,134 words (9,125; 9,100; 8,470). The abstract has 250 words by whitespace count. The paper is as long as before: the removed repetition is balanced by statements that became more exact.
+- `python -I paper/build_facts.py --check`: "facts.json up to date". `python -m carnot.continuation_state_v1 verify`: exit 0. `carnot/sandbox/executor.py` is unchanged (SHA-256 `7d15a38c…`).
+- The supplement is unchanged (SHA-256 of the PDF `37273617…`); no statement in it describes the paper wrongly after the edit.
+
+### 10.7 Deliverable
+
+- `working_notes/carnot_finreason2026_task1_working_notes.pdf` (a copy of `main.pdf`): SHA-256 `137febf630231b5790469cb7a32374e3b36a8bda7d6b2858e828bbb2a2a06aa0`, 267,715 bytes, 10 pages, US letter.
+- `working_notes/carnot_working_notes_standalone.tex`: regenerated with `verify/flatten.py`; it compiles to the same 10 pages with identical extracted text.
+- The public repository holds the build of section 9 until the author pushes this one, and the author uploads the PDF through CyberChair SC03. Neither was done here.
+- Confirmed by the author on 19 November 2026: the Acknowledgment's wording for the model that drafted the camera-ready revisions ("the camera-ready revision by Claude Fable 5, model `claude-fable-5-2`"), and the scope note of the licence in the release README (8.7). Both were open in 8.8 and 9.6; neither text was changed.
+- Decided by the author on 19 November 2026: the outside documents of 18 November 2026 are left out of the public release (10.9).
+- Still for the author to decide: whether this build replaces the public one.
+
+### 10.8 Release rebuild
+
+- `release/make_release.py` is unchanged. After the rebuild the three archives again have the SHA-256 values of release `v1.0` (`1aa6fb41…`, `af27d880…`, `df255815…`), and `ARTIFACTS.md` and the release `README.md` are byte-identical to the pushed ones. No archive has to be uploaded again.
+- Relative to commit `7a1fbba` the tree differs in the paper's sources and PDF (`main.tex`, four tables, the figure, `main.pdf`, the deliverable PDF, the standalone copy), `paper/VERIFICATION.md`, `paper/README.md`, the response letter, `working_notes/verify/derived_strata.py` and `MANIFEST.sha256`. It gains `working_notes/verify/writing_audit_checks.py` and `working_notes/verify/paper_length.py`, and it no longer holds the four outside files of 10.9 that commit `7a1fbba` contained.
+- `release/verify_release.py release_staging`: all four checks passed (69,277 rows in the cache snapshot; every zip passes its self-test; no forbidden path; `MANIFEST.sha256` matches the tree).
+- `release/audit.py`: 0 blockers, and the same eleven decision items as before. The report is `release/AUDIT_REPORT.md`, which is not part of the released tree.
+
+### 10.9 Outside documents left out of the public repository
+
+Decision of the author on 19 November 2026. Five files that were not written in the sessions that produced the paper are kept by the author and are not released (`release/exclude.txt`):
+
+- `working_notes/REVIEW_REVISION_ASSESSMENT_20261118.md` and `working_notes/EXPERIMENT_RECOMMENDATIONS_20261118.md` (9.1);
+- `working_notes/verify/revision_assessment.py` and `working_notes/verify/revision_assessment_page10.png` (9.1, 9.6);
+- `working_notes/AI_WRITING_AUDIT_20261118.md` (10.1).
+
+The first four were part of the tree pushed as commit `7a1fbba`; the fifth was never pushed. Sections 9 and 10 still name the files, because they record what was checked and why. No number in the paper or the supplement is traced to them alone:
+
+- The two counts that section 9 took from the outside script (none of the 70 decimals is exactly representable as a double; 2 are given back when the nearest double is printed with the gold's number of decimal places) are now printed by `verify/derived_strata.py`, item 3, which gained one output line. The label of the line before it was corrected from "no double-precision value can match" to "fractions plus decimals that the nearest double does not print back", in keeping with 9.2.
+- The length figures of 9.4 and 10.6 are printed by `verify/paper_length.py` (new): 7,135 and 7,601 source tokens, and 8,470 and 9,134 words of extracted PDF text, for the submitted version and for this build. The figures for the first and second camera-ready builds (7,636 and 7,612 tokens; 9,100 and 9,125 words) were measured in the same way on the files of those builds.
+
+The critique and the wording audit of 2 November 2026 (sections 6 and 7) are also outside documents. They have been public since the first release and stay.

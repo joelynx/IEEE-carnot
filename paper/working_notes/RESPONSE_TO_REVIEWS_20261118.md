@@ -2,17 +2,19 @@
 
 Paper: "Exact Program-of-Thought with Pre-Registered Evaluation for Verifiable Financial Chain Reasoning: Team carnot at FinReason Cup 2026 Task 1". Both reviews recommend "Accept: a regular paper". Section numbers below refer to the camera-ready version. The source of every new number is in `paper/VERIFICATION.md`, sections 8 and 9.
 
-This letter was revised later on 18 November 2026, after an outside assessment of the first camera-ready build (`REVIEW_REVISION_ASSESSMENT_20261118.md`). The assessment found that the answer to W1 overstated the shortening and that the arithmetic claim under W2 was too strong. Both answers below are corrected, and the arithmetic claim is replaced by a measurement.
+This letter was revised later on 18 November 2026, after an outside assessment of the first camera-ready build (`paper/VERIFICATION.md`, section 9). The assessment found that the answer to W1 overstated the shortening and that the arithmetic claim under W2 was too strong. Both answers below are corrected, and the arithmetic claim is replaced by a measurement.
+
+It was revised once more the same day, after an outside audit of the paper's wording (`paper/VERIFICATION.md`, section 10). Neither outside document is part of the public repository. That revision changed wording only: it corrected sentences whose short form said more than their source, and removed repetition. The descriptions below follow the final text.
 
 ## Reviewer 1
 
 **W1. The paper is long and dense; condense Sections IV and IX and move details to an appendix.**
 Section IV (evaluation methodology) now has two subsections instead of four, and the post-submission section (now Section X) has three paragraphs instead of seven. The account of the synthetic set (Section VII-B) is shorter as well, and the derivation behind Section V-F moved to the supplement. These accounts are kept in full in a supplementary document in the public repository, which the paper cites. A few template names and example values were dropped from the main text; they remain in the run records and in the version submitted for review (`archive/submitted_20261102/`). We did not add an appendix to the paper itself, because the ten-page limit includes it.
 
-The paper as a whole did not get shorter. It is still ten pages, and its source grew from 7,135 to 7,612 whitespace-separated tokens (8,470 to 9,125 words of extracted PDF text), because the space freed went to the analyses the reviewers asked for (W2, W3). The request is therefore met only in part: the two sections named by the reviewer are condensed, and the reader's total load is not lower.
+The paper as a whole did not get shorter. It is still ten pages, and its source grew from 7,135 to 7,601 whitespace-separated tokens (8,470 to 9,134 words of extracted PDF text), because the space freed went to the analyses the reviewers asked for (W2, W3). The request is therefore met only in part: the two sections named by the reviewer are condensed, and the reader's total load is not lower.
 
 **W2. No ablation is reported.**
-New Section VI and Table V separate four components on the 580 tuning-eval questions.
+New Section VI and Table V examine four components on the 580 tuning-eval questions. The four comparisons are not equally controlled, and the section says so.
 
 - Worked examples: one new pre-registered run without them. It missed five slots, as R0 did and in the same three conventions, and two final answers, both the known tax confusion (FAC 0.996667 against 1.000000; paired interval [−0.006667, 0]). The run with examples is five weeks older, so a change of the served model cannot be excluded; the paper now says so.
 - Effort and sampling: stored runs rescored one sample at a time. The five-sample vote returns exactly the fields of its first sample, and single medium-effort samples fall in the range of the low-effort runs.
@@ -21,10 +23,10 @@ New Section VI and Table V separate four components on the 580 tuning-eval quest
 The formatter was not ablated, the replay measures three float renderings of programs written for an exact pipeline, and the analysis covers familiar templates only; these limits are stated.
 
 **W3. The hidden-template failure remains unexplained.**
-New Section V-F. The published scores imply 3 wrong finals among 580 seen-stratum questions and 8 among 348 hidden-stratum questions. The hidden questions are longer and state more conditional rules, and the five samples disagreed on the final in 10 of 348 of them, against none of 580 on familiar templates with the same configuration. The causes are given as hypotheses, because no hidden reference answer is public.
+New Section V-F. If the 348 questions that our rule routes as novel are the hidden ones, which we assume and cannot verify, the published scores imply 3 wrong finals among the 580 seen-stratum questions and 8 among the 348 hidden-stratum questions. The novel-route questions are longer and use conditional wording more often, and the five samples disagreed on the final in 10 of 348 of them, against none of 580 on familiar templates with the same configuration. The causes are given as hypotheses, because no hidden reference answer is public.
 
 **W4. Limited novelty.**
-The introduction now states that program-of-thought prompting and self-consistency are established and that the paper proposes no new prompting technique. The contributions are the implementation, the audited evaluation record and the negative results.
+The introduction now states that program-of-thought prompting and self-consistency are established and that the paper proposes no new prompting technique. The contributions it lists are the pipeline, the error and component analysis, the evaluation design with its limit, and the replayable submissions with the public record.
 
 **W5. The adopted fixes are narrow.** Agreed and already stated under "Scope of the fixes" (Section XI); unchanged.
 

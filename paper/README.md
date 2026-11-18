@@ -18,7 +18,7 @@ State at 12 October 2026, when this folder was prepared: the final, latest accep
 
 ## State at 18 November 2026: the paper as accepted
 
-The table above describes the folder as it was handed to the writing step. The paper has since been written, submitted, accepted and revised for the camera-ready version. `VERIFICATION.md` traces every number in it and records each revision in order (sections 5 to 9).
+The table above describes the folder as it was handed to the writing step. The paper has since been written, submitted, accepted and revised for the camera-ready version. `VERIFICATION.md` traces every number in it and records each revision in order (sections 5 to 10).
 
 | File | What it is |
 |---|---|
@@ -30,6 +30,8 @@ The table above describes the folder as it was handed to the writing step. The p
 | `working_notes/archive/submitted_20261102/` | The version submitted for review, unchanged |
 | `working_notes/verify/` | Read-only scripts that recompute the figures cited in `VERIFICATION.md` |
 | `working_notes/RESPONSE_TO_REVIEWS_20261118.md` | What the camera-ready revision changed for each review point |
-| `working_notes/REVIEW_REVISION_ASSESSMENT_20261118.md`, `working_notes/EXPERIMENT_RECOMMENDATIONS_20261118.md` | An outside assessment of the first camera-ready build and the experiments it proposed. `VERIFICATION.md`, section 9, records how each point was checked and what was done |
+| `working_notes/CRITIQUE_20261102.md`, `working_notes/AI_WRITING_AUDIT_20261102.md` | An outside critique and an outside audit of the wording of the version submitted for review. `VERIFICATION.md`, sections 6 and 7, records which points were acted on and why |
+
+Three outside documents of 18 November 2026 are not in the public repository: an assessment of the first camera-ready build, the list of experiments it proposed, and an audit of the wording of the second build. `VERIFICATION.md`, sections 9 and 10, records how each of their points was checked and what was done.
 
 The official test results are in `working_notes/verify/official_test_results_20261028.json`, as published by the organisers.
