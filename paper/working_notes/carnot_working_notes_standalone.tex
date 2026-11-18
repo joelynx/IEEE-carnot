@@ -4,6 +4,10 @@
 % Organiser format: IEEE two-column conference template, at most 10 pages INCLUDING references,
 % single-blind (author names and affiliations visible). See paper/ORGANISER_REQUIREMENTS.md.
 % Every number in this file is traced to its source in paper/VERIFICATION.md.
+% IEEE Xplore PDF requirements (camera-ready instruction, STEP 5): PDF 1.4 (Acrobat 5) compatibility,
+% all fonts embedded and subset, no bookmarks and no links.
+\pdfminorversion=4
+\pdfobjcompresslevel=0
 \documentclass[conference]{IEEEtran}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -13,11 +17,11 @@
 \usepackage[hyphens]{url}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,calc}
-\usepackage[hidelinks]{hyperref}
-\hypersetup{pdftitle={Exact Program-of-Thought with Pre-Registered Evaluation for Verifiable Financial Chain Reasoning: Team carnot at FinReason Cup 2026 Task 1}, pdfauthor={Joel Jobi}}
+% hyperref is not loaded: it would write bookmarks and link annotations into the PDF.
+\pdfinfo{/Title (Exact Program-of-Thought with Pre-Registered Evaluation for Verifiable Financial Chain Reasoning: Team carnot at FinReason Cup 2026 Task 1) /Author (Joel Jobi)}
 \newcommand{\id}[1]{\texttt{#1}}
 % Public repository (given by the author on 18 November 2026).
-\newcommand{\repourl}{https://github.com/joelynx/IEEE-carnot}
+\urldef{\repourl}\url{https://github.com/joelynx/IEEE-carnot}
 
 \begin{document}
 
@@ -378,7 +382,7 @@ Each test answer was produced by the logged system (configuration hash, code has
 (1)~Lockbox look 1: three cases inspected individually (Section~\ref{sec:errors}). (2)~The hint-only candidate was chosen after the \id{conventions\_v1} result, so its tuning evidence is biased, and the breakage check and the lockbox look were decisive. (3)~R2 followed a diagnostic whose Opus outputs on four tuning cases were seen before R2's pre-registration. (4)~R4's two fixes target failure modes seen in tuning and, for the tax case, in lockbox look 1; R4 was adopted on one pre-registered upload to the development leaderboard, the only labelled set that we never analysed case by case, so the leaderboard served one selection decision. (5)~Two logged incidents without effect on any submitted file: a duplicate background run of R1's tuning check (both copies stopped with no outputs inspected; a run lock was added) and a full disk that interrupted one tuning run (the cache integrity check passed and the run resumed from the cache). (6)~After the official results, and in response to the reviews of this paper, we computed the sample-agreement statistic of Section~\ref{sec:hidden} on our own test outputs and ran the pre-registered zero-shot ablation and arithmetic replay of Section~\ref{sec:components}; none of them informed a decision.
 
 \paragraph*{Reproducibility and availability}
-Regenerating the R3 and R4 test runs from the response cache with the logged configuration needed no new model call (2,323 cached calls each), passed the toolkit's \id{validate}, \id{package} and \id{validate-zip}, and produced ZIP files byte-identical to the uploaded ones (SHA-256 \id{ea491873\ldots} and \id{cec784e2\ldots}). Replaying R1, R2 and R3 on the leaderboard set likewise reproduced R0's ZIP exactly. The code, prompts, configurations, worked examples, splits, pre-registration and experiment logs, per-case run records, the response cache, and the sources of this paper with a record of where each number comes from are public at \url{\repourl}; the run records and the cache are attached there as release archives. The repository's README gives the commands and requirements for repeating both test replays from the cache without a model call. The organisers' data and toolkit are not redistributed and are obtained from their release. A supplementary document in the repository holds the full evaluation protocol, the complete accounts of the synthetic set and of the post-submission study, the derivation used in Section~\ref{sec:hidden} and the full results of the arithmetic replay.
+Regenerating the R3 and R4 test runs from the response cache with the logged configuration needed no new model call (2,323 cached calls each), passed the toolkit's \id{validate}, \id{package} and \id{validate-zip}, and produced ZIP files byte-identical to the uploaded ones (SHA-256 \id{ea491873\ldots} and \id{cec784e2\ldots}). Replaying R1, R2 and R3 on the leaderboard set likewise reproduced R0's ZIP exactly. The code, prompts, configurations, worked examples, splits, pre-registration and experiment logs, per-case run records, the response cache, and the sources of this paper with a record of where each number comes from are public at \repourl; the run records and the cache are attached there as release archives. The repository's README gives the commands and requirements for repeating both test replays from the cache without a model call. The organisers' data and toolkit are not redistributed and are obtained from their release. A supplementary document in the repository holds the full evaluation protocol, the complete accounts of the synthetic set and of the post-submission study, the derivation used in Section~\ref{sec:hidden} and the full results of the arithmetic replay.
 
 \section{Post-Submission Investigations}\label{sec:post}
 % ---- begin tables/post.tex (inlined) ----

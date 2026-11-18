@@ -752,3 +752,55 @@ The first four were part of the tree pushed as commit `7a1fbba`; the fifth was n
 - The length figures of 9.4 and 10.6 are printed by `verify/paper_length.py` (new): 7,135 and 7,601 source tokens, and 8,470 and 9,134 words of extracted PDF text, for the submitted version and for this build. The figures for the first and second camera-ready builds (7,636 and 7,612 tokens; 9,100 and 9,125 words) were measured in the same way on the files of those builds.
 
 The critique and the wording audit of 2 November 2026 (sections 6 and 7) are also outside documents. They have been public since the first release and stay.
+
+## 11. Check against the conference's camera-ready instruction (19 November 2026)
+
+### 11.1 What prompted it
+
+The author asked for a check of the conference's camera-ready instruction for the Cup (the page named in `ORGANISER_REQUIREMENTS.md`, R7, where its rules are quoted). By then the author had pushed the build of section 10: the public repository was at commit `af54b6c`, with the PDF of 10.7. The instruction sends authors to IEEE PDF eXpress, so the IEEE Author Center's list of what PDF eXpress checks was read as well (R7).
+
+### 11.2 Each rule and the state of the paper
+
+"Before" is the PDF of 10.7 (SHA-256 `137febf6…`).
+
+| Rule | Check | Before | Now |
+|---|---|---|---|
+| At most 10 pages with figures, tables and references | `pdfinfo` | 10 pages | 10 pages |
+| IEEE conference template | `main.tex`: `\documentclass[conference]{IEEEtran}`; no length is changed | met | met |
+| Page size 612 x 792 points | `pdfinfo` | met | met |
+| All fonts embedded and subset | `pdffonts`: 13 fonts, all Type 1, all embedded, all subset | met | met |
+| Graphics at least 300 dpi | `pdfimages -list`: no raster image; the one figure is drawn with TikZ | met | met |
+| Acrobat 5.0 compatibility; PDF version 1.4 or later | `pdfinfo` | PDF 1.5 | PDF 1.4 |
+| No bookmarks or links | byte search of the file | **not met**: an outline (`/Outlines`), 92 `/Link` annotations and 46 `/URI` actions, written by `hyperref` | met: none of `/Outlines`, `/Annots`, `/Link`, `/URI`, `/Dests` occurs |
+| No password, form, script or attachment | `pdfinfo`; byte search | met | met |
+| No crop marks, date stamps or other marks | the template prints no page numbers or running heads in conference mode | met | met |
+| "Optimized" (linearised for fast web view) | `pdfinfo`: "Optimized: no" | not done | not done |
+
+The last row is not met and was left: pdfTeX does not linearise a file and no tool that does is installed here. It is a Distiller setting in the instruction and is not in the Author Center's list of checks; PDF eXpress decides.
+
+### 11.3 What changed
+
+Only the preamble of `main.tex`, and with it the standalone copy:
+
+- `\pdfminorversion=4` and `\pdfobjcompresslevel=0` before the class is loaded, which gives PDF 1.4.
+- `hyperref` is no longer loaded. The title and the author are written into the file's metadata with `\pdfinfo`, and the repository address is typeset through `\urldef` of the `url` package, because `\url` no longer expands a macro without `hyperref`.
+
+No text changed. The text that `pdftotext` extracts is identical to that of the pushed build; every one of the 10 pages renders to an identical image at 60 dpi; `number_diff.py` against commit `af54b6c` shows 0 tokens added and 0 removed; the build has 0 undefined references, 0 `Overfull \hbox` and 0 LaTeX warnings. The source count of `verify/paper_length.py` rises from 7,601 to 7,644 tokens because of the preamble lines and their comments, and the response letter quotes the new figure; the extracted text still has 9,134 words.
+
+### 11.4 Deliverable, and what was not checked
+
+- `working_notes/carnot_finreason2026_task1_working_notes.pdf` (a copy of `main.pdf`): SHA-256 `a74bec6824f12c2d824dbca4b0e9718a229d661dc1acf2cc797bd90aea3405a4`, 225,817 bytes, 10 pages, US letter, PDF 1.4. It replaces the file of 10.7.
+- `working_notes/carnot_working_notes_standalone.tex`: regenerated; it compiles to the same 10 pages with identical extracted text.
+- **PDF eXpress itself was not run.** Only the author can do that (it needs an account and the conference ID). The file to submit in STEP 6 of the instruction is the one that PDF eXpress returns or passes; if it differs in bytes from the file above, its SHA-256 should be recorded here.
+- The copyright form (STEP 3), the registration receipt (STEP 7) and the choice of presentation mode (STEP 8) are the author's.
+
+### 11.5 A point outside the instruction, for the author to decide
+
+STEP 3 transfers the copyright through IEEE's electronic form. IEEE's rules for authors who post their papers (IEEE Author Center, "Post Your Paper", https://conferences.ieeeauthorcenter.ieee.org/get-published/post-your-paper/, read on 19 November 2026) then apply to the copies in the public repository: the camera-ready PDF and its LaTeX sources, and the version submitted for review in `working_notes/archive/`. As read there, the accepted paper may be posted on the author's personal website, the employer's website or institutional repository, arXiv, TechRxiv or a funder's repository, with IEEE's copyright notice; the final published paper may not be posted; and a preprint posted earlier is to be replaced after acceptance. The page does not say whether a repository on a code-hosting site counts as a personal website. Nothing was changed for this point; the release README already says that the paper and its sources are outside the MIT licence (8.7).
+
+### 11.6 Release rebuild
+
+- The three archives again have the SHA-256 values of release `v1.0`, and `ARTIFACTS.md` and the release `README.md` are unchanged, so no archive has to be uploaded again.
+- Relative to commit `af54b6c` the tree differs in `main.tex`, `main.pdf`, the deliverable PDF, the standalone copy, `paper/VERIFICATION.md`, `paper/ORGANISER_REQUIREMENTS.md` (new section R7), `paper/README.md`, the response letter and `MANIFEST.sha256`.
+- `release/verify_release.py release_staging`: all four checks passed. `release/audit.py`: 0 blockers and the same eleven decision items.
+- The supplement was not rebuilt. It is not submitted to the conference, and it still loads `hyperref`.

@@ -70,3 +70,20 @@ From the organiser email (`experiments/organiser_correspondence/2026-10-12_reply
 - No code path, prompt or rule was conditioned on test IDs or test texts. Few-shot pools and retrieval indexes come from train and dev only.
 - All model selection happened on train, dev, the lockbox or the development leaderboard, never on test.
 - **FinChain:** the team's rule is stricter than the organiser's permission. The repository was used only for planning-phase analysis, at pinned commit `146eaa8225bf867fe7386c2d4727b59e03170235`.
+
+## R7. Camera-ready instruction of the conference
+
+Recorded on 19 November 2026 from the public page "IEEE BigData 2026 Camera Ready Instruction -- FinReason Cup: Agentic Financial Reasoning, Hedging, and Audit Verification" (https://wi-lab.com/cyberchair/2026/bigdata26/scripts/BigData_2026_Camera_ready_instruction.php?subarea=SC03) and from the IEEE Author Center page "Meet IEEE Xplore Requirements" (https://conferences.ieeeauthorcenter.ieee.org/write-your-paper/meet-ieee-xplore-requirements/). As elsewhere in this file, dates are left out. How the paper was checked against these rows is in `VERIFICATION.md`, section 11.
+
+| Requirement | Verbatim source |
+|---|---|
+| Page limit | "Workshop Papers: 10 pages, including all figures, tables, and references." and "The authors could purchase two extra pages if necessary with US$100 per page." (instruction, STEP 1). The Cup's own limit is ten pages (R1) |
+| Template | "Your final papers MUST be formatted to IEEE Manuscript Templates for Conference Proceedings" (STEP 4) |
+| PDF settings | "Optimized, Acrobat 5.0 compatibility, ALL graphics at least 300 dpi resolution (higher if preferred), ALL fonts MUST be embedded and subset, Postscript settings DO NOT override distiller settings, Page size is 612.0 x 792.0 points (8.5" x 11")." (STEP 5.1, punctuation added) |
+| Fonts must be checked by the author | "Authors must check their final PDF files before submission to verify that all fonts have been properly embedded and subset." (STEP 5.1) |
+| IEEE Xplore compatibility | Author Center: "The PDF is version 1.4 (Acrobat 5) or later, but not Acrobat 9, X, or XI."; "All fonts are embedded or subset."; "No password or other security settings are included."; "No bookmarks or links are included."; "No PDF attachments are included."; no "crop marks, registration marks, date stamps, timestamps, or any other mark" |
+| PDF eXpress | "Use PDF eXpress to obtain an IEEE Xplore-compatible PDF file." with "Conference ID: 70701X" (STEP 5.3); "After using PDF eXpress, you will still need to submit the IEEE Xplore-compatible PDF file of your final paper" (STEP 2). **The author does this; an agent never does.** |
+| Copyright form | "Click the following link to go to the Electronic Copyright submission site." (STEP 3). **The author does this.** |
+| Final PDF | "Click the following link to go to the final paper PDF file submission site." (STEP 6). **The author does this.** |
+| Registration receipt | "All authors have to register the conference first, and then, submit the copy of the registration receipt" (STEP 7). **The author does this.** |
+| Presentation mode | "Please select whether your paper is a "In-person presentation" or not." (STEP 8). **The author does this.** |

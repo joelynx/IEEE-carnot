@@ -18,7 +18,7 @@ State at 12 October 2026, when this folder was prepared: the final, latest accep
 
 ## State at 18 November 2026: the paper as accepted
 
-The table above describes the folder as it was handed to the writing step. The paper has since been written, submitted, accepted and revised for the camera-ready version. `VERIFICATION.md` traces every number in it and records each revision in order (sections 5 to 10).
+The table above describes the folder as it was handed to the writing step. The paper has since been written, submitted, accepted and revised for the camera-ready version. `VERIFICATION.md` traces every number in it and records each revision in order (sections 5 to 11).
 
 | File | What it is |
 |---|---|
