@@ -8,7 +8,7 @@ The notice applies to the paper in every version kept in this folder and to its 
 
 | File | What it is |
 |---|---|
-| `carnot_finreason2026_task1_working_notes.pdf` | The camera-ready version (the same file as `main.pdf`) |
+| `carnot_finreason2026_task1_working_notes.pdf` | The camera-ready version (the same file as `main.pdf`). IEEE PDF eXpress certified it; the certified copy, which is the one submitted to the conference, has identical text and pages and is not kept here (`../VERIFICATION.md`, section 11.8) |
 | `main.tex`, `tables/`, `figures/`, `references.bib` | Its LaTeX sources |
 | `carnot_working_notes_standalone.tex` | The same sources in one file |
 | `archive/submitted_20261102/` | The version submitted for review, unchanged |

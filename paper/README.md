@@ -24,7 +24,7 @@ The table above describes the folder as it was handed to the writing step. The p
 |---|---|
 | `VERIFICATION.md` | Source of every number and claim in the paper; one section per revision |
 | `working_notes/main.tex`, `tables/`, `figures/`, `references.bib` | Sources of the camera-ready paper |
-| `working_notes/carnot_finreason2026_task1_working_notes.pdf` | The camera-ready paper |
+| `working_notes/carnot_finreason2026_task1_working_notes.pdf` | The camera-ready paper, as sent to IEEE PDF eXpress, which certified it (`VERIFICATION.md`, section 11.8) |
 | `working_notes/carnot_working_notes_standalone.tex` | The same sources in one file |
 | `working_notes/supplement/supplement.pdf` | Supplementary material: the evaluation protocol, the synthetic set and the post-submission study in full, the derivation of the split of wrong finals, and the full results of the arithmetic replay |
 | `working_notes/archive/submitted_20261102/` | The version submitted for review, unchanged |

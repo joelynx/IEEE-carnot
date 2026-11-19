@@ -791,7 +791,7 @@ No text changed. The text that `pdftotext` extracts is identical to that of the 
 
 - `working_notes/carnot_finreason2026_task1_working_notes.pdf` (a copy of `main.pdf`): SHA-256 `a74bec6824f12c2d824dbca4b0e9718a229d661dc1acf2cc797bd90aea3405a4`, 225,817 bytes, 10 pages, US letter, PDF 1.4. It replaces the file of 10.7.
 - `working_notes/carnot_working_notes_standalone.tex`: regenerated; it compiles to the same 10 pages with identical extracted text.
-- **PDF eXpress itself was not run.** Only the author can do that (it needs an account and the conference ID). The file to submit in STEP 6 of the instruction is the one that PDF eXpress returns or passes; if it differs in bytes from the file above, its SHA-256 should be recorded here.
+- **PDF eXpress itself was not run here** (the author ran it later; see 11.8). Only the author can do that (it needs an account and the conference ID). The file to submit in STEP 6 of the instruction is the one that PDF eXpress returns or passes; if it differs in bytes from the file above, its SHA-256 should be recorded here.
 - The copyright form (STEP 3), the registration receipt (STEP 7) and the choice of presentation mode (STEP 8) are the author's.
 
 ### 11.5 A point outside the instruction: IEEE's posting rules (decided by the author, 11.7)
@@ -827,3 +827,15 @@ Each place says that the copies are the author's versions and not the version pu
 - The version submitted for review stays in `archive/`. IEEE's page says that a preprint posted earlier is to be replaced by the accepted version; the author chose to keep the files, and the folder's new `README.md` points to the accepted version.
 
 The notice says that the copyright "is transferred to IEEE with the conference's copyright form". Whether the author had signed the form when this was written is not known here.
+
+### 11.8 IEEE PDF eXpress: the certified file (20 November 2026)
+
+The author pushed the notices of 11.7 as commit `bcc1ff8`, ran the PDF of 11.4 through IEEE PDF eXpress, and passed the returned file and the service's message to this session. The message gives the paper ID 2026444853, calls the returned file IEEE Xplore compatible, and says that it is the file to submit to the conference's final paper collection site.
+
+- **Returned file:** `2026444853.pdf`, SHA-256 `a40e9d44cd7ddfb4f24b8f460ca8b2c91098152674589bfb4cd0fbbca3c4345f`, 244,679 bytes, PDF 1.4, 10 pages, US letter.
+- **Certification:** its document properties and its XMP metadata give the creator as "Certified by IEEE PDFExpress at November 19, 2026 19:59:39". The producer and the creation date are those of the file of 11.4, which is consistent with that file having been the one checked.
+- **Same paper.** Checked read-only on a copy in an empty folder: the text that `pdftotext` extracts, plain and with `-layout`, is identical to that of the file of 11.4, and every one of the 10 pages renders to an identical image at 100 dpi. The differences found are the certification stamp, an added metadata stream and the processing record described below; the file is 18,862 bytes larger.
+- **Still meets the rules of 11.2:** 13 fonts, all Type 1, all embedded and subset; no raster image; none of `/Outlines`, `/Annots`, `/Link`, `/URI`; not encrypted; no form or script.
+- **The certified file is not in the public repository.** Besides the stamp, the service's processing software wrote its own record into the file: the registration name of the service's operator (an administrative e-mail address), a registration key of that software, and a path on the service's server that contains an account number. The release audit found the address when the file was tried as the repository's copy. These belong to the service, and publishing them is not the author's call, so the repository keeps the file of 11.4, which is the one that was sent to PDF eXpress and has the same text and pages (`working_notes/carnot_finreason2026_task1_working_notes.pdf` and `main.pdf`, SHA-256 `a74bec68…`). The author keeps the certified file; a copy is in the local folder `paper_backups/`, which is not released.
+- **Not done here:** the upload of the certified file (STEP 6), the copyright form (STEP 3), the registration receipt (STEP 7) and the choice of presentation mode (STEP 8) are the author's, and whether they are done is not known here.
+- **Release rebuild:** the three archives are unchanged; relative to commit `bcc1ff8` the tree differs in `paper/working_notes/README.md`, `paper/README.md`, `paper/VERIFICATION.md` and `MANIFEST.sha256`. `release/verify_release.py` passed all four checks, and `release/audit.py` reported 0 blockers and the same eleven decision items.
