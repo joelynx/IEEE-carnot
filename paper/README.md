@@ -35,3 +35,11 @@ The table above describes the folder as it was handed to the writing step. The p
 Three outside documents of 18 November 2026 are not in the public repository: an assessment of the first camera-ready build, the list of experiments it proposed, and an audit of the wording of the second build. `VERIFICATION.md`, sections 9 and 10, records how each of their points was checked and what was done.
 
 The official test results are in `working_notes/verify/official_test_results_20261028.json`, as published by the organisers.
+
+## Copyright of the paper
+
+The Working Notes paper was accepted for the FinReason Cup at IEEE BigData 2026, and its copyright is transferred to IEEE with the conference's copyright form. This notice applies to the paper in every version kept under `working_notes/` (the camera-ready version, the version submitted for review, their LaTeX sources, and the passages of the paper that the supplement reproduces):
+
+> © 2026 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works.
+
+The copies here are the author's versions of the paper, not the version published by IEEE. The DOI will be added when the paper is published. The MIT licence of this repository does not cover the paper.

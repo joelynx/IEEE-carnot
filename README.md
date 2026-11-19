@@ -4,6 +4,12 @@ Repository: https://github.com/joelynx/IEEE-carnot
 
 Licence: MIT, see `LICENSE`. It covers the team's own code, prompts, configurations and records. Two things keep their own terms: the material from the organisers' release described under "Organisers' data inside these files" (CC BY 4.0), and the Working Notes paper with its sources under `paper/working_notes/`, whose copyright may pass to the publisher of the proceedings.
 
+**Copyright notice for the paper.** The Working Notes paper was accepted for the FinReason Cup at IEEE BigData 2026, and its copyright is transferred to IEEE with the conference's copyright form. The notice below applies to the paper in every version kept under `paper/working_notes/` (the camera-ready version, the version submitted for review, their LaTeX sources, and the passages of the paper that the supplement reproduces):
+
+> © 2026 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works.
+
+The copies here are the author's versions of the paper, not the version published by IEEE. The DOI will be added here when the paper is published.
+
 This repository holds the materials behind team carnot's Task 1 Working Notes for the FinReason Cup 2026: the code, prompts, configurations, few-shot exemplars, data splits, experiment logs, per-case run records, paper sources and the model-response cache. `paper/README.md` describes the paper folder. `paper/REPLAY_CHECK.md` records that the R3 and R4 test submissions (it labels R4 the final submission) were regenerated from the response cache with 0 fresh model calls, and that each regenerated ZIP was byte-identical to the uploaded file.
 
 ## Layout

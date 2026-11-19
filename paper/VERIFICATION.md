@@ -794,13 +794,36 @@ No text changed. The text that `pdftotext` extracts is identical to that of the 
 - **PDF eXpress itself was not run.** Only the author can do that (it needs an account and the conference ID). The file to submit in STEP 6 of the instruction is the one that PDF eXpress returns or passes; if it differs in bytes from the file above, its SHA-256 should be recorded here.
 - The copyright form (STEP 3), the registration receipt (STEP 7) and the choice of presentation mode (STEP 8) are the author's.
 
-### 11.5 A point outside the instruction, for the author to decide
+### 11.5 A point outside the instruction: IEEE's posting rules (decided by the author, 11.7)
 
-STEP 3 transfers the copyright through IEEE's electronic form. IEEE's rules for authors who post their papers (IEEE Author Center, "Post Your Paper", https://conferences.ieeeauthorcenter.ieee.org/get-published/post-your-paper/, read on 19 November 2026) then apply to the copies in the public repository: the camera-ready PDF and its LaTeX sources, and the version submitted for review in `working_notes/archive/`. As read there, the accepted paper may be posted on the author's personal website, the employer's website or institutional repository, arXiv, TechRxiv or a funder's repository, with IEEE's copyright notice; the final published paper may not be posted; and a preprint posted earlier is to be replaced after acceptance. The page does not say whether a repository on a code-hosting site counts as a personal website. Nothing was changed for this point; the release README already says that the paper and its sources are outside the MIT licence (8.7).
+STEP 3 transfers the copyright through IEEE's electronic form. IEEE's rules for authors who post their papers (IEEE Author Center, "Post Your Paper", https://conferences.ieeeauthorcenter.ieee.org/get-published/post-your-paper/, read on 19 November 2026) then apply to the copies in the public repository: the camera-ready PDF and its LaTeX sources, and the version submitted for review in `working_notes/archive/`. As read there, the accepted paper may be posted on the author's personal website, the employer's website or institutional repository, arXiv, TechRxiv or a funder's repository, with IEEE's copyright notice; the final published paper may not be posted; and a preprint posted earlier is to be replaced after acceptance. The page does not say whether a repository on a code-hosting site counts as a personal website. Nothing was changed for this point when it was raised; the release README already said that the paper and its sources are outside the MIT licence (8.7). The author's decision is in 11.7.
 
 ### 11.6 Release rebuild
 
-- The three archives again have the SHA-256 values of release `v1.0`, and `ARTIFACTS.md` and the release `README.md` are unchanged, so no archive has to be uploaded again.
-- Relative to commit `af54b6c` the tree differs in `main.tex`, `main.pdf`, the deliverable PDF, the standalone copy, `paper/VERIFICATION.md`, `paper/ORGANISER_REQUIREMENTS.md` (new section R7), `paper/README.md`, the response letter and `MANIFEST.sha256`.
+- The three archives again have the SHA-256 values of release `v1.0`, and `ARTIFACTS.md` is unchanged, so no archive has to be uploaded again.
+- Relative to commit `af54b6c` the tree differs in `main.tex`, `main.pdf`, the deliverable PDF, the standalone copy, `paper/VERIFICATION.md`, `paper/ORGANISER_REQUIREMENTS.md` (new section R7), `paper/README.md`, the response letter, the release `README.md` and `MANIFEST.sha256`, and it gains the three `README.md` files of 11.7.
 - `release/verify_release.py release_staging`: all four checks passed. `release/audit.py`: 0 blockers and the same eleven decision items.
 - The supplement was not rebuilt. It is not submitted to the conference, and it still loads `hyperref`.
+- The author pushed this build as commit `e7f588a` (checked on 19 November 2026: the public PDF has the SHA-256 of 11.4). The author also published release `v1.1` with the same three archives; their digests equal `ARTIFACTS.md`. Its tag is on `af54b6c`, the commit before this build.
+
+### 11.7 IEEE copyright notice (author's decision of 19 November 2026)
+
+The author decided to keep the paper's files in the public repository and to add IEEE's notice. Relative to commit `e7f588a` this changes the release `README.md`, `paper/README.md`, `paper/ORGANISER_REQUIREMENTS.md` (one row in R7), `paper/VERIFICATION.md` and `MANIFEST.sha256`, and adds three `README.md` files; the paper's PDF and sources are untouched. After the rebuild `release/verify_release.py` passed all four checks and `release/audit.py` reported 0 blockers and the same eleven decision items. The wording is IEEE's (R7, last row), with the year 2026:
+
+"© 2026 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works."
+
+IEEE asks for it "on the initial screen displaying IEEE-copyrighted material", so it stands on every page of the repository that shows the paper's files:
+
+- the release `README.md`, the repository's first page (`release/templates/README.md.tmpl`), below the licence paragraph, whose confirmed wording (8.7) is unchanged;
+- `paper/README.md`, new section "Copyright of the paper";
+- `paper/working_notes/README.md` (new), next to the camera-ready PDF and its sources;
+- `paper/working_notes/archive/submitted_20261102/README.md` (new); the other files of that folder are unchanged (`main.tex` SHA-256 `771537ef…`, PDF `fd2d157d…`, as in section 7);
+- `paper/working_notes/supplement/README.md` (new), for the passages that the supplement reproduces.
+
+Each place says that the copies are the author's versions and not the version published by IEEE, and that the DOI will be added when the paper is published. Three things were deliberately not done:
+
+- The notice is not printed in the PDF. The file sent to the conference must carry no mark that the official version lacks (R7), and the repository holds that same file.
+- No DOI is given, because none exists yet.
+- The version submitted for review stays in `archive/`. IEEE's page says that a preprint posted earlier is to be replaced by the accepted version; the author chose to keep the files, and the folder's new `README.md` points to the accepted version.
+
+The notice says that the copyright "is transferred to IEEE with the conference's copyright form". Whether the author had signed the form when this was written is not known here.
